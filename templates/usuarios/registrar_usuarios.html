@@ -1,0 +1,136 @@
+
+<head>
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+{literal}
+	
+	<script type="text/javascript" src="../../templates/script/md5.js"></script>
+		
+	<SCRIPT LANGUAGE="JavaScript">
+			function comprobar(con,condos)
+				{
+					if (con==condos)
+					{
+						if (con!="")
+						{
+
+							formregistro.hash.value = hex_md5(con + "contraseña encriptada");		
+							formregistro.submit();
+						}
+						else
+						{
+							alert("Su contraseña no es valida");
+						}
+					}
+					else
+					{
+						alert("Su contraseña no coincide, vuelva a intentar porfavor");
+					}
+				}
+	</SCRIPT>
+{/literal}
+</head>
+<body>
+<table width="100%" border="0">
+
+{if $errores.err_confirm != null}<tr><td colspan="2" class="error-box">{$errores.err_confirm}</td></tr>{/if}
+	<tr>
+		<td>
+			  			
+	  <form name="formregistro" method="post" action="../../controladores/usuarios/registrar_usuarios.php">
+
+						  <input type="hidden" name="hash" value="">
+						  <input type="hidden" name="funcion" value="validar">
+
+
+			  <table width="40%" border="0">
+			  		<th colspan="2">Formulario  de registro</th>
+				  {if $errores.err_nombre != null} 
+					<tr><td colspan="2" class="error-box">{$errores.err_nombre}</td></tr> 
+				  {/if}
+					<tr>
+						<td width="53%" class="enunciados">Nombres:</td>
+						<td width="47%"><input name="nombre" type="text" class="all-border-purple" onKeyPress="return handleEnter(this, event)"  value="{$nombre}" ></td>
+					</tr>
+					   {if $errores.err_apellido != null }
+					   <tr><td colspan="2" class="error-box">{$errores.err_apellido}</td></tr>
+					   {/if}
+						<tr>
+							<td class="enunciados">Apellidos:</td>
+							<td><input class="all-border-purple" type="text" name="apellido"  value="{$apellido}" onKeyPress="return handleEnter(this, event)"/></td>
+						</tr>
+					   {if $errores.err_email != null }
+								<tr><td colspan="2" class="error-box">{$errores.err_email}</td></tr>
+					   {/if}
+						<tr>
+							<td class="enunciados">Email:</td>
+							<td ><input class="all-border-purple" type="text" name="email"  value="{$email}" onKeyPress="return handleEnter(this, event)"/></td>
+						</tr>
+						{if $errores.err_grupo != null} 
+							<tr><td colspan="2" class="error-box">{$errores.err_grupo}</td></tr> 
+					  {/if}
+						<tr>
+							<td width="53%" class="enunciados">Grupo:</td>
+							<td width="47%">
+							
+							<input type="text" name="grupo" id="autorelleno" class="edit" value="{$grupo}"/>
+							<span id="spinner" style="display: none">
+										<img src="../../templates/imagenes/spinner.gif" alt="Consultando…" />
+							</span>
+								<div id="lista_grupos" class="autorelleno">	</div>
+							{literal}
+							<script>
+								new Ajax.Autocompleter("autorelleno", "lista_grupos", "../../controladores/usuarios/registrar_usuarios.php?busqueda_ajax=grupo", {method:"post", paramName: "value", minChars: 1, indicator: "spinner"});
+							</script>
+								{/literal}
+							</td>
+						</tr>
+							{if $errores.err_nick != null } 
+							   <tr> 
+									<td colspan="2" class="error-box">{$errores.err_nick}</td> 
+							   </tr>
+							   {/if}
+											   
+							   <tr>
+									<td class="enunciados">Usuario:</td>
+									<td><input type="text" class="all-border-purple" name="nick"  value="{$nick}" onKeyPress="return handleEnter(this, event)"/>
+									</td>
+							   </tr>
+								<tr>
+									<td class="enunciados">Contraseña:</td>
+									<td><input type="password" class="all-border-purple" name="password"  value="{$password}" onKeyPress="return handleEnter(this, event)"/></td>
+								</tr>
+								<tr>
+									<td class="enunciados">Repita su contraseña:</td>
+									<td><input type="password" class="all-border-purple" name="passworddos"  value="{$passworddos}" onKeyPress="return handleEnter(this, event)"/></td>
+								</tr>
+							</table>
+		</td>
+		<td>
+			Grupos
+					<table border="0">
+						<tr>
+							{foreach name=contenido key=key item=grupo from=$grupos}
+							 <td class="enunciados">{$key} </td>
+							{/foreach}
+						</tr> 
+						<tr>
+							{foreach name=contenido key=key item=grupo from=$grupos}
+								<td class="body-sector">
+								{foreach item=item  from=$grupo}
+									{$item.pagina}<br>
+				      			{/foreach}
+								</td>
+							{/foreach}	
+						</tr>												
+					</table>
+		</td>
+	</tr>
+    <tr>
+		<td colspan="2" align="center">
+	<input class="button1" type="button" value="  Registrar  " onClick=comprobar(password.value,passworddos.value)>
+		</td>
+	</tr>
+	</form>
+</table>
+
+</body>

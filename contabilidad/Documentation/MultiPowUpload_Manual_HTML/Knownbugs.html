@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Known bugs and limitations in MultiPowUpload.</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+<br>
+<strong>Known bugs and limitations in MultiPowUpload 1.7:</strong><br>
+<br>All of specified below bugs and limitations related to Macromedia API and can't be fixed by us. We hope in next versions of Flash player something will be changed. 
+<ul>
+<li>Due to some unknown reasons sometimes Flash generates "<strong>IO error</strong>" while upload. It is Macromedia bug.
+<p style="padding-left:15px;">Workaround: MultiPowUpload by default tryes to upload file wich wasn't uploaded due to error 3 times.</p>
+<li>If <code>uploadUrl</code> parameter stores full URL to script then you need to have <a href="CrossDomainSecurity.html">crossdomain.xml</a> file in root of server.
+<li>To upload files using <strong>SSL (HTTPS)</strong> uploadURL parameter should has format like <code>uploadURL=http://www.yoursite.com:443/uploadfiles.aspx</code>. 443 is port of SSL.
+ <li>Flash by default dont <strong>passes other Form fields values</strong> while upload.
+<p style="padding-left:15px;">Workaround: You can use Java Script function to pass Form fields values while upload. See example at "UploadWithForm.html" file</p>
+ <li>Flash in FireFox browser don't pass <strong>cookies</strong> while upload. Therefor <strong>sessions</strong> are different at page with Flash and upload script.
+ <p style="padding-left:15px;">
+	Workaround: Include cookies and session ID in uploadUrl parameter like <code>uploadURL=uploadscript.aspx?mysessionID=&lt;%=Response.Cookies("sessionID")%&gt;&mypassword=&lt;%=Response.Cookies("password")%&gt;</code>	</p>
+<li>If <a href="Parameters.html#useExternalInterface">External Interface</a> is enabled (<code>useExternalInterface=Yes</code>) Flash can't be placed inside Form tag: Error <strong>"FlashFilesUpload is undefined"</strong> occures in IE browser.
+<p style="padding-left:15px;">Workaround: No.</p>
+<li><strong>Windows authentication</strong> works separatly of browser and asks credentials while uploading each file.
+<p style="padding-left:15px;">Workaround: No.</p>	
+<li>Impossible to get <strong>path of selected or uploaded file</strong>. Only file name available. In upload script FileName property also includes only file name without path.
+<p style="padding-left:15px;">Workaround: No</p>
+<li>ContentType for all uploaded files is <strong>"application/octet-stream"</strong>.
+<p style="padding-left:15px;">Workaround: Read file extension to get type of file.</p>
+<li>Fieldname property of uploaded file is <strong>"Filedata"</strong> and can't be modified.
+<p style="padding-left:15px;">Workaround: No.</p>
+<li>Flash sends files ony by one, each in separate request.
+<p style="padding-left:15px;">Workaround: No.</p>
+<li>Uploading file can't be <strong>stopped immediatly</strong> -Only closing browser window stops uploading.
+<p style="padding-left:15px;">Workaround: No.</p>
+<li>File procesing script (that specified in uploadUrl parameter) should sent at least one symbol to response. Otherwise onComplete event don't occures in <strong>Safari (Mac OS) browser</strong> therefore only first file uploads.
+  <p style="padding-left:15px;">Workaround: No.</p>
+  <li>File procesing script (that specified in uploadUrl parameter) should sent at least one symbol to response. Otherwise onComplete event don't occures in <strong>Safari (Mac OS) browser</strong> therefore only first file uploads.
+  <p style="padding-left:15px;">Workaround: No.</p>
+  <li>Rare bug: If system using large font size (at Desktop -&gt; Properties -&gt;
+Appearance tab-&gt; Font size) then method Flash.browseFiles(fileTypes) can cause MultiPowUpload  movie crash.
+    Bug depends on OS used and seems that exists only at some localized Win XP SP2.
+<p style="padding-left:15px;">Workaround: No.</p>
+</ul>
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+</body>
+</html>

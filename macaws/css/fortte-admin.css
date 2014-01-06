@@ -1,0 +1,87 @@
+.titles {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	color: #003399;
+}
+td.title {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: #333333;
+	background-color: #EAEAEA;
+	font-size: 11px;
+	text-transform: uppercase;
+	border: #333333 solid 1px;
+}
+
+td.body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #333333;
+	background-color: #ECF5FF;
+}
+td.submenu {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #B3D5FF;
+	color: #000000;
+	font-weight: 500;
+}
+
+td.menu {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #0053A6;
+	border:#333399 solid 1px;
+}
+
+.text1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #333333;
+}
+.text2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+}
+td.header-subtabla {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	background-color: #28A9FF;
+	border:#333333 solid 1px;
+}
+
+td.body-subtabla {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	color: #000000;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+}
+
+a.blue-small-link:visited,a.blue-small-link:link,a.blue-small-link:active {
+	
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	color: #003399;
+	text-decoration:none;
+	font-weight:bold;
+}
+a.blue-small-link:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	color: #666666;
+	text-decoration: underline;
+

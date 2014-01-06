@@ -1,0 +1,69 @@
+{include file="header.html" title=$title}
+<head>
+{literal}
+<script type="text/javascript">
+function validar(e) { // 1
+    tecla = (document.all) ? e.keyCode : e.which; // 2
+    if (tecla==8) return true; // 3
+    patron =/[0-9\s-]/; // 4
+    te = String.fromCharCode(tecla); // 5
+    return patron.test(te); // 6
+} 
+</script>
+
+{/literal}
+</head>
+<body>
+
+<form id="form1" name="form1" method="post" action="actions/action_registrarSucursal.php">
+
+  <table width="553" border="0" cellspacing="2" cellpadding="0" align="center" class="tableblue">
+    <tr>
+      <td colspan="2" align="left" class="header-table">REGISTRO DE SUCURSAL</td>
+    </tr>
+    <tr>
+      <td width="180" align="right" class="styleText">NIT:</td>
+    <td width="367" nowrap="nowrap" >
+    <select name="contribuyentes" class="text3">
+    {section name=id loop=$contribuyentes}
+      <option value="{$contribuyentes[id].cod_cont}">{$contribuyentes[id].nit}</option>
+    {/section}
+    </select> 
+     </td>
+    </tr>
+    <tr>
+    <td align="right" class="styleText">Nombre Sucursal: </td>
+      <td align="left">
+	  <input name="nombre" type="text" value="{$nombre}" size="25" maxlength="25" class="text3" onKeyPress="return enter_handle(this, event, 1, 0)"/>
+      <label id="errorlabel">{$error.nombre} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">Direcci&oacute;n: </td>
+      <td align="left">
+	  <input name="direccion" type="text" value="{$direccion}" size="25" maxlength="25" class="text3" onKeyPress="return enter_handle(this, event, 1, 0)"/>
+      <label id="errorlabel">{$error.direccion} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">Telefono: </td>
+      <td align="left"><input name="telefono" value="{$telefono}" type="text" size="25" maxlength="30" class="text3" onKeyPress="return validar(event)"/><label id="errorlabel">{$error.telefono} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">Casilla: </td>
+      <td align="left"><input name="casilla" type="text"  value="{$casilla}" size="25" maxlength="25" class="text3" onKeyPress="return enter_handle(this, event, 1, 1)"/></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">Fax: </td>
+      <td align="left"><input name="fax" type="text" value="{$fax}" size="25" maxlength="25" class="text3" onKeyPress="return enter_handle(this, event, 1, 1)"/></td>
+    </tr>
+    <tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>
+	  <input type="submit" name="registrar" value="Registrar Sucursal" class="text3"/>
+	  <input type="reset" name="Reset" value="Limpiar campos" />
+      <input type="button" name="cancelar" value="Cancelar" onClick="location='/sistema/macaws/lcv.php'" class="text7"/>	  </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

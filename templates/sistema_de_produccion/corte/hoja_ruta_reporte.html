@@ -1,0 +1,659 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' />
+<head>
+<meta content=" text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title> Reporte de asignaci&oacute;n</title>
+<!--<link rel="stylesheet" type="text/css" href="../../templates/css/hoja_corte.css">-->
+</head>
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = true;
+		factory.printing.leftMargin = 0.2;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:0.7cm;
+	margin-top:1.4cm;
+}
+
+.titulo{
+	background-color:#1B781F;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.titulo1{
+	background-color:#1B781F;
+	border:1px #FFFFCC solid;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:8px;
+	height:0.45cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color:#1B781F;
+	color:#1B781F;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	/*vertical-align:middle;*/
+}
+
+.dato1{
+	background-color:#FFFFCC;
+	border:1px #1B781F solid;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	vertical-align:middle;
+	height:0.35cm;
+}
+
+.n_asignacion{
+	visibility:hidden;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+
+.instructivo{
+	/*left:0.5cm;
+	position:absolute;
+	top:1.8cm;
+	visibility:visible;*/
+	
+	
+	left:12.120cm;
+	position:absolute;
+	top:1.500cm;
+	visibility:visible;
+	width: 194px;
+    
+    background-color:#FFFFFF;
+	text-align:center!important;
+	font-family: Arial, Helvetica, sans-serif monospace!important;
+	font-size:7px!important;
+	vertical-align:middle;
+    font-weight: normal!important;
+    font-style: normal!important;
+    text-transform: none!important;
+    letter-spacing: 3px!important;
+    line-height: normal!important;
+    height: 50px!important;
+    margin-top: 15px!important;
+    
+}
+
+*html .instructivo{
+	/*left:0.5cm;
+	position:absolute;
+	top:1.8cm;
+	visibility:visible;*/
+	
+	
+	left:12.120cm;
+	position:absolute;
+	top:1.500cm;
+	visibility:visible;
+	width: 194px;
+    
+    background-color:#FFFFFF;
+	text-align:center!important;
+	font-family: Arial, Helvetica, sans-serif monospace!important;
+	font-size:7px!important;
+	vertical-align:middle;
+    font-weight: normal!important;
+    font-style: normal!important;
+    text-transform: none!important;
+    letter-spacing: 3px!important;
+    line-height: normal!important;
+    height: 50px!important;
+    margin-top: 15px!important;
+    line-height: 20px!important;
+    
+}
+</style>
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:0.0cm;/*0.4*/
+	margin-right:0.7cm;
+	margin-top:0.20cm;
+	padding: 0cm;
+	width:21.15cm;
+
+}
+.cabecera td{
+	border:1px #FFF solid;
+}
+.titulo{
+	background-color:#330099;
+	border:0px #FFFFFF solid;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+	visibility:hidden;
+
+}
+
+.titulo{
+	background-color:#330099;
+	border:0px #FFFFFF solid;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:9px;
+	height:0.4cm;
+	text-align:center;
+	visibility:hidden;
+    font-variant: normal;
+    font-style: normal;
+}
+.titulo1{
+	background-color:#330099;
+	border:1px #FFFFFF solid;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:8px;
+	height:0.35cm;
+	text-align:center;
+	visibility:hidden;
+}
+
+.dato1{
+	padding-top:3px;
+	background-color:#FFFFFF;
+	border:1px #FFF solid;/* #000 */
+	text-align:center!important;
+	/*font-family:Comic Sans MS,Arial, Helvetica, sans-serif;*/
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:7px !important;
+	vertical-align:middle;
+	letter-spacing:3px!important;
+	text-transform: none;
+	height:23px;
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	font-family:Arial, Helvetica, sans-serif;
+	border:1px #FFFFFF solid;
+	background-color:#FFFFFF;
+	text-align:center!important;
+	font-size:7px!important;
+	vertical-align:middle;
+    font-weight: normal!important;
+    font-style: normal!important;
+    text-transform: none!important;
+    letter-spacing: 3px!important;
+    margin-top: 3px!important;
+    height: 40px!important;
+    line-height: 20px!important;
+   
+}
+.datoEsp{
+	font-size:9px!important;
+	font-family: Helvetica, sans-serif;
+}
+.datoobs
+{
+	text-align:center!important;
+	font-family: Arial, Helvetica, sans-serif monospace!important;
+	font-size:7px!important;
+	font-weight: normal!important;
+    font-style: normal!important;
+    text-transform: none!important;
+    letter-spacing: 3px!important;
+    margin-top: 3px!important;
+    margin-left: 18px!important;
+    vertical-align: text-top top!important;
+
+}
+*html .datoobs
+{
+	text-align:center!important;
+	font-family: Arial, Helvetica, sans-serif monospace!important;
+	font-size:7px!important;
+	vertical-align:middle;
+    font-weight: normal!important;
+    font-style: normal!important;
+    text-transform: none!important;
+    letter-spacing: 3px!important;
+    margin-top: 3px!important;
+    margin-left: 20px!important;
+    vertical-align: text-top!important;
+    line-height: 20px!important;
+    width: 4cm;
+    
+}
+.n_asignacion{
+	left:19cm;
+	position:absolute;
+	top:2cm;
+	visibility:visible;
+	
+
+}
+
+.noprint {
+	display: none;
+
+}
+</style>
+
+{/literal}
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+
+<div id="installOK">
+<div class="oculto" > 
+	<table border="1"  align="center" cellpadding="0" cellspacing="0" style="height:1.9cm;border-color:#1B781F;margin:0cm;width:22.4cm;">
+		<tr>
+			<td rowspan="2" class="contenido1" style="width:2.8cm;"><span class="contenido1" style="width:2.8cm;"><img src="../../templates/imagenes/logo-macaws2.jpg" align="middle" style="height:0.7cm;width:1cm;"/></span></td>
+			<td class="contenido1" style="width:12.9cm;">REGISTRO SISTEMA DE CALIDAD</td>
+			<td rowspan="2" class="contenido1" style="width:2.7cm;">CODIGO<br/><strong>RG-27</strong></td>
+			<td rowspan="2" class="contenido1" style="width:4cm;"><strong>REVISION 6</strong></td>
+		</tr>
+		<tr>
+			<td class="contenido1" style="font-weight:bolder;">HOJA DE RUTA DE CORTE</td>
+		</tr>
+	</table>
+</div>
+{* cabecera *}
+<table border="0" align="center" cellpadding="0" cellspacing="0" style=";margin:0cm;width:22.4cm;">
+	<tr>
+		<td valign="top">
+			<table border="0" class="cabecera" align="center" cellpadding="0" cellspacing="0" style="margin:0cm;margin-top:0.2cm;width:18.35cm;">
+				<tr>
+					<td style="width:3.8cm;">
+						<div class="titulo" style="width:85%;">Pedido</div>
+					</td>
+					<td style="width:8.08cm;" colspan="2">
+						<div class="titulo" style="width:94%;">Art&iacute;culo</div>
+					</td>
+					<td style="width:4.07cm;">
+						<div class="titulo" style="width:85%;">Cuero</div>
+					</td>
+					<td style="width:2.4cm;">
+						<div class="titulo" style="width:85%;">Clip</div>
+					</td>
+				</tr>
+				 
+				<tr>
+					<td style="height:0.1cm;vertical-align:middle;margin-right:15px;"><div class="dato datoEsp" style="width:85%;">{$cabecera.cup_num}({$cabecera.pedido})</div></td>
+					<td colspan="2" style="vertical-align:middle;"><div class="dato" style="width:94%;">{$cabecera.nombre_familia}</div></td>
+					<td style="vertical-align:middle;"><div class="dato" style="width:85%;">{$cabecera.cuero}</div></td>
+					<td style="vertical-align:middle;"><div class="dato" style="width:85%;">{$cabecera.clip}</div></td>
+				</tr>
+				<tr>
+					<td ><div class="titulo" style="width:85%;" >Cantidad</div></td>
+					<td style="width:4.04cm;"><div class="titulo" style="width:90%;">Tipo</div></td>
+					<td style="width:4.04cm;"><div class="titulo" style="width:85%;">Sello o Herraje</div></td>
+					<td ><div class="titulo" style="width:85%;">Color</div></td>
+					<td ><div class="titulo" style="width:85%;">Fecha</div></td>
+				</tr>
+				<tr>
+					<td><div class="dato" style="width:85%;height:0.7cm;">{$cabecera.cantidad}</div></td>
+					<td><div class="dato" style="width:90%;height:0.7cm;">{$cabecera.tipo}</div></td>
+					<td><div class="dato" style="width:85%;height:0.7cm;">{$cabecera.chapa}</div></td>
+					<td><div class="dato" style="width:85%;height:0.7cm;">{$cabecera.color}</div></td>
+					<td><div class="dato" style="width:85%;height:0.7cm;">{$cabecera.fecha}</div></td>
+				</tr>
+			  <tr>
+					<td><div class="titulo">Lugar de sellado</div></td>
+					<td>&nbsp;&nbsp;</td>
+					<td>&nbsp;&nbsp;</td>
+					<td><div class="titulo">Instructivo</div></td>
+					<td >&nbsp;&nbsp;</td>
+			  </tr>
+			  <tr>
+					<td class="dato" style="height:0.7cm;">{$cabecera.lugargrabado}</td>
+					<td >&nbsp;&nbsp;</td>
+					<td >&nbsp;&nbsp;</td>
+					{if $instructivo.nro_instructivo != 0}
+					<td class="dato">{$instructivo.nro_instructivo}</td>
+					{else}
+					<td class="dato">No tiene</td>
+					{/if}
+			  </tr>
+			</table>
+		</td>
+
+		<td valign="top">
+			<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#1B781F;margin:0cm;width:4.05cm;">
+				<tr>
+					<td><div class="titulo" style="width:100%">Observaciones</div></td>
+				</tr>
+				<tr>
+					<td  class="datoobs"  style="font-size:10px;padding-top:5px" valign="top">{$cabecera.observacion}</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+
+</table>
+
+{* fin cabecera *}
+<div style="height:0.2cm;" >&nbsp;</div><!-- modificar la altura de esto!! -->
+{*todo el contenido*}
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#1B781F;margin:0cm;width:22.4cm;">
+  <tr>
+    <td style="background-color:#FFFFFF;height:7.45cm;vertical-align:top;">
+		{*corte*}
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#FFFFCC;border-collapse:collapse;margin:0cm;width:22.4cm;">
+		  <tr>
+			<td colspan="9" class="titulo1" style="font-weight:bold;height:0.35cm;">CORTE</td>
+		  </tr>
+		  <tr>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:3.7cm;">Nombre Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.8cm;">Material</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.9cm;">Cantidad<br>de piezas</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.1cm;">Por golpe</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.6cm;">Fecha Inicio</td>
+   			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.5cm;">Fecha Finalizaci&oacute;n</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.6cm;">Vo.Bo.<br>Cuchillas</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.9cm;">Firma<br>Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.3cm;">Vo.Bo.<br>Resp. Maquinado</td>
+		  </tr>
+		  <tr>
+		  </tr>
+		  {foreach key=cambio item=corte from=$lista_corte}
+		  <tr>
+			<td valign="top" class="dato1" style="text-align:right;">{$corte.completo}</td>
+			<td valign="top" class="dato1" style="text-align:center;">{$corte.nombre}</td>
+			<td valign="top" class="dato1" >{$corte.sis_cantidad}</td>
+			<td valign="top" class="dato1" >{$corte.sis_golpe}</td>
+			<td valign="top" class="dato1" >{$corte.fecha_hora_ini}</td>
+			<td valign="top" class="dato1" >&nbsp;</td>
+			<td valign="top" class="dato1" >&nbsp;</td>
+			<td valign="top" class="dato1" >&nbsp;</td>
+			<td valign="top" class="dato1" >&nbsp;</td>
+		  </tr>
+		  {/foreach}
+		</table>
+	</td>
+  </tr>
+  <tr>
+     <td style="background-color:#FFFFFF;height:3.4cm;vertical-align:top;">
+		{*dividido*}
+		
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#FFFFCC;border-collapse:collapse;height:1.2cm;margin:0cm;width:22.4cm;">
+		  <tr>
+			<td colspan="7" class="titulo1" style="font-weight:bold;height:0.45cm;">DIVIDIDO</td>
+		  </tr>
+		  <tr>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:8.4cm;">Nombre Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.1cm;">Material</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.3cm;">Cantidad<br>de piezas</td>
+	        <td rowspan="2" class="titulo1" style="font-weight:bold;width:2.3cm;">Fecha Inicio</td>
+   			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.7cm;">Fecha Finalizaci&oacute;n</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.8cm;">Firma<br>Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.8cm;">Vo. Bo.<br>Resp. Unidad</td>
+		  </tr>
+		  <tr>
+
+<!--			<td class="titulo1" style="font-weight:bold;">Hora</td>-->
+
+<!--			<td class="titulo1" style="font-weight:bold;">Hora</td>-->
+		  </tr>
+		  
+		  {foreach key=cambio item=dividido from=$lista_dividido}
+		  <tr>
+			<td class="dato1" style="height:0.5cm;text-align:right;">{$dividido.nombre}</td>
+<!--		<td class="dato1" style="font-size:8px;">{$dividido.material}</td>-->
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">{$dividido.cantidad}</td>
+			<td class="dato1">{$dividido.fecha_hora_ini}</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+		  </tr>
+		  {/foreach}
+		</table>
+
+	</td>
+  </tr>
+  <tr>
+     <td style="background-color:#FFFFFF;height:2.8cm;vertical-align:top;">
+		{*desbaste*}
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#FFFFCC;border-collapse:collapse;height:1.2cm;margin:0cm;width:22.4cm;">
+		  <tr>
+			<td colspan="7" class="titulo1" style="font-weight:bold;height:0.45cm;">DESBASTE</td>
+		  </tr>
+		  <tr>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:8.4cm;">Nombre Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.1cm;">Material</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.3cm;">Cantidad<br>de piezas</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.3cm;">Fecha Inicio</td>
+   			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.7cm;">Fecha Finalizaci&oacute;n</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:2.8cm;">Firma<br>Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.8cm;">Vo. Bo.<br>Resp. Unidad</td>
+		  </tr>
+		  <tr>
+		  </tr>
+		  
+		  {foreach key=cambio item=desbaste from=$lista_desbaste}
+		  <tr>
+			<td class="dato1" style="height:0.5cm;text-align:right;">{$desbaste.nombre}</td>
+<!--			<td class="dato1" style="font-size:8px;">{$desbaste.material}</td>-->
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">{$desbaste.cantidad}</td>
+			<td class="dato1">{$desbaste.fecha_hora_ini}</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+		  </tr>
+		  {/foreach}
+		</table>
+	</td>
+  </tr>
+  <tr>
+     <td style="background-color:#FFFFFF;height:2.9cm;vertical-align:top;">
+		{*sellado*}
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#FFFFCC;border-collapse:collapse;height:1.2cm;margin:0cm;width:22.4cm;">
+		  <tr>
+			<td colspan="8" class="titulo1" style="font-weight:bold;height:0.45cm;">SELLADO</td>
+		  </tr>
+		  <tr>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:5.3cm;">Nombre Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.8cm;">Material</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.8cm;">Cantidad<br>de piezas</td>
+   			<td rowspan="2" class="titulo1" style="font-weight:bold;width:4.2cm;">Fecha Inicio</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;3.9cm;">Fecha Finalizaci&oacute;n</td>
+			<td rowspan="2" class="titulo1" style="font-size:9px;font-weight:bold;width:2.0cm;">Vo. Bo. 1&deg; pieza<br>sellada</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.6cm;">Firma<br>Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.8cm;">Vo. Bo.<br>Resp. Unidad</td>
+		  </tr>
+		  <tr>
+
+<!--			<td class="titulo1" style="font-weight:bold;">Hora</td>-->
+
+<!--			<td class="titulo1" style="font-weight:bold;">Hora</td>-->
+		  </tr>
+
+		  {foreach key=cambio item=sellado from=$lista_sellado}
+		  <tr>
+			<td class="dato1" style="height:0.5cm;text-align:right;">{$sellado.nombre}</td>
+<!--			<td class="dato1" style="font-size:8px;">{$sellado.material}</td>-->
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">{$sellado.cantidad}</td>
+			<td class="dato1">{$sellado.fecha_hora_ini}</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+		  </tr>
+		  {/foreach}
+		</table>
+	</td>
+  </tr>
+  <tr>
+     <td style="background-color:#FFFFFF;height:2.1cm;vertical-align:top;">
+		{*planchado*}
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#FFFFCC;border-collapse:collapse;height:1.2cm;margin:0cm;width:22.4cm;">
+		  <tr>
+			<td colspan="8" class="titulo1" style="font-weight:bold;height:0.45cm;">PLANCHADO</td>
+		  </tr>
+		  <tr>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:5.3cm;">Nombre Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.8cm;">Material</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.8cm;">Cantidad<br>de piezas</td>
+   			<td rowspan="2" class="titulo1" style="font-weight:bold;width:4.2cm;">Fecha Inicio</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:3.9cm;">Fecha Finalizaci&oacute;n</td>
+			<td rowspan="2" class="titulo1" style="font-size:9px;font-weight:bold;width:2.0cm;">Vo. Bo. 1&deg; pieza<br>planchada</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.6cm;">Firma<br>Operario</td>
+			<td rowspan="2" class="titulo1" style="font-weight:bold;width:1.8cm;">Vo. Bo.<br>Resp. Unidad</td>
+		  </tr>
+		  <tr>
+
+<!--			<td class="titulo1" style="font-weight:bold;">Hora</td>-->
+
+<!--			<td class="titulo1" style="font-weight:bold;">Hora</td>-->
+		  </tr>
+
+		  {foreach key=cambio item=planchado from=$lista_planchado}
+		  <tr>
+			<td class="dato1" style="height:0.5cm;text-align:right;">{$planchado.nombre}</td>
+<!--			<td class="dato1" style="font-size:8px;">{$planchado.material}</td>-->
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">{$planchado.cantidad}</td>
+			<td class="dato1">{$planchado.fecha_hora_ini}</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+			<td class="dato1">&nbsp;</td>
+		  </tr>
+		  {/foreach}
+		</table>
+	</td>
+  </tr>
+  <tr>
+     <td style="background-color:#FFFFFF;height:2.6cm;vertical-align:top;">
+		{*entrega*}
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#FFFFCC;border-collapse:collapse;height:1.2cm;margin:0cm;width:22.4cm;">
+		  <tr>
+			<td colspan="8" class="titulo1" style="font-weight:bold;height:0.45cm;">ENTREGA</td>
+		  </tr>
+		  <tr>
+			<td class="titulo1" style="font-weight:bold;">Nombre Maquinista</td>
+			<td class="titulo1" style="font-weight:bold;">Cantidad entregada</td>
+ 			<td class="titulo1" style="font-weight:bold;">Firma Entrega</td>
+			<td class="titulo1" style="font-weight:bold;">Firma Entregado</td>
+			<td class="titulo1" style="font-weight:bold;">Nombre Maquinista</td>
+			<td class="titulo1" style="font-weight:bold;">Cantidad entregada</td>
+ 			<td class="titulo1" style="font-weight:bold;">Firma Entrega</td>
+			<td class="titulo1" style="font-weight:bold;">Firma Entregado</td>
+		  </tr>
+		</table>
+	</td>
+  </tr>
+</table>
+
+	<br>
+
+	<div id=idControls class="noprint" style="text-align:center;width:100%;">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:22.4cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				<input name="button" type="button" disabled class="boton" onClick="factory.printing.PageSetup()" value="Configurar P&aacute;gina">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+				<hr size="1">
+			</td>
+		</tr>
+		</table>
+	</div>
+
+</div>
+<!--{if $instructivo.nro_instructivo != 0}
+	<div class="instructivo">Instructivo # {$instructivo.nro_instructivo}</div>
+{else}
+	<div class="instructivo">Instructivo # No tiene</div>
+{/if}-->
+</body>
+</html>

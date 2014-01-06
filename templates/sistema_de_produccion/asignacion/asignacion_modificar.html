@@ -1,0 +1,186 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th>Modificar Asignaci&oacute;n</th>
+  <tr>
+    <td>
+		<!-- aqui se detallan los contenidos-->
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+		<form action="../../controladores/sistema_de_produccion/asignacion_modificar.php?opcion=buscar" method="post" name="buscar" id="buscar">
+		  
+		  {if $errores.err_num_asignacion != null}
+		  <tr>
+			<td/>
+			<td style="padding-left:3px;">
+				<div class="error-box">{$errores.err_num_asignacion}</div>
+			</td>
+		  </tr>
+		  {/if}			
+
+		  <tr>
+			<td width="50%" class="enunciados">Ingrese N&uacute;mero de Asignaci&oacute;n:</td>
+			<td class="body-sector" style="padding:3px;">
+				<div align="left" class="entrada">
+				  <img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+				  <input type="text" name="num_asignacion" id="num_asignacion" value="{$num_asignacion}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+				</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td colspan="2" style="padding:10px;text-align:center;">
+				<input name="buscar" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			</td>
+		  </tr>
+		</form>
+		</table>
+	</td>
+  </tr>
+</table>
+
+
+{if $asignacion_modificar != ''}
+	{if $asignacion_modificar.cerrada != 1}
+		
+		{if $condicion_despacho != ''}
+		<div align="center">
+			<div class="anuncio" style="width:70%"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Despacho: {$condicion_despacho.nombre_despacho} - {$condicion_despacho.fecha_despacho}</div>
+		</div>
+		{/if}
+		
+		<form action="asignacion_modificar.php?opcion=modificar" method="post">
+		  <table width="70%" border="1" cellspacing="1" cellpadding="3" align="center">
+            <tr>
+              <td rowspan="2"><input name="rb_modificar" id="rb_modificar1" type="radio" value="maquinista" style="background-color:#F9F8F8;border:none;" checked="checked" /></td>
+			  <label for="rb_modificar1" style="cursor:pointer;">
+              <td class="enunciados" style="cursor:pointer;">Maquinista actual:</td>
+			  </label>
+              <td class="lista-seleccionada" style="padding:5px 5px 5px 10px;">{$asignacion_modificar.maquinista}</td>
+            </tr>
+            <tr>
+              <label for="rb_modificar1">
+			  <td class="enunciados" style="cursor:pointer;">Nuevo maquinista:</td>
+			  </label>
+              <td class="lista-seleccionada"><input type="hidden" name="maquinista_id" id="maquinista_id" value="{$personal_id}" size="1" />
+                  <span align="left" class="entrada" style="margin:5px;">
+                  <input type="text" name="nombre" id="nombre" style="border:none;" onkeypress="return handleEnter(this, event)" value="{$nombre}" size="35"/>
+                  <img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.forms[1].nombre.focus();document.forms[1].nombre.select();" style="cursor:pointer;" alt="Seleccionar Nombre"/> </span> <span id="spinner" style="display:none"></span>
+                  <div id="lista_nombres" class="autorelleno"></div>
+                {literal}
+                <script>
+					new Ajax.Autocompleter("nombre", "lista_nombres", "../../controladores/sistema_de_produccion/asignacion.php?busqueda_ajax=nombres&puesto=3", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+					
+					
+				function mostrar_categoria(text,li){ 
+				  cadena = li.id;
+				  caracteristicas = cadena.split("-");
+				  document.getElementById("maquinista_id").value = caracteristicas[0];
+				  var str = document.getElementById("nombre").value;
+				  document.getElementById("nombre").value = str.substr(5)
+				}
+				</script>
+                {/literal} </td>
+            </tr>
+            <tr>
+              <td>
+			  {if $asignacion_modificar.usuario_entrega != 0}
+			  	<input name="rb_modificar" id="rb_modificar2" type="radio" value="dado_baja" style="background-color:#F9F8F8;border:none;" />
+			  {else}
+				&nbsp;
+			  {/if}
+			  </td>
+              <label for="rb_modificar2">
+			  <td class="enunciados" style="cursor:pointer;">Dado de baja:</td>
+			  </label>
+              <td class="lista-normal" style="padding:5px 5px 5px 10px;">
+			  	{if $asignacion_modificar.usuario_entrega == 0}
+				  No
+                {else}
+				  Si
+                {/if} </td>
+            </tr>
+            <tr>
+              <td>
+			  {if $asignacion_modificar.responsable_reprogramacion != null && $asignacion_modificar.usuario_entrega == 0}
+				<input name="rb_modificar" id="rb_modificar3" type="radio" value="con_reprogramacion" style="background-color:#F9F8F8;border:none;" />
+			  {else}
+				&nbsp;
+			  {/if}
+			  </td>
+			  <label for="rb_modificar3">
+              <td class="enunciados" style="cursor:pointer;">Tiene reprogramaci&oacute;n:</td>
+			  </label>
+              <td class="lista-seleccionada" style="padding:5px 5px 5px 10px;">
+				{if $asignacion_modificar.responsable_reprogramacion == null}
+				  No
+		        {else}
+				  Si
+                {/if} </td>
+            </tr>
+            <tr>
+              <td>
+			  	{if $asignacion_modificar.usuario_entrega == 0}
+					<input name="rb_modificar" id="rb_modificar4" type="radio" value="cantidad" style="background-color:#F9F8F8;border:none;" />
+				{else}
+					&nbsp;
+				{/if}
+			  </td>
+              <label for="rb_modificar4">
+			  <td class="enunciados" style="cursor:pointer;">Modificar cantidad:</td>
+			  </label>
+              <td class="lista-normal" style="padding:5px 5px 5px 10px;" valign="top">
+			  	{if $asignacion_modificar.usuario_entrega == 0}
+			  		<select name="cantidad_nueva" size="3" id="cantidad_nueva" style="margin:5px;width:70px;" onkeypress="return handleEnter(this, event)">
+						{html_options values=$vector output=$vector selected=$cantidad_asignada.cantidad}
+					</select>
+					<input type="hidden" value="{$cantidad_asignada.cantidad}" name="cantidad_original" />
+					Asignados: {$cantidad_asignada.cantidad}
+				{else}
+					Se entrego producci&oacute;n
+				{/if}
+			  </td>
+            </tr>
+            <tr>
+              <td>
+			  {if $asignacion_modificar.usuario_entrega == 0}
+			  	<input name="rb_modificar" id="rb_modificar5" type="radio" value="anular" style="background-color:#F9F8F8;border:none;" />
+			  {else}
+				&nbsp;
+			  {/if}
+			  </td>
+              <label for="rb_modificar5">
+			  <td class="enunciados" style="cursor:pointer;">Anular hoja:</td>
+			  </label>
+              <td class="lista-normal" style="padding:5px 5px 5px 10px;">
+			  {if $asignacion_modificar.usuario_entrega != 0}
+			  	Se entrego producci&oacute;n
+			  {/if}
+			  </td>
+            </tr>
+            <tr>
+              <td colspan="3" style="text-align:center;"><input name="modificar" type="submit" value="Modificar asignaci&oacute;n" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/></td>
+            </tr>
+          </table>
+		</form>
+	{else}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;La asignaci&oacute;n esta cerrada</div>
+		</td>
+	  </tr>
+	</table>
+	{/if}
+{else}
+	{if $mensaje != ''}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+	{/if}
+{/if}

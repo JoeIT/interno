@@ -1,0 +1,136 @@
+<body>
+{include file="../templates/sistema_de_produccion/cabecera.html"} <br />
+{literal}
+<script language="JavaScript">
+   function noVacio() {
+    var bError = false;
+     bError = bError || (eval("document.orden.documento.value == ''")) || (eval("document.orden.descripcion.value == ''")) || (eval("document.orden.area_observada[].value == ''")) || (eval("document.orden.area_informada[].value == ''"));
+     if (bError){
+      alert("(*) Campos obligatorios");
+	  eval("document.orden.documento.focus()");
+      eval("document.orden.descripcion.focus()");
+	  eval("document.orden.area_observada[].focus()");
+	  eval("document.orden.area_informada[].focus()");	  
+    }
+    if (!bError) alert("Se ingreso correctamente los valores de apertura RG-40.");
+   }
+
+  </script> 
+<SCRIPT LANGUAGE="JavaScript">
+function desplegar(cadena,id) {
+if (cadena=="1 dia"){cadena="d"}
+if (cadena=="1 semana"){cadena="s"}
+if (cadena=="1 mes"){cadena="m"}
+if (id=="a"){cadena="a"}
+var fecha=obtiene_fecha(cadena)
+document.getElementById('valor').value=fecha
+}
+
+function obtiene_fecha(opcion) {  
+var fecha_actual = new Date()
+if(opcion=="d")//1 dia
+fecha_actual.setDate (fecha_actual.getDate () + 1); 
+
+if(opcion=="s")//1 semana
+fecha_actual.setDate (fecha_actual.getDate () + 7); 
+
+if(opcion=="m")//1 mes
+fecha_actual.setMonth(fecha_actual.getMonth() + 1);
+
+if(opcion=="a")//1/2 anios
+fecha_actual.setMonth(fecha_actual.getMonth() + 6);
+
+var dia = fecha_actual.getDate()  
+var mes = fecha_actual.getMonth() + 1  
+var anio = fecha_actual.getFullYear()  
+if (mes < 10)  
+   mes = '0' + mes  
+   if (dia < 10)  
+	dia = '0' + dia  
+
+	fecha=dia + "/" + mes + "/" + anio
+	return (fecha)  
+}  
+function deshabilita(form)
+{
+form.valor.disabled=true;
+}
+</script>
+{/literal}
+
+<form name="orden" method="post" action="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=1&funcion=validar&elegido={$aperturada.nro_registro}"  align="center">
+  <table border="0" align="center" cellpadding="0" cellspacing="3" width="95%">
+    <tr>
+      <th colspan="6" >Apertura de No Conformidad o Mejoras [Codigo <strong>RG-40</strong>]</th>
+    </tr>
+    <tr>
+      <td width="22%" class="enunciados">N&deg; Registro:</td>
+      <td width="13%" class="body-sector"><strong>{$ultimo.nro_registro+1}</strong>&nbsp;&nbsp;&nbsp;&nbsp;[Nro Registro Actual]</td>
+      <td width="13%" class="enunciados">Revision #:</td>
+      <td width="18%" class="body-sector"><strong>7</strong></td>
+    </tr>
+    <tr>
+      <td class="enunciados">Tipo - No Conformidad:</td>
+      <td><select name="tipo" id="select" >
+      <option value="No Conformidad" >No Conformidad</option>
+      <option value="Observacion" >Observacion</option>
+      <option value="Oportunidad de mejora">Oportunidad de mejora</option>
+    </select>
+    </td>
+      <td class="enunciados">Accion:</td>
+      <td><select name="accion" id="select" >
+      <option value="Correctiva">Correctiva</option>
+      <option value="Preventiva">Preventiva</option>
+    </select></td>
+    </tr>
+  <tr>
+    <td class="enunciados"><span style="color:#F00">(*)</span>Aperturado a:</td>
+	<td class="lista-seleccionada">
+      <select size="4"  multiple="multiple" name="area_observada[]" id="area_observada">
+	  {section name=id loop=$area_observada}
+      <option value='{$area_observada[id].id_area}-{$area_observada[id].personal_id}'>{$area_observada[id].nombre_area}........................[{$area_observada[id].completo}]</option>
+	  {/section}
+	  </select>
+      </td>
+      <!--onchange="desplegar(this.options[this.selectedIndex].value)"     onchange="MostrarFecha(this.options[this.selectedIndex].value)"-->
+     <td class="enunciados">Tiempo Cierre:</td>
+      <td><select name="cierre" id="select1" onChange="desplegar(this.options[this.selectedIndex].value,this.options[this.selectedIndex].id)">
+      <option value="1 dia">1 dia</option>
+      <option value="1 semana">1 semana</option>
+      <option value="1 mes">1 mes</option>
+      <option value="1/2 a&#241;o" id="a">1/2 a&#241;o</option>
+    </select>
+    </td>
+    
+<tr>
+      <td class="enunciados"><span style="color:#F00">(*)</span>Area(s) Informada(s):</td>
+      <td class="lista-seleccionada">
+      <select size="4"  multiple="multiple" name="area_informada[]" id="area_informada">
+	  {section name=id loop=$area_informada}
+      <option value='{$area_informada[id].id_area}-{$area_informada[id].personal_id}' >{$area_informada[id].nombre_area}........................[{$area_informada[id].completo}]</option>
+	  {/section}
+	</select>   
+      </td>
+      <td class="enunciados">Fecha Cierre:</td>
+      <td>
+		<input type="text" name="valor" id="valor" onClick="deshabilita(this.form)" style="background:#F99" width="50" value="{$smarty.now|date_format:"%d/%m/%y "}"/></td>
+</tr>
+  <tr>
+  <td height="84" class="enunciados"><span style="color:#F00">(*)</span>Documento que origino la No Conformidad/Oportunidad de mejora:</td>
+  <td class="body-sector" colspan="4">
+    <textarea name="documento" cols="45" rows="4" wrap="virtual" id="docConformidad" style="overflow-x:hidden;overflow:auto">{$docConformidad}</textarea>
+ 
+      </td>
+     
+  </tr>
+  <tr>
+  <td class="enunciados"><span style="color:#F00">(*)</span>Descripcion del hallazgo:</td>
+  <td class="body-sector" colspan="4"><textarea name="descripcion" cols="45" rows="4" wrap="virtual" id="descripcion" style="overflow-x:hidden;overflow:auto">{$descripcion}</textarea></td>
+  </tr>
+  </table>
+  <center>
+  <br>
+  <input type="submit" value="Guardar Datos" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'" onclick="noVacio()">
+</center>
+</form>
+</body>

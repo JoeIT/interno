@@ -1,0 +1,53 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"} 
+		<br>
+ <table width="100%">
+	<tr>
+		
+		{if $errores != null}
+		     <table align="center" class="error-box">
+                 	{if $errores.err_numero_orden != null} 
+					<tr> 
+						<td>  {$errores.err_numero_orden} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_confirm != null} 
+					<tr> 
+						<td>  {$errores.err_confirm} </td> 
+					</tr>
+					{/if}
+		 	 </table>
+		 {/if}
+
+			<form name="form_migrar" method="post" action="../../controladores/sistema_de_produccion/migrar_orden.php?funcion=validar">
+			
+			<table border="0" align="center" >
+				<th colspan="2"> Orden de Producción a migrar</th>
+			  	<tr>
+					<td class="enunciados">Orden de Produccion:</td>
+					<td class="body-sector">
+					<div align="left" class="entrada" style="margin:5px;">
+						<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+						<input name="num_orden" type="text" id="num_orden" value="{$num_orden}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+					</div>
+					<span id="spinner" style="display: none">
+									<img src="../../templates/imagenes/spinner.gif" alt="Consultando…" />
+					 </span>
+					<div id="lista_ordenes" class="autorelleno"></div>
+								{literal}
+								<script>
+										new Ajax.Autocompleter("num_orden", "lista_ordenes", "../../controladores/sistema_de_produccion/migrar_orden.php?busqueda_ajax=ordenes", {method:"post", paramName: "value", minChars: 1, indicator: "spinner"});
+								</script>
+								{/literal}
+					</td>
+					
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input class="button1" type="submit" value="Migrar">
+					</td>
+				</tr>
+			</table>
+			</form>
+		</td>
+	</tr>
+</table>

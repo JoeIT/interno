@@ -1,0 +1,97 @@
+{include file="../../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Form based and Flash upload to test upload file processing script.</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<br>
+  {literal}
+  <script language="JavaScript">
+	
+	function mysubmit(type)
+	{
+		if(document.getElementById("uploadscript").value=='')
+		{
+			window.alert('Enter upload processing script file name!');
+			return false;
+		}
+		if(type=='flash')
+		{
+			var Flash;
+			if(document.embeds && document.embeds.length>=1 && navigator.userAgent.indexOf("Safari") == -1)
+				Flash = document.getElementById("EmbedFlashFilesUpload");
+			else
+				Flash = document.getElementById("FlashFilesUpload");		
+			Flash.SetVariable("uploadUrl", document.getElementById("uploadscript").value); 
+			Flash.SetVariable("SubmitFlash", ""); 
+		}
+		else
+		{
+			var FormObj = document.getElementById("myform");
+			FormObj.action = document.getElementById("uploadscript").value;
+			return true;
+		}
+	}
+  </script>
+   {/literal}
+<br>
+<form action="../controladores/activo.php?funcion=insertar" method="post">
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="151">Numero Activo: </td>
+      <td width="649"><input type="text" name="numero" size="30"  ></td>
+  </tr></table>
+<br>
+<strong><font size="4">Fotos del Activo:</font></strong><br>
+ <table width="500" border="1" cellpadding="5" cellspacing="0" bordercolor="#999999">
+  <tr>
+    <td>
+	<font style="font-size:10px;font-family:Verdana, Arial, Helvetica, sans-serif" color="#494949">	  </font>
+	<input  size="70" name="uploadscript" id="uploadscript" type="hidden" value="uploadfiles.php" />
+	<br><br>
+<OBJECT id="FlashFilesUpload" codeBase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
+		width="450" height="300" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" VIEWASTEXT>
+		<!-- Replace symbols " with the &quot; at all parameters values and 
+		symbols "&" with the "%26" at URL values or &amp; at other values! -->
+	<PARAM NAME="FlashVars" VALUE="uploadUrl=
+	&uploadButtonVisible=si">
+	<PARAM NAME="BGColor" VALUE="#F8F6E6">
+	<PARAM NAME="Movie" VALUE="ElementITMultiPowUpload1.7.swf">
+	<PARAM NAME="Src" VALUE="ElementITMultiPowUpload1.7.swf">
+	<PARAM NAME="WMode" VALUE="Window">
+	<PARAM NAME="Play" VALUE="-1">
+	<PARAM NAME="Loop" VALUE="-1">
+	<PARAM NAME="Quality" VALUE="High">
+	<PARAM NAME="SAlign" VALUE="">
+	<PARAM NAME="Menu" VALUE="-1">
+	<PARAM NAME="Base" VALUE="">
+	<PARAM NAME="AllowScriptAccess" VALUE="always">
+	<PARAM NAME="Scale" VALUE="ShowAll">
+	<PARAM NAME="DeviceFont" VALUE="0">
+	<PARAM NAME="EmbedMovie" VALUE="0">	    
+	<PARAM NAME="SWRemote" VALUE="">
+	<PARAM NAME="MovieData" VALUE="">
+	<PARAM NAME="SeamlessTabbing" VALUE="1">
+	<PARAM NAME="Profile" VALUE="0">
+	<PARAM NAME="ProfileAddress" VALUE="">
+	<PARAM NAME="ProfilePort" VALUE="0">
+	
+	<!-- Embed for Netscape,Mozilla/FireFox browsers support. Flashvars parameters are the same.-->
+		<!-- Replace symbols " with the &quot; at all parameters values and 
+		symbols "&" with the "%26" at URL values or &amp; at other values! -->
+	<embed bgcolor="#F8F6E6" id="EmbedFlashFilesUpload" src="ElementITMultiPowUpload1.7.swf" quality="high" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"	type="application/x-shockwave-flash" width="400" height="350" flashvars="uploadUrl=
+	&uploadButtonVisible=No">	</embed>
+</OBJECT>	  
+<br>
+<input onClick="mysubmit('flash');" type="button" value="Send Files" /></td>
+  </tr>
+</table>
+ 
+   <p>&nbsp;   </p>
+   <p>
+     <input type="submit" name="insertar_foto" value="Ingresar Foto" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+   </p>
+</form>
+
+</body>

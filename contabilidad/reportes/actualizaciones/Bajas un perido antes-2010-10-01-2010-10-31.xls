@@ -1,0 +1,140 @@
+				<html xmlns:o="urn:schemas-microsoft-com:office:office"
+				xmlns:x="urn:schemas-microsoft-com:office:excel"
+				xmlns="http://www.w3.org/TR/REC-html40">
+
+				<head>
+				<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+				<meta name=ProgId content=Excel.Sheet>
+				<!--[if gte mso 9]><xml>
+				 <o:DocumentProperties>
+				  <o:LastAuthor>Sriram</o:LastAuthor>
+				  <o:LastSaved>2005-01-02T07:46:23Z</o:LastSaved>
+				  <o:Version>10.2625</o:Version>
+				 </o:DocumentProperties>
+				 <o:OfficeDocumentSettings>
+				  <o:DownloadComponents/>
+				 </o:OfficeDocumentSettings>
+				</xml><![endif]-->
+				<style>
+				<!--table
+					{mso-displayed-decimal-separator:"\.";
+					mso-displayed-thousand-separator:"\,";}
+				@page
+					{margin:1.0in .75in 1.0in .75in;
+					mso-header-margin:.5in;
+					mso-footer-margin:.5in;}
+				tr
+					{mso-height-source:auto;}
+				col
+					{mso-width-source:auto;}
+				br
+					{mso-data-placement:same-cell;}
+				.style0
+					{
+					mso-number-format:General;
+					text-align:general;
+					vertical-align:bottom;
+					white-space:nowrap;
+					mso-rotate:0;
+					mso-background-source:auto;
+					mso-pattern:auto;
+					color:windowtext;
+					font-size:8.0pt;
+					font-weight:400;
+					font-style:normal;
+					text-decoration:none;
+					font-family:Arial;
+					mso-generic-font-family:auto;
+					mso-font-charset:0;
+					border:none;
+					mso-protection:locked visible;
+					mso-style-name:Normal;
+					mso-style-id:0;}
+				td
+					{mso-style-parent:style0;
+					padding-top:1px;
+					padding-right:1px;
+					padding-left:1px;
+					mso-ignore:padding;
+					color:windowtext;
+					font-size:8.0pt;
+					font-weight:400;
+					font-style:normal;
+					text-decoration:none;
+					font-family:Arial;
+					mso-generic-font-family:auto;
+					mso-font-charset:0;
+					mso-number-format:General;
+					text-align:general;
+					vertical-align:bottom;
+					border:none;
+					mso-background-source:auto;
+					mso-pattern:auto;
+					mso-protection:locked visible;
+					white-space:nowrap;
+					mso-rotate:0;}
+				.xl24
+					{mso-style-parent:style0;
+					 white-space:normal;
+					 }
+				 .x324
+					{
+					 mso-style-parent:style0;
+					 white-space:normal;
+					 font-weight:bold;
+					
+					}
+				.clasecabecera
+					{mso-style-parent:style0;
+					color:#000000;
+					border-top:.5pt solid yellow;
+					border-right:.5pt solid yellow;
+					border-bottom:.5pt solid yellow;
+					border-left:.5pt solid yellow;
+					background-color: #E5E5E5;
+					mso-pattern:black none;}
+				.titulares
+					{mso-style-parent:style0;
+					text-align:center;
+					vertical-align:middle;
+					border:.5pt solid windowtext;
+					background:#F2F2F2;
+					mso-pattern:black none;}
+				-->
+				</style>
+				<!--[if gte mso 9]><xml>
+				 <x:ExcelWorkbook>
+				  <x:ExcelWorksheets>
+				   <x:ExcelWorksheet>
+					<x:Name>srirmam</x:Name>
+					<x:WorksheetOptions>
+					 <x:Selected/>
+					 <x:ProtectContents>False</x:ProtectContents>
+					 <x:ProtectObjects>False</x:ProtectObjects>
+					 <x:ProtectScenarios>False</x:ProtectScenarios>
+					</x:WorksheetOptions>
+				   </x:ExcelWorksheet>
+				  </x:ExcelWorksheets>
+				  <x:WindowHeight>10005</x:WindowHeight>
+				  <x:WindowWidth>10005</x:WindowWidth>
+				  <x:WindowTopX>120</x:WindowTopX>
+				  <x:WindowTopY>135</x:WindowTopY>
+				  <x:ProtectStructure>False</x:ProtectStructure>
+				  <x:ProtectWindows>False</x:ProtectWindows>
+				 </x:ExcelWorkbook>
+				</xml><![endif]-->
+				</head>
+
+				<body link=blue vlink=purple>
+				<table x:str border=0 cellpadding=0 cellspacing=0 style='border-collapse: collapse;table-layout:fixed;'><tr><td class=clasecabecera width=64 >Codigo</td><td class=clasecabecera width=64 >Fecha Ingreso </td><td class=clasecabecera width=64 >Fecha Baja</td><td class=clasecabecera width=64 >T/C baja</td><td class=clasecabecera width=64 >UFV baja</td><td class=clasecabecera width=64 >Descripcion</td><td class=clasecabecera width=64 >T/C de la Compra</td><td class=clasecabecera width=64 >UFV de la Compra</td><td class=clasecabecera width=64 >Vida Util(meses)</td><td class=clasecabecera width=64 >Valor Compra</td><td class=clasecabecera width=64 >Valor de la otra gestion a 2010-03-31$7.07 UFV 1.53826</td><td class=clasecabecera width=64 >Valor UFV inicial2010-10-01con1.54926</td><td class=clasecabecera width=64 >Valor al2010-10-31con UFV1.55298</td><td class=clasecabecera width=64 >Depreciacion Acum Actualiza2010-10-31con UFV1.55298</td><td class=clasecabecera width=64 >Valor Neto s/g Actual Ufv al2010-10-31con UFV1.55298</td><td class=clasecabecera width=64 >Vida Util Restante</td></tr><tr><td class=clasecabecera width='64' colspan='16'>Edificaciones</td></tr><tr><td class=xl24 width=64 >01.01.02.00008</td><td class=xl24 width=64 >2003-01-02</td><td class=xl24 width=64 >2009-09-01</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.53295</td><td class=xl24 width=64 >1 GLB. AMPLIACION EDIFICACION UNIDAD EXPORT.</td><td x:num class=xl24  width=64 >7.50000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >167937.38000</td><td x:num class=xl24  width=64 >227451.0960028</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >226657.07393531</td><td x:num class=xl24  width=64 >50053.437160715</td><td x:num class=xl24  width=64 >176603.6367746</td><td x:num class=xl24  width=64 >374</td></tr><tr><td class=xl24 width=64 >01.01.02.00001</td><td class=xl24 width=64 >1999-08-01</td><td class=xl24 width=64 >2009-09-01</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.53295</td><td class=xl24 width=64 >1 GLB. EDIFICACION GALPONES Y MUROS DE SEPARACION</td><td x:num class=xl24  width=64 >5.85000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >400684.93000</td><td x:num class=xl24  width=64 >695743.35386435</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >693314.54351353</td><td x:num class=xl24  width=64 >212327.57895102</td><td x:num class=xl24  width=64 >480986.96456251</td><td x:num class=xl24  width=64 >333</td></tr><tr><td class=xl24 width=64 >01.01.02.00003</td><td class=xl24 width=64 >1999-08-01</td><td class=xl24 width=64 >2009-09-01</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.53295</td><td class=xl24 width=64 >1 GLB. PORTERIA DE INGRESO</td><td x:num class=xl24  width=64 >5.85000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >8013.68000</td><td x:num class=xl24  width=64 >13914.834780524</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >13866.258686254</td><td x:num class=xl24  width=64 >4246.5417226652</td><td x:num class=xl24  width=64 >9619.7169635886</td><td x:num class=xl24  width=64 >333</td></tr><tr><td class=xl24 width=64 >01.01.02.00009</td><td class=xl24 width=64 >1999-08-01</td><td class=xl24 width=64 >2009-09-01</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.53295</td><td class=xl24 width=64 >1 GLB. AREAS AUXILIARES</td><td x:num class=xl24  width=64 >5.85000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >20034.27000</td><td x:num class=xl24  width=64 >34787.208498268</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >34665.767838278</td><td x:num class=xl24  width=64 >10616.391400473</td><td x:num class=xl24  width=64 >24049.376437806</td><td x:num class=xl24  width=64 >333</td></tr><tr><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >596670.26</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >971896.49314594</td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >968503.64397337</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >277243.94923487</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >691259.6947385</td><td class=x324 width=64  style='background-color:#FFFF66' > </td></tr><tr><td class=clasecabecera width='64' colspan='16'>Vehiculos</td></tr><tr><td class=xl24 width=64 >10.01.05.00002</td><td class=xl24 width=64 >2003-04-30</td><td class=xl24 width=64 >2008-07-31</td><td x:num class=xl24  width=64 >7.14</td><td x:num class=xl24  width=64 >1.39088</td><td class=xl24 width=64 >1 GLOB. VAGONETA MERCEDES BENZ MODELO A160 AÃ‘O B
+2002, COLOR PLOMO MOTOR No A1688172920 PLACA 1188LKX</td><td x:num class=xl24  width=64 >7.61000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >60</td><td x:num class=xl24  width=64 >146378.45000</td><td x:num class=xl24  width=64 >195386.43602419</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >174348.47404203</td><td x:num class=xl24  width=64 >174347.47404203</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=xl24 width=64 >10.01.05.00007</td><td class=xl24 width=64 >2002-08-13</td><td class=xl24 width=64 >2009-01-27</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.481</td><td class=xl24 width=64 >1 GLOB. MITSUBISHI MONTERO SPORT CHASIS No
+BJMYONK9703J0001 17 MOTOR No. 4M40 COLOR PLOMO
+PLACA 1186ECS</td><td x:num class=xl24  width=64 >7.26000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >60</td><td x:num class=xl24  width=64 >233102.69000</td><td x:num class=xl24  width=64 >326146.39944924</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >311455.33030759</td><td x:num class=xl24  width=64 >311454.33030759</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=xl24 width=64 >10.01.05.00009</td><td class=xl24 width=64 >2008-07-31</td><td class=xl24 width=64 >2009-10-19</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.53556</td><td class=xl24 width=64 >1 GLB., AUTOMOVIL, MCA. SUZUKI, TIPO SX4, AÑO MODELO 2008, COLOR AZUL, CHASIS JS2YC21S985101970, MOTOR M16A-1342958, PLACA 2129ZHP.</td><td x:num class=xl24  width=64 >7.14000</td><td x:num class=xl24  width=64 >1.39088</td><td x:num class=xl24  width=64 >60</td><td x:num class=xl24  width=64 >115539.48000</td><td x:num class=xl24  width=64 >127782.2389457</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >127557.95173473</td><td x:num class=xl24  width=64 >80786.702765328</td><td x:num class=xl24  width=64 >46771.248969401</td><td x:num class=xl24  width=64 >22</td></tr><tr><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >495020.62</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >649315.07441914</td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >613361.75608435</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >566588.50711494</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >46773.248969401</td><td class=x324 width=64  style='background-color:#FFFF66' > </td></tr><tr><td class=clasecabecera width='64' colspan='16'>Equipo de Computacion</td></tr><tr><td class=xl24 width=64 >20.09.07.00054</td><td class=xl24 width=64 >2006-02-24</td><td class=xl24 width=64 >2010-11-11</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.55456</td><td class=xl24 width=64 >1 GLB. EQUIP. COMPUT MONITOR Y CPU MCA IMAC 17</td><td x:num class=xl24  width=64 >8.07000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >48</td><td x:num class=xl24  width=64 >12768.48000</td><td x:num class=xl24  width=64 >16071.913622358</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >16225.709839201</td><td x:num class=xl24  width=64 >16224.709839201</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=xl24 width=64 >20.09.07.00050</td><td class=xl24 width=64 >2005-04-21</td><td class=xl24 width=64 >2010-11-11</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.55456</td><td class=xl24 width=64 >1 GLB. COMPUT. IMAC G5 MOD A 1058 APPLE COMPUTER 1.80
+GHZ, 512 MB DD RAM 600 MHZ. S/N W84482BKPP7 TECLADO
+SERIE KY4430BTLQL3B MOUSE VJ43806MRNWDA</td><td x:num class=xl24  width=64 >8.10000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >48</td><td x:num class=xl24  width=64 >15087.43000</td><td x:num class=xl24  width=64 >18920.481007098</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >19101.535887563</td><td x:num class=xl24  width=64 >19100.535887563</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=xl24 width=64 >20.09.07.00042</td><td class=xl24 width=64 >2004-04-29</td><td class=xl24 width=64 >2010-11-11</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.55456</td><td class=xl24 width=64 >1 GLB. COMPUT. POWERMAC G5 512 MB DE 160 MB SERIE
+XB4120BFNVS Y MONITOR APPLE STUDIO DE 17" SN
+2A40505MNNF TECLADO KY3500HPNQL3A MOUSE MOD M
+5769 SN ZH34QAJWNNUVA</td><td x:num class=xl24  width=64 >7.91000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >48</td><td x:num class=xl24  width=64 >35331.08000</td><td x:num class=xl24  width=64 >45371.418095382</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >45805.588700067</td><td x:num class=xl24  width=64 >45804.588700067</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=xl24 width=64 >30.11.07.00064</td><td class=xl24 width=64 >2001-10-18</td><td class=xl24 width=64 >2010-11-11</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.55456</td><td class=xl24 width=64 >1 GLB. VALOR MEMORIA DE 256 MB. PARA POWER MAC</td><td x:num class=xl24  width=64 >6.77000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >48</td><td x:num class=xl24  width=64 >588.99000</td><td x:num class=xl24  width=64 >883.73321140194</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >892.18987859203</td><td x:num class=xl24  width=64 >891.18987859203</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=xl24 width=64 >20.06.07.00005</td><td class=xl24 width=64 >2000-04-28</td><td class=xl24 width=64 >2010-11-11</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.55456</td><td class=xl24 width=64 >1 GLB. COMPUTADORA CPU MAC POWER PC G4 450 MHZ SERIE
+XB0071Y9HSF TARJETA DE RED 00:30:65:40:BA:56 CON
+MONITOR MARCA APPLE 17 PULGADAS SERIE CY9413MMGZC
+TECLADO APPLE CON SERIE KY2200</td><td x:num class=xl24  width=64 >6.13000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >48</td><td x:num class=xl24  width=64 >1.51000</td><td x:num class=xl24  width=64 >2.5021791251185</td><td x:num class=xl24  width=64 >1.54926</td><td x:num class=xl24  width=64 >2.5261231116498</td><td x:num class=xl24  width=64 >1.5261231116498</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >63777.49</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >81250.048115365</td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >82027.550428535</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >82022.550428535</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >5</td><td class=x324 width=64  style='background-color:#FFFF66' > </td></tr><tr><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >1155468.37</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >1702461.6156804</td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >1663892.9504863</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >925855.00677835</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >738037.9437079</td><td class=x324 width=64  style='background-color:#FFFF66' > </td></tr></table></body></html>

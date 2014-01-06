@@ -1,0 +1,167 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+
+{literal}
+<script src="../../templates/indicadores/script.js"></script>
+{/literal}
+
+<div align="right">
+<a href="indicadores.php?opcion=lista_indicadores&area=Producción">Indicadores de Producción</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
+</div>
+
+<table width="95%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+  <tr>
+    <th colspan="2">Composici&oacute;n de productos manufacturados</th>
+  </tr>
+  <tr class="lista-normal">
+    <td colspan="2" style="font-size:1.2em;padding:5px;">
+	<strong>Descripci&oacute;n:</strong> Conocer los productos elaborados en un periodo dado (por tipo de producto).
+	<br />
+	Productos manufacturados, se refiere a productos que ingresen y/o sean entregados a control de calidad.
+	La clasificación de productos se hace de acuerdo a las siguientes familias:
+	
+	  {if $lista_indicadores_tipo != null}
+	  <br />
+	  <br />
+	  <table width="80%" border="1" cellspacing="0" cellpadding="1" align="center" style="border-collapse:collapse;">
+		<tr class="lista-indicadores">
+		  <td colspan="8">Listado tipo de productos</td>
+		</tr>
+		{assign var=col value=0}	
+		{foreach key=key item=item from=$lista_indicadores_tipo}
+		  {assign var="col" value="`$col+1`"}
+		  {if $col == 1}
+			<tr>
+		  {/if}
+			<td class="lista-seleccionada">{$item.clase}</td><td class="lista-normal">{$item.nombre}</td>
+		  {if $col == 4}			</tr>
+			{assign var="col" value=0}
+		  {/if}
+		{/foreach}
+	  </table>
+	  <br />
+	  {/if}	</td>
+  </tr>
+  
+  <tr>
+    <td class="enunciados">{$mes3|date_format:'%B, %Y'} ({$fecha_ini_mes3} | {$fecha_fin_mes3})</td>
+    <td rowspan="3" align="center">
+		<img src="../../clases/indicadores/class.graphic.php?{$params_mes3}" alt="Indicador 2" width="366" height="270" border="1" style="height:230px;width:330px;" />	</td>
+  </tr>
+  <tr class="lista-normal">
+    <td>
+		{if $lista_indicador_2_general_mes3 != null}
+		<form method="post" name="form1" action="indicadores.php?opcion=valores1">
+			<table width="100%" border="1" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+			<tr><th colspan="4">{if $mostrarBoton}
+			  <input type="submit" name="grabar" value="Actualizar Indicadores" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>{/if}</th></tr>
+			<tr class="enunciados" style="text-align:center">
+			  <td>N&deg;</td><td>Tipo de Producto</td><td>Cant</td><td>%</td>
+			  </tr>
+			{foreach name=lista item=item from=$lista_indicador_2_general_mes3}
+			<tr class="lista-normal">
+				<td>{$item.numero}</td><td>{$item.tipo}</td>
+				<td>{$item.cantidad}</td><td>{$item.porcentaje|commify:2}
+				<input type="hidden" name="area" value="Producción" />
+				<input type="hidden" name="fecha" value="{$fecha_ini_mes3}" />	       		
+				<input type="hidden" name="indi[{$item.indicador_id}]" value="{$item.porcentaje}"  />
+					</td>
+		      </tr>
+			 	
+			{/foreach}
+			</table>		    
+     
+	    {/if}
+      <br /> 
+      </form>
+		<a href="javascript:generar_contenido('{$fecha_ini_mes3}', '{$fecha_fin_mes3}', 'indicador_2_ordenes');">Detalle de productos</a>	</td>
+		{if $error.fecha != null}
+   				<tr>
+				<td colspan="4">
+				  <div class="error-box" style="width:100%;">{$error.fecha}</div>
+				</td>
+ 			 </tr>
+ 				 {/if}
+		
+  </tr>
+ 
+  <tr class="lista-normal">
+    <td></td>
+  </tr>
+  
+  <tr>
+    <td class="enunciados">{$mes2|date_format:'%B, %Y'} ({$fecha_ini_mes2} | {$fecha_fin_mes2})</td>
+    <td rowspan="3" align="center">
+		<img src="../../clases/indicadores/class.graphic.php?{$params_mes2}" border="1" alt="Indicador 2" style="height:230px;width:330px;" />	</td>
+  </tr>
+  <tr class="lista-normal">
+    <td>
+		{if $lista_indicador_2_general_mes2 != null}
+			
+			<table width="100%" border="1" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+			<tr><th colspan="4">Detalle</th></tr>
+			<tr class="enunciados" style="text-align:center">
+			  <td>N&deg;</td><td>Tipo de Producto</td><td>Cant</td><td>%</td>
+			  </tr>
+			{foreach name=lista item=item from=$lista_indicador_2_general_mes2}
+			<tr class="lista-normal">
+				<td>{$item.numero}</td><td>{$item.tipo}</td>
+				<td>{$item.cantidad}</td><td>{$item.porcentaje|commify:2}</td>
+		      </tr>
+			{/foreach}
+			</table>
+            
+	        <div align="right">{/if}
+	          
+	          <br />
+		      
+    <a href="javascript:generar_contenido('{$fecha_ini_mes2}', '{$fecha_fin_mes2}', 'indicador_2_ordenes');">Detalle de productos</a>    </div></td>
+  </tr>
+  <tr class="lista-normal">
+    <td></td>
+  </tr>
+  
+  <tr>
+    <td class="enunciados">{$mes1|date_format:'%B, %Y'} ({$fecha_ini_mes1} | {$fecha_fin_mes1})</td>
+    <td rowspan="3" align="center">
+		<img src="../../clases/indicadores/class.graphic.php?{$params_mes1}" border="1" alt="Indicador 2" style="height:230px;width:330px;" />	</td>
+  </tr>
+  <tr class="lista-normal">
+    <td>
+		{if $lista_indicador_2_general_mes1 != null}
+			<table width="100%" border="1" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+			<tr><th colspan="4">Detalle</th></tr>
+			<tr class="enunciados" style="text-align:center">
+			  <td>N&deg;</td><td>Tipo de Producto</td><td>Cant</td><td>%</td>
+			  </tr>
+			{foreach name=lista item=item from=$lista_indicador_2_general_mes1}
+			<tr class="lista-normal">
+				<td>{$item.numero}</td><td>{$item.tipo}</td>
+				<td>{$item.cantidad}</td><td>{$item.porcentaje|commify:2}</td>
+		      </tr>
+			{/foreach}
+			</table>
+		
+	
+		{/if}
+		
+	  <br />
+		<a href="javascript:generar_contenido('{$fecha_ini_mes1}', '{$fecha_fin_mes1}', 'indicador_2_ordenes');">Detalle de productos</a>	</td>
+  </tr>
+  <tr class="lista-normal">
+    <td></td>
+  </tr>
+</table>
+
+<br />
+<br />
+
+<div id="contenido" style="text-align:center;">
+</div>
+
+<br />
+<br />
+
+<div id="ingresar" style="display:none;text-align:center;">
+</div>

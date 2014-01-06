@@ -1,0 +1,63 @@
+<head>
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+{literal}
+<SCRIPT LANGUAGE="JavaScript">
+	function consultar(opcion) {
+		if(opcion!="modificar") {
+			document.form_modificar.funcion.value="index";
+		}
+	}
+</SCRIPT>
+{/literal}
+</head>
+<body>
+<br>
+<table align="center" width="55%">
+	<th colspan="2">Modificar Area</th>
+	<form name="form_modificar" method="post" action="../../controladores/sistema_de_produccion/listar_areas.php">
+		<input type="hidden" name="elegido"  value="{$id_area}">
+		<input type="hidden" name="funcion" value="modificar_datos">
+	<tr>
+		<td class="enunciados">Nombre Area:</td>
+		<td class="body-sector">  <input type="text" name="nombre_area" value="{$nombre_area}" size="50"> </td>
+	</tr>
+    <tr>
+		<td class="enunciados">Responsable Actual:</td>
+        <td class="lista-seleccionada" style="padding:5px 5px 5px 10px;">{$id_responsable}</td>
+	</tr>
+    <tr>
+		<td class="enunciados">Nuevo Responsable:</td>
+        <td class="lista-seleccionada">
+<input type="hidden" name="maquinista_id" id="maquinista_id" value="{$personal_id}" size="1" />
+<span align="left" class="entrada" style="margin:5px;">
+<input type="text" name="nombre" id="nombre" style="border:none;" onKeyPress="return handleEnter(this, event)" value="{$nombre}" size="45"/>
+<img src="../../templates/imagenes/combo.jpg" class="imagenes" onClick="document.forms[1].nombre.focus();document.forms[1].nombre.select();" style="cursor:pointer;" alt="Seleccionar Nombre"/> </span> <span id="spinner" style="display:none"></span>
+<div id="lista_nombres" class="autorelleno"></div>
+{literal}
+<script>
+				new Ajax.Autocompleter("nombre", "lista_nombres", "../../controladores/sistema_de_produccion/area.php?busqueda_ajax=personal", {method:"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+				function mostrar_categoria(text,li){ 
+				  cadena = li.id;
+				  caracteristicas = cadena.split("-");
+				  document.getElementById("maquinista_id").value = caracteristicas[0];
+				  var str = document.getElementById("nombre").value;
+				  document.getElementById("nombre").value = str.substr(0)
+				}
+</script>
+{/literal} 
+</td>
+	</tr>
+    <tr>
+		<td class="enunciados">Observaciones:</td>
+		<td class="body-sector">  <input type="text" name="observaciones" value="{$observaciones}" size="50"> </td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align:center;">
+			<input type="submit" name="modificar" value="Modificar"  onClick=consultar(name) class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+			&nbsp;&nbsp;&nbsp;
+			<input type="submit" name="volver" value="Regresar" onClick=consultar(name) class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+		</td>
+	</tr>
+	</form>
+</table>
+</body>

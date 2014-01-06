@@ -1,0 +1,55 @@
+<head> 
+    {include file="../templates/sistema_de_produccion/cabecera.html"}
+</head>
+<body>
+<table width="100%">
+	<tr>
+		<td width="80%">
+	
+			{if $error != null}
+				 <table align="center" class="error-box">
+						{if $error.err_descripcion != null} 
+						<tr> 
+							<td> <font color=black> {$error.err_descripcion} </td> 
+						</tr>
+						{/if}
+						{if $error.err_fuente != null} 
+						<tr> 
+							<td> <font color=black> {$error.err_fuente} </td> 
+						</tr>
+						{/if}
+				 </table>
+			 {/if}
+			<form name="form_modificar" method="post" action="../../controladores/sistema_de_produccion/lista_color.php">
+				<input type="hidden" name="elegido"  value="{$id}">
+				<input type="hidden" name="funcion" value="modificar_datos">
+				<table align="center" >
+					<th colspan="2">
+						Modificar color
+					</th>
+		 			<tr>
+  						<td class="enunciados">  Nombre: </td>
+  						<td class="body_sector">  <input type="text" name="descripcion" value="{$descripcion}" > </td>
+		 			</tr>
+					<tr>
+  						<td class="enunciados">  Coleccion: </td>
+  						<td class="body_sector">  <input type="text" name="coleccion" value="{$coleccion}" > </td>
+		 			</tr>
+				</table>
+
+		   		<table align="center" >
+				<tr><td><input type="submit" name="modificar" value="Modificar" )></td>
+				</form>
+				<form name="form_modificar" method="post" action="../../controladores/sistema_de_produccion/lista_color.php">
+				<td>
+				
+					<input type="submit" name="volver" value="Volver a la lista" >	
+					<input type="hidden" name="funcion" value="">
+				</form>
+			    </td>
+				</tr>	
+				
+		</td>
+	</tr>
+</table>
+</body>

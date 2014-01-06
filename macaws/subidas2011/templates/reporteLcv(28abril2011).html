@@ -1,0 +1,172 @@
+{include file="header.html" title=$title}
+<link rel="stylesheet" href="css/calendar/themes/aqua.css" />
+<link rel="stylesheet" href="css/calendar/themes/layouts/big.css" />
+<script type="text/javascript" src="css/calendar/utils/zapatec.js"></script>
+<script type="text/javascript" src="css/calendar/src/calendar.js"></script>
+<script type="text/javascript" src="css/calendar/lang/calendar-en.js"></script>
+
+<form id="form1" name="form1" method="post" action="/sistema/macaws/reportesLcv.php">
+<table width="700" border="0" cellpadding="0" cellspacing="0" class="buscarTabla">
+  <tr>
+    <td>&nbsp;</td>
+    <td width="672" nowrap="nowrap" ><input name="tsearch" type="text" class="text6" size="90" maxlength="255" />
+      <input name="buscar" type="submit" class="text6" id="buscar" value="Buscar" />
+      <input name="search" type="hidden" value="buscar" /></td>
+    </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td >
+	<table width="478" height="10" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+	  <td width="58">&nbsp;</td>
+        <td width="111" align="left" valign="top" nowrap="nowrap" class="textWhite"><input name="criterio" type="radio" value="razon_social" checked="checked" />
+          Raz&oacute;n social. </td>
+        <td width="51" align="left" valign="top" nowrap="nowrap" class="textWhite"><input name="criterio" type="radio" value="nit" />
+          NIT</td>
+        <td width="105" align="left" valign="top" nowrap="nowrap" class="textWhite"><input name="criterio" type="radio"  value="factura" />
+        Nro. Factura. </td>
+        <td width="153" align="left" valign="top" nowrap="nowrap" class="textWhite"><input name="criterio" type="radio" value="total_facturado" />
+          Importe factura. </td>
+      </tr>
+    </table>	
+	</td>
+	
+    </tr>
+  <tr>
+    <td width="26">&nbsp;</td>
+    <td align="left" class="textWhite">
+	  <table width="500" border="0" cellspacing="1" cellpadding="0">
+  <tr>
+    <td>Gestion</td>
+    <td>
+	<select name="gestion" class="obs-quotation">
+		<option value="0">Todas las gestiones</option>
+		{section name=ind loop=$gestiones}
+		<option value="{$gestiones[ind].gestion}">{$gestiones[ind].gestion}</option>
+		{/section}      	  
+	</select>
+	</td>
+    <td>Periodo</td>
+    <td>
+		<select name="periodo" class="obs-quotation">
+		<option value="0">Todos los periodos</option>
+		<option value="1">01</option>
+		<option value="2">02</option>
+		<option value="3">03</option>
+		<option value="4">04</option>
+		<option value="5">05</option>
+		<option value="6">06</option>
+		<option value="7">07</option>
+		<option value="8">08</option>
+		<option value="9">09</option>
+		<option value="10">10</option>
+		<option value="11">11</option>
+		<option value="12">12</option>
+		</select>	
+	</td>
+    <td>Tipo
+	</td>
+    <td>
+		<select name="tipo" class="obs-quotation">
+		<option value="0">Todos</option>
+		<option value="1">Compras</option>
+		<option value="2">Ventas</option>
+		</select>
+	</td>
+    <td>Fecha</td>
+    <td><input name="fecha" type="text" class="obs-quotation" size="11" maxlength="10" /></td>
+	<td><button id="trigger">&lt;&lt;</button>
+	  <label id="errorlabel"> {$error.dateE} </label>
+			{literal}
+			<script type="text/javascript">//<![CDATA[
+			Zapatec.Calendar.setup({
+			firstDay          : 1,
+			showOthers        : true,
+			electric          : false,
+			inputField        : "fecha",
+			button            : "trigger",
+			ifFormat          : "%Y-%m-%d",
+			daFormat          : "%Y/%m/%d"
+			});
+			//]]></script>
+			{/literal}
+			<noscript>
+			<br/>
+			This page uses a <a href="http://www.zapatec.com/website/main/products/prod1/"> Javascript Calendar </a>, but
+			your browser does not support Javascript. 
+			<br/>
+			Either enable Javascript in your Browser or upgrade to a newer version.
+			</noscript>
+			<a href="http://www.zapatec.com/website/main/products/prod1/"></a>
+	</td>
+  </tr>
+</table>
+
+	</td>    
+    </tr>
+</table>
+</form>
+{if $result ne null}
+<table width="850" border="1" cellspacing="0" cellpadding="0">
+<thead>
+  <tr>
+    <td class="header-table4">Fecha</td>
+    <td class="header-table4">NIT</td>
+    <td class="header-table4">Raz&oacute;n Social </td>
+    <td class="header-table4">Nro. Factura </td>
+    <td class="header-table4">Autorizaci&oacute;n</td>
+    <td class="header-table4">C&oacute;digo de control </td>
+    <td class="header-table4">Importe</td>
+    <td class="header-table4">ICE</td>
+    <td class="header-table4">Exento</td>
+    <td class="header-table4">Importe Neto </td>
+    <td class="header-table4">Impuesto</td>
+	<td class="header-table4">Periodo</td>
+    <td class="header-table4">Gestion</td>
+ <!--   <td>Estado </td>-->
+    <td class="header-table4">Tipo</td>
+	<td class="header-table4"></td>
+  </tr>
+</thead>
+<tbody>
+{section name=idx loop=$result}
+<tr bgcolor="{cycle values="#FFFFFF,#f0f0f0"}">
+    <td class="obs-quotation">{$result[idx].fecha}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].nit}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].razon_social}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].factura}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].autorizacion}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].codigo_control}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].total_facturado|string_format:"%.2f"}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].ice|string_format:"%.2f"}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].exento|string_format:"%.2f"}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].importe|string_format:"%.2f"}&nbsp;</td>
+    <td class="obs-quotation">{$result[idx].credito_fiscal|string_format:"%.2f"}&nbsp;</td>
+	<td class="obs-quotation">{$result[idx].periodo}&nbsp;</td>
+	<td class="obs-quotation">{$result[idx].gestion}&nbsp;</td>
+<!--	<td>result[idx].estado}&nbsp;</td>-->
+	<td class="obs-quotation">{$result[idx].tipo}&nbsp;</td>
+	<form method="post" action="/sistema/macaws/editarFactura.php">
+	<td class="obs-quotation">
+	<input name="editar" type="submit" value="Editar" class="obs-quotation" />
+	<input name="mcwtipofac" type="hidden" value="{$result[idx].tipo}" />
+	<input name="macawscodpg" type="hidden" value="{$result[idx].cod_pg}" />
+	<input name="mcwcodigofac" type="hidden" value="{$result[idx].cod_compra}{$result[idx].cod_venta}" />
+	</td>
+	</form>
+  </tr>
+{/section}
+</tbody>
+</table>
+{else}
+<table width="700" border="1" cellpadding="0" cellspacing="1" class="shadetabs">
+  <tr>
+    <td align="center" class="titles" >No hay resultados.</td>
+  </tr>
+</table>
+
+
+{/if}
+
+</body>
+</html>

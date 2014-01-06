@@ -1,0 +1,146 @@
+
+{include file="header.html" title=$title}
+
+<form method="post" action="actions/action_reportes.php">
+<table width="400" border="0" cellspacing="1" cellpadding="0">
+  <tr>
+  <td width="31" class="text3"></td>
+    <td width="46" nowrap="nowrap" class="header-table">Gesti&oacute;n</td>
+    <td width="100" nowrap="nowrap" class="header-table"><select name="gestion" class="text3">
+	{section name=ind loop=$gestiones}	
+      <option value="{$gestiones[ind].gestion}"{if $val.gestion eq $gestiones[ind].gestion} selected="selected" {/if}>{$gestiones[ind].gestion}</option>
+	{/section}
+    </select>    </td>
+    <td width="50"  nowrap="nowrap" class="header-table">Periodo</td>
+    <td  nowrap="nowrap" class="header-table">
+	<select name="periodo" class="text3">		
+		<option value="1" {if $val.periodo eq 1} selected="selected"{/if}>01</option>
+		<option value="2" {if $val.periodo eq 2} selected="selected"{/if}>02</option>
+		<option value="3" {if $val.periodo eq 3} selected="selected"{/if}>03</option>
+		<option value="4" {if $val.periodo eq 4} selected="selected"{/if}>04</option>
+		<option value="5" {if $val.periodo eq 5} selected="selected"{/if}>05</option>
+		<option value="6" {if $val.periodo eq 6} selected="selected"{/if}>06</option>
+		<option value="7" {if $val.periodo eq 7} selected="selected"{/if}>07</option>
+		<option value="8" {if $val.periodo eq 8} selected="selected"{/if}>08</option>
+		<option value="9" {if $val.periodo eq 9} selected="selected"{/if}>09</option>
+		<option value="10" {if $val.periodo eq 10} selected="selected"{/if}>10</option>
+		<option value="11" {if $val.periodo eq 11} selected="selected"{/if}>11</option>
+		<option value="12" {if $val.periodo eq 12} selected="selected"{/if}>12</option>
+		</select>	</td>
+    <td width="65" class="header-table"><input name="generar" id="generar" type="submit" class="text4" value="Generar" /></td>
+  </tr>
+  <tr>
+  <td></td>
+  <td colspan="5" class="header-table">Registros por hoja: <input name="intervalo" type="text" size="3" maxlength="3"  class="text3" value="{if $val.intervalo ne null}{$val.intervalo}{else}30{/if}"/></td>
+  </tr>
+  <tr>
+  	<td>&nbsp;</td>
+    <td colspan="5" align="center" class="header-table2">
+	<table width="248" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+	<td width="248" align="left" nowrap="nowrap" class="text3">
+	<input name="tipo" type="radio" value="0" {if $val.tipo eq 0} checked="checked" {/if}/>
+	Libro de compras IVA </td>
+	</tr>
+	<tr>
+	  <td align="left" nowrap="nowrap" class="text2">
+		<table width="0" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td nowrap="nowrap"><input name="alfanumerico" id="alfanumerico" type="checkbox" value="2" {if $val.alfanumerico eq 2} checked="checked" {/if} />
+		Con N&deg; Alfanumerico.</td>
+		</tr>
+		</table>
+	  </td>
+	  </tr>
+	<tr>
+    <td width="248" align="left" nowrap="nowrap" class="text3">
+	<input name="tipo" type="radio" value="1" {if $val.tipo eq 1} checked="checked" {/if} />
+	Libro de ventas IVA	</td>
+	</tr>
+	<tr>
+	  <td align="left" nowrap="nowrap" class="text2">
+	  <table width="0" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>&nbsp;</td>
+    <td nowrap="nowrap">
+	<input name="tipoventa" type="radio" value="1" {if $val.tipoventa eq 1 or $val.tipoventa eq null} checked="checked" {/if}/>Todas las ventas.</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td nowrap="nowrap"><input name="tipoventa" type="radio" value="2" {if $val.tipoventa eq 2} checked="checked" {/if}/>Ventas Manuales.</td>
+  </tr>
+  <tr>
+    <td><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+    <td nowrap="nowrap"><input name="tipoventa" type="radio" value="3" {if $val.tipoventa eq 3} checked="checked" {/if}/>Ventas computarizadas.</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="titles">Reportes Da VINCI </td>
+    </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td nowrap="nowrap">
+	<input name="tipo" type="radio" value="2" {if $val.tipo eq 2} checked="checked" {/if}/>
+	LCV compras Da VINCI	</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td nowrap="nowrap">
+	<input name="tipo" type="radio" value="3" {if $val.tipo eq 3} checked="checked" {/if}/>
+	LCV ventas Da VINCI	</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="titles">Reportes SDI </td>
+    </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td nowrap="nowrap">
+	<input name="tipo" type="radio" value="4" {if $val.tipo eq 4} checked="checked" {/if}/>
+      SDI DUI </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td nowrap="nowrap">
+	<input name="tipo" type="radio" value="5" {if $val.tipo eq 5} checked="checked" {/if}/> 
+      SDI FACT </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td nowrap="nowrap">&nbsp;</td>
+  </tr>
+  <tr>
+  <td></td>
+  <td >
+  Fecha<br>
+  <input name="fechactual" id="fechactual" type="text" size="50" maxlength="100" value="{$fechactual}" class="text2"/>  </td>
+  </tr>
+</table>	  </td>
+	  </tr>
+	</table>
+	<input type="hidden" name="genrepcv" value="reportecv" /></td>
+	</tr>
+</table>
+</form>
+
+{if $paginacion ne null}
+<table width="800" border="0" cellspacing="0" cellpadding="0"  class="tableblue">
+<caption class="styleText" style="background-color: #E0E0E0" >RESULTADO ORDENADO EN PAGINAS PARA SU IMPRESION
+</caption>
+  <tr>
+  {section name= ind loop=$paginacion}
+    <td align="center" width="200">
+	<a href="actions/action_reportes.php?{$paginacion[ind].indice}&fechactual={$fechactual}" target="_blank" class="link-light-blue-11">Pagina N&deg;{$smarty.section.ind.index+1}</a>	</td>
+  {/section}
+  </tr>
+</table>
+{/if}
+
+{if $error.periodogestion ne null}
+<table width="800" border="1" cellspacing="1" cellpadding="0"  class="error-box">
+  <tr>
+    <td align="center">{$error.periodogestion}</td>
+  </tr>
+</table>
+{/if}
+</body>
+</html>

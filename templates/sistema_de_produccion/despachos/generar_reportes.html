@@ -1,0 +1,66 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="3">
+  <tr>
+	<th colspan="3">Generar reportes</th>
+  </tr>
+  <tr>
+	<td class="enunciados" style="text-align:center;">Nombre</td>
+	<td class="enunciados" style="text-align:center;">Fecha de despacho</td>
+	<td class="enunciados" style="text-align:center;">Archivos</td>
+  </tr>
+{if $despacho_reporte != null}
+ 	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+  {foreach name=contenido item=despacho from=$despacho_reporte}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+	<td>
+	  {if $despacho.migrar_link ==1}
+	  <a href="../../controladores/sistema_de_produccion/despacho.php?opcion=8&deid={$despacho.despacho_id}">
+		{$despacho.nombre_despacho}
+	  </a>
+	  {else}
+		{$despacho.nombre_despacho}
+	  {/if}
+	</td>
+	<td style="text-align:center;">
+	  {$despacho.fecha_despacho}
+	</td>
+	<td style="text-align:left;padding-left:5px;">
+	{if $deid == $despacho.despacho_id}
+	  {if $reporte_maquinistas != null}
+		<a href="../../reportes/administracion/{$reporte_maquinistas}.xls">{$reporte_maquinistas}</a>
+		<br />
+	  {/if}
+	  {if $reporte_limpiezas != null}
+		<a href="../../reportes/administracion/{$reporte_limpiezas}.xls">{$reporte_limpiezas}</a>
+		<br />
+	  {/if}
+	  {if $reporte_comedidos != null}
+		<a href="../../reportes/administracion/{$reporte_comedidos}.xls">{$reporte_comedidos}</a>
+		<br />
+	  {/if}
+	{/if}
+	</td>
+  </tr>
+  {/foreach}
+{else}
+  <tr>
+	<td colspan="3">
+		<div class="anuncio" align="center">
+			<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>
+			&nbsp;&nbsp;&nbsp;No existen archivos de despachos
+		</div>
+	</td>
+  </tr>
+{/if}  
+</table>

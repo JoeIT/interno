@@ -1,0 +1,98 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}	 
+{literal}
+<SCRIPT LANGUAGE="JavaScript">
+/* Creamos la función */
+function PantallaCompleta(URL) {
+	if (navigator.appName!="Explorer") {
+		abrir=window.open(URL, '', "height="+window.screen.availHeight+", width="+(window.screen.availWidth-10)+", top=0, left=0, toolbar=yes, status=yes, scrollbars=auto, location=no, menubar=yes, directories=no, resizable=yes");
+		abrir.window.innerWidth=window.screen.width-5
+		abrir.window.innerHeight=window.screen.height-50
+		abrir.self.moveTo(0,0)
+	} else
+		window.open(URL, '', 'fullscreen=yes, scrollbars=yes');
+}
+
+</script>
+{/literal}
+
+<br />
+
+
+ <table width="95%" align="center">
+ <tr>
+ <th colspan="4">
+		Hoja de Despiece
+</th>
+</tr>
+          <tr>
+		      <td class="enunciados">  Modelo :  </td> <td class="body-sector">{$cabecera.Modelo} </td>
+			  <td class="enunciados">  Tipo:   </td> <td colspan="2" class="body-sector">{$cabecera.Estilo} </td>
+		  </tr>
+		  <tr>
+		       <td class="enunciados"> Color :   </td> <td class="body-sector"> {$cabecera.Color}  </td>
+			  
+ 		       <td class="enunciados"> Clip:  </td> <td class="body-sector"> {$cabecera.Clip}</td>
+		  </tr>	    
+		 <tr>
+		        <td class="enunciados"> Sellos:   </td> <td class="body-sector"> {$cabecera.Sello}  </td>
+			  
+ 		       <td class="enunciados"> Etiqueta:  </td> <td class="body-sector"> {$cabecera.Etiqueta}</td>
+		 </tr>	
+		   <tr>
+		        <td /><td />
+		        <td class="enunciados" > Cantidad:   </td> <td class="body-sector"><strong> {$cabecera.Cantidad} </strong>  </td>
+			  
+		 </tr>	
+    </table>
+ </p>
+
+
+<form name="volver" id="volver" action="../../controladores/sistema_de_produccion/modificar_despiece.php" method="get">
+		    <input type="hidden" name="orden_id" id="orden_id" value="{$orden_id}">
+  			<input type="hidden" name="detalle_id" id="detalle_id" value="{$detalle_id}">
+			<input type="hidden" name="material_id"  value="{$material_id}">
+  			<input type="hidden" name="funcion" id="funcion" value="volver">
+			<center>
+				<input name="volver" type="submit" value="Volver a materiales" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			</center>
+</form> 
+
+
+
+ 
+ {if $lista_resultados_materiales !=null}
+ 
+   <table width="95%" align="center">
+  		<tr>
+    		{foreach name=cabezera key=key item=item from=$lista_resultados_materiales[0]}
+			
+		     <th  class="cabeceralista">{$key}</th>
+		
+			{/foreach} 
+			
+   			{foreach name=contenido item=detalles from=$lista_resultados_materiales}
+    	   <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+			{foreach key=key item=item from=$detalles}
+	    		
+				    	<td>{$item} </td>
+				
+			
+			{/foreach}	
+			  
+	
+			</tr>
+			
+			{/foreach}
+			<tr>
+			<td colspan="3"  align="right" >
+			
+			 <button name="boton_impresion"  value="Imprimir"  title="Imprimir" onclick="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/modificar_despiece.php?orden_id={$orden_id}&detalle_id={$detalle_id}&funcion=imprimir')">  Imprimir </button>
+			
+     		</td>
+			  <td> <img src="../../templates/imagenes/fileprint.gif" width="30" height="30" /> </td>
+			</tr>
+		</table><br>
+		
+{/if}
+<br />
+<br />

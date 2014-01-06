@@ -1,0 +1,143 @@
+{include file="../templates/contenido/includes/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{include file="../templates/contenido/includes/usuario.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<!--inicio-->
+
+  <table width="100%" border="0" bgcolor="#FF0000" style="color:#FFF">
+        <tr>
+        {if $totalRG != null && $totalRG != 0}
+          <td>EXISTEN [RG-40]:&nbsp;&nbsp;&nbsp;<b>{$totalRG}</b> </td>
+        {/if}
+        </tr>
+      </table>
+
+<!--fin-->
+{php}
+
+			include_once('../clases/gallery.php');
+			echo "<table  align='right' border='3' bordercolor='#0099CC'  style='border-collapse: collapse;border-spacing:0.5em 1em;margin-top:65px;' >";
+            echo "<td  align='center'  id='tgallery'>Galerias</td>";
+
+			$directorio = opendir('../galley_images');
+			
+
+			
+			while (false !== ($archivo = readdir($directorio)))
+   			{
+            
+   				$nombreArch = $archivo;
+   				$aux= strstr($nombreArch, '.');
+				 
+   				if($aux==false)
+                {   
+					$bgcolor = '#FFFFFF';
+					echo "<tr><td height='100%' bgcolor='$bgcolor'><a  id='tgalleryL' href='../controladores/archivo.php?nombrearchivo=$nombreArch'>";
+  					echo "<img src='../galley_images/digital.jpg' alt='Ver $nombreArch' border=0>";
+   					echo "<b>&nbsp; $nombreArch</b></a></td>";
+   					echo "</tr>";   
+				}
+   			}
+            
+closedir($directorio); 
+echo "</table>";
+		
+{/php}
+{literal}
+<style type="text/css">
+#tabla_anuncios {
+	position:absolute;
+	left:20%;
+	top:20%;
+}
+</style>
+{/literal}
+
+
+{if $avisos != null}
+<div id="tabla_anuncios">
+	<table width="70%" class="avisos" cellspacing="0" cellpadding="5" style="background-color:#7F9DB9;border:2px #0043CF solid; border-collapse:collapse;">
+	<tr>
+		<th colspan="4" class="tituloavisos" style="background-color:#0065FD;background-image:url(../templates/imagenes/close_background.gif);border:none;color:#FFFFFF;padding:1px;">
+		<div style="float:left;text-align:left;filter:Shadow(Color=#333333,Direction=135,Strength=5);padding-top:3px;width:95%;"> .:: Avisos ::. </div>
+		<div style="float:right;cursor:pointer;text-align:right;" onclick="document.getElementById('tabla_anuncios').style.display='none';">
+			<img src="../templates/imagenes/close.gif" >
+		</div>
+		</th>
+	</tr>
+	<tr>
+		<td class="enunciados" style="border:1px #7F9DB9 solid;font-weight:bold;text-align:center;">Fecha</td>
+		<td class="enunciados" style="border:1px #7F9DB9 solid;font-weight:bold;text-align:center;">Emisor</td>
+		<td class="enunciados" style="border:1px #7F9DB9 solid;font-weight:bold;text-align:center;">Aviso</td>
+	</tr>
+	{assign var=CSSclass value=0}
+	{assign var=clases value="lista-seleccionada"}
+	
+	{foreach name=contenido item=aviso from=$avisos}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+		{if ($CSSclass mod 2) eq 0}
+			{assign var=clases value="lista-normal"}
+		{else}
+			{assign var=clases value="lista-seleccionada"}
+		{/if}
+	<tr class="{$clases}">
+		{foreach key=key item=item from=$aviso}
+			{if $key!=codigo}
+				{if $key==fecha}
+					  <td nowrap="nowrap" style="border:1px #7F9DB9 solid;">{$item}</td>
+				 {else}
+					<td style="border:1px #7F9DB9 solid;text-align:justify;">{$item}</td>
+				{/if}
+			{/if}
+		{/foreach}
+	</tr>
+	{/foreach}
+	
+	<tr>
+	<td colspan="4" style="padding:0;">
+	
+	
+{if $lista_cumpleanios != null}
+<table align="center" width="100%" border="0" cellspacing="1" cellpadding="2" style="border:#CCCCCC 1px solid;margin-top:10px;">
+  <tr>
+    <th>Cumpleañero(s) del dia, felicitaciones</th>
+  </tr>
+  {foreach item=persona from=$lista_cumpleanios}
+  <tr>
+    <td class="lista-seleccionada">
+	{if $persona.imagen != null}
+	<img src="sistema_de_produccion/personal_resizeImage.php?max=70&imgorig=../../fotografia/{$persona.imagen}" alt="{$persona.nombre}" name="imagen_fotografia" border="1" id="imagen_fotografia" align="middle"/>
+	{/if}
+	&nbsp;&nbsp;
+	{$persona.nombre} (<strong>{$persona.fecha} {$persona.dia}</strong>)
+	</td>
+  </tr>
+  {/foreach}
+</table>
+{/if}
+{if $lista_cumpleanios_mes != null}
+<table align="center" width="100%" border="0" cellspacing="1" cellpadding="2" style="border:#CCCCCC 1px solid;margin-top:10px;">
+  <tr>
+    <th>Cumpleañero(s) del mes</th>
+  </tr>
+  {foreach item=persona from=$lista_cumpleanios_mes}
+  <tr>
+    <td class="lista-seleccionada">
+	&nbsp;&nbsp;
+	{$persona.nombre} (<strong>{$persona.fecha} {$persona.dia}</strong>)
+	</td>
+  </tr>
+  {/foreach}
+</table>
+{/if}
+
+	
+	
+	</td>
+	</tr>
+	
+	</table>
+</div>
+{/if}
+
+<br />
+<br />
+{include file="../templates/contenido/includes/pie.html"}

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>{$title}</title>
+
+<link href="css/fortte-admin.css" rel="stylesheet" type="text/css" />
+<link href="css/forttecss.css" rel="stylesheet" type="text/css" />
+<link href="css/fortte-css.css" rel="stylesheet" type="text/css" />
+
+<link href="../css/fortte-admin.css" rel="stylesheet" type="text/css" />
+<link href="../css/forttecss.css" rel="stylesheet" type="text/css" />
+<link href="../css/fortte-css.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+ <table width="373" border="0" cellspacing="1" cellpadding="2" class="tableblue">
+    <caption class="search-box" >
+      Periodos - Gestion {$gestion} 
+   </caption>	
+    
+    <tr>
+	<form method="post" action="adminPeriodos.php">
+      <td width="363" align="center" valign="top" nowrap="nowrap">
+	    <input name="volver" type="submit" class="text3" value=" Abrir - cerrar periodos "  />
+	  <input type="hidden" name="mcwgessel" value="{$gestion}"/>	  </td>
+	</form>
+    </tr>
+    <tr>
+	<form method="post" action="periodoGestion.php">
+      <td align="center" valign="top" nowrap="nowrap"> 	
+	    <input name="volver" type="submit" class="text3" value="Registrar nuevo periodo"  />
+	  <input type="hidden" name="mcwgessel" value="{$gestion}"/>	  </td>
+    </form>
+	</tr>
+	<tr>
+	<td align="center">
+	<input name="salir" type="button" class="text7" onclick="location='/sistema/macaws/lcv.php'" value="Salir" />	</td>
+	</tr>
+</table>
+
+</body>
+</html>

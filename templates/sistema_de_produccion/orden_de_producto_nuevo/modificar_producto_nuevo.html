@@ -1,0 +1,254 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<br />
+
+<form name="modificar_producto_nuevo" method="post" action="../../controladores/sistema_de_produccion/modificar_producto_nuevo.php"  align="center" enctype="multipart/form-data">
+	<input type="hidden" name="ordenproducto_id"  value="{$ordenproducto_id}">
+	<input type="hidden" name="num_orden"  value="{$num_orden}">
+    <input type="hidden" name="funcion"  value="validar">	
+	
+<table border="0" width="95%" align="center" cellspacing="1" cellpadding="1">
+<tr>
+	<th colspan="6">
+		Generación de orden de desarrollo de Productos y Elaboración de muestras
+	</th>
+</tr>
+
+<tr>
+	<td class="enunciados">Tipo de orden a registrar:</td>
+	<td class="body-sector" colspan="3">
+		<input type="radio" style="border:none;cursor:pointer;" name="tipo_registro" value="1" {if $tr != null}{if $tr == 1}checked="checked"{/if}{else}checked="checked"{/if}/> Desarrollo de producto nuevo
+		&nbsp;&nbsp;&nbsp;
+		<input type="radio" style="border:none;cursor:pointer;" name="tipo_registro" value="2" {if $tr == 2}checked="checked"{/if}/> Elaboración de muestra
+	</td>	
+</tr>
+
+{if $errores.err_cliente != null}
+<tr>
+	<td/><td/>
+	<td colspan="2"><div class="error-box">{$errores.err_cliente}</div></td>
+</tr>
+{/if}
+
+<tr>
+	<td class="enunciados">Orden de producción No.:</td>
+	<td class="body-sector">{$num_orden}</td>
+	<td class="enunciados">Cliente:</td>
+	<td class="body-sector">
+		<input name="clientes" type="text" id="autorelleno" value="{$cliente}" onkeypress="return handleEnter(this, event)" tabindex="1" />
+		<div id="mainContent">
+			<a href="javascript:ventanaSecundaria('registrar_clientes.php?popup=true')">Registrar cliente</a>
+			<span id="spinner" style="display:none"></span>
+			<div id="lista_opciones" class="autorelleno"></div>
+			{literal}
+			<script>
+				new Ajax.Autocompleter("autorelleno", "lista_opciones", "../../controladores/sistema_de_produccion/registrar_producto_nuevo.php?busqueda_ajax=clientes", {method: "post", paramName: "value" , minChars: 1, indicator: "spinner" });
+			</script>
+			{/literal}
+		</div>
+	</td>
+</tr>
+
+{if $errores.err_date1 != null || $errores.err_date2 != null }
+<tr>
+	{if $errores.err_date1 != null }
+	<td colspan="2"><div class="error-box">{$errores.err_date1}</div></td>
+	{else}
+	<td colspan="2"/>
+	{/if}
+	
+	{if $errores.err_date2 != null }
+	<td colspan="2"><div class="error-box">{$errores.err_date2}</div></td>
+	{else}
+	<td colspan="2"/>
+	{/if}
+</tr>
+{/if}
+
+<tr>
+	<td class="enunciados">Fecha de Solicitud:</td>
+	<td class="body-sector" nowrap="nowrap" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input type="text" name="date1" id="campo_fecha" value="{$fecha_solicitud}" readonly tabindex="2" style="border:none;" size="10" onkeypress="return handleEnter(this, event)"/>
+		</span>
+		<input type="button" id="fecha" value="..." tabindex="3" class="boton" onkeypress="return handleEnter(this, event)" />
+	</td>
+	<td class="enunciados">Fecha de Culminación:</td>
+	<td class="body-sector" nowrap="nowrap" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input type="text" name="date2" id="campo_fecha_entrega" value="{$fecha_culminacion}" readonly tabindex="4" style="border:none;" size="10" onkeypress="return handleEnter(this, event)"/>
+		</span>
+		<input type="button" id="fecha_entrega" value="..." tabindex="5" class="boton" onkeypress="return handleEnter(this, event)"/>
+	</td>
+</tr>
+
+{if $errores.err_modelo != null}
+<tr>
+	<td colspan="2"><div class="error-box">{$errores.err_modelo}</div></td>
+</tr>
+{/if}
+
+<tr>
+	<td class="enunciados">Modelo a Desarrollar:</td>
+	<td class="body-sector">
+		<input name="modelo" type="text" id="modelo" value="{$modelo}" tabindex="6" onkeypress="return handleEnter(this, event)"/>
+	</td>
+	<td class="enunciados">Solicitado por:</td>
+	<td class="body-sector">{$nombres} {$apellidos}</td>
+</tr>
+
+{if $errores.err_cantidad != null || $errores.err_tarjeteros != null }
+<tr>
+	{if $errores.err_cantidad != null }
+	<td colspan="2"><div class="error-box">{$errores.err_cantidad}</div></td>
+	{else}
+	<td colspan="2"/>
+	{/if}
+	
+	{if $errores.err_tarjeteros != null}
+	<td colspan="2"><div class="error-box">{$errores.err_tarjeteros}</div></td>
+	{else}
+	<td colspan="2"/>
+	{/if}
+</tr>
+{/if}
+
+<tr>
+	<td class="enunciados">Cantidad:</td>
+	<td class="body-sector">
+		<input name="cantidad" type="text" id="cantidad" value="{$cantidad}" tabindex="7" onkeypress="return handleEnter(this, event)" />
+	</td>
+	<td class="enunciados">Número de Tarjeteros:</td>
+	<td class="body-sector">
+		<input name="tarjeteros" type="text" id="tarjeteros" value="{$tarjeteros}" tabindex="8" onkeypress="return handleEnter(this, event)"/>
+	</td>
+</tr>
+
+<tr>
+	{foreach name=contenido key=tipo item=propiedad from=$lista_propiedades}
+	<td class="enunciados" style="text-align:left;">{$tipo}</td>
+	{/foreach}
+</tr>
+
+<tr>
+	{foreach name=contenido key=tipo item=propiedad from=$lista_propiedades}
+	<td class="body-sector" style="vertical-align:top">
+		{html_checkboxes name="seleccionados" options=$propiedad style="border:none;cursor:pointer;" selected=$seleccionados separator="<br />"}
+	</td>
+	{/foreach}
+</tr>
+
+{if $errores.err_estilo != null}
+<tr>
+	<td colspan="2"><div class="error-box">{$errores.err_estilo}</div></td>
+	<td colspan="2"/>
+</tr>
+{/if}
+
+<tr>
+	<td class="enunciados">Tipo de Estuche:</td>
+	<td class="body-sector">
+		<input type="text" name="texto_estilo" id="estilo" value="{$estilo}" size="30" tabindex="9"/>
+		<span id="spinner" style="display: none"></span>
+        <div id="lista_estilos" class="autorelleno"></div>
+		{literal}
+		<script>
+			new Ajax.Autocompleter("estilo", "lista_estilos", "../../controladores/sistema_de_produccion/registrar_producto_nuevo.php?busqueda_ajax=estilos", {method: "post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : set_clip});
+			function set_clip() {
+				document.orden_producto_nuevo.texto_clip.focus();
+			}
+		</script>
+		{/literal}
+	</td>
+	<td class="enunciados" colspan="2">Uso de Mica:</td>
+</tr>
+
+{if $errores.err_clip != null}
+<tr>
+	<td colspan="2"><div class="error-box">{$errores.err_clip}</div></td>
+	<td colspan="2"/>
+</tr>
+{/if}
+
+
+<tr>
+	<td class="enunciados" >Clip:</td>
+	<td class="body-sector" >
+		<input name="texto_clip" type="text" id="clip" value="{$clip}" tabindex="10" />
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_clips" class="autorelleno"></div>
+		{literal}
+		<script>
+			new Ajax.Autocompleter("clip", "lista_clips", "../../controladores/sistema_de_produccion/registrar_producto_nuevo.php?busqueda_ajax=clips", {method: "post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : detalle_mica});
+			function detalle_mica() {
+				document.orden_producto_nuevo.otros_mica.focus();
+			}
+		</script>
+		{/literal}
+	</td>
+	
+	<td class="body-sector" colspan="2">
+		Pantalla: <input type="checkbox" name="pantalla" value="pantalla" tabindex="11" style=" border-style:none" {if $a != ''}checked="checked"{/if}>
+		Teclado: <input type="checkbox" name="teclado" value="teclado" tabindex="12" style=" border-style:none" {if $b != ''}checked="checked"{/if}>
+		Otros: <input name="otros_mica" type="text" id="otros_mica" value="{$otros_mica}" tabindex="13" onkeypress="return handleEnter(this, event)"/>
+	</td>
+</tr>
+
+<tr>
+	<td class="enunciados">Detalles Adicionales:</td>
+	<td class="body-sector" colspan="4">
+		<textarea name="detalles" rows=2 cols=50 tabindex="14" style="overflow:auto;overflow-x:hidden;overflow-y:hidden;" wrap="virtual" onkeypress="return handleEnter(this, event)">{$detalles}</textarea>
+	</td>
+</tr>
+
+<tr>
+	<th colspan="4">Descripcion del material</th>
+</tr>
+
+<tr>
+	<td class="enunciados">Exterior:</td>
+	<td class="body-sector" colspan="4">
+		<textarea name="exterior" rows=2 cols=50 tabindex="15" style="overflow:auto;overflow-x:hidden;overflow-y:hidden;" wrap="virtual" onkeypress="return handleEnter(this, event)">{$exterior}</textarea>
+	</td>
+</tr>
+
+<tr>
+	<td class="enunciados">Interior:</td>
+	<td class="body-sector" colspan="4">
+		<textarea name="interior" rows=2 cols=50 tabindex="16" style="overflow:auto;overflow-x:hidden;overflow-y:hidden;" wrap="virtual" onkeypress="return handleEnter(this, event)">{$interior}</textarea>
+	</td>
+</tr>
+
+<tr>
+	<td class="enunciados">Sellos, Bordados, etc:</td>
+	<td class="body-sector" colspan="4">
+		<textarea name="material_varios" rows=2 cols=50 tabindex="17" style="overflow:auto;overflow-x:hidden;overflow-y:hidden;" wrap="virtual" onkeypress="return handleEnter(this, event)">{$material_varios}</textarea>
+	</td>
+</tr>
+</table>
+
+<center>
+	<br>
+	<input type="submit" value="Modificar Orden" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+	<br />
+	<br />
+	<br />
+</center>
+
+</form>
+
+{literal}
+<script type="text/javascript">
+	Calendar.setup({inputField: "campo_fecha", ifFormat: "%d-%m-%Y", button: "fecha"});
+</script>
+
+<script type="text/javascript">
+	Calendar.setup({inputField: "campo_fecha_entrega", ifFormat: "%d-%m-%Y", button: "fecha_entrega"});
+</script>
+{/literal}
+
+
+
+

@@ -1,0 +1,135 @@
+<link href="../css/fortte-admin.css" rel="stylesheet" type="text/css" />
+<link href="../css/fortte-css.css" rel="stylesheet" type="text/css" />
+<link href="../css/forttecss.css" rel="stylesheet" type="text/css" />
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>{$title}</title>
+<link href="css/fortte-admin.css" rel="stylesheet" type="text/css" />
+<link href="css/forttecss.css" rel="stylesheet" type="text/css" />
+<link href="css/fortte-css.css" rel="stylesheet" type="text/css" />
+<link href="../css/fortte-admin.css" rel="stylesheet" type="text/css" />
+<link href="../css/forttecss.css" rel="stylesheet" type="text/css" />
+<link href="../css/fortte-css.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+
+<table width="715" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td align="center" valign="top" class="titulo-reporte">{$title} </td>
+    <td valign="top" align="right" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top"></td>
+    <td align="center" valign="top" class="titulo-reporte"><br />
+</td>
+    <td align="left" valign="top" nowrap="nowrap" class="header-table5">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="117" valign="top">	</td>
+    <td width="401" align="center" valign="top" class="titulo-reporte">
+	<table width="180" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+		<td nowrap="NOWRAP" class="obs-quotation" width="100">PER&Iacute;ODO FISCAL&nbsp;</td>
+		<td align="center" nowrap="nowrap" class="allbordes"><span class="text-titulo">{$periodo}</span>&nbsp;</td>
+		<td width="60" align="center" nowrap="nowrap" class="allbordes"><span class="text-titulo">{$gestion}</span>&nbsp;</td>
+		</tr>
+	</table>	</td>
+    <td width="197" align="left" valign="top" nowrap="nowrap" class="header-table5">		FECHA:&nbsp;{"now"|date_format:"%d/%m/%Y"}
+	</td>
+  </tr>
+</table>
+<br />
+{if $tipo==2}
+<table width="900" border="1" cellspacing="0" cellpadding="2">
+<thead>
+  <tr>
+    <td width="116" align="center" valign="middle" class="styleText">NIT</td>
+    <td align="center" valign="middle" class="styleText">RAZON SOCIAL</td>
+    <td  align="center" valign="middle" class="styleText">N&deg; FACTURA</td>
+    <td  align="center" valign="middle" class="styleText">N&deg; POLIZA</td>
+    <td  align="center" valign="middle" class="styleText">N&deg; AUTORIZACION</td>
+    <td width="100" align="center" valign="middle" class="styleText">FECHA</td>
+    <td width="50" align="center" valign="middle" class="styleText">TOTAL</td>
+    <td width="20" align="center" valign="middle" class="styleText">ICE</td>
+    <td width="20" align="center" valign="middle" class="styleText">EXENTO</td>
+    <td width="20" align="center" valign="middle" class="styleText">NETO</td>
+    <td width="20" align="center" valign="middle" class="styleText">IVA CF</td>
+    <td width="20" align="center" valign="middle" class="styleText">COD. CONTROL</td>
+  </tr>
+</thead>
+<tbody>
+{section name=ind loop=$result}
+  <tr>
+    <td align="center" class="textHelp">{$result[ind].nit}</td>
+    <td class="tiny-text">{$result[ind].razon_social}</td>
+	{if $result[ind].poliza}
+    	<td align="center" class="tiny-text">0</td>
+	    <td align="center" class="tiny-text">{$result[ind].factura}</td>
+	{else}
+	    <td align="center" class="tiny-text">{$result[ind].factura}</td>
+	    <td align="center" class="tiny-text">0</td>
+	{/if}
+    <td align="center" class="tiny-text">{$result[ind].autorizacion}</td>
+    <td class="tiny-text">{$result[ind].fecha|date_format:"%d"}/{$result[ind].fecha|date_format:"%m"}/{$result[ind].fecha|date_format:"%Y"}</td>
+    <td class="tiny-text">{$result[ind].total_facturado|string_format:"%.2f"}</td>
+    <td class="tiny-text">{$result[ind].ice|string_format:"%.2f"}</td>
+    <td class="tiny-text">{$result[ind].exento|string_format:"%.2f"}</td>
+    <td class="tiny-text">{$result[ind].importe|string_format:"%.2f"}</td>
+    <td width="9%" class="tiny-text">{$result[ind].credito_fiscal|string_format:"%.2f"}</td>
+    <td width="14%" nowrap="nowrap" class="tiny-text">{if $result[ind].codigo_control ne null }{$result[ind].codigo_control}{else}0{/if}</td>
+  </tr>
+{/section}
+</tbody>
+</table>
+{else}
+ {if $tipo==3}
+<table width="900" border="1" cellspacing="0" cellpadding="2">
+<thead>
+  <tr>
+    <td width="116" align="center" valign="middle" class="text2">NIT</td>
+    <td align="center" valign="middle" class="text2">RAZON SOCIAL</td>
+    <td  align="center" valign="middle" class="text2">N&deg; FACTURA</td>
+     <td  align="center" valign="middle" class="text2">N&deg; AUTORIZACION</td>
+    <td width="100" align="center" valign="middle" class="text2">FECHA</td>
+    <td width="50" align="center" valign="middle" class="text2">TOTAL</td>
+    <td width="20" align="center" valign="middle" class="text2">ICE</td>
+    <td width="20" align="center" valign="middle" class="text2">EXENTO</td>
+    <td width="20" align="center" valign="middle" class="text2">NETO</td>
+    <td width="20" align="center" valign="middle" class="text2">IVA DF</td>
+    <td width="20" align="center" valign="middle" class="text2">ESTADO</td>
+	<td width="20" align="center" valign="middle" class="text2">COD. CONTROL</td>
+    </tr>
+</thead>
+<tbody>
+{section name=ind loop=$result}
+  <tr>
+    <td align="center" class="tiny-text">{$result[ind].nit}</td>
+    <td class="tiny-text">{$result[ind].razon_social}</td>
+	<td align="center" class="tiny-text">{$result[ind].factura}</td>
+	<td align="center" class="tiny-text">{$result[ind].autorizacion}</td>
+    <td class="tiny-text">{$result[ind].fecha|date_format:"%d"}/{$result[ind].fecha|date_format:"%m"}/{$result[ind].fecha|date_format:"%Y"}</td>
+    <td class="tiny-text">{$result[ind].total_facturado|string_format:"%.2f"}</td>
+    <td class="tiny-text">{$result[ind].ice|string_format:"%.2f"}</td>
+    <td class="tiny-text">{$result[ind].exento|string_format:"%.2f"}</td>
+    <td class="tiny-text">{$result[ind].importe|string_format:"%.2f"}</td>
+    <td width="9%" class="tiny-text">{$result[ind].credito_fiscal|string_format:"%.2f"}</td>
+    <td  nowrap="nowrap" class="tiny-text">{if $result[ind].razon_social|lower|trim eq "anulado" or $result[ind].razon_social|lower|trim eq "anulada"  }A{elseif $result[ind].razon_social|lower|trim eq "extraviado" or $result[ind].razon_social|lower|trim eq "extraviada"}E{elseif $result[ind].razon_social|lower|trim eq "no utilizado" or $result[ind].razon_social|lower|trim eq "no utilizada"}N{else}V{/if}</td>
+<td width="14%" nowrap="nowrap" class="tiny-text">{if $result[ind].codigo_control ne null }{$result[ind].codigo_control}{else}0{/if}</td>
+	 
+  </tr>
+{/section}
+</tbody>
+</table>
+
+  {/if}
+{/if}
+
+
+</body>
+</html>

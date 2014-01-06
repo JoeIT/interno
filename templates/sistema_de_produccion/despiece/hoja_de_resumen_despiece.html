@@ -1,0 +1,265 @@
+<html>
+<head>
+<title> Resumen Despiece - Orden de producción </title>
+</head>
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = true;
+		factory.printing.leftMargin = 0;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:07cm;
+	margin-top:1.4cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+.n_asignacion{
+	visibility:hidden;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+</style>
+
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:0.3cm;
+	margin-right:0.7cm;
+	margin-top:1.15cm;
+	padding: 0cm;
+	width:27.9cm;
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+
+.noprint {
+	display: none;
+}
+</style>
+
+{/literal}
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+
+<div id="installOK" align="center">
+	
+	<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm;">
+	  <tr>
+		<td  class="contenido1" style="width:2.7cm;" align="center">
+			<img src="../../templates/imagenes/logo-macaws2.JPG" align="middle" style="height:1.1cm;width:1.4cm;"/>	</td>
+		<td class="contenido1" style="font-size:13px;font-weight:bold;width:8.9cm" align="center">RESUMEN DESPIECE - ORDEN DE PRODUCCION</td>
+		<td class="contenido1" style="text-align:center;width:3.1cm;" align="center">ORDEN<br>
+		<strong>{$cabecera_orden.numero_orden}</strong></td>
+		
+		
+	  </tr>
+	  </table>
+	  <br />
+	   {assign var=filas value=0}
+	   {assign var=hojas value=0}
+	<table border="1" align="left" cellpadding="0" cellspacing="0">
+	<tr> <td align="center" style="background: #FFFFFF;  font-size:11px;"><strong> Material </strong></td>  </tr>
+	
+		{assign var=filas value=$filas+1} 
+		{assign var=hojas value=$hojas+1} 
+		{assign var=contador value=1}
+	{foreach key=material item=detalles from=$resumen_despiece}
+	
+	{if $filas>=55}
+
+			{assign var=filas value=0}
+	  	 	 </table>
+			
+	 	 	<table border="1" align="right" cellpadding="0" cellspacing="0">
+	{/if}
+	{if $hojas>=110}
+		{assign var=hojas value=0}
+		{assign var=filas value=0}
+				 </table> </br></br>
+				 <table border="1" align="left" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:
+				 0cm;width:20.3cm; clear:both">
+					  <tr>
+							<td  class="contenido1" style="width:2.7cm;" align="center">
+								<img src="../../templates/imagenes/logo-macaws2.JPG" align="middle" style="height:1.1cm;width:1.4cm;"/>	
+							</td>
+							<td class="contenido1" style="font-size:13px;font-weight:bold;width:8.9cm" align="center">RESUMEN DESPIECE - ORDEN DE PRODUCCION</td>
+							
+							<td class="contenido1" style="text-align:center;width:3.1cm;" align="center">ORDEN<br>
+							<strong>{$cabecera_orden.numero_orden}</strong></td>
+					  </tr>
+				  </table>
+				  <br />
+			      <br />
+				  <br />
+			  	<table border="1" align="left" cellpadding="0" cellspacing="0" style="clear:both">
+			
+	{/if}
+     		
+	
+	
+	 <tr>
+	    		{assign var=filas value=$filas+1}
+				{assign var=hojas value=$hojas+1} 
+ 	   <td align="left" style="background: #EFEFEF;  font-size:11px;"><strong> [ {$contador} ]  {$material}   ***  {$detalles.unidad}  *** </strong></td>
+    </tr>
+	
+	<tr>
+	{assign var=filas value=$filas+1}
+	{assign var=hojas value=$hojas+1} 	
+	  <td>	
+       {assign var=contador value=$contador+1}
+	  
+	     <table width="100%" border="1" cellpadding="0" cellspacing="0">
+		
+			 <tr>
+			 {assign var=filas value=$filas+1}
+			 {assign var=hojas value=$hojas+1} 
+		 		<td align="center" style="background: #FFFFFF;  font-size:10px;"><strong> Producto</strong> </td>
+			     <td align="center" style="background: #FFFFFF;  font-size:10px;"><strong> C.Material</strong> </td>
+				 <td align="center" style="background: #FFFFFF;  font-size:10px;"><strong> Entregado</strong></td>
+		 	  </tr>
+		    {assign var=total value=0}
+			
+		   {foreach key=prod item=productos from=$detalles.productos}
+		    
+		   <tr>
+		    {assign var=filas value=$filas+1}
+			{assign var=hojas value=$hojas+1} 
+		       <td align="left" style="background: #FFFFFF;  font-size:10px;"> {$productos.cantidad} Piezas. -  {$productos.detalle}</td>
+			   <td align="center" style="background: #FFFFFF;  font-size:10px;"> {$productos.total}</td>	  
+			   <td>&nbsp;  </td>
+		      {assign var=total value=$total+$productos.total}
+  		    
+		  </tr>
+	   
+	       {/foreach}
+	    <tr>
+		{assign var=filas value=$filas+1}
+		{assign var=hojas value=$hojas+1} 
+			 <td align="center" style="background: #FFFFFF;  font-size:10px;"> <strong>TOTAL </strong></td>
+			 <td align="center" style="background: #FFFFFF;  font-size:10px;"> <strong>{$total}</strong> </td>
+			 <td>&nbsp;  </td>
+		 </tr>
+	    </table>
+		</td>
+	 </tr>
+	{/foreach}
+	</table>
+     <br />
+	<div id=idControls class="noprint" style="text-align:center;width:100%; clear:both">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				<input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Configurar P&aacute;gina" onClick="factory.printing.PageSetup()" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+				<hr size="1">
+			</td>
+		</tr>
+		</table>
+	</div>
+
+</div>
+
+</body>
+</html>

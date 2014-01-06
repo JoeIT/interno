@@ -1,0 +1,118 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<table width="80%" align="center">
+<tr>
+	<th colspan="4">Ingrese las observaciones del nuevo producto</th>
+</tr>
+<tr>
+	<td class="enunciados">Orden de producción No.:</td>
+	<td class="body-sector">{$detalle_orden.ordenproducto_id}</td>
+	<td class="enunciados">Cliente:</td>
+	<td class="body-sector">{$detalle_orden.clientenombre}</td>
+</tr>
+<tr>
+	<td class="enunciados">Fecha de Solicitud:</td>
+	<td class="body-sector">{$detalle_orden.fechasolicitud}</td>
+	<td class="enunciados">Fecha de Culminación:</td>
+	<td class="body-sector">{$detalle_orden.fechaculminacion}</td>
+</tr>
+<tr>
+	<td class="enunciados">Modelo a Desarrollar:</td>
+	<td class="body-sector">{$detalle_orden.modelo}</td>
+	<td class="enunciados">Cantidad:</td>
+	<td class="body-sector">{$detalle_orden.cantidad}</td>
+</tr>
+<tr>
+	<td class="enunciados">Codigo:</td>
+	<td class="body-sector">{$detalle_orden.codigo}</td> 						
+</tr>
+</table>
+
+{if $materiales_orden !=null}
+	<form name="modificar_material_ordenprodnuevo" method="post" action="../../controladores/sistema_de_produccion/registrar_material_orden_productos.php"  align="center" id="modificar_material_ordenprodnuevo">
+		<input type="hidden" name="ordenproducto_id"  value="{$detalle_orden.ordenproducto_id}">
+		<input type="hidden" name="funcion" id="funcion">
+		<input type="hidden" name="elegido" id="elegido">
+		<input type="hidden" name="opcion" id="opcion" value="{$opcion}">
+		<table width="80%" align="center">
+   		<tr>
+		  <th colspan="10">Lista de materiales</th>
+   		</tr>
+  		<tr>
+			{foreach name=cabezera key=key item=item from=$materiales_orden[0]}
+				{if $key!="codigo"}
+				<td class="enunciados"><center>{$key|upper}</center></td>
+				{/if}
+			{/foreach} 
+			<td class="enunciados"><center>MODIFICAR</center></td>
+			<td class="enunciados"><center>ELIMINAR</center></td>
+	  	</tr>
+		
+		{foreach name=contenido item=materiales from=$materiales_orden}
+    	<tr>
+			{foreach key=key item=item from=$materiales}
+	    		{if $key == "codigo"}
+	   	  			{assign var=material_id value=$item}
+				{else}
+					<td class="body-sector"><center>{$item}</center></td>
+				{/if}
+			{/foreach}
+			 <td class="body-sector">
+				<center><INPUT TYPE="image" SRC="../../templates/imagenes/modificar.gif"  width=25 height=25 border=0  name="{$material_id}" value="modificar_material"  id="{$material_id}" onclick=consultar(name,value) ></center>
+			</td>
+			<td class="body-sector">
+				<center><INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif"  width=25 height=25 border=0  name="{$material_id}"  value="eliminar_material" id="{$material_id}" onclick=consultar(name,value) ></center>
+			</td>
+		</tr>
+		{/foreach}
+		</table>
+	</form>
+{/if}
+
+<hr width="70%">
+
+<form name="registrar_material_orden_productos" method="post" action="../../controladores/sistema_de_produccion/registrar_material_orden_productos.php"  align="center" id="registrar_material_orden_productos">
+	<input type="hidden" name="ordenproducto_id"  value="{$detalle_orden.ordenproducto_id}" id="ordenproducto_id">
+	<input type="hidden" name="funcion"  value="registrar" id="funcion">
+	<input type="hidden" name="opcion" id="opcion" value="{$opcion}">
+	<input type="hidden" name="elegido" id="elegido" value="{$detalle_orden.ordenproducto_id}">
+	 
+    <table width="80%" border="0" align="center">
+	<tr>
+		<th colspan="2">Agregar nuevo material la orden</th>
+	</tr>
+	{if $errores.err_texto_material != null}
+	<tr>
+		<td align="center" class="error-box">{$errores.err_texto_material}</td>
+	</tr>
+	{/if}
+	
+	<tr>
+		<td class="enunciados">Descripcion del material:</td>
+		<td>
+			<input name="texto_material" type="text" id="material" value="{$material}" tabindex="3"/>
+			<span id="spinner" style="display: none"></span>
+			<div id="lista_materiales" class="autorelleno"></div>
+			{literal}
+			<script>
+				new Ajax.Autocompleter("material", "lista_materiales", "../../controladores/sistema_de_produccion/registrar_material_orden_productos.php?busqueda_ajax=materiales", {method:"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+			</script>
+			{/literal}
+		</td>
+	</tr>
+	
+	{if $errores.err_texto_cantidad != null}
+	<tr>
+		<td align="center" class="error-box">{$errores.err_texto_cantidad}</td>
+	</tr>
+	{/if}
+	
+	<tr>
+		<td class="enunciados">Cantidad del material:</td>
+		<td><input name="texto_cantidad" type="text" id="cantidad" value="{$cantidad}" tabindex="4"/></td>
+	</tr>
+	<tr>
+		<td colspan="4" align="center"><input type="submit" name="registrar" value="Registrar Material" /></td>
+	</tr>
+	</table>
+</form>

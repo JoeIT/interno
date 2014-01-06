@@ -1,0 +1,244 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script>
+var llave = 0;
+/*
+function pregunta(){
+	if (confirm('¿Esta seguro de despachar?')){
+		llave = 1;
+		return true;
+	} else {
+		return false;
+	}
+}
+*/
+function pregunta(){
+		llave = 1;
+		return true;
+}
+
+function cerrar(){
+	if (llave == 1){
+		opener.location.reload();
+		this.close();
+	}
+}
+
+function ver_cantidades(objeto, falta){
+	valor =  objeto.value;
+	if ( valor > falta){
+		alert('Ingrese cantidad menor o igual a ' + falta);
+		objeto.focus();
+		objeto.select();
+	}
+}
+
+</script>
+{/literal}
+
+
+
+<br />
+{if $ver}
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="3">
+  <tr>
+	<th colspan="5">Despacho</th>
+  </tr>
+  <tr>
+	<td class="enunciados">
+	  Nombre del despacho:
+	</td>
+	<td class="body-sector">
+	  {$descripcion_despacho.nombre_despacho}
+	</td>
+	<td class="enunciados">
+	  Fecha del despacho:
+	</td>
+	<td class="body-sector">
+	  {$descripcion_despacho.fecha_despacho}
+	</td>
+	<td class="enunciados" style="background-color:#DECDB4;">
+		<a href="../../controladores/sistema_de_produccion/despacho.php?opcion=9&deid={$descripcion_despacho.despacho_id}">Editar</a>
+	</td>
+  </tr>
+</table>
+
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="3">
+<form action="../../controladores/sistema_de_produccion/despacho.php" method="post" name="nuevo_despacho" id="nuevo_despacho">
+  {if $error.num_orden != null }
+  <tr>
+	<td/>
+	<td>
+	  <div class="error-box">{$error.num_orden}</div>	</td>
+	<td/>
+  </tr>
+  {/if}
+  <tr>
+	<td class="enunciados">
+	  Orden de Produccion:	</td>
+	<td class="body-sector">
+	  <div align="left" class="entrada" style="margin:5px;">
+		<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+		<input name="num_orden" type="text" id="num_orden" value="{$num_orden}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+	  </div>
+	  <span id="spinner" style="display: none"></span>
+	  <div id="lista_ordenes" class="autorelleno"></div>
+	  {literal}
+	  <script>
+		new Ajax.Autocompleter("num_orden", "lista_ordenes", "../../controladores/sistema_de_produccion/despacho.php?busqueda_ajax=ordenes", {method:"get", paramName: "value", minChars: 1, indicator: "spinner"});
+	  </script>
+	  {/literal}	</td>
+	<td class="body-sector"><input type="submit" value="Ver detalle" name="ver_detalle" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/></td>
+  </tr>
+</form>
+</table>
+
+
+{if $resumen_detalle != null}
+<form action="../../controladores/sistema_de_produccion/despacho.php" method="post" name="despachar1" id="despachar1" ONSUBMIT="return pregunta();">	
+<table width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+  <tr>
+    <td align="center">
+	  <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+        <tr>
+          <th colspan="12">Orden: {$num_orden}</th>
+        </tr>
+        <tr>
+          <td class="enunciados" style="text-align:center;width:25px;">Cant.</td>
+          <td class="enunciados" style="text-align:center;width:180px;">Producto</td>
+		  <td class="enunciados" style="text-align:center;width:180px;">Estado pedido</td>
+          <td class="enunciados" style="text-align:center;width:70px;">Tipo</td>
+          <td class="enunciados" style="text-align:center;width:60px;">Cuero</td>
+          <td class="enunciados" style="text-align:center;width:60px;">Color</td>
+          <td class="enunciados" style="text-align:center;width:55px;">Clip</td>
+          <td class="enunciados" style="text-align:center;width:35px;">Pedido</td>
+		  <td class="enunciados" style="text-align:center;width:40px;">Obs.</td>
+          <td class="enunciados" style="text-align:center;width:40px;">Asig.</td>
+          <td class="enunciados" style="text-align:center;width:40px;">Pend. Asig.</td>
+          <td class="enunciados" style="text-align:center;">Pend. Desp.</td>
+        </tr>
+      </table>
+      <div style="height:125px;margin:0px;overflow-y:scroll;">
+        <table width="100%" border="0" align="right" cellpadding="0" cellspacing="1">
+          {assign var=CSSclass value=0}
+          {assign var=clases value="lista-normal"}
+          
+          {foreach name=contenido item=orden from=$resumen_detalle}
+          {assign var="CSSclass" value="`$CSSclass+1`"}
+          {if ($CSSclass mod 2) eq 0}
+          {assign var=clases value="lista-seleccionada"}
+          {else}
+          {assign var=clases value="lista-normal"}
+          {/if}
+		  
+		  {if $orden.despachado == null }
+		  	{assign var=cantdespachado value=0}
+		  {else}
+			{assign var=cantdespachado value=$orden.despachado}
+		  {/if}
+		  
+          <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">		  
+			<td style="padding:3px;text-align:center;width:25px;">{$orden.cantidad}</td>
+			<td style="padding:3px;text-align:left;width:180px;">
+			  {if $orden.asignados > 0}
+			  	{if ($cantdespachado - $orden.asignados) == 0}
+					{*colorear*}
+					<span style="background-color:#316AC5;color:#FFFFFF;padding:3px;">{$orden.producto}</span>
+				{else}
+			
+				{if $orden.habilitar ==1}
+					
+				 <input type="checkbox" name="asignaciones[{$orden.asignacion_detalle_id}]" id="asignacion{$CSSclass}" value="{$orden.asignados}" checked="checked"/>
+				 
+				  {/if}
+		
+				  <a href="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/despacho.php?opcion=3&did={$orden.detalle_id}');">
+					{$orden.producto}
+				  </a>
+				{/if}
+			  {else}
+				{$orden.producto}
+			  {/if}
+			</td>
+			 <td style="padding:3px;text-align:left;width:180px;">{if $orden.bloqueado == 1}
+		       <div style="background:#CC3300">Cancelado</div>{else}Activo{/if}
+</td>
+            <td style="padding:3px;text-align:left;width:70px;">{$orden.estilo}</td>
+            <td style="padding:3px;text-align:left;width:60px;">{$orden.cuero}</td>
+            <td style="padding:3px;text-align:left;width:60px;">{$orden.color}</td>
+            <td style="padding:3px;text-align:left;width:55px;">{$orden.clip}</td>
+            <td style="padding:3px;text-align:center;width:35px;">{$orden.pedido}</td>
+            <td style="padding:3px;text-align:center;width:40px;">
+			  <img src="../../templates/imagenes/information.gif" class="imagenes" onMouseOver="ajax_showTooltip('../../controladores/sistema_de_produccion/ver_tool_tip.php?funcion=detalle&elegido={$orden.detalle_id}',this);return false" onMouseOut="ajax_hideTooltip()"  onKeyPress="ajax_hideTooltip()" style="border:none;" />
+			</td>
+            <td style="padding:3px;text-align:center;width:40px;">{$orden.asignados}</td>
+            <td style="padding:3px;text-align:center;width:40px;">{$orden.pendientes}</td>
+            <td style="font-weight:bold;padding:3px;text-align:center;">{$orden.pend_despachar}</td>
+          </tr>
+          {/foreach}
+        </table>
+      </div>
+	</td>
+  </tr>
+</table>
+<div align="center"><input name="despachar1" type="submit" value="Despachar" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/></div>
+</form>
+
+<p>{/if}</p>
+<p>{/if}  <br />
+  {if $elementos_detalle != null} </p>
+<div style="text-align:center">
+	<a onclick="javascript:PantallaCompleta1('../../controladores/sistema_de_produccion/despacho.php?opcion=7&deid={$descripcion_despacho.despacho_id}')" href="../../controladores/sistema_de_produccion/despacho.php?opcion=6&deid={$descripcion_despacho.despacho_id}">Imprimir despacho: {$descripcion_despacho.nombre_despacho} {$descripcion_despacho.fecha_despacho}</a>
+</div>
+<table width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+  <tr>
+    <td align="center">
+	  <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+        <tr>
+          <th colspan="7" style="background-color:#DED49C;">Despacho: {$descripcion_despacho.nombre_despacho} {$descripcion_despacho.fecha_despacho}</th>
+        </tr>
+        <tr>
+          <td class="enunciados" style="background-color:#F9F1C0;text-align:center;width:10px;">X</td>
+          <td class="enunciados" style="background-color:#F9F1C0;text-align:center;width:90px;">Num. Asig.</td>
+          <td class="enunciados" style="background-color:#F9F1C0;text-align:center;width:70px;">Pedido</td>
+          <td class="enunciados" style="background-color:#F9F1C0;text-align:center;width:90px;">Cantidad</td>
+          <td class="enunciados" style="background-color:#F9F1C0;text-align:center;width:220px;">Producto</td>
+		  <td class="enunciados" style="background-color:#F9F1C0;text-align:center;width:90px;">OP</td>
+          <td class="enunciados" style="background-color:#F9F1C0;text-align:center;">Maquinista</td>
+
+        </tr>
+      </table>
+      <div style="height:125px;margin:0px;overflow-y:scroll;">
+        <table width="100%" border="0" align="right" cellpadding="0" cellspacing="1">
+          {assign var=CSSclass value=0}
+          {assign var=clases value="lista-normal"}
+          
+          {foreach name=contenido item=orden from=$elementos_detalle}
+          {assign var="CSSclass" value="`$CSSclass+1`"}
+          {if ($CSSclass mod 2) eq 0}
+          {assign var=clases value="lista-seleccionada"}
+          {else}
+          {assign var=clases value="lista-normal"}
+          {/if}
+          <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">		  
+            <td style="padding:3px;text-align:center;width:10px;">
+			  <a href="../../controladores/sistema_de_produccion/despacho.php?opcion=6&dedeid={$orden.despacho_detalle_id}" onclick="{literal}if(confirm('¿Esta seguro de eliminar?') == false){return false;}{/literal}">
+				<img src="../../templates/imagenes/icon_minus.jpg" border="0"/>
+			  </a>
+			</td>
+            <td style="padding:3px;text-align:center;width:90px;">{$orden.asignacion_detalle_id}</td>
+            <td style="padding:3px;text-align:center;width:70px;">{$orden.pedido}</td>
+            <td style="padding:3px;text-align:center;width:90px;">{$orden.cantidad}</td>
+            <td style="padding:3px;text-align:left;width:220px;">{$orden.descripcion_producto}</td>
+			<td style="padding:3px;text-align:left;width:90px;">{$orden.num_orden}</td>
+            <td style="padding:3px;text-align:left;">{$orden.maquinista}</td>
+          </tr>
+          {/foreach}
+        </table>
+      </div>
+	</td>
+  </tr>
+</table>
+{/if}
+<br />
+<br />

@@ -1,0 +1,108 @@
+
+ 
+ 
+ {if $menu=="false" and $errores.err_confirm != null}
+     {literal}
+        <script language="JavaScript"> 
+		     window.close();
+		</script>
+     {/literal}
+
+  {else}
+{if $menu!="false"}
+  {include file="cabecera_popup.html"}
+ {else}
+  
+  {include file="cabecera_popup.html"}
+ {/if}
+ {literal}
+ <script language="JavaScript"> 
+ function redirect(url)
+{
+location.href=url;
+} 
+</script>
+ 
+ {/literal}
+ 
+ {if $cerrar != null && $cerrar == 'yes'}
+	{literal}
+	<script>
+		opener.location.reload();
+		this.close();
+	</script>
+	{/literal}
+{/if}
+  <br />
+<table width="70%" align="center">
+     <th>ACTUALIZAR TIPO CAMBIO </th>
+</table>
+
+				  
+			 		  
+                   		
+				      <form name="form_registrar" method="get" action="../controladores/tipo_cambio.php" >
+				{if $menu=="false"}
+				    <input type="hidden" name="popup" value="true">
+				{else}
+				    <input type="hidden" name="popup" value="false">
+				{/if}	
+					
+				 <input type="hidden" name="funcion" value="validar">
+
+
+					<table width="70%" border="0" align="center">
+					 {if $errores.err_confirm != null }<tr> 
+					 <td class="error-box" colspan="2"> {$errores.err_confirm} </td> </tr> {/if}
+					 
+					  
+						<tr>
+				 {if $errores.err_tipo != null }<tr> 
+					 <td class="error-box" colspan="2"> {$errores.err_tipo} </td> </tr> {/if}
+				
+						<tr>						
+						
+						<td class="enunciados">Tipo:</td>
+						<td><span class="body-sector">
+						  <select name="tipo" id="select2"  >
+                            <option value="selc">Seleccionar</option>
+						                
+          
+  						{foreach item=item from=$moneda}	   
+      		    
+						    <option value="{$item.tipo_id}">{$item.moneda}--{$item.tipo_cambio}</option>
+						    
+          
+	{/foreach}	    
+      
+      
+					    </select>
+						</span></td>
+						</tr>
+					
+		{if $errores.err_valor != null }<tr> <td class="error-box" colspan="2">{$errores.err_valor} </td> </tr> {/if}
+		<tr>
+			<td class="enunciados">Valor:</td>
+			<td><input type="text" id="valor" name="valor"  value="{$valor}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+			{if $errores.err_cargo != null }<tr> <td class="error-box" colspan="2"> {$errores.err_cargo} </td> </tr> {/if}
+                       
+        <tr>
+			<td class="enunciados">Fecha:</td>
+			 <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+            <input type="text" name="fecha_inicio" id="fecha_inicio" value="{$fecha_inicio}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" />
+        </span>
+          <input type="button" name="b_fecha_inicio" id="b_fecha_inicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_inicio", ifFormat:"%Y-%m-%d",button:"b_fecha_inicio"});</script>
+      {/literal} </td>
+		</tr>
+		<tr>
+		<td colspan="2"> <center>
+		  <input name="submit" type="submit" class="button1" onclick="redirect('../controladores/activo.php?opcion=registrar_activo')" value="Registrar" />
+		</center>			</td>
+		</tr>
+	</table>
+
+ </form>
+{/if}

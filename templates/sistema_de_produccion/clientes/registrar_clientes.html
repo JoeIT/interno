@@ -1,0 +1,85 @@
+  {if $menu=="false" and $errores.err_confirm != null}
+     {literal}
+        <script language="JavaScript"> 
+		     window.close();
+		</script>
+     {/literal}
+
+  {else}
+{if $menu!="false"}
+  {include file="../templates/sistema_de_produccion/cabecera.html"}
+ {else}
+  
+  {include file="../templates/sistema_de_produccion/cabecera_popup.html"}
+ {/if}
+  <br />
+<table width="70%" align="center">
+ <th>
+		REGISTRAR CLIENTE
+</th>
+</table>
+
+				  
+			 		  
+                   		
+				      <form name="form_registrar" method="post" action="../../controladores/sistema_de_produccion/registrar_clientes.php">
+				{if $menu=="false"}
+				    <input type="hidden" name="popup" value="true">
+				{else}
+				    <input type="hidden" name="popup" value="false">
+				{/if}	
+					
+				 <input type="hidden" name="funcion" value="validar">
+
+
+					<table width="70%" border="0" align="center">
+					 {if $errores.err_confirm != null }<tr> <td class="error-box" colspan="2"> {$errores.err_confirm} </td> </tr> {/if}
+					  {if $errores.err_nombre != null} 
+					  <tr> <td class="error-box" colspan="2">  {$errores.err_nombre} </td> </tr> {/if}
+						<tr>
+						<td class="enunciados">Nombre:</td>
+						<td><input type="text" name="nombre"  value="{$nombre}" onKeyPress="return handleEnter(this, event)"/></td>
+						</tr>
+					{if $errores.err_pais != null } <tr> <td class="error-box" colspan="2">{$errores.err_pais}</td> </tr> {/if}
+					<tr>
+					<td class="enunciados">Pais:</td>
+			<td>
+			      <select name="pais" id="pais" onkeypress="return handleEnter(this, event)">
+					{html_options values=$paises output=$paises selected=$pais}
+				</select>
+			
+			</td>
+		</tr>
+		{if $errores.err_ciudad != null }<tr> <td class="error-box" colspan="2">{$errores.err_ciudad} </td> </tr> {/if}
+		<tr>
+			<td class="enunciados">Ciudad :</td>
+			<td><input type="text" id="ciudad" name="ciudad"  value="{$ciudad}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+			{if $errores.err_direccion != null }<tr> <td class="error-box" colspan="2"> {$errores.err_direccion} </td> </tr> {/if}
+                       
+        <tr>
+			<td class="enunciados">Dirección:</td>
+			<td ><input  type="text" id="direccion" name="direccion"  value="{$direccion}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+		 {if $errores.err_telefono != null }<tr> <td class="error-box" colspan="2">{$errores.err_telefono} </td> </tr> {/if}
+                       
+		<tr>
+			<td class="enunciados">Telefono:</td>
+			<td><input type="text"  id="telefono" name="telefono"  value="{$telefono}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+		 {if $errores.err_email != null }<tr> <td class="error-box" colspan="2">{$errores.err_email} </td> </tr> {/if}
+                       
+		<tr>
+			<td class="enunciados">E-mail:</td>
+			<td><input type="text" id="email" name="email"  value="{$email}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+		<tr>
+			<td colspan="2"> <center>
+				<input class="button1" type="submit" value="Registrar">
+                </center>
+			</td>
+		</tr>
+	</table>
+
+ </form>
+{/if}

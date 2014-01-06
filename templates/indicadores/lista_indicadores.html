@@ -1,0 +1,595 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script type="text/javascript">
+function menu_google (s) {
+	k=document;
+	v=Date;
+	x=false;
+	af=Math.floor;
+	ag=RegExp;
+	b=new z(s.length);
+	aa=new z(s.length);
+	total = s.length - 1;
+	mitad = Math.round(total / 2);
+	//
+	ab=10;
+	t=0;
+	u=0;
+	n=0;
+	o=new v();
+	h=5;
+	m=385;
+	c=0;
+	w=x;
+	var title;
+	var firstHoverOccurred=x;
+	m=385;
+	p=0;
+	
+	//ejecutar
+	ae();
+}
+
+function d(ac){
+	c=ac;
+	o=new v();
+	setTimeout("gidle()",20);
+}
+function e(ac){
+	c=0;
+	w=x;
+	o=new v();
+	setTimeout("gidle()",20);
+}
+function ae(){
+	for(var j=1;j<b.length;j++){
+		b[j]=35
+	}
+	title=k.getElementById('imageTitle');
+	for(i=0;i<b.length;i++){
+		aa[i]=new Image();
+		aa[i].src='../../templates/indicadores/pics/'+s[i+1]+".gif"
+	}
+	setTimeout("gidle()",20);
+}
+function gidle(){
+	var l=0;
+	for(var i=1;i<b.length;i++){
+		var imagename="image"+i;
+		var imageElem=k.getElementById(imagename);
+		if(c!=i){
+			if(b[i]>35){
+				b[i]-=h;
+				if(b[i]<=35){
+					b[i]=35;
+					imageElem.src='../../templates/indicadores/pics/' + s[i]+"_sm.gif"
+				}
+				imageElem.width=b[i];
+				imageElem.height=b[i];
+				if(c==0){
+					//var g=af(255-255*(b[i]-35)/35);
+					var g=af(249-249*(b[i]-35)/35);
+					title.style.color="rgb("+g+","+g+","+g+")"
+				}
+				p=1
+			}
+			l+=b[i]
+		}
+	}
+	if(c!=0&&b[c]<70){
+		imagename="image"+c;
+		imageElem=k.getElementById(imagename);
+		if(w==x){
+			w=true;
+			if(c<mitad){
+				var y=(total*35) - (c-1)*70;
+				title.innerHTML=k.getElementById(imagename).alt+'<img src="../../templates/indicadores/pics/cleardot.gif" width="'+y+'" height="1"/>'
+			}else{
+				var y=(c-mitad)*70 + 30;
+				title.innerHTML='<img src="../../templates/indicadores/pics/cleardot.gif" width="'+y+'" height="1"/>'+k.getElementById(imagename).alt
+			}
+		}
+		b[c]+=h;
+		p=1;
+		if(b[c]>70){
+			b[c]=70
+		}
+		l+=b[c];
+		if(l<m){
+			b[c]+=m-l;
+			if(b[c]>70){
+				b[c]=70
+			}
+			l=m
+		}
+		//var g=af(255-255*(b[c]-35)/35);
+		var g=af(249-249*(b[c]-35)/35);
+		title.style.color="rgb("+g+","+g+","+g+")";
+		imageElem.width=b[c];
+		imageElem.height=b[c];
+		k.getElementById(imagename).src='../../templates/indicadores/pics/' + s[c]+".gif"
+	}
+	m=l;
+	var ad=new v();
+	ab=ad.getTime()-o.getTime();
+	o=ad;
+	t+=ab;
+	u++;
+	n=t/u;
+	h=5;
+	if(u>4){
+		if(n>30){
+			h=10
+		}
+		if(n>60){
+			h=15
+		}
+		if(n>90){
+			h=20
+		}
+	}
+	if(p){
+		setTimeout("gidle()",20);
+		p=0
+	}
+}
+
+var Majax = {
+  recargar:
+  function (url, id, parametros, actualizar) {
+    if (parametros.length != 0)
+      parametros += "&";
+    if (id.length != 0)
+      parametros += "&valorID=" + $F(id);
+    var myAjax = new Ajax.Updater(actualizar, url, { method: "get", parameters: parametros });
+  }
+}
+
+function mostrar_formulario(valor_meta_id) {
+	if (document.body.scrollHeight < document.body.clientHeight)
+		altura = document.body.clientHeight;
+	else
+		altura = document.body.scrollHeight;
+	
+	document.getElementById('bloqueo').style.height = altura;
+
+	
+	//Effect.Appear('bloqueo',{duration:1});
+	new Effect.Opacity('bloqueo', {duration:2, from:0, to:0.7});
+	document.getElementById('bloqueo').style.display = 'block';
+	
+	document.getElementById('meta_id').value = valor_meta_id;
+	document.getElementById('meta_valor').value = '';
+	document.getElementById('meta_obs').value = '';
+	document.getElementById('men_valor').style.display = 'none';
+
+	//alert ('y: '+ _y);
+	
+  	document.getElementById('formulario').style.left = _x - 450;
+	document.getElementById('formulario').style.top = _y - 250;
+	
+	document.getElementById('formulario').style.display = 'block';
+	document.getElementById('meta_valor').focus();
+}
+function ocultar_formulario() {
+	document.getElementById('bloqueo').style.display = 'none';
+	document.getElementById('formulario').style.display = 'none';
+	
+	//document.onclick = null;
+}
+
+//
+var isIE = document.all?true:false;
+if (!isIE) document.captureEvents(Event.MOUSEMOVE);
+var _x;
+var _y;
+document.onclick = getMousePosition;
+
+function getMousePosition(e) {
+  if (!isIE) {
+    _x = e.pageX;
+    _y = e.pageY;
+  }
+  if (isIE) {
+    _x = event.clientX + document.body.scrollLeft;
+    _y = event.clientY + document.body.scrollTop;
+  }
+  
+  //alert ('y: '+ _y);
+  //return true;
+}
+//insertar registros
+var RequestObject = false;
+var Archivo = './indicadores.php';
+
+if (window.XMLHttpRequest)
+	RequestObject = new XMLHttpRequest();
+if (window.ActiveXObject)
+	RequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+
+function insertar_registro(v_opcion, v_mid, v_valor, v_obs) {
+	parama = v_mid.value;
+	paramb = v_valor.value;
+	paramc = v_obs.value;
+	paramd = 'vvalor'+ parama;
+
+	if (paramb != '') {
+		//alert (paramd);
+		variables = "?opcion="+v_opcion+"&mid="+parama+"&valor="+paramb+"&obs="+paramc;
+		document.getElementById(paramd).innerHTML = "";
+		
+		// Preparamos la obtención de datos
+		RequestObject.open("GET", Archivo +  variables, true);
+		RequestObject.onreadystatechange = ReqChange;
+		// Enviamos
+		RequestObject.send(null);
+	} else {
+		document.getElementById('men_valor').style.display = 'block';
+		document.getElementById('meta_valor').focus();
+	}
+
+}
+
+function ReqChange() {// Si se ha recibido la información correctamente
+	if (RequestObject.readyState == 4) {// si la información es válida
+		if (RequestObject.responseText.indexOf('invalid') == -1) {// obtener la respuesta
+			var msgs = RequestObject.responseText.split('|');
+			// Buscamos la div con id online
+			document.getElementById(paramd).innerHTML = msgs[0];
+			ocultar_formulario();
+		} else {// Por si hay algun error
+			document.getElementById(paramd).innerHTML = "Error llamando";
+		}
+	}
+}
+
+</script>
+
+<style type="text/css">
+<!--
+#imageTitle {
+	font-size:1em;
+	font-weight:bold;
+	height:1.5em;
+}
+#mi_contenedor {
+/*	border: 1px solid red;*/
+	height: 80px;
+	position: relative;
+	text-align:justify;
+}
+#mi_menuhz {
+/*	border: 1px solid blue;*/
+	bottom: 0pt;
+	position: absolute;
+	text-align:center;
+	width: 100%;
+}
+body,a{
+	font-family:arial,sans-serif
+}
+#div_dinamico {
+	border:1px solid #00284B;
+	text-align:justify;
+	width:90%;
+}
+.area {
+	background-color:#00284B;
+	clear:both;
+	color:#FFFFFF;
+	padding:3px;
+}
+.grupo {
+	background-color:#D6DFF7;
+	border-bottom:1px solid #00284B;
+	clear:both;
+	color:#000066;
+	font-size:0.9em;
+	padding:3px;
+}
+.metas {
+	font-size:0.8em;
+}
+#vnombre {
+	background-color:#F4F4F4;
+	border-bottom:1px solid #00284B;
+}
+.vvalor {
+	background-color: #E0E0E0;
+	float:right;
+	width:15%;
+}
+.vobservacion {
+	/*background-color: #FFCCFF;*/
+	float:right;
+	text-align:center;
+	width:25%;
+}
+#vnombre, .vvalor, .vobservacion {
+	padding:1px 3px;
+}
+.vvalor span{
+	cursor:pointer;
+}
+
+
+#modal_container {
+	padding:5px;
+	background-color:#fff;
+	border:1px solid #666;
+	overflow:auto;
+	font-family:"Lucida Grande",Verdana;
+	font-size:12px;
+	color:#333;
+	text-align:left;
+}
+
+#modal_container.test {
+	background-color:#900;
+	color:#fff;
+	padding:30px;
+	text-align:center
+}
+
+#modal_overlay {
+	background-color:#666666;
+}
+
+#modal_overlay.test {
+	background-color:#fff;
+}
+
+#bloqueo{
+	background-color: #666666;
+  	filter:alpha(opacity=40);
+	height:100%;
+  	opacity: 0.4;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	z-index:300;
+	
+  	-moz-opacity: 0.4;
+}
+
+#formulario {
+	background-color: #E4E4E4;
+	padding:10px;
+	position:absolute;
+	text-align:center;
+	width:400;
+	z-index:400;
+}
+#men_valor {
+	border:1px solid #FFA6A6;
+	background-color: #FFFEE8;
+	color:#FFA6A6;
+	font-size:0.8em;
+	padding: 3px 1px;
+	display:none;
+}
+label {
+	font-size:0.8em;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+-->
+</style>
+{/literal}
+
+<h2 style="font-family:Verdana;text-align:center;"> Indicadores</h2>
+<div align="center">
+	<div id="mi_contenedor">
+		<div id="mi_menuhz">		
+			<a id="1a" href="indicadores.php?opcion=lista_indicadores&area=Administración"><img id="image1" src="../../templates/indicadores/pics/administracion_sm.gif" alt="ADMINISTRACION" onMouseOver="d('1')" onMouseOut="e('1')" border="0" height="35" width="35"></a>
+			<a id="2a" href="indicadores.php?opcion=lista_indicadores&area=Almacén"><img id="image2" src="../../templates/indicadores/pics/almacen_sm.gif" alt="ALMACEN" onMouseOver="d('2')" onMouseOut="e('2')" border="0" height="35" width="35"></a>
+			<a id="3a" href="indicadores.php?opcion=lista_indicadores&area=Mantenimiento"><img id="image3" src="../../templates/indicadores/pics/mantenimiento_sm.gif" alt="MANTENIMIENTO" onMouseOver="d('3')" onMouseOut="e('3')" border="0" height="35" width="35"></a>
+			<a id="4a" href="indicadores.php?opcion=lista_indicadores&area=Producción"><img id="image4" src="../../templates/indicadores/pics/produccion_sm.gif" alt="PRODUCCION" onMouseOver="d('4')" onMouseOut="e('4')" border="0" height="35" width="35"></a>
+			<a id="5a" href="indicadores.php?opcion=lista_indicadores&area=Sistema de gestión integrado"><img id="image5" src="../../templates/indicadores/pics/sistema_gestion_integrado_sm.gif" alt="S. INTEGRADO" onMouseOver="d('5')" onMouseOut="e('5')" border="0" height="35" width="35"></a>
+			<a id="6a" href="indicadores.php?opcion=lista_indicadores&area=Sistemas"><img id="image6" src="../../templates/indicadores/pics/sistemas_sm.gif" alt="SISTEMAS" onMouseOver="d('6')" onMouseOut="e('6')" border="0" height="35" width="35"></a>
+			<a id="7a" href="indicadores.php?opcion=lista_indicadores&area=Tapiceria"><img id="image7" src="../../templates/indicadores/pics/tapiceria_sm.gif" alt="TAPICERIA" onMouseOver="d('7')" onMouseOut="e('7')" border="0" height="35" width="35"></a>
+		</div>
+	</div>
+	<div id="imageTitle"></div>
+	<div id="div_contenido"></div>
+</div>
+
+{literal}
+<script language="javascript">
+z=Array;
+s=new z("null","administracion","almacen","mantenimiento","produccion","sistema_gestion_integrado","sistemas","tapiceria");
+menu_google (s);
+</script>
+{/literal}
+
+
+
+
+
+
+
+
+
+
+<ul style="padding-left:50px;text-align:left;">
+{foreach item=item from=$lista_listar_indicadores}
+  {if strcmp($item.area,"zEliminados")!= 0}
+  <li><a href="indicadores.php?opcion=lista_indicadores&area={$item.area}">{$item.area}</a> ({$item.items} Item{if $item.items != 1}s{/if})</li>
+{/if}
+{if strcmp($item.area,"zEliminados")== 0}
+<table width="288" border="1" cellpadding="0" cellspacing="0" bordercolor="#99CCCC">
+<tr>
+<br>
+ <td width="121" bgcolor="#CCFFCC"><div align="right" ><a href="indicadores.php?opcion=lista_indicadores&area={$item.area}">Dados de baja</a></div></td>
+ <td width="73"><div align="center">({$item.items} Item{if $item.items != 1}s{/if})</div></td>
+</tr>
+</table>
+{/if}
+{/foreach}
+</ul>
+
+{if $lista_contenido_area != null}
+	
+
+	<table width="97%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+	  {foreach key=area item=valores_area from=$lista_contenido_area}  
+       {if strcmp($area,"zEliminados")== 0}
+       <br>
+        {else}
+      <div align="center">
+		<fieldset style="border: 1px solid #66CCFF;font-size:0.9em;padding:0 10px;text-align:justify;width:80%;" >
+			<legend> Descripci&oacute;n de &iacute;conos: </legend>
+			<br />
+			<ul>
+				<li><img src="../../templates/indicadores/pics/up.gif" width="15" height="15" alt="Tendencia de subida"> Incremento del &uacute;ltimo valor del indicador con respecto al mes anterior.</li>
+				<li><img src="../../templates/indicadores/pics/down.gif" width="15" height="15" alt="Tendencia de bajada"> Decremento del &uacute;ltimo valor del indicador con respecto al mes anterior.</li>
+				<li><img src="../../templates/indicadores/pics/equal.gif" width="15" height="15" alt=""> El &uacute;ltimo valor del indicador con respecto al mes anterior se mantuvo constante.</li>
+				<li><img src="../../templates/indicadores/pics/date.jpg" width="10" height="10" alt="Fecha actualizaci&oacute;n">&nbsp;&nbsp;Fecha de actualizaci&oacute;n del valor.</li>
+				<li><img src="../../templates/indicadores/pics/obs.jpg" width="10" height="10" alt="Observaciones">&nbsp;&nbsp;Observaciones del valor.</li>
+			</ul>
+		</fieldset>
+	</div>
+	<br />
+      
+	  <tr class="enunciados">
+		<th colspan="{$limite+3}" style="text-align:left;font-size:1.5em;font-weight:bold;">{$area}</th>
+	  </tr>
+      {/if}
+		{foreach key=grupo item=valores_grupo from=$valores_area}
+			{if strcmp($area,"zEliminados")== 0}
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#CCFFCC" >
+			  		<tr>
+			   		 <td>{$grupo}</td>
+			 	    </tr>
+				</table> 
+                {else}
+            
+			{if $grupo != null  && $grupo !="2 Cantidad de veces que se detuvo la máquina divididora ELLEGI por cambio de piezas"}
+			<tr class="lista-indicadores">
+			 {if $grupo == '2 Cantidad de veces que se detuvo la máquina divididora ELLEGI por cambio de rodillo'}
+			  <td colspan="{$limite+3}" style="background: #FF9999">
+				{$grupo}
+			  </td>
+			 {else}
+			  <td colspan="{$limite+3}">
+			 
+			  {$grupo} &nbsp;&nbsp;
+			 
+			  {if $links != null && $links[$grupo] != null}
+			  	<a href="{$links[$grupo]}">(Ver detalles)</a>
+			  {/if}
+			  </td>
+			  {/if}
+			</tr>
+			{/if}
+			{foreach key=indicador item=valores from=$valores_grupo}
+			  {if $grupo !="2 Cantidad de veces que se detuvo la máquina divididora ELLEGI por cambio de piezas"}
+			
+			<tr class="lista-seleccionada">
+			 
+			 <td rowspan="2" {if $indicador =="<b>2.9</b> Tapizado muebles" || $indicador =="<b>2.8</b> Tapizado vehiculos"}  style="background-color:#FFD5D6;" {/if}>
+				{$indicador}
+			  </td>
+			 
+			  <td align="center" width="10%" bgcolor="#D9E8FF" {if $indicador =="<b>2.9</b> Tapizado muebles" || $indicador =="<b>2.8</b> Tapizado vehiculos"}  style="background-color:#FFD5D6;" {/if}>
+			  	Meta
+			  </td>	
+			  {assign var=c value=0}
+			  {foreach key=llave item=datos from=$valores}
+				{if $llave != 'id' && $llave != ''}
+				  {assign var="c" value="`$c+1`"}
+				  <td width="15%" style="text-align:center;" {if $indicador =="<b>2.9</b> Tapizado muebles" || $indicador =="<b>2.8</b> Tapizado vehiculos"}  style="background-color:#FFD5D6;" {/if}>{$llave|date_format:'%B, %Y'}</td>
+				{/if}
+				
+			  <!-- Comentario ingreso -->
+			  {if $llave == 'id'}
+			  	{assign var="miclave" value=$datos}
+			  {/if}
+			  <!-- Comentario ingreso -->
+				
+			  {/foreach}
+			  
+			  {section name=foo start=0 loop=$limite-$c step=1}
+				<td width="15%" rowspan="2" style="background-color:#DDF4FF;">&nbsp;</td>
+			  {/section}
+		  
+			  <td align="center" width="10%">
+			  	Tendencia
+			  </td>
+			</tr>
+			
+			<tr class="lista-normal">
+			  {assign var="cont" value="0"}
+			  {assign var="anterior" value=""}
+			  {assign var="actual" value=""}
+			  
+  			  <!-- Comentario ingreso -->
+			  <td align="center" {if $indicador =="<b>2.9</b> Tapizado muebles" || $indicador =="<b>2.8</b> Tapizado vehiculos"}  style="background-color:#FFD5D6;" {/if}>
+				{if $meta_act[$miclave].meta.obs != null}
+					<img src="../../templates/indicadores/pics/obs.jpg" title="{$meta_act[$miclave].meta.obs}" style="float:right;cursor:pointer;"/>
+				{/if}
+				<span style="color:#000099;font-weight:bold;">{$meta_act[$miclave].meta.valor}</span>
+				<img src="../../templates/indicadores/pics/date.jpg" title="{$meta_act[$miclave].meta.fecha}" style="float:right;cursor:pointer;"/>
+			  </td>
+  			  <!-- Comentario ingreso -->
+			  
+			  {foreach key=llave item=datos from=$valores}
+			  	
+				{if $llave == 'id'}
+				  {assign var="miclave" value=$datos}
+				{/if}
+				
+				
+				{if $llave != 'id' && $llave != ''}
+				<td style="text-align:center;" {if $indicador =="<b>2.9</b> Tapizado muebles" || $indicador =="<b>2.8</b> Tapizado vehiculos"}  style="background-color:#FFD5D6;" {/if}>
+				  {if $observaciones[$miclave][$llave] != null}
+				  	<img src="../../templates/indicadores/pics/obs.jpg" title="{$observaciones[$miclave][$llave]}" style="float:right;cursor:pointer;"/>
+				  {/if}
+				  {if $datos != 'NC'}
+				  	{$datos|commify:2}
+				  {else}
+				  	{$datos}
+				  {/if}
+				  
+				  <img src="../../templates/indicadores/pics/date.jpg" title="{$fecha_act[$miclave][$llave]}" style="float:right;cursor:pointer;"/>
+				  {if $cont == 0}
+				    {if $datos != 'NC'}
+					  {assign var="actual" value=$datos}
+					{else}
+					  {assign var="actual" value="-1"}
+					{/if}
+				  {else}
+				  	{assign var="anterior" value=$actual}
+					{if $datos != 'NC'}
+					  {assign var="actual" value=$datos}
+					{else}
+					  {assign var="actual" value="-1"}
+					{/if}
+				  {/if}
+				  {assign var="cont" value="`$cont+1`"}
+				</td>
+				{/if}
+			  {/foreach}
+			  
+			  <td align="center" >
+			  	{if $anterior > $actual}
+				  <img src="../../templates/indicadores/pics/down.gif">
+				{else}
+				  {if $anterior < $actual}
+				  	<img src="../../templates/indicadores/pics/up.gif">
+				  {else}
+					<img src="../../templates/indicadores/pics/equal.gif">				  	
+				  {/if}
+				{/if}
+			  </td>
+			</tr>
+			{/if}
+			{/foreach}
+            {/if}
+		{/foreach}
+	  {/foreach}
+	</table>
+{/if}
+
+<br />
+<br />

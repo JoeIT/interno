@@ -1,0 +1,22 @@
+{include file="header.html" title=$title}
+<br/>
+<table border="0" cellspacing="0" cellpadding="0" class="tableblue">
+<caption class="search-box">Gestiones Abiertas
+</caption>
+ <tr>    
+	{if $gestabi ne null}
+	{section name=ind loop=$gestabi}
+	<td width="170" valign="top" align="center">
+		<span class="text6">GESTI&Oacute;N</span><br/>
+		{$gestabi[ind].gestiont}<br/>
+		<a href="adminPeriodos.php?mcwgessel={$gestabi[ind].gestion}" class="styleText">Usar esta gesti&oacute;n.</a>	</td>
+	{/section}
+	{else}
+	<td align="center" nowrap="nowrap" class="error-box" width="500">
+	No existe una gesti&oacute;n abierta.<br/>
+	<input type="button" class="text6" onclick="location='/sistema/macaws/adminGestion.php'" value="Registrar nueva Gestión"/>	</td>
+	{/if}	
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,88 @@
+
+  
+  {include file="cabecera.html"}
+
+  <br />
+<table width="35%" align="center">
+     <th>
+Datos	    Responsable</th>
+</table>
+
+				  
+			 		  
+                   		
+				      <form name="form_registrar" method="get" action="../controladores/modificar_responsable.php">
+				
+					
+				 <input type="hidden" name="funcion" value="validar">
+				<input type="hidden" name="resp_id" value="{$resp_id}">
+
+					<table  border="0" align="center">
+					 					  {if $errores.err_nombre != null} 
+					  <tr> <td class="error-box" colspan="2">  {$errores.err_nombre} </td> </tr> {/if}
+						<tr>
+						<td class="enunciados">Nombre:</td>
+						<td><input type="text" name="nombre"  value="{$nombre}" onKeyPress="return handleEnter(this, event)"/></td>
+						</tr>
+					
+		{if $errores.err_apell != null }<tr> <td class="error-box" colspan="2">{$errores.err_apell} </td> </tr> {/if}
+		<tr>
+			<td class="enunciados">Apellidos:</td>
+			<td><input type="text" id="apellido" name="apellido"  value="{$apellido}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+			{if $errores.err_cargo != null }<tr> <td class="error-box" colspan="2"> {$errores.err_cargo} </td> </tr> {/if}
+                       
+        <tr>
+			<td class="enunciados">Cargo:</td>
+			<td ><textarea name="cargo">{$cargo}</textarea></td>
+        </tr>
+		</tr>
+			{if $errores.err_ci != null }<tr> <td class="error-box" colspan="2"> {$errores.err_ci} </td> </tr> {/if}
+                       
+        <tr>
+		<tr>
+		<td class="enunciados">Ci
+		 </td>
+		<td><input  type="text" id="ci" name="ci"  value="{$ci}" onkeypress="return handleEnter(this, event)"/></td>
+		</tr>
+		</tr>
+			{if $errores.err_celular != null }<tr> <td class="error-box" colspan="2"> {$errores.err_celular} </td> </tr> {/if}
+                       
+        <tr>
+		<tr>
+		  <td class="enunciados">Celular:</td>
+		  <td><input  type="text" id="celular" name="celular"  value="{$celular}" onkeypress="return handleEnter(this, event)"/></td>
+		</tr>
+		</tr>
+			{if $errores.err_telefono != null }<tr> <td class="error-box" colspan="2"> {$errores.err_telefono} </td> </tr> {/if}
+                       
+        <tr>
+		<tr>
+		  <td class="enunciados">Telefono:</td>
+		  <td><input  type="text" id="telfono" name="telefono"  value="{$telefono}" onkeypress="return handleEnter(this, event)"/></td>
+		</tr>
+		</tr>
+			{if $errores.err_area != null }<tr> <td class="error-box" colspan="2"> {$errores.err_area} </td> </tr> {/if}
+                       
+        <tr>
+		<tr>
+		  <td class="enunciados">Area</td>
+		  <td><select name="area" id="sec"  >
+            <option value="{$miarea.area_id}">{$miarea.area}</option>
+ 	 {foreach item=item from=$area}	 
+	 	    <option value="{$item.area_id}" >{$item.area}</option>
+	{/foreach}	
+ 
+	      </select></td>
+		</tr>
+		<tr>
+		  <td colspan="2">&nbsp;</td>
+		  </tr>
+		<tr>
+		  <td colspan="2"><div align="center">
+		    <input class="button1" type="submit" value="Modificar" name="modificar" />
+	      </div></td>
+		  </tr>
+	</table>
+
+ </form>

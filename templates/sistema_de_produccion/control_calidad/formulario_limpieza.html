@@ -1,0 +1,102 @@
+<table width="80%" border="1" align="center" cellpadding="3" cellspacing="1" style="border-style:ridge;padding:5px;">
+  <tr>
+    <td class="enunciados">Recepcionados: </td>
+    <td class="lista-normal" style="text-align:left;">{$resumen_limpieza.total} de {$detalle_asignacion.cantidad}</td>
+    <td class="enunciados">Asignados para limpieza: </td>
+    <td class="lista-normal" style="text-align:left;">{$resumen_limpieza.asignados}</td>
+    <td class="enunciados">Pendientes para limpieza: </td>
+    <td class="lista-normal" style="text-align:left;">{$resumen_limpieza.pendientes}</td>
+  </tr>
+</table>
+<br />
+{if $resumen_limpieza.pendientes > 0}
+<table width="80%" border="2" align="center" cellpadding="3" cellspacing="1" style="border-style:outset;border-collapse:collapse;">
+  <form action="../../controladores/sistema_de_produccion/calidad_control.php" method="post" name="limpieza" id="limpieza">
+    {if $errores.nombre != null}
+    <tr>
+      <td/>
+      <td style="padding-left:3px;"><div class="error-box">{$errores.nombre}</div></td>
+      <td/>
+      <td/>
+    </tr>
+    {/if}
+    <tr>
+      <td class="enunciados" style="text-align:right;">Nombre: </td>
+      <td class="lista-normal" style="padding-left:3px;text-align:left;"><span align="left" class="entrada" style="margin:5px;">
+        <input name="nombre" type="text" id="nombre" style="border:none;" onkeypress="return enter_handle(this, event, 5, 1);" value="{$nombre}" size="35"/>
+        <img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.limpieza.nombre.focus();document.limpieza.nombre.select();" style="cursor:pointer;" alt="Seleccionar Nombre"/> </span> <span id="spinner" style="display:none"></span>
+        <div id="lista_nombres" class="autorelleno"></div>
+        {literal}
+        <script>
+				new Ajax.Autocompleter("nombre", "lista_nombres", "../../controladores/sistema_de_produccion/calidad_control.php?busqueda_ajax=nombres&puesto=4", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+				
+				function mostrar_categoria(text,li){
+					cadena = li.id;
+					caracteristicas = cadena.split("-");
+					document.getElementById("categoria").value = caracteristicas[1];
+					document.getElementById("limpiador_id").value = caracteristicas[0];    
+					document.getElementById("cantidad").focus();
+					var str = document.getElementById("nombre").value;
+					document.getElementById("nombre").value = str.substr(5)
+				}
+			</script>
+        {/literal}
+	  </td>
+      <td class="enunciados" rowspan="2" style="text-align:right;">Cantidad: </td>
+      <td class="lista-normal" rowspan="2" style="padding-left:3px;text-align:left;">
+	  	<select name="cantidad" size="3" id="cantidad" style="margin:5px;width:100px;" onkeypress="return enter_handle(this, event, 1, 1);">
+			{html_options values=$vector_pendientes output=$vector_pendientes selected=$cantidad}
+		</select>
+      </td>
+    </tr>
+    <tr>
+      <td class="enunciados" style="text-align:right;">Categoria: </td>
+      <td class="lista-normal" style="padding-left:3px;text-align:left;"><span align="left" class="entrada" style="margin:5px;"> <img src="../../templates/imagenes/categoria.jpg" class="imagenes"/>
+        <input name="categoria" type="text" id="categoria" style="border:none;" onkeypress="return handleEnter(this, event)" value="{$categoria}" size="1" maxlength="1" readonly="readonly"/>
+        </span>
+        <input name="limpiador_id" type="hidden" id="limpiador_id" value="{$personal_id}" size="1" />
+        <input name="asignacion_id" type="hidden" id="asignacion_id" value="{$detalle_asignacion.asignacion}" size="1" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding:10px;text-align:center;"><input name="asig_limpieza" type="submit" value="Realizar Asignaci&oacute;n" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+      </td>
+    </tr>
+  </form>
+</table>
+{else}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td><div class="anuncio" align="center"> <img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/> &nbsp;&nbsp;&nbsp;No existen pendientes para asignar </div></td>
+  </tr>
+</table>
+{/if}
+
+{if $detalle_limpieza != null} <br />
+<table width="60%" border="0" align="center" cellpadding="3" cellspacing="1">
+  <tr>
+    <th colspan="3">Asignaciones para limpieza</th>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:center;">Nombre</td>
+    <td class="enunciados" style="text-align:center;">Fecha</td>
+    <td class="enunciados" style="text-align:center;">Cantidad</td>
+  </tr>
+  {assign var=CSSclass value=0}
+  {assign var=clases value="lista-normal"}
+  
+  {foreach name=contenido item=limpieza from=$detalle_limpieza}
+  {assign var="CSSclass" value="`$CSSclass+1`"}
+  {if ($CSSclass mod 2) eq 0}
+  {assign var=clases value="lista-seleccionada"}
+  {else}
+  {assign var=clases value="lista-normal"}
+  {/if}
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+    <td>{$limpieza.completo}</td>
+    <td style="text-align:center;">{$limpieza.fecha_inicio}</td>
+    <td style="text-align:center;">{$limpieza.cantidad}</td>
+  </tr>
+  {/foreach}
+</table>
+{/if}

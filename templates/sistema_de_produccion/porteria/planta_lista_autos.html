@@ -1,0 +1,72 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<SCRIPT LANGUAGE="Javascript">
+function decision(message, url) {
+	if(confirm(message)) location.href = url;
+}
+</SCRIPT>
+{/literal}
+
+<br />
+<br />
+
+<div align="center">
+	<div style="border:1px #ABBEEF solid;width:90%;">
+		<div style="background-color:#ABBEEF;color:#000;font-weight:bold;">
+			Seleccione el Veh&iacute;culo
+		</div>
+		<div>
+			Haga click sobre el veh&iacute;culo para seleccionarlo
+		</div>
+		<div>
+			<table width="100%" border="1" cellspacing="1" cellpadding="1">
+			<tr> 
+			  <td width="29%" bgcolor="#E9E9E9"> 
+				<div align="center"><font size="2"><b>VEHICULO</b></font></div>
+			  </td>
+			  <td width="10%" bgcolor="#E9E9E9"> 
+				<div align="center"><font size="2"><b>KILOMETRAJE</b></font></div>
+			  </td>
+			  <td width="18%" bgcolor="#E9E9E9"> 
+				<div align="center"><font size="2"><b>CAMBIO DE<br>
+				  ACEITE</b></font></div>
+			  </td>
+			  <td width="19%" bgcolor="#E9E9E9"> 
+				<div align="center"><font size="2"><b>ACCION</b></font></div>
+			  </td>
+			</tr>
+			{section name=i loop=$resultado} 
+			<tr> 
+			  <td width="29%" height="40"> 
+				<div align="center">{html_link page="porteria" opcion=planta_auto idauto=$resultado[i].idauto  
+				  text=$resultado[i].autodesc}</div>
+			  </td>
+			  <td width="10%" height="40"> 
+				<div align="center">{$resultado[i].kilometraje}</div>
+			  </td>
+			  <td width="18%" height="40"> 
+				<div align="center">{if ($resultado[i].resta <= 50)} <b><font color="#FF0000">ACEITE 
+				  -{$resultado[i].resta} Km.</font></b></div>
+				{else} 
+				<div align="center"><font color="#009900"><b>Por recorrer {$resultado[i].resta} Km.<br>
+				  {/if} </b></font></div>
+			  </td>
+			  <td width="19%" height="40">
+			  
+				<A HREF="javascript:decision('Seguro que quiere actualizar el cambio de aceite?',
+				'porteria.php?opcion=vehiculos_aceite&accion=aceite&vehiculo={$resultado[i].idauto}&kilometraje={$resultado[i].kilometraje}')">Cambio de Aceite</A>
+	
+	
+				</td>
+			</tr>
+			{/section} 
+		  </table>
+		</div>
+	</div>
+</div>
+
+<br />
+<br />
+
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

@@ -1,0 +1,89 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+
+{literal}
+<script src="../../templates/indicadores/script.js"></script>
+{/literal}
+
+<div align="right">
+<a href="indicadores.php?opcion=lista_indicadores&area=Producción">Indicadores de Producción</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
+</div>
+
+<table width="95%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+	<tr>
+		<th colspan="2">Controles de medio proceso y muestras iniciales</th>
+	</tr>
+	<tr class="lista-normal">
+		<td colspan="2" style="font-size:1.2em;padding:5px;">
+			<strong>Descripci&oacute;n:</strong> Obtener registro de los controles a proceso, sean efectuados oportunamente.
+		</td>
+	</tr>
+	{foreach from=$generalArray|@array_reverse item=dataArray}
+	<tr>
+		<td class="enunciados">{$dataArray.info.startDate|date_format:'%B, %Y'} ({$dataArray.info.startDate} | {$dataArray.info.endDate})</td>
+		<td rowspan="3" align="center">
+			<img src="../../clases/indicadores/class.graphic.php?{$dataArray.info.params_mes}" border="1" alt="Indicador 2" style="height:200px;width:260px;" />
+		</td>
+	</tr>
+	<tr class="lista-normal">
+		<td>
+		{if $dataArray.generalList != null}
+			<form method="post" name="form1" action="indicadores.php?opcion=valores1">
+			<table width="100%" border="1" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+				<tr>
+					<th colspan="3">
+					{if $mostrarBoton && $dataArray.info.lastMonth}
+					<input type="submit" name="grabar" value="Actualizar Indicadores" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+					{else}
+					Detalle
+					{/if}
+					</th>
+				</tr>
+				<tr class="enunciados" style="text-align:center">
+					<td>N&deg;</td>
+					<td>Tipo de Control</td>
+					<td>Cant</td>
+				</tr>
+			{assign var=sum value=0}
+			{foreach name=lista item=item from=$dataArray.generalList}
+				<tr class="lista-normal">
+					<td align="center">{$item.numero}</td>
+					<td>{$item.tipo}</td>
+					<td align="right">{$item.cantidad}
+						{if $dataArray.info.lastMonth}
+						<input type="hidden" name="area" value="Producción" />
+						<input type="hidden" name="fecha" value="{$dataArray.info.startDate}" />
+						<input type="hidden" name="indi[{$item.indicador_id}]" value="{$item.cantidad}"/>
+						{/if}
+					</td>
+				</tr>
+				{assign var="sum" value="`$sum+$item.cantidad`"}
+			{/foreach}
+				<tr align="right" class="lista-seleccionada">
+					<td colspan="2">Total asignaciones:</td>
+					<td>{$sum}</td>
+				</tr>
+			</table>
+			{/if}
+			<br/>
+			</form>
+		</td>
+	</tr>
+	<tr class="lista-normal">
+		<td></td>
+	</tr>
+	{/foreach}
+</table>
+
+<br />
+<br />
+
+<div id="contenido" style="text-align:center;">
+</div>
+
+<br />
+<br />
+
+<div id="ingresar" style="display:none;text-align:center;">
+</div>

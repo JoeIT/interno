@@ -1,0 +1,82 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+
+{literal}
+<script src="../../templates/indicadores/script.js"></script>
+{/literal}
+
+<div align="right">
+<a href="indicadores.php?opcion=lista_indicadores&area=Producción">Indicadores de Producción</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
+</div>
+<form action="indicadores.php?opcion=valores1" method="post">
+<table width="95%" border="1" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+  <tr>
+    <th colspan="7">% producci&oacute;n linea Vs. producci&oacute;n total</th>
+  </tr>
+  <tr class="lista-normal">
+    <td colspan="6" style="font-size:1.2em;padding:5px;">
+		<strong>Descripci&oacute;n:</strong> Conocer el porcentaje de producción en el mes que es elaborado por la línea de producción versus el total producido en el mes.
+		<br /><br />
+		<strong>T:</strong> Total de productos elaborados.
+		<br />
+		<strong>L:</strong> Total de productos elaborados por la linea.	
+	</td>
+    <td style="text-align:center;">
+	Tendecia:
+	{if $porcentaje_mes3 > $porcentaje_mes2}
+		<img src="../../templates/indicadores/pics/up.gif" align="absbottom"/>
+	{/if}
+	{if $porcentaje_mes3 == $porcentaje_mes2}
+		<img src="../../templates/indicadores/pics/equal.gif" align="absbottom"/>
+	{/if}
+	{if $porcentaje_mes3 < $porcentaje_mes2}
+		<img src="../../templates/indicadores/pics/down.gif" align="absbottom"/>
+	{/if}	</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="enunciados" style="text-align:center">{$mes1|date_format:'%B, %Y'}<br>({$fecha_ini_mes1} | {$fecha_fin_mes1})</td>
+    <td colspan="2" class="enunciados" style="text-align:center">{$mes2|date_format:'%B, %Y'}<br>({$fecha_ini_mes2} | {$fecha_fin_mes2})</td>
+    <td colspan="2" class="enunciados" style="text-align:center">{$mes3|date_format:'%B, %Y'}<br>({$fecha_ini_mes3} | {$fecha_fin_mes3})</td>
+    <td rowspan="3"><img src="../../clases/indicadores/class.graphic.php?{$params}" border="1" alt="Indicador 1" style="height:200px;width:260px;" /></td>
+  </tr>
+  <tr class="lista-normal">
+    <td>
+	T = {$prog_mes1}
+	<br />
+	L = {$cump_mes1}	</td>
+    <td style="font-size:1.5em;font-weight:bold;">{$porcentaje_mes1|commify:2} %</td>
+    <td>
+	T = {$prog_mes2}
+	<br />
+	L = {$cump_mes2}	</td>
+    <td style="font-size:1.5em;font-weight:bold;">{$porcentaje_mes2|commify:2} %</td>
+    <td>
+	T = {$prog_mes3}
+	<br />
+	L = {$cump_mes3}	</td>
+    <td style="font-size:1.5em;font-weight:bold;">{$porcentaje_mes3|commify:2} %
+      <input type="hidden" name="area" value="Producción" />
+      <input type="hidden" name="fecha" value="{$fecha_ini_mes3}" />
+      <input type="hidden" name="indi[{$indicador_id}]" value="{$porcentaje_mes3}" /></td>
+  </tr>
+  <tr class="lista-normal" align="center">
+    <td colspan="2">&nbsp;</td>
+    <td colspan="2">&nbsp;</td>
+    <td colspan="2">{if $mostrarBoton}<input type="submit" name="grabar" value="Actualizar Indicadores" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>{/if}</td>
+    <td>&nbsp;</td>
+  </tr>
+
+</table>
+</form>
+<br />
+<br />
+
+<div id="contenido" style="text-align:center;">
+</div>
+
+<br />
+<br />
+
+<div id="ingresar" style="display:none;text-align:center;">
+</div>

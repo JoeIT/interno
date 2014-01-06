@@ -1,0 +1,124 @@
+<br />
+<table align="center">
+    <tr>
+	   <td class="enunciados"> Total Recepcionado:  </td>
+       <td class="lista-normal"> {$total_recepcionado} de {$detalle_asignacion.cantidad}</td>	
+	</tr>   
+	<tr>
+	   <td class="enunciados"> Rechazado:  </td>
+       <td class="lista-normal">  {$total_rechazado}  </td>	
+	</tr>
+ 
+</table>
+<br />
+{if $mensaje_rechazo != null}
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<td nowrap="nowrap">
+			<div class="error-box">
+				{$mensaje_rechazo}			</div>		</td>
+	</tr>
+</table>
+{/if}	
+
+{if $resumen_rechazos!=null}
+<br />
+<table width="70%" border="0" cellspacing="1" cellpadding="0" align="center">
+				<tr>
+					<th colspan="5">Detalle rechazos </th>
+				</tr>
+				  <tr>
+					<td class="enunciados" style="text-align:center;">Cantidad</td>
+					<td class="enunciados" style="text-align:center;">Fecha</td>
+					<td class="enunciados" style="text-align:center;">Responsable Fallo</td>
+					<td class="enunciados" style="text-align:center;">Falla</td>
+					<td class="enunciados" style="text-align:center;">Arreglo</td>
+				 </tr>
+                 {foreach key=key item=rechazos from=$resumen_rechazos}
+				
+					<td class="lista-seleccionada" style="padding:3px;" align="center">{$rechazos.cantidad}</td>
+					
+					<td class="lista-normal" style="padding:3px;text-align:justify;" align="center"><center>{$rechazos.fecha}</center></td>
+					{if $rechazos.responsable !=""}
+	 				   <td class="lista-seleccionada" style="padding:3px;"  align="center">{$rechazos.responsable}</td>
+					{else}
+						<td class="lista-seleccionada" style="padding:3px;"  align="center"><font color="#FF0000"> Por asignar </font> </td>	 
+					{/if}
+					
+					<td class="lista-normal" style="padding:3px;text-align:justify;" align="center"> <center>{$rechazos.area_responsable}</center></td>
+					{if $rechazos.fecha_finalizacion_arreglo !=""}
+	 				   <td class="lista-seleccionada" style="padding:3px;"  align="center"> Confirmado</td>
+					{else}
+						<td class="lista-seleccionada" style="padding:3px;"  align="center"><font color="#FF0000"> Por confirmar </font> </td>	 
+					{/if}
+					
+					
+				</tr>
+				{/foreach}
+               	
+				<tr>
+				     <td class="enunciados" style="text-align:center;">Total :  {$total_rechazado} </td>
+					
+				</tr>
+			
+		  </table>
+	{/if}	
+<br />
+{if $total_rechazado < $detalle_asignacion.cantidad}
+<form action="../../controladores/sistema_de_produccion/registrar_rechazo.php" method="get" name="rechazos" id="rechazos">
+<table width="60%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="2">Registrar rechazos</th>
+	</tr>
+	{if $confirmacion != null}
+	<tr>
+		
+		<td />
+		<td>
+			<div class="error-box">
+				{$confirmacion}			</div>		</td>
+	</tr>
+	{/if}
+	<tr>
+	    <td class="enunciados">Fecha : </td>
+		<td class="lista-seleccionada">{$fecha} </td>
+	</tr>
+	{if $errores.cantidad != null}
+	<tr>
+		<td/>
+		<td>
+			<div class="error-box">
+				{$errores.cantidad}			</div>		</td>
+	</tr>
+	{/if}	
+	<tr>
+		<td class="enunciados">Cantidad a rechazar: </td>
+		<td> <div align="left" class="entrada" style="margin:5px;">
+					<img src="../../templates/imagenes/advertencia.jpg" class="imagenes"/>
+					<input name="cantidad" type="text" id="cantidad" value="{$cantidad}" style="border:none;" onkeypress="return handleEnter(this, event)"/>
+			</div>
+		</td>
+	</tr>
+	<tr>
+         <td class="enunciados"> Falla en : </td> 
+		 <td class="lista-seleccionada">   
+		 		<SELECT NAME="fallos" SIZE="1">
+					   <OPTION VALUE="Maquinista">Maquinista</OPTION>
+					   <OPTION VALUE="Diseño">Diseño</OPTION>
+					   <OPTION VALUE="Corte">Corte</OPTION>
+					   <OPTION VALUE="Limpieza">Limpieza</OPTION>
+				</SELECT> 
+		 </td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+		  <br  />
+		  <input name="" type="submit" value="Registrar rechazo" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+		  
+				<input name="num_asignacion" type="hidden" value="{$detalle_asignacion.asignacion}"/>
+				<input type="hidden"  name="funcion" id="funcion" value="registrar_rechazo" />
+	  </td>
+	</tr>
+</table>
+</form>
+{/if}

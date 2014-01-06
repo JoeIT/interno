@@ -1,0 +1,96 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+
+				
+			  </td>		  
+            <tr>
+                <td>
+				<form name="modificar_orden" method="post" action="../../controladores/sistema_de_produccion/modificar_orden.php"  align="center">
+					<input type="hidden" name="elegido">
+ 	                <input type="hidden" name="funcion">
+    	            <input type="hidden" name="orden_id" value="{$orden_id}">
+				   
+						<p> <table align="center">
+						   
+					          <tr>
+								    <td class="header-table">  Orden de Producción No. :  </td> <td class="body-sector">{$cabecera.numero_orden} </td>
+									<td class="header-table">  Cliente :   </td> <td class="body-sector">{$cabecera.cliente} </td>
+							  </tr>
+							  <tr>
+								   <td class="header-table"> Fecha :</td> 
+								   <td class="body-sector"> {$cabecera.fecha}</td>
+					 		       <td class="header-table"> Fecha de Entrega/Despacho: </td>
+								   <td class="body-sector"> {$cabecera.fecha_entrega}</td>
+					 		       <td class="header-table"> Fecha de Reprogramación: </td>
+								   <td class="body-sector" >   
+								   
+									    <p id="texto_fecha">
+									   {if $cabecera.fecha_reprogramacion!= null}{$cabecera.fecha_reprogramacion}{else}Fecha no registrada{/if} </p>
+									   <input type="text" name="date2" id="campo_fecha_entrega" value="{$cabecera.fecha_reprogramacion}" onFocus="this.blur()"  style="visibility:hidden"/>
+									  <input type="button" id="fecha_entrega" value="..." style="visibility:hidden"/>  
+									
+				   {literal}
+					   <script type="text/javascript">
+  							 Calendar.setup({
+						     inputField     :    "campo_fecha_entrega",     // id del campo de texto
+						     ifFormat     :     "%d-%m-%Y",     // formato de la fecha que se escriba en el campo de texto
+						     button     :    "fecha_entrega"     // el id del botón que lanzará el calendario
+							});
+						</script>
+					{/literal}
+			   </td>
+			   <td>
+			  
+			      {if $cabecera.fecha_reprogramacion!= null}<a class="link-orden" href="#" id="link_modificar" onClick="registrar_fecha()">Modificar Fecha</a>{else}<a class="link-orden" href="#" onClick="registrar_fecha()" id="link_registrar">Registrar Fecha</a>{/if}
+				</td>  
+		  </tr>
+		  <tr>
+    <td colspan="5"/>
+    <td  align="center"><input name="modificar_fecha" type="button" value="Modificar Fecha de Reprogramaci&oacute;n" class="button1" id="boton_modificar" style="visibility:hidden" onClick="mod_fecha(name,value)"/>    </td>
+	  
+  </tr>
+    </table>
+ </p>
+ <hr width="70%">
+
+ {if $detalle !=null}
+     <table align="center"  >
+  		<tr>
+    		{foreach name=cabezera key=key item=item from=$detalle[0]}
+		     <td class="header-table"><center>{$key|upper}</center></td>
+			{/foreach}
+				 <td class="header-table"><center> MODIFICAR  </center></td>
+				 <td class="header-table"><center> ELIMINAR  </center></td>
+		</tr>
+   			{foreach name=contenido item=detalles from=$detalle}
+    	<tr>
+			{foreach key=key item=item from=$detalles}
+	    		{if $key == "codigo"}
+	   	  			{assign var=detalle_id value=$item}
+	    		{/if}
+				<td class="body-sector"><center> {$item}</center></td>
+			{/foreach}
+                   <td class="body-sector"><center>
+                   <INPUT TYPE="image" SRC="../../templates/imagenes/modificar.gif"  width=25 height=25 border=0  name="modificar_detalle"  value="{$detalle_id}" onclick=consultar(name,value) >
+
+				</center>
+				</td>
+				<td class="body-sector"><center>
+                   <INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif"  width=25 height=25 border=0  name="eliminar_detalle" value="{$detalle_id}" onclick=consultar(name,value) >
+
+				</center>
+				</td>
+             </tr>
+			{/foreach}
+		</table><br>
+
+		 <tr>
+
+    <td  align="center"><input name="imprimir" type="button" id="boton_imprimir" value="Imprimir orden modificada" class="button1"/></td>
+  </tr>
+
+
+	</form>
+  <hr width="70%">
+
+{/if}

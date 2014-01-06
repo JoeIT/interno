@@ -1,0 +1,95 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"} <br />
+
+<form name="orden" method="post" action="../../controladores/sistema_de_produccion/registrar_orden.php?funcion=validar&local={$local}"  align="center">
+<table border="0" align="center" cellpadding="0" cellspacing="3" width="95%">
+  <tr>
+    <th colspan="6">Generación de orden de producción</th>
+  </tr>
+  <input type="hidden" name="local"  value="{$local}">
+  <input type="hidden" name="num_orden"  value="{$num_orden}">
+  <input type="hidden" name="num_cup"  value="{$num_cup}">
+  <tr>
+    <td class="enunciados">N&deg;. Orden:</td>
+    <td class="body-sector">{$num_orden}</td>
+    <td class="enunciados">Cup No.:</td>
+    <td class="body-sector">{$num_cup}</td>
+  </tr>
+  {if $errores.err_date1 != null || $errores.err_date2 != null }
+  <tr>
+  	{if $errores.err_date1 != null }
+    <td colspan="2" class="error-box"> {$errores.err_date1}</td>
+    {else}
+    <td colspan="2"/>
+    {/if} {if $errores.err_date2 != null }
+    <td colspan="2" class="error-box"> {$errores.err_date2}</td>
+    {else}
+    <td colspan="2"/>
+    {/if}
+  </tr>
+  {/if}
+  
+  <tr>
+    <td class="enunciados">Fecha:</td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input type="text" name="date1" id="campo_fecha" value="{$fecha}" readonly style="border:none;"/>
+		</span>
+        <input type="button" id="fecha" class="boton" value="..." />
+	</td>
+    <td class="enunciados"> Fecha Despacho: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input type="text" name="date2" id="campo_fecha_entrega" value="{$fechaentrega}" readonly style="border:none;"/>
+		</span>
+        <input type="button" id="fecha_entrega" class="boton" value="..." />
+	</td>
+    {if $errores.err_cliente != null}
+  <tr>
+    <td class="error-box"  colspan="2"> {$errores.err_cliente} </td>
+  </tr>
+  {/if}
+  <tr>
+    <td  class="enunciados"> Cliente: </td>
+    <td class="body-sector" ><div align="left" class="entrada" style="margin:5px;"> <img src="../../templates/imagenes/clientenuevo.gif" class="imagenes"/>
+        <input name="clientes" type="text" id="autorelleno"  size="35" value="{$cliente}" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)"/>
+      </div>
+<div id="mainContent"> <a  href="javascript:ventanaSecundaria ('registrar_clientes.php?popup=true')"> registrar cliente </a> </div>
+      <span id="spinner" style="display: none"></span>
+      <div id="lista_opciones" class="autorelleno"> </div>
+      {literal}
+      <script>
+		new Ajax.Autocompleter("autorelleno", "lista_opciones", "../../controladores/sistema_de_produccion/registrar_orden.php?busqueda_ajax=clientes",
+		{method: "post", paramName: "value" , minChars: 1, indicator: "spinner" });
+	  </script>
+      {/literal}
+	</td>
+    <td class="enunciados">Observaciones:</td>
+    <td class="body-sector" rowspan="2">
+		<textarea name="observaciones" cols="20" rows="3" wrap="virtual" id="observaciones" style="overflow-x:hidden;overflow:auto">{$observaciones}</textarea>
+    </td>
+  </tr>
+</table>
+<center>
+  <br>
+  <input type="submit" value="Generar Orden" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+</center>
+</form>
+{literal}
+<script type="text/javascript">
+  							 Calendar.setup({
+						     inputField     :    "campo_fecha",     // id del campo de texto
+						     ifFormat     :     "%d-%m-%Y",     // formato de la fecha que se escriba en el campo de texto
+						     button     :    "fecha"     // el id del botón que lanzará el calendario
+							});
+						</script>
+<script type="text/javascript">
+  							 Calendar.setup({
+						     inputField     :    "campo_fecha_entrega",     // id del campo de texto
+						     ifFormat     :     "%d-%m-%Y",     // formato de la fecha que se escriba en el campo de texto
+						     button     :    "fecha_entrega"     // el id del botón que lanzará el calendario
+							});
+						</script>
+{/literal}
+</body>

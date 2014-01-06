@@ -1,0 +1,166 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th>Fecha de Reprogramaci&oacute;n</th>
+  <tr>
+    <td>
+		<!-- aqui se detallan los contenidos-->
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+		<form action="../../controladores/sistema_de_produccion/asignacion_reporte.php" method="post" name="buscar" id="buscar">
+		  
+		  {if $errores.err_numero != null}
+		  <tr>
+			<td/>
+			<td style="padding-left:3px;">
+				<div class="error-box">
+				{$errores.err_numero}
+				</div>
+			</td>
+		  </tr>
+		  {/if}			
+
+		  <tr>
+			<td width="50%" class="enunciados">Ingrese N&uacute;mero de Asignaci&oacute;n:</td>
+			<td class="body-sector" style="padding:3px;">
+				<div align="left" class="entrada">
+					<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+					<input type="text" name="maquinista" id="maquinista" value="{$maquinista}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+				</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td style="padding:10px;text-align:center;">
+				<input name="funcion" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			</td>
+			<td style="padding:10px;text-align:center;">
+				<input name="funcion" type="reset" value="Reestablecer B&uacute;squeda" class="boton"/>
+			</td>
+		  </tr>
+		</form>
+		</table>
+	</td>
+  </tr>
+</table>
+
+<!--Restultados de la busqueda-->
+{if $lista != null}
+	{if $lista.cerrada != 1}
+		{if $lista.usuario_entrega == 0}
+			{if $lista.fecha_reprogramacion != null}
+				{assign var=fr value=1}
+			{else}
+				{assign var=fr value=0}
+			{/if}
+			
+			<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+			<tr>
+				<th colspan="6">Detalle del Maquinista</th>  
+			</tr>
+			<tr>
+				<td class="enunciados" style="text-align:center;">Nombre</td>
+				<td class="enunciados" style="text-align:center;">Categor&iacute;a</td>
+				<td class="enunciados" style="text-align:center;">Fecha Inicio</td>
+				<td class="enunciados" style="text-align:center;">Fecha Finalizaci&oacute;n</td>
+				<td class="enunciados" style="text-align:center;">Fecha de Reprogramaci&oacute;n</td>
+				<td class="enunciados" style="text-align:center;">Motivo de reprogramaci&oacute;n</td>
+			</tr>
+			
+			<tr class="lista-normal">
+				{foreach key=key item=item from=$lista}
+					{if $key == "asignacion_detalle_id"}
+						{assign var=asignacion_detalle_id value=$item}
+					{else}
+						{if $key != "asignacion_detalle_id"}
+							{if $key == "completo"}
+								<td style="padding:3px;"><a href="../../controladores/sistema_de_produccion/asignacion_reporte.php?opcion=3&daid={$asignacion_detalle_id}">{$item}</a></td>
+							{else}
+								{if $key == "fecha_reprogramacion"}
+									{if $fr == 1}
+										<td style="color:#FF0000;font-weight:bold;padding:3px;text-align:center;">{$item}</td>
+									{else}
+										<td style="color:#FF0000;font-weight:bold;padding:3px;text-align:center;">"No tiene Reprogramaci&oacute;n"</td>
+									{/if}
+								{else}
+									{if ($key != "usuario_entrega") && ($key != "cerrada")}
+										<td style="padding:3px;text-align:center;">{$item}</td>
+									{/if}
+								{/if}
+							{/if}
+						{/if}			
+					{/if}
+				{/foreach}
+			</tr>
+			</table>
+		{else}
+			{assign var=mensaje value="La hoja ha sido dado de baja"}
+		{/if}
+	{else}
+		{assign var=mensaje value="Asignaci&oacute;n cerrada"}
+	{/if}
+{else}
+	{if $maquinista != null}
+		{assign var=mensaje value="No se encontro resultados"}
+	{/if}
+{/if}
+<!--Fin Restultados de la busqueda-->
+
+
+{if $mensaje != null}
+	{if $lista.asignacion_detalle_id != ''}
+		<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+		<tr>
+			<th colspan="6">Detalle del Maquinista</th>  
+		</tr>
+		<tr>
+			<td class="enunciados" style="text-align:center;">Nombre</td>
+			<td class="enunciados" style="text-align:center;">Categor&iacute;a</td>
+			<td class="enunciados" style="text-align:center;">Fecha Inicio</td>
+			<td class="enunciados" style="text-align:center;">Fecha Finalizaci&oacute;n</td>
+			<td class="enunciados" style="text-align:center;">Fecha de Reprogramaci&oacute;n</td>
+			<td class="enunciados" style="text-align:center;">Motivo de reprogramaci&oacute;n</td>
+		</tr>
+		<tr class="lista-normal">
+			<td style="padding:3px;text-align:center;">{$lista.completo}</td>
+			<td style="padding:3px;text-align:center;">{$lista.clase}</td>
+			<td style="padding:3px;text-align:center;">{$lista.fecha_inicio}</td>
+			<td style="padding:3px;text-align:center;">{$lista.fecha_finalizacion}</td>
+			<td style="color:#FF0000;font-weight:bold;padding:3px;text-align:center;">
+				{if $lista.fecha_reprogramacion != null}
+					{$lista.fecha_reprogramacion}
+				{else}
+					"No tiene reprogramaci&oacute;n"
+				{/if}
+			</td>
+			<td style="padding:3px;text-align:center;">{$lista.motivo_reprogramacion}</td>
+		</tr>
+		</table>
+	{/if}
+	<br />
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center">
+				<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}
+			</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+
+{if ($lista.asignacion_detalle_id != '') && ($lista.usuario_entrega == 0)}
+	<br />
+	<br />
+	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+	<form action="../../controladores/sistema_de_produccion/recepcion.php" method="post" name="buscar" id="buscar">
+	  <tr>
+		<td style="padding:10px;text-align:center;">
+			<input type="hidden" name="num_asignacion" id="num_asignacion" value="{$lista.asignacion_detalle_id}"/>
+			<input name="buscar" type="submit" value="Dar de baja la producci&oacute;n" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+		</td>
+	  </tr>
+	</form>
+	</table>
+{/if}

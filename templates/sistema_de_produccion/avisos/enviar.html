@@ -1,0 +1,80 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+{literal}
+<script language="JavaScript" type="text/javascript" src="../../templates/script/richtext.js"></script>
+<script language="JavaScript" type="text/javascript">
+function A(c) {
+	var oc=new String(c.value),nt=new String(""),nc;
+	for(var q=0;q<oc.length;q++){
+		((oc.charCodeAt(q)==13)||(oc.charCodeAt(q)==10))?nc='':nc=oc.charAt(q);
+		nt+=nc;
+	}
+	delete oc,nt;
+	return nt;
+} 
+
+function submitForm() {
+	updateRTE('aviso');
+	var nuevotexto = A(document.form_registrar.aviso);
+	document.form_registrar.aviso.value = nuevotexto;
+	return true;
+}
+
+//Usage: initRTE(imagesPath, includesPath, cssFile)
+initRTE("../../templates/imagenes/imagestool/", "../../templates/css/", "");
+//-->
+</script>
+{/literal}
+<br>
+<form name="form_registrar" method="post" action="../../controladores/sistema_de_produccion/avisos.php" onsubmit="return submitForm();">
+  <table border="0" align="center" >
+    <th colspan="4">Publicar aviso</th>
+      {if $errores.err_anuncio != null}
+    <tr>
+      <td class="anuncio"> {$errores.err_anuncio} </td>
+    </tr>
+    {/if}
+    <tr>
+      <td>
+	  	{literal}
+        <script language="JavaScript" type="text/javascript">
+					writeRichText('aviso', {/literal}"{$aviso}"{literal}, 600, 170, true, false);
+		  </script>
+        {/literal}
+	  </td>
+    </tr>
+    {if $errores.err_grupo != null}
+    <tr>
+      <td class="anuncio"> {$errores.err_grupo} </td>
+    </tr>
+    {/if}
+    <tr>
+      <td style="padding:3px;text-align:center;">
+		<span class="enunciados">Enviar a todos los grupos?</span>
+		{if $todos==true}
+        <input type="checkbox" name="todos" checked="checked"/>
+        {else}
+        <input type="checkbox" name="todos"/>
+        {/if}
+		
+		<span class="enunciados">Enviar a un grupo espec&iacute;fico:</span>
+		<span align="left" class="entrada" style="margin:5px;">
+        <input type="text" name="grupo" id="autorelleno" class="edit" value="{$grupo}" style="border:none;" size="30"/>
+        	<img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.forms[0].grupo.focus();document.forms[0].grupo.select();" style="cursor:pointer;" alt="Seleccionar Nombre"/>
+		 </span>
+		 <span id="spinner" style="display: none"></span>
+        <div id="lista_grupos" class="autorelleno" style="text-align:left;"> </div>
+        {literal}
+        <script>
+			new Ajax.Autocompleter("autorelleno", "lista_grupos", "../../controladores/usuarios/registrar_usuarios.php?busqueda_ajax=grupo", {method:"post", paramName: "value", minChars: 1, indicator: "spinner"});
+		</script>
+        {/literal}
+	  </td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding:10px;text-align:center;"><input type="submit" value="Publicar aviso" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+      </td>
+    </tr>
+  </table>
+  <input type="hidden" value="publicar" name="funcion" />
+</form>

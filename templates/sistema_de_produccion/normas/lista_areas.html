@@ -1,0 +1,89 @@
+<head>
+      
+   {include file="../templates/sistema_de_produccion/cabecera.html"}
+      
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar el area: " + nombre )) 
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+	 {/literal}
+</head>
+<body>
+<p align="center"><a class="link-menu" href="../../controladores/sistema_de_produccion/area.php"><img src="../../templates/imagenes/admareas.png" class="imagen-menu"><br>Nuevo</a></p>				 
+<form  name="form_lista" method="post" action="../../controladores/sistema_de_produccion/listar_areas.php">
+		<input type="hidden" name="elegido">
+        <input type="hidden" name="funcion">	     
+
+   <table width="100%">
+   		<tr>
+			<td width="80%">
+	             <table align="center">
+					<th colspan="6">
+						Lista de areas
+					</th>
+  					<tr>
+				 		<td class="enunciados" style="width:30px;"><center> CODIGO </center></td>
+						<td class="enunciados" style="width:100px;"><center>  AREA  </center></td>
+						<td class="enunciados" style="width:100px;"><center> RESPONSABLE  </center></td>
+				     	<td class="enunciados" style="width:10px;"><center> EDITAR  </center></td>
+						<td class="enunciados" style="width:10px;"> <center> ELIMINAR  </center></td>
+
+			   		</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<div style="height:20em; overflow:auto; position:absolute; left: 332px; top: 240px; width: 476px;">
+			<table align="center">
+   					{foreach name=contenido item=colores from=$areas}
+						<tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+							{foreach key=key item=item from=$colores}
+								{if $key == "id_area"}
+									{assign var=nombre_area  value=$item}
+									<td style="width:30px;"> {$item} </td>
+								{else}
+									{if $key == "id_area"}
+										<td style="width:100px;"> {$item} </td>
+									{else}
+										<td style="width:100px;"> {$item} </td>
+									{/if}
+								{/if}
+								
+							{/foreach}                     
+<td ><center>
+<a href="../../controladores/sistema_de_produccion/listar_areas.php?funcion=modificar&elegido={$colores.id_area}" name="{$colores.id_area}" id="{$colores.id_area}"><img src="../../templates/imagenes/modificar.gif" class="imagenes" title="Editar"/></a>
+</center>
+</td>
+<td style="width:70px;"><center>
+<INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif" width=15 height=15 border=0  name={$nombre_area} value=eliminar onclick=consultar(name,value)>
+</center></td>
+	{/foreach}
+	 </table>
+	 </div>
+	 </td>
+	 </tr>
+	 </table> 
+</form>  
+</body>

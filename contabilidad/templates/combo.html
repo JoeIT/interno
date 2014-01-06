@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+{literal}
+<script language="javascript" src="../templates/mootools-release-1.11.js"></script>
+<script language="javascript">
+function actualizar (paginaservidor,combo,lista,clave){
+
+var miAjax = new Ajax(paginaservidor,
+{
+	method: 'get',
+	data:clave+'='+$(combo).value,
+	
+	update: $(lista)
+	
+});
+miAjax.request();
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}
+</script>
+{/literal}
+
+</head>
+
+<body>
+<table width="95%" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><div id="primaria" > Primaria:
+        <select name="pri1" id="pri2" onchange="actualizar ('combo.php','pri2','secundaria','primaria')" >
+          <option value="selc">Seleccionar</option>
+                          
+  {foreach item=item from=$pri}	 
+	   	
+            
+        
+        
+          <option value="{$item.primaria_id}">{$item.descripcion}</option>
+          
+         
+            
+         	    	   
+	  
+	{/foreach}	
+  
+          
+      
+      
+        </select>
+    </div>
+        <div id="secundaria" ></div></td>
+ </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>  
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+
+</body>
+</html>

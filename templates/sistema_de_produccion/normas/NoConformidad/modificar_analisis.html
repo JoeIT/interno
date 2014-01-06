@@ -1,0 +1,80 @@
+<body>
+{include file="../templates/sistema_de_produccion/cabecera.html"} <br />
+{literal}
+<script language="JavaScript">
+   function noVacio() {
+    var bError = false;
+     bError = bError || (eval("document.analisis.analisis_causa.value == ''")) || (eval("document.analisis.accion_inmediata.value == ''"));
+     if (bError){
+      alert("(*) Campos obligatorios");
+	  eval("document.analisis.analisis_causa.focus()");
+      eval("document.analisis.accion_inmediata.focus()");  
+    }
+    if (!bError) alert("Se ingreso correctamente los valores de analisis RG-40.");
+   }
+  </script>
+  {/literal}
+  <form name="analisis" id="analisis" method="POST" action="../../controladores/sistema_de_produccion/listar_analisis.php?funcion=modificar_apertura&elegido={$nro_registro}"  align="center">
+  <table border="0" align="center" cellpadding="0" cellspacing="3" width="95%">
+    <tr><!--bgcolor="#20B2AA"-->
+      <th colspan="6" >Modificar Analisis y Accion [Codigo <strong>RG-40</strong>]</th>
+    </tr>
+
+    <tr>
+      <td class="enunciados">Disposicion:</td>
+      <td><select name="disposicion" id="select" > 
+      <option value="Desechar" {if $disposicion == "Desechar"}selected="selected"{/if}>Desechar</option>
+      <option value="Devolver" {if $disposicion == "Devolver"}selected="selected"{/if}>Devolver</option>
+      <option value="Reclasificar" {if $disposicion == "Reclasificar"}selected="selected"{/if}>Reclasificar</option>
+      <option value="Reprocesar" {if $disposicion == "Reprocesar"}selected="selected"{/if}>Reprocesar</option>
+      <option value="Usar con autorizaci&oacute;n" {if $disposicion[0] == "U"}selected="selected"{/if}>Usar con autorizaci&oacute;n</option>
+      <option value="Otros" {if $disposicion == "Otros"}selected="selected"{/if}>Otros</option>                  
+    </select></td>
+    </tr>  
+<tr >
+      
+       <th colspan="6" class="enunciados" style="text-align:left"><span style="color:#F00">(*)</span>Analisis de la causa raiz de {$aperturada.tipo}</th>
+</tr>
+  <tr>
+ 
+  <td class="body-sector" colspan="6" rowspan="2"><p>
+    <textarea name="analisis_causa" cols="100" rows="4" wrap="virtual" id="analisis_causa" style="overflow-x:hidden;overflow:auto">{$analisis_causa}</textarea>
+    
+  </p>
+  </td>
+  </tr>
+<tr>
+</tr>
+<tr> 
+      <th colspan="6" class="enunciados" style="text-align:left">Accion {$aperturada.accion}
+      {if $aperturada.accion==Correctiva}
+      (A.C.)
+      {else}
+      (A.P.)
+      {/if}
+      </th>  
+</tr>
+<tr>
+  <td width="15%" class="enunciados"><span style="color:#F00">(*)</span>Inmediata:</td>
+  <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="accion_inmediata" type="text" id="accion_inmediata" value="{$accion_inmediata}" size="50" tabindex="1" style="border:none;" onKeyPress="return enter_handle(this, event, 1, 1)">
+		</span>	</td>
+</tr>
+<tr>
+  <td width="19%" class="enunciados">Otras:</td>
+  <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+<input name="accion_otras" type="text" id="accion_otras" value="{$accion_otras}" size="50" tabindex="1" style="border:none;" onKeyPress="return enter_handle(this, event, 1, 1)">
+		</span>	</td>
+</tr>
+
+  </table>
+  <center>
+  <br>
+  <input type="submit" value="Guardar Datos" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'" onclick="noVacio()">
+</center>
+</form>
+</body>

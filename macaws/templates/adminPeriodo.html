@@ -1,0 +1,96 @@
+{include file="header.html" title=$title}
+{literal}
+<script type="text/javascript">
+// Función sobre aviso 
+function confirmActions(message)
+{ 
+	var conf = confirm(message); 
+    if (conf) 		
+       return true;
+	else
+	   return false; 
+} 
+</script>
+{/literal}
+
+<br/>
+  <table width="700" border="0" cellpadding="0" cellspacing="2" class="tableblue">
+    <caption class="search-box" >
+      Abrir - Cerrar periodos - Gesti&oacute;n {$gestion}.
+    </caption>
+	<tr>
+	<td colspan="7">
+	{if $reg_ok ne null}
+	<table width="250" border="0" cellpadding="0" cellspacing="0" class="finish">
+	  <tr>
+		<td>{$reg_ok}</td>
+	  </tr>
+	</table>
+	{/if}
+	</td>
+	</tr> 
+	<tr>
+	<td colspan="7" class="error-box">
+	{$error.abrir}
+	</td>
+	</tr>	   
+	{if $periodos ne null}	
+	<tr>
+	<td class="header-table">Periodo</td>
+	<td class="header-table">Estado</td>
+	<td class="header-table">Observaci&oacute;n</td>
+	<td class="header-table">&nbsp;</td>
+	</tr>	
+	
+    {section name=ind loop=$periodos}
+    <tr bgcolor="{cycle values="#FFFFFF,#f0f0f0"}">
+      <td align="center" width="150"> {$periodos[ind].periodo}  </td>
+	  {if $periodos[ind].estado eq 1 }
+	  <td width="150">Abierto</td>
+ 	  <td>{$periodos[ind].obs}&nbsp;</td>
+	  <form method="post" name="form1"  action="actions/action_adminPeriodos.php">	  
+  	  <td width="150"> 
+	  <input name="cod_pg" type="hidden" value="{$periodos[ind].cod_pg}" />
+	  <input name="gestion" type="hidden" value="{$gestion}" />
+	  <input name="cerrar" type="submit" class="text3" id="cerrar" value="Cerrar periodo" onclick="return confirmActions('¿Desea CERRAR el periodo? ');" />
+	  </td>
+  	  </form>
+	  {else}
+  	  <td width="150">Cerrado</td>
+ 	  <td>{$periodos[ind].obs}&nbsp;</td>
+  	  <form method="post" name="form2" action="actions/action_adminPeriodos.php">
+	  <td width="150">	  
+	  <input name="cod_pg" type="hidden" value="{$periodos[ind].cod_pg}" />
+	  <input name="gestion" type="hidden" value="{$gestion}" />
+	  <input name="abrir" type="submit" class="text3" id="abrir" value="Abrir periodo" onclick="return confirmActions('¿Desea ABRIR el periodo? ');" />
+	  </td>
+  	  </form>
+	  {/if}
+    </tr>	
+	{/section}	
+	
+    {else}
+	<tr>
+	<td colspan="7" class="error-box">
+    No existen periodos registrados en esta gestion.	</td>
+	</tr>
+    {/if}		
+	<tr>
+	<td colspan="7" align="center">
+	 <form action="seleccionarGestion.php" method="post" name="form2" class="text3">
+	  <input name="mcwgessel" type="hidden" value="{$gestion}" />
+	  <input name="volver" type="submit" class="text3" id="volver" value="Cambiar de gestión" />
+  	  </form>
+	  	  
+	  <form method="post" action="periodoGestion.php">
+	    <input name="volver" type="submit" class="text3" value="Crear nuevo periodo"  />
+	  <input type="hidden" name="mcwgessel" value="{$gestion}"/>
+      </form>
+	  
+	  <input name="salir" type="button" class="text7" onclick="location='/sistema/macaws/lcv.php'" value="Salir" />
+	</td>
+	</tr>
+</table>
+
+</body>
+</html>

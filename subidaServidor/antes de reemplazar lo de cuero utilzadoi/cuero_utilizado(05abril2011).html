@@ -1,0 +1,48 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."} <br />
+<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+  <tr>
+    <th colspan="8">Lista de &Oacute;rdenes de Producci&oacute;n</th>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:center;">Orden Prod.</td>
+    <td class="enunciados" style="text-align:center;">Cliente</td>
+    <td class="enunciados" style="text-align:center;">Entrega</td>
+    <td class="enunciados" style="text-align:center;">Finalizaci&oacute;n</td>
+    <td class="enunciados" style="text-align:center;">Cantidad</td>
+    <td class="enunciados" style="text-align:center;">Ingreso</td>
+    <td class="enunciados" style="text-align:center;">Falta</td>   
+  </tr>
+	
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=orden from=$ordenes}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	{if $orden.cantidad!=$orden.entregados && $orden.orden_id > 394}
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+    <td width="5%">
+		<a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=11&oid={$orden.orden_id}">
+			{$orden.num_orden}
+		</a>
+	</td>
+    <td width="15%">{$orden.cliente}</td>
+    <td width="8%" style="text-align:center;">{$orden.fecha}</td>
+    <td width="8%" style="text-align:center;">{$orden.fechaentrega}</td>
+    <td width="5%" style="color:#FF0000;text-align:center;">{$orden.cantidad}</td>
+    <td width="5%" style="font-weight:bold;padding-left:3em;">{$orden.cantidad-$orden.falta}</td>
+    <td width="5%" style="font-weight:bold;padding-left:3em;">{if $orden.falta!=''}{$orden.falta}{else}0{/if}</td>
+  </tr>
+  {/if}
+  {/foreach}
+  <tr>
+    <td colspan="8"><hr /></td>
+  </tr>
+</table>
+<br />
+
+{include file="../templates/contenido/includes/pie.html"}

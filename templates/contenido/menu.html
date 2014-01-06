@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>.:: Macaws S.R.L. - Sistema Interno ::.</title>
+<link href="../templates/css/leftPanelStyles.css" rel="stylesheet" type="text/css" />
+<link href="../templates/css/macaws-css.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript" type="text/javascript" src="../templates/script/leftPanelJS.js"></script>
+</head>
+
+<body>
+
+
+<!-- Opciones del Menu -->
+<div id="dhtmlgoodies_xpPane">
+  <div align="center">
+  		<br />
+		<a href="./contenido.php" target="contenido">
+			<img border="0" src="../templates/imagenes/logo-macaws.jpg" alt="Logo Macaws S.R.L." width="203" height="80" />
+		</a>
+		<br />
+  </div>
+
+ {assign var=contador value=0}
+ <div class="dhtmlgoodies_panel" >
+		<div>
+  {foreach name=contenido item=modelos from=$menu}
+		
+		{foreach key=key item=item from=$modelos}
+				{if $key == "url"}
+					{assign var=url value=$item}
+				{/if}
+				{if $key == "pestañas"}
+					{assign var=pestaña value=$item}
+				{/if}
+				{if $key == "nombre"}
+					{assign var=nombre value=$item}
+				{/if}
+				{if $key == "icono"}
+					{assign var=icono value=$item}
+				{/if}
+				{if $key == "orden"}
+					{assign var=orden value=$item}
+					{if $contador==0}
+						{assign var=contador value=$item}
+					{/if}
+					
+				{/if}
+				{if $key == "cont"}
+					{assign var=cont value=$item}
+				{/if}
+			
+		{/foreach}
+	
+		
+			{if $contador != $orden}
+			
+				</div>	
+				</div>
+				<div class="dhtmlgoodies_panel">
+				<div>
+				{assign var=contador value=$orden}	
+			
+			{/if}
+		
+		&nbsp;<img src="../templates/imagenes/{$icono}" align="absmiddle"  class="imagenes-pestaña"/> <a href="{$url}" target="contenido">{$nombre}</a><br>
+{/foreach}
+	</div>
+	</div>
+	  </div>
+	  
+
+
+<script type="text/javascript">
+		initDhtmlgoodies_xpPane(Array( {$menu2.nivel}),Array( {$menu2.mostrar}),Array( {$menu2.paneles}));
+</script> 
+
+	
+
+
+<!-- Fin de opciones del menu -->
+
+</body>
+</html>
+

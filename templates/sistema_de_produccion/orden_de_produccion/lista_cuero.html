@@ -1,0 +1,89 @@
+<html
+<head>
+      
+      {include file="../templates/sistema_de_produccion/cabecera.html"}
+      
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar el cuero: " + nombre ))
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+						
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+	 {/literal}
+</head>
+<body>
+ <p align="center"><a class="link-menu" href="../../controladores/sistema_de_produccion/registrar_cuero.php?popup=false"><img src="../../templates/imagenes/cuero.gif" class="imagen-menu"><br>Nuevo</a></p>				 
+		<form  name="form_lista" method="post" action="../../controladores/sistema_de_produccion/lista_cuero.php">
+		<input type="hidden" name="elegido">
+        <input type="hidden" name="funcion">	
+   <table width="100%">
+   		<tr>
+			<td>
+			     <table align="center">
+					<th colspan="5">Lista de cueros</th>
+  					<tr>
+				 		<td class="enunciados" style="width:70px;"><center> CODIGO  </center></td>
+						<td class="enunciados" style="width:200px;"><center> DESCRIPCION  </center></td>
+				     	 <td class="enunciados" style="width:70px;"><center> MODIFICAR  </center></td>
+						 <td class="enunciados" style="width:70px;"><center> ELIMINAR  </center></td>
+						 <td class="enunciados" style="width:10px;"></td>
+			   		</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div style="height:20em; overflow:auto; position:absolute; left: 154px; top: 241px; width: 464px;">
+				<table align="center">
+   					{foreach name=contenido item=cueros from=$cuero}
+						<tr class="lista-normal" >
+							{foreach key=key item=item from=$cueros}
+								{if $key == "codigo"}
+									{assign var=usuario value=$item}
+									<td style="width:70px;"> {$item}</td>
+								{else}
+									<td style="width:210px;"> {$item}</td>
+								{/if}
+								
+							{/foreach}
+							<td class="body-table" style="width:70px;" ><center>
+								<INPUT TYPE="image" SRC="../../templates/imagenes/modificar.gif"  width=15 height=15 border=0  name={$usuario} value=modificar onclick=consultar(name,value) >
+								</center>
+							</td>
+							<td class="body-table" style="width:70px;"><center>
+								<INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif" width=15 height=15 border=0  name={$usuario} value=eliminar onclick=consultar(name,value)>
+								</center>
+							</td>
+	   					</tr>  
+					{/foreach}
+				</table>
+			  </div>
+				
+
+		  </td>
+			</tr>
+		</table> 
+				
+		</form>  
+</body>
+</html>

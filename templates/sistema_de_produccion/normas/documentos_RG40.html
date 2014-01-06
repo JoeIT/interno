@@ -1,0 +1,201 @@
+{* Lista de ordenes registradas *}
+ {include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<table align="center"   cellpadding="3" width="91%">
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <th colspan="9"><a href="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=2" title="Lista de aperturadas">APERTURADAS</a></th>
+    </tr>
+    <tr>
+      <th  class="enunciados" style="text-align:center">Nro Registro</th>
+      <th  class="enunciados" style="text-align:center">Tipo - No Conformidad</th>
+      <th  class="enunciados" style="text-align:center">Accion</th>
+      <th  class="enunciados" style="text-align:center">Area que Aperturo</th>
+      <th  class="enunciados" style="text-align:center">Area(s) Informada(s)</th>
+      <th  class="enunciados" style="text-align:center">Motivo</th>
+      <th  class="enunciados" style="text-align:center">Cierre Planeado</th>
+      <th  class="enunciados" style="text-align:center">Fecha Apertura</th>
+      <td  class="enunciados" style="text-align:center">Analisis</td>
+    </tr>
+{assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$aperturadas}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+{/if}
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+<td align="center">
+{if $aperturadas[ind].imprimir_ap eq 1}
+<a href="../../controladores/sistema_de_produccion/listarnoconformidad.php?opcion=ver&elegido={$aperturadas[ind].nro_registro}&estado={$aperturadas[ind].estado}" name="{$aperturadas[ind].nro_registro}" id="{$aperturadas[ind].nro_registro}">#{$aperturadas[ind].nro_registro}</a>
+{else} 
+#{$aperturadas[ind].nro_registro}{/if}
+</td>
+      <td>{$aperturadas[ind].tipo}</td>
+	  <td>{$aperturadas[ind].accion}</td>
+	  <td>{$aperturadas[ind].area_observada}</td>
+      <td>{$aperturadas[ind].area_informada}</td>
+      <td>{$aperturadas[ind].motivo}</td>
+      <td>{$aperturadas[ind].cierre}</td>
+     <td>{$aperturadas[ind].fec_apertura}</td>
+     <td>{if $aperturadas[ind].estado eq 1}<a href="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=analisis&elegido={$aperturadas[ind].nro_registro} " name="{$aperturadas[ind].nro_registro}" id="{$aperturadas[ind].nro_registro}"><img src="../../templates/imagenes/lists.gif" class="imagenes" title="Registrar Analisis"/></a>{else} <div style="color: #FF0000">Tiene Analisis y accion.{/if}</div></td>          
+    </tr>
+    {/section}
+ <tr>
+    <td class="enunciados">N&deg; Total:</td>
+    <td class="body-sector" style="border:ridge;background:#FFC" colspan="8"><strong>{$totalesA.total}</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="8">&nbsp;</td>
+  </tr>
+</table>
+<table align="center"   cellpadding="3" width="91%">
+<tr>
+      <th colspan="8"><a href="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=3" title="Lista de analisis y accion">ANALISIS Y ACCION</a></th>
+    </tr>
+    <tr>
+      <th  class="enunciados" style="text-align:center">Nro Registro</th>
+      <th  class="enunciados" style="text-align:center">Disposicion</th>
+      <th  class="enunciados" style="text-align:center">Causa</th>
+      <th  class="enunciados" style="text-align:center">Accion Correctiva Inmediata</th>
+      <th  class="enunciados" style="text-align:center">Accion Correctiva Otras</th>
+      <th  class="enunciados" style="text-align:center">Fecha Accion</th>
+      <td  class="enunciados" style="text-align:center">Revision</td>
+    </tr>
+{assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$analisis}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+{/if}
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center">  
+<td align="center">
+{if $analisis[ind].imprimir_an eq 1}
+<a href="../../controladores/sistema_de_produccion/listarnoconformidad.php?opcion=ver&elegido={$analisis[ind].nro_registro}&estado={$analisis[ind].estado}" name="{$analisis[ind].nro_registro}" id="{$analisis[ind].nro_registro}">#{$analisis[ind].nro_registro}</a>
+{else} 
+#{$analisis[ind].nro_registro}{/if}
+</td>
+      <td>{$analisis[ind].disposicion}</td>
+	  <td>{$analisis[ind].analisis_causa}</td>
+	  <td>{$analisis[ind].accion_inmediata}</td>
+	  <td>{$analisis[ind].accion_otras}</td>
+      <td width="60">{$analisis[ind].fec_analisis}</td>
+     <td>{if $analisis[ind].estado eq 2}<a href="../../controladores/sistema_de_produccion/listar_analisis.php?funcion=revision&elegido={$analisis[ind].nro_registro} " name="{$analisis[ind].nro_registro}" id="{$analisis[ind].nro_registro}"><img src="../../templates/imagenes/lists.gif" class="imagenes" title="Registrar Revision"/></a>{else} <div style="color: #FF0000">Tiene Revision{/if}</div></td>
+    </tr>
+	{/section}
+  <tr>
+    <td class="enunciados">N&deg; Total:</td>
+    <td class="body-sector" style="border:ridge;background:#FFC" colspan="7"><strong>{$totalesAN.total}</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="8">&nbsp;</td>
+  </tr>
+</table>
+<table align="center"   cellpadding="3" width="91%">
+    <tr>
+      <th colspan="9"><a href="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=4" title="Lista de revisiones">VERIFICACIONES</a></th>
+    </tr>
+    <tr>
+      <th  class="enunciados" style="text-align:center">Nro Registro</th>
+      <th  class="enunciados" style="text-align:center">Responsable Cumplimiento</th>
+      <th  class="enunciados" style="text-align:center">Fecha Cumplimiento</th>
+      <th  class="enunciados" style="text-align:center">Fecha Extensi&oacute;n</th>
+      <th  class="enunciados" style="text-align:center">Efectividad Cumplimiento</th>
+      <th  class="enunciados" style="text-align:center">Efectividad Extensi&oacute;n</th>
+      <th  class="enunciados" style="text-align:center">Fecha Verificar Cumplimiento</th>
+      <th  class="enunciados" style="text-align:center">Fecha Verificar Extensi&oacute;n</th>
+      <td  class="enunciados" style="text-align:center">Cierre</td>
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$revisiones}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+		{if $mensaje == null}
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+<td align="center">
+{if $revisiones[ind].imprimir_re eq 1}
+<a href="../../controladores/sistema_de_produccion/listarnoconformidad.php?opcion=ver&elegido={$revisiones[ind].nro_registro}&estado={$revisiones[ind].estado}" name="{$revisiones[ind].nro_registro}" id="{$revisiones[ind].nro_registro}">#{$revisiones[ind].nro_registro}</a>
+{else} 
+#{$revisiones[ind].nro_registro}{/if}
+</td>
+<td>{$revisiones[ind].responsable_cumplimiento}</td>
+<td>{if $revisiones[ind].fec_cumplimiento eq '0000-00-00'}--{else}{$revisiones[ind].fec_cumplimiento}{/if}</td>
+<td width="60">{if $revisiones[ind].fec_extension eq '0000-00-00'}--{else}{$revisiones[ind].fec_extension}{/if}</td>
+<td>{$revisiones[ind].efectividad}</td>
+<td>{$revisiones[ind].efectividad_ext}</td>
+<td>{if $revisiones[ind].fec_ver_cumplimiento eq '0000-00-00'}--{else}{$revisiones[ind].fec_ver_cumplimiento}{/if}</td>      
+<td>{if $revisiones[ind].fec_ver_extension eq '0000-00-00'}--{else}{$revisiones[ind].fec_ver_extension}{/if}</td>
+<td>{if $revisiones[ind].estado eq 3}<a href="../../controladores/sistema_de_produccion/listar_revisiones.php?funcion=cierre&elegido={$revisiones[ind].nro_registro} " name="{$revisiones[ind].nro_registro}" id="{$revisiones[ind].nro_registro}"><img src="../../templates/imagenes/lists.gif" class="imagenes" title="Registrar Cierre"/></a>{else} <div style="color: #FF0000">Tiene Cierre{/if}</div></td>
+    </tr>
+	{/if}
+    {/section}
+    <tr>
+    <td class="enunciados">N&deg; Total:</td>
+    <td class="body-sector" style="border:ridge;background:#FFC" colspan="8"><strong>{$totalesR.total}</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="9">&nbsp;</td>
+  </tr>
+</table>
+<table align="center"   cellpadding="3" width="91%">
+    <tr>
+<!--      <th colspan="7">CIERRES</th>-->
+      <th colspan="7"><a href="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=5" title="Lista de RG-40 cerradas">CIERRES</a></th>
+    </tr>
+    <tr>
+      <th  class="enunciados" style="text-align:center">Nro Registro</th>
+      <th  class="enunciados" style="text-align:center">Resultados Accion</th>
+      <th  class="enunciados" style="text-align:center">Comunicacion Cliente</th>
+      <th  class="enunciados" style="text-align:center">Fecha Contacto</th>
+      <th  class="enunciados" style="text-align:center">Responsable del Contacto</th>
+      <th  class="enunciados" style="text-align:center">Fecha Cierre</th>
+    <!--  <td  class="enunciados" style="text-align:center">Alertas</td>-->
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$cierres}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+		{if $mensaje == null}
+		
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center">   
+<td align="center">
+{if $cierres[ind].imprimir_ci eq 1}
+<a href="../../controladores/sistema_de_produccion/listarnoconformidad.php?opcion=ver&elegido={$cierres[ind].nro_registro}&estado={$cierres[ind].estado}" name="{$cierres[ind].nro_registro}" id="{$cierres[ind].nro_registro}">#{$cierres[ind].nro_registro}</a>
+{else} 
+#{$cierres[ind].nro_registro}{/if}
+</td>
+    <td>{$cierres[ind].accion_resultado}</td>
+	<td>{$cierres[ind].comunicacion_cliente}
+    </td>
+    <td width="60">{if $cierres[ind].fec_contacto eq '0000-00-00'}--{else}{$cierres[ind].fec_contacto}{/if}</td>
+    <td>{$cierres[ind].responsable_contacto}</td>
+    <td>{$cierres[ind].fec_cierre}</td>  
+    </tr>
+	{/if}
+    {/section}
+    <tr>
+    <td class="enunciados">N&deg; Total:</td>
+    <td class="body-sector" style="border:ridge;background:#A9F5A9" colspan="6"><strong>{$totalesC.total}</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="7">&nbsp;</td>
+  </tr>
+</table>
+<br>
+</form>

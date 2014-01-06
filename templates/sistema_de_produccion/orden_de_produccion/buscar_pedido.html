@@ -1,0 +1,103 @@
+{* Lista de ordenes registradas *}
+ {include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+ <br />
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+    <tr>
+	 <th colspan="2">Búsqueda de ordenes</th>
+	</tr>
+     <td colspan="2"><!-- aqui se detallan los contenidos-->
+        <form action="../../controladores/sistema_de_produccion/buscar_pedido.php?funcion=buscar" method="post" name="producto" id="producto">
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            {if $errores.err_nombre != null}
+            <tr>
+              <td/>
+              <td style="padding-left:3px;"><div class="error-box">{$errores.err_nombre}</div></td>
+            </tr>
+            {/if}
+            <tr>
+              <td width="50%" class="enunciados">Ingrese C&oacute;digo de pedido:</td>
+              <td class="body-sector" style="padding:3px;"><div align="left" class="entrada"> <img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+                  <input name="pedido" type="text" id="pedido" value="{$pedido}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="padding:10px;text-align:center;"><input name="funcion" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="funcion" type="reset" value="Cancelar B&uacute;squeda" class="boton"/>
+              </td>
+            </tr>
+          </table>
+        </form>
+      
+     </td>
+  </tr>
+</table>
+{if $mensaje != null}
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td><div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div></td>
+  </tr>
+</table>
+<br />
+{/if}
+{if $ordenes!= null}
+<table align="center"  width="95%" cellpadding="3">
+  <tr>
+    <th colspan="9"> Lista de Ordenes </th>
+  </tr>
+  
+  <tr>
+ 
+    <td style="text-align:center" class="enunciados">Orden Prod.</td>
+	<td style="text-align:center" class="enunciados">Cliente</td>
+	<td style="text-align:center" class="enunciados">Fec. Orden</td>
+	<td style="text-align:center" class="enunciados">Fec. Fin Orden</td>
+	<td style="text-align:center" class="enunciados">Fecha Reprog.</td>
+	<td style="text-align:center" class="enunciados">Fecha Asignación</td>
+	<td style="text-align:center" class="enunciados">Fecha fin asignación</td>
+	<td style="text-align:center" class="enunciados">Fecha despacho</td>
+  </tr>
+  {assign var=CSSclass value=0}
+  {assign var=clases value="lista-normal"}
+  {foreach name=contenido item=orden from=$ordenes}
+  {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';" align="center"> 
+  {foreach key=key item=item from=$orden}
+    {if $key == "codigo"}
+    {assign var=orden_id value=$item}
+    {else}
+	  {if $key == "Orden Prod."}
+	  <td align="center">
+		<a href="../../controladores/sistema_de_produccion/buscar_pedido.php?funcion=detalle&elegido={$orden_id} " name="{$orden_id}" id="{$orden_id}">{$item}</a>
+	  </td>
+	  {else}
+	         {if $key == "fecha reprog"}
+			   {if $item== "0000-00-00"} <td>&nbsp;</td>
+			   {else} <td align="center"> {$item}		 </td>
+			    {/if}
+			 {else}
+	  <td align="center">
+		{$item}
+		
+	  </td>
+	         {/if}
+	  {/if}
+    {/if}
+  {/foreach}
+  </tr>
+  {/foreach}
+  <tr>
+	<td colspan="8">
+		<hr	/>
+	<td>
+  </tr>
+</table>
+<br>
+</form>
+{/if}

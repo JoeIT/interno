@@ -1,0 +1,47 @@
+{include file="../../sistema_de_produccion/cabecera.html"}
+
+<br />
+
+<form action="instructivos.php?funcion=buscar_instructivo" method="post">
+<table width="90%" border="0" cellspacing="1" cellpadding="2" align="center">
+  <tr>
+    <th colspan="2">B&uacute;squeda de instructivo</th>
+  </tr>
+  {if $error != ''}
+  <tr>
+    <td>&nbsp;</td>
+    <td><div class="error-box" style="width:100%">{$error.err_nuevo}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="enunciados">Ingresar modelo:</td>
+    <td>
+		<div align="left" class="entrada" style="margin:5px;">
+			<img src="../../templates/imagenes/combo.jpg" class="imagenes"/>
+			<input name="nuevo" type="text" id="nuevo" value="{$nuevo}" tabindex="1"  size="80" style="border:none;"/>
+		</div>
+		
+		<span id="spinner" style="display: none"> 
+		<img src="../../templates/imagenes/spinner.gif" alt="Consultando…" style="display:none" /> 
+		</span>
+		
+		<div id="lista_modelos" class="autorelleno"> </div>
+		{literal}
+		<script>
+		new Ajax.Autocompleter("nuevo", "lista_modelos", "../../controladores/sistema_de_produccion/instructivos.php?busqueda_ajax=instructivos", {method:"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+		</script>
+		{/literal}
+	</td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding:10px;text-align:center;">
+	    <input name="buscar" type="submit" value="Buscar instructivo del producto" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>		
+	</td>
+  </tr>
+</table>
+</form>
+{if $url != ''}
+<div align="center">
+	<a href="{$url}" target="_blank">Ver instructivo</a>
+</div>
+{/if}

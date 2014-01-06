@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>ASP.NET (C# syntax) file processing code example</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+
+<p>
+			<a target="_blank" href="http://www.powupload.com" title="File upload component">PowUpload</a> is an ASP.Net file upload control that enables an 
+			ASP.NET application to capture and save files uploaded to the web server
+			by a browser. PowUpload is fully compatible with the standard files upload 
+			protocol defined in RFC1867 for the HTML POST Form with the &lt;INPUT 
+				TYPE=FILE&gt; tags.</p>
+<p>
+			PowUpload handles and stores the contents of the POST request to a file on the 
+			server hard disk rather than loading it into memory as the built-in ASP.NET 
+				upload support does. PowUpload provides rich server-side progress 
+			indicator that lets users to monitor the progress of their uploads.</p>
+  
+
+
+<p><b>PowUpload features include:</b></font></p>
+        
+<UL>
+			<LI>
+				Uploads up to 1 GB (in .NET Framework 1.0 and 1.1) and 2 GB (in .NET Framework 2.0)  files without in-memory caching of requests. 
+				This feature allows you to upload of large files to a server 
+				with the low load of RAM and to saved from &quot;System.OutOfMemoryException&quot; exception.</LI>
+			<LI>
+				Provides rich progress and status information during the 
+				upload process.</LI>
+			<LI>
+				100% Server-side control. Does not require installation on the user computer.</LI>
+			<LI>
+				Compatible with any browser and OS on the user side.</LI>
+			<LI>
+				Compatible with SSL (HTTPS) and any kind of authentication.</LI>
+			<LI>
+				Unicode file names and form values support.</LI>
+			<LI>
+				Includes free open source Macromedia Flash movie that allows 
+					multiple files selection at once and upload.</LI>
+			<LI>
+				Image size and type extraction functionality.</LI>
+			<LI>
+				Possibility to cancel an upload anytime.</LI>
+			<LI>
+				Stores non file items of the form in the built-in ASP.NET collection 
+				Request.Form.</LI>
+			<LI>
+				The Classes of the control has properties and methods with the same signature 
+				as in the built-in ASP.NET Request.Files collection. This gives you an 
+				opportunity to simply replace the built-in ASP.NET upload support
+				with our one or use simultaneously the both.</LI>
+			<LI>
+				Fully Managed code and CLS compliant.</LI>
+			<LI>
+				Supports multiple files upload from multiple users at the same 
+				time.</LI>
+			<LI>
+				Easy installation with the help of setup.exe or by copying the 
+				Element-IT.PowUpload.dll file to the Bin\ folder of your application.</LI>
+			<LI>
+				Examples of use in C Sharp and VB.Net with a code behind or without.</LI>
+			<LI>
+				Includes an open source example of the file download feature 
+					without memory leak on the server.</LI>
+</UL>
+
+<p>In the distribution kit of MultiPowUpload 1.7 under folder FileProcessingScripts\ASP.NET\PowUpload you can find example that uploads files using PowUpload control.
+</p>
+  <h4>uploadfiles.aspx code sample:</h4>
+  <textarea  name="" cols="100" rows="19" wrap="off">
+<%@ Page language="c#"%>
+<%@ Import Namespace="ElementIT.PowUpload" %>
+<%						
+	Response.Write("Upload result:<br>"); //At least one symbol should be sent to response!!!
+	
+	Upload UploadResult = new Upload();					
+	String FolderToSave = Server.MapPath("") + "\\UploadedFiles\\";
+							
+	UploadedFile myFile = UploadResult.Files[0];
+	if(myFile != null && myFile.ClientFilePath !="")
+	{
+			myFile.SaveAs(FolderToSave + myFile.SafeFileName, true);
+			Response.Write("File " + myFile.SafeFileName + " succesfully saved.<br>");
+	}
+	else
+	     	Response.Write("No files sent. Script is OK!");	//Say to Flash that script exists and can receive files			
+		
+%>
+</textarea>
+ <h4>File Element-IT.PowUpload.dll should be in Bin\ folder in root of your application.</h4>
+
+
+  <h4>web.config file configuration:</h4>
+<textarea  name="" cols="100" rows="30" wrap="off">
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<configSections>
+        <sectionGroup name="Element-IT.PowUpload">
+            <section name="settings" type="System.Configuration.SingleTagSectionHandler, System, Version=1.0.3300.0, Culture=neutral, publicKeyToken=b77a5c561934e089"/>            
+        </sectionGroup>
+    </configSections>
+
+    <Element-IT.PowUpload>
+        <settings             
+            tempPath="C:\Temp\"
+            processPages="*.aspx"  
+            ignorePages="ProgressAJAX.aspx"
+            uploadIDQueryField="UploadID"
+            enableProgressBar="true"
+            bufferSize="16384"
+            minRequestLengthProcess="0"			  
+            throwErrorsImmediately="true"
+			logExceptions="false"   
+            serialKey=""             
+        />        
+    </Element-IT.PowUpload>
+
+  <system.web>
+
+	<httpRuntime maxRequestLength="1048576" executionTimeout="3600" />
+	
+   <httpModules>
+        <add name="ElementIT.PowUpload.UploadModule" type="ElementIT.PowUpload.UploadModule, Element-IT.PowUpload" />
+    </httpModules>
+
+
+    <compilation defaultLanguage="C#" debug="true">
+		<assemblies>
+			<add assembly="Element-IT.PowUpload, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b532bbddc196cc25" />
+		</assemblies>
+	</compilation>
+	
+    <trace enabled="false" />
+	
+    <customErrors mode="Off" /> 
+
+
+    <sessionState 
+            mode="InProc"
+            stateConnectionString="tcpip=127.0.0.1:42424"
+            sqlConnectionString="data source=127.0.0.1;Trusted_Connection=yes"
+            cookieless="false" 
+            timeout="20" 
+    />
+
+    <globalization requestEncoding="utf-8" responseEncoding="utf-8" />
+
+   
+ </system.web>
+
+</configuration>
+</textarea>
+
+
+<p>
+         <b><code>httpRuntime</code></b> - element cConfigures ASP.NET HTTP runtime settings. 
+</p>
+<p>
+          <b><code>maxRequestLength</code></b> - Attribute indicates the maximum file upload size supported by ASP.NET. 
+          This limit can be used to prevent denial of service attacks caused by users posting large files to the server. 
+          The size specified is in kilobytes. The default is "4096" (4 MB). Max value is "1048576" (1 GB) for .NET Framework 1.0 and 1.1 and 
+		  "2097151" (2 GB) for .NET Framework 2.0. 
+</p>
+<p>
+          <b><code>executionTimeout</code></b> - Attribute indicates the maximum number of seconds that a request is allowed to 
+          execute before being automatically shut down by ASP.NET. 
+          The executionTimeout value should always be longer than the amount of time that the upload process can take.
+</p>
+
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+	
+</body>
+</html>

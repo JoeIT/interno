@@ -1,0 +1,101 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th>Buscar despacho</th>
+  </tr>
+  <tr>
+    <td>
+		<!-- aqui se detallan los contenidos-->
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+		<form action="../../controladores/sistema_de_produccion/despacho.php" method="post" name="buscar" id="buscar">
+		  
+		  {if $errores.nombre_despacho != null}
+		  <tr>
+			<td/>
+			<td style="padding-left:3px;">
+				<div class="error-box">{$errores.nombre_despacho}</div>
+			</td>
+		  </tr>
+		  {/if}			
+
+		  <tr>
+			<td width="50%" class="enunciados">Nombre de despacho: </td>
+			<td class="body-sector" style="padding:3px;">
+				<div align="left" class="entrada">
+					<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+					<input type="text" name="nombre_despacho" id="nombre_despacho" value="{$nombre_despacho}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+				</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td style="padding:10px;text-align:center;">
+				<input name="buscar_despacho" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			</td>
+			<td style="padding:10px;text-align:center;">
+				<input name="buscar" type="reset" value="Reestablecer B&uacute;squeda" class="boton"/>
+			</td>
+		  </tr>
+		</form>
+		</table>
+	</td>
+  </tr>
+</table>
+
+<!--Restultados de la busqueda-->
+{if $lista_despachos != null}
+	<table  width="70%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="2">Lista de despachos</th>	           
+	</tr>
+	<tr>
+		<td class="enunciados" style="text-align:center;">Nombre</td>
+		<td class="enunciados" style="text-align:center;">Fecha de despacho</td>
+	</tr>
+
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=orden from=$lista_despachos}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+		<td style="text-align:center;">
+			<a href="../../controladores/sistema_de_produccion/despacho.php?opcion=6&deid={$orden.despacho_id}">
+				{$orden.nombre_despacho}
+			</a>
+		</td>
+		<td style="text-align:center;">{$orden.fecha_despacho}</td>
+	</tr>
+	{/foreach}
+
+	<tr>
+		<td colspan="5">
+			<hr />
+		</td>
+	</tr>
+	</table>
+	<br />
+{else}
+	{if $mensaje != null}
+		<table width="95%" border="0" align="center" cellpadding="0" cellspacing="1">
+		  <tr>
+			<td>
+				<div class="anuncio" align="center">
+					<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}
+				</div>
+			</td>
+		  </tr>
+		</table>
+	{/if}
+{/if}
+
+<br />
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

@@ -1,0 +1,84 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script src="../../templates/indicadores/script.js"></script>
+{/literal}
+
+<br />
+<div align="right">
+<a href="indicadores.php?opcion=lista_indicadores&area=Producción">Indicadores de Producción</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
+</div>
+<form action="indicadores.php?opcion=valores1" method="post">
+<table width="95%" border="1" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+  <tr>
+    <th colspan="{$monthsToShow*2+1}">Indicador: Cumplimiento despacho</th>
+  </tr>
+  <tr class="lista-normal">
+    <td colspan="{$monthsToShow*2}" style="font-size:1.2em;text-align:justify;padding:5px;">
+	<strong>Descripci&oacute;n:</strong>
+	Obtener el grado de cumplimiento de productos despachados en un periodo dado, en relación de la fecha programada de la Orden de Producci&oacute;n por Gerencia General.
+	<br /><br />
+	<strong>T:</strong> Total de productos de &oacute;rdenes de producci&oacute;n con despachos programados.
+	<br />
+	<strong>C:</strong> Cantidad de productos que cumplieron con la fecha programada de despacho.	</td>
+    <td style="text-align:center;">
+	Tendecia:
+	{if $trend > 0}
+		<img src="../../templates/indicadores/pics/up.gif" align="absbottom"/>
+	{/if}
+	{if $trend == 0}
+		<img src="../../templates/indicadores/pics/equal.gif" align="absbottom"/>
+	{/if}
+	{if $trend < 0}
+		<img src="../../templates/indicadores/pics/down.gif" align="absbottom"/>
+	{/if}	</td>
+  </tr>
+  <tr>
+    {foreach from=$monthsDataArray item=monthData}
+		<td colspan="2" class="enunciados" style="text-align:center">{$monthData.startDate|date_format:'%B, %Y'}<br>({$monthData.startDate} | {$monthData.endDate})</td>
+	{/foreach}
+	<input type="hidden" name="fecha" value="{$lastMonthStartDate}" />
+	<td rowspan="3"><img src="../../clases/indicadores/class.graphic.php?{$params}" border="1" alt="Indicador 1" style="height:200px;width:260px;" /></td>
+  </tr>
+  <tr class="lista-normal">
+    
+	{foreach from=$indicator1Array item=indicator1List}
+		<td>
+		T = {$indicator1List.cantidad}
+		<br />
+		C = {$indicator1List.cumplio}	</td>
+		
+		<td style="font-size:1.5em;font-weight:bold;">{$indicator1List.porcentaje|commify:2} %    
+		
+		
+		</td>
+	{/foreach}	
+	<input type="hidden" name="area" value="Producción" />
+	<input type="hidden" name="indi[{$indicator1Indicador_id}]" value="{$indicator1LastPercent}">
+  </tr>
+  <tr class="lista-normal" align="center">
+    {foreach from=$monthsDataArray item=monthData}
+	<td colspan="2">
+		<a href="javascript:generar_contenido('{$monthData.startDate}', '{$monthData.endDate}', 'indicador_1_grafico');">Detalle clientes</a>
+		<br />
+		<a href="javascript:generar_contenido('{$monthData.startDate}', '{$monthData.endDate}', 'indicador_1_ordenes');">Detalle ordenes</a>	</td>
+	{/foreach}
+  </tr>
+  <tr class="lista-normal" align="center">
+    {section name=foo start=0 loop=$monthsToShow step=1}
+	<td colspan="2">&nbsp;</td>
+    {/section}
+    <td>{if $mostrarBoton}<input type="submit" name="grabar" value="Actualizar Indicadores" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>{/if}</td>
+  </tr>
+</table>
+ </form>
+<br />
+<br />
+
+<div id="contenido" style="text-align:center;">
+</div>
+  <br />
+<br />
+
+<div id="ingresar" style="display:none;text-align:center;">
+</div>

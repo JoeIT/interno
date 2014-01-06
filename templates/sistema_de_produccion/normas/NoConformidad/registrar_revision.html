@@ -1,0 +1,178 @@
+<body>
+{include file="../templates/sistema_de_produccion/cabecera.html"} <br />
+{literal}
+<script language="JavaScript">
+   function noVacio() {
+    var bError = false;
+     bError = bError || (eval("document.orden.nombre.value == ''")) || (eval("document.orden.fec_cumplimiento.value == ''")) || (eval("document.orden.fec_cumplimiento.value == '0000-00-00'"))|| (eval("document.orden.fec_ver_cumplimiento.value == ''")) || (eval("document.orden.fec_ver_cumplimiento.value == '0000-00-00'"));
+     if (bError){
+      alert("(*) Campos obligatorios");
+	  eval("document.orden.nombre.focus()");
+      eval("document.orden.fec_cumplimiento.focus()"); 
+      eval("document.orden.fec_ver_cumplimiento.focus()"); 
+    }
+    if (!bError) alert("Se ingreso correctamente los valores de revision RG-40.");
+   }
+  </script>
+  {/literal}
+<form name="orden" method="post" action="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=3&funcion=validar&elegido={$analisis.nro_registro}"  align="center">
+  <table rules="rows" BORDERCOLOR="#666666" border=1 align="center" cellpadding="0" cellspacing="0" width="95%">
+    <tr>
+      <td colspan="6"  bgcolor="#A8A8A8">Apertura de {$analisis.tipo} [Codigo <strong>RG-40</strong>]</td>
+      
+    </tr>
+    <tr>
+      <td width="22%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">N&deg;. Registro:</td>
+      <td width="13%" class="body-sector"><strong>{$analisis.nro_registro}</strong></td>
+      <td width="13%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Revision #:</td>
+      <td width="18%" class="body-sector"><strong>{$analisis.nro_revision}</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">No Conformidad:</td>
+      <td class="body-sector"><strong>{$analisis.tipo}</strong></td>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accion:</td>
+      <td class="body-sector"><strong>{$analisis.accion}</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Aperturado por:</td>
+      <td class="body-sector"><strong>{$analisis.area_observada}</strong></td>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px"> Fecha Informe (Gerencia): </td>
+      <td class="body-sector"><strong>{$analisis.fec_apertura}</strong></td>
+  <tr>
+    <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Area(s) Informada(s):</td>
+    <td class="body-sector"><strong>{$analisis.area_informada}</strong></td>
+    <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Tiempo Cierre:</td>
+    <td class="body-sector"><strong>{$analisis.cierre}</strong></td>
+  </tr>
+  <tr>
+       <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Documento que origino la No Conformidad/oportunidad de mejora:</td>
+       <td class="body-sector"><strong>{$analisis.motivo}</strong></td>
+       <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Descripcion del hallazgo:</td>
+       <td class="body-sector"><strong>{$analisis.descripcion}</strong></td>
+</tr>
+  </table>
+  <table rules="rows" BORDERCOLOR="#666666" border=1 align="center" cellpadding="0" cellspacing="0" width="95%">
+    <tr bgcolor="#A8A8A8">
+      <td colspan="6">Analisis y Accion de {$analisis.tipo}[Codigo <strong>RG-40</strong>]</td>
+    </tr>
+    <tr>
+    <td width="29%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Disposicion:</td>
+    <td width="25%" class="body-sector" ><strong>{$analisis.disposicion}</strong></td>
+      <td width="21%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accion Correctiva Inmediata:</td>
+  <td width="25%" class="body-sector"><strong>{$analisis.accion_inmediata}</strong></td>
+    </tr>
+<tr>
+       <td bgcolor="#E6E6E6" width="29%" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Analisis de la causa raiz de No Conformidades:</td>
+       <td class="body-sector" ><strong>{$analisis.analisis_causa}</strong></td>
+       <td bgcolor="#E6E6E6" width="21%" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accion Correctiva Otras:</td>
+       <td class="body-sector"><strong>{$analisis.accion_otras}</strong></td>
+</tr>
+</table>
+  <table border="0" align="center" cellpadding="0" cellspacing="3" width="95%">
+    <tr>
+      <th colspan="6">Registro Revisi&oacute;n [Codigo <strong>RG-40</strong>]</th>
+    </tr>
+    <tr>
+    <td class="enunciados"><span style="color:#F00">(*)</span>Responsable Cumplimiento:</td>
+<!--<label>{$analisis.dias}</label>-->
+<td class="lista-seleccionada">
+<input type="hidden" name="maquinista_id" id="maquinista_id" value="{$personal_id}" size="1" />
+<span align="left" class="entrada" style="margin:5px;">
+<input type="text" name="nombre" id="nombre" style="border:none;" onKeyPress="return handleEnter(this, event)" value="{$nombre}" size="50"/>
+<img src="../../templates/imagenes/combo.jpg" class="imagenes" onClick="document.forms[1].nombre.focus();document.forms[1].nombre.select();" style="cursor:pointer;" alt="Seleccionar Nombre"/> </span> <span id="spinner" style="display:none"></span>
+<div id="lista_nombres" class="autorelleno"></div>
+{literal}
+<script>
+				new Ajax.Autocompleter("nombre", "lista_nombres", "../../controladores/sistema_de_produccion/noconformidad_apertura.php?busqueda_ajax=personal", {method:"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+				function mostrar_categoria(text,li){ 
+				  cadena = li.id;
+				  caracteristicas = cadena.split("-");
+				  document.getElementById("maquinista_id").value = caracteristicas[0];
+				  var str = document.getElementById("nombre").value;
+				  document.getElementById("nombre").value = str.substr(0)
+				}
+</script>
+{/literal} 
+</td>
+    </tr>
+    <tr>
+          <td class="enunciados"><span style="color:#F00">(*)</span>Fecha de Cumplimiento:</td>
+          <td class="body-sector" style="padding:3px;"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+            <input name="fec_cumplimiento" type="text" id="cumple" value="{$fec_cumplimiento}" style="border:none;" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+        </span>
+          <input type="button" id="cumplir" value="..." class="boton" />
+        {literal}
+        <script type="text/javascript">Calendar.setup({inputField:"cumple", ifFormat:"%Y-%m-%d",button:"cumplir"});</script>
+        {/literal} </td>
+        
+{if $analisis.dias<0}
+      <td class="enunciados">Fecha de Extensi&oacute;n:</td>
+      <td class="body-sector" style="padding:3px;"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+            <input name="fec_extension" type="text" id="extension" value="{$fec_extension}" style="border:none;" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+        </span>
+          <input type="button" id="fecha" value="..." class="boton"/>        
+        {literal}
+	<script type="text/javascript">Calendar.setup({inputField:"extension", ifFormat:"%Y-%m-%d",button:"fecha"});</script>
+	{/literal}
+    </td>{/if}
+    </tr>
+<tr>
+    <td class="enunciados"><span style="color:#F00">(*)</span>Fecha Verificar Cumplimiento:</td>
+      <td class="body-sector" style="padding:3px;"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+            <input name="fec_ver_cumplimiento" type="text" id="verificar" value="{$fec_ver_cumplimiento}" style="border:none;" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+        </span>
+           <input type="button" id="fechas" value="..." class="boton"/>        
+    {literal}
+	<script type="text/javascript">Calendar.setup({inputField:"verificar", ifFormat:"%Y-%m-%d",button:"fechas"});</script>
+	{/literal} 
+    </td>
+      {if $analisis.dias<0}
+   <td class="enunciados">Fecha Verificar Extensi&oacute;n:</td>
+     <td class="body-sector" style="padding:3px;"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+            <input name="fec_ver_extension" type="text" id="cumpla" value="{$fec_ver_extension}" style="border:none;" onKeyPress="return enter_handle(this, event, 1, 1)"/></span>
+     <input type="button" id="cumplira" value="..." class="boton" />
+     {literal}
+        <script type="text/javascript">Calendar.setup({inputField:"cumpla", ifFormat:"%Y-%m-%d",button:"cumplira"});</script>
+     {/literal} </td>{/if}
+</tr>
+    <tr>
+      <td class="enunciados">&nbsp; </td>
+      <td  class="enunciados" style="text-align:left">Efectividad del Cumplimiento</td>
+      {if $analisis.dias<0}
+    <td class="enunciados">&nbsp; </td>
+     <td class="enunciados" style="text-align:left">Efectividad de la Extensi&oacute;n</td>
+     {/if}
+    </tr>
+    <tr>
+      <td class="enunciados"><div align="right">Efectivo</div></td>
+      <td><input name="efectividad" type="radio"  id="1" value="Efectivo" checked="checked" ></td>
+        {if $analisis.dias<0}
+      <td class="enunciados"><div align="right">Efectivo</div></td>
+      <td><input name="efectividad_ext" type="radio" id="2" value="Efectivo" checked="checked" ></td>
+      {/if}
+    </tr>
+     <tr>
+      <td width="10%" class="enunciados"><div align="right">No Efectivo</div></td>
+      <td><input name="efectividad" type="radio" id="1" value="No efectivo" checked="checked" ></td>
+        {if $analisis.dias<0}
+      <td width="10%" class="enunciados"><div align="right">No Efectivo</div></td>
+      <td><input name="efectividad_ext" type="radio" id="2" value="No efectivo" checked="checked" ></td>
+      {/if}
+    </tr>
+  {if $analisis.dias<0}
+  <tr >
+    <th colspan="6"  class="enunciados" style="text-align:left">Causas de la extensi&oacute;n del plazo</th>
+  </tr>
+  <tr>
+    <td class="body-sector" colspan="6" rowspan="3"><p>
+      <textarea name="causa_extension" cols="100" rows="4" wrap="virtual" id="v" style="overflow-x:hidden;overflow:auto">{$causa_extension}</textarea>
+    </p></td>
+  </tr>  
+  {/if}
+  </table>
+  <center>
+  <br>
+  <input type="submit" value="Guardar Datos" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'" onClick="noVacio()">
+</center>
+</form>
+</body>

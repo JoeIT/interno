@@ -1,0 +1,27 @@
+<body topmargin="0" leftmargin="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td bgcolor="#2C7FC5"><img src="css/imagenes/cabecera.jpg" border="0"/></td>
+  </tr>
+</table>
+<br>
+{section name=id loop=$sucursales}
+
+<table width="50%" border="0" cellspacing="0" cellpadding="0" align="center"  class="header-table">
+  <tr>
+  {if $grupo eq 12}<!--12 es el grupo id del administrador-->
+    <td  align="right" width="20%"><img src="css/imagenes/sucursal.PNG" border="0" /></td>
+    <td align="left" width="30%" style="font-family:Verdana, Geneva, sans-serif; font-style:inherit "><a  id="{$sucursales[id].cod_sucursal}" href="sucursalcv.php?cod={$sucursales[id].cod_sucursal}&name={$sucursales[id].sucursal}" class="blue-small-link"><br/>&nbsp;&nbsp;{$sucursales[id].sucursal}</a></td>
+  {else}
+       {if $sucursales[id].cod_sucursal ne 1}
+       <td  align="right" width="20%"><img src="css/imagenes/sucursal.PNG" border="0" /></td>
+       <td align="left" width="30%" style="font-family:Verdana, Geneva, sans-serif; font-style:inherit "><a  id="{$sucursales[id].cod_sucursal}" href="sucursalcv.php?cod={$sucursales[id].cod_sucursal}&name={$sucursales[id].sucursal}" class="blue-small-link"><br/>&nbsp;&nbsp;{$sucursales[id].sucursal}</a></td>
+       {/if}
+  {/if}
+  </tr>
+</table>
+<br>
+{/section}
+<br />
+<br />
+</body>

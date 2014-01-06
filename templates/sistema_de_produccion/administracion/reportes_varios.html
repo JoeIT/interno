@@ -1,0 +1,135 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+
+<table width="90%" border="0" align="center" cellpadding="3" cellspacing="3">
+<form action="../../controladores/sistema_de_produccion/administracion_reportes.php" method="post" name="admin" id="admin">
+  <tr>
+	<th colspan="4">
+		Reportes
+	</th>
+  </tr>
+
+  {if $error.fecha != null}
+  <tr>
+	<td colspan="4">
+	  <div class="error-box" style="width:100%;">{$error.fecha}</div>
+	</td>
+  </tr>
+  {/if}
+
+  <tr>
+	<td class="enunciados">
+	  Fecha Inicio:
+	</td>
+	<td class="body-sector">
+	  <span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+		<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+		<input type="text" name="fecha_inicio" id="fecha_inicio" value="{$fecha_inicio}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+	  </span>
+	  <input type="button" name="b_fecha_inicio" id="b_fecha_inicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)">
+	  {literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fecha_inicio", ifFormat:"%Y-%m-%d",button:"b_fecha_inicio"});</script>
+	  {/literal}
+	</td>
+	<td class="enunciados">
+	  Fecha Fin:
+	</td>
+	<td class="body-sector">
+	  <span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+		<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+		<input type="text" name="fecha_fin" id="fecha_fin" value="{$fecha_fin}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+	  </span>
+	  <input type="button" name="b_fecha_fin" id="b_fecha_fin" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)">
+	  {literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fecha_fin", ifFormat:"%Y-%m-%d",button:"b_fecha_fin"});</script>
+	  {/literal}
+	</td>
+  </tr>
+  <tr>
+	<td colspan="4" style="padding:10px;text-align:center;">
+		<input type="submit" name="listado_maquinistas" value="Listado de maquinistas" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+	</td>
+  </tr>
+</form>
+</table>
+
+{if $resumen_maquinistas != null}
+	<table  width="50%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th>Listado de maquinistas</th>	           
+	</tr>
+
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=resumen_maquinistas from=$resumen_maquinistas}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+		<td style="padding-left:10px;">
+			<a href="../../controladores/sistema_de_produccion/administracion_reportes.php?opcion=asignaciones&pid={$resumen_maquinistas.personal_id}&fini={$fecha_inicio}&ffin={$fecha_fin}">
+				{$resumen_maquinistas.maquinsitas}
+			</a>
+		</td>
+	</tr>
+	{/foreach}
+
+	<tr>
+		<td>
+			<hr />
+		</td>
+	</tr>
+	</table>
+{/if}
+
+
+{if $resumen_asignaciones != null}
+	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="6">Asignaciones de: {$resumen_asignaciones[0].maquinsitas}</th>	           
+	</tr>
+	<tr>
+		<td class="enunciados" style="text-align:center;"># Asig.</td>
+		<td class="enunciados" style="text-align:center;">Cant.</td>
+		<td class="enunciados" style="text-align:center;">Producto</td>
+		<td class="enunciados" style="text-align:center;">Tipo</td>
+		<td class="enunciados" style="text-align:center;">Fecha inicio</td>
+		<td class="enunciados" style="text-align:center;">Fecha fin</td>
+	</tr>
+
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=resumen_asignaciones from=$resumen_asignaciones}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+		<td style="text-align:center;">{$resumen_asignaciones.asignacion_detalle_id}</td>
+		<td>{$resumen_asignaciones.cantidad}</td>
+		<td width="40%">{$resumen_asignaciones.producto}</td>
+		<td>{$resumen_asignaciones.tipo}</td>
+		<td nowrap="nowrap" style="text-align:center;">{$resumen_asignaciones.fecha_inicio}</td>
+		<td nowrap="nowrap" style="text-align:center;">{$resumen_asignaciones.fecha_finalizacion}</td>
+	</tr>
+	{/foreach}
+
+	<tr>
+		<td colspan="6">
+			<hr />
+		</td>
+	</tr>
+	</table>
+{/if}
+
+<br />
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

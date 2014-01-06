@@ -1,0 +1,84 @@
+{* Lista de clientes registrados *}
+<head>
+      {include file="../../templates/sistema_de_produccion/cabecera.html"}
+	  
+
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar el registro del usuario: " + nombre ))
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+						
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+		{/literal}
+</head>
+<body>
+   <table align="center">
+			
+			<tr>	
+			<td>			    
+	   <center>
+				<p align="center">
+				<a class="link-menu" href="../../controladores/usuarios/registrar_usuarios.php">
+				<img src="../../templates/imagenes/clientenuevo.gif" class="imagen-menu"><br>Nuevo</a></p>				 
+		<form  name="form_lista" method="post" action="../../controladores/usuarios/lista_usuarios.php">
+		<input type="hidden" name="elegido">
+	    <input type="hidden" name="funcion">	     
+	    <table align="center" >
+		<th colspan="7">Lista de usuarios</th>
+  		<tr>
+    		{foreach name=cabezera key=key item=item from=$usuarios[0]}
+			
+		     <td class="enunciados"><center> {$key|upper} </center></td>
+			{/foreach}
+  	 <td class="enunciados"><center> MODIFICAR  </center></td>
+		     <td class="enunciados"><center> ELIMINAR  </center></td>
+   		</tr>
+   			{foreach name=contenido item=prueba from=$usuarios}
+			<tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+				{foreach key=key item=item from=$prueba}
+		    		{if $key == "codigo"}
+		   	  			{assign var=usuario value=$item}
+		    		{/if}
+				<td class="body-sector"> {$item} </td>
+				{/foreach}
+		<td class="body-sector"><center>
+					{$hola}
+                   <INPUT TYPE="image" SRC="../../templates/imagenes/modificar.gif"  width=15 height=15 border=0  name={$usuario} value=modificar onclick=consultar(name,value) >
+
+				</center>
+				</td>
+				<td class="body-sector"><center>
+					<INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif" width=15 height=15 border=0  name={$usuario} value=eliminar onclick=consultar(name,value)>
+					</center>
+				</td>
+	   </tr> 
+			{/foreach}
+
+	</table>
+	<br>
+    </center>
+</form>  
+				</td>
+			</tr>
+		</table> 
+</body>

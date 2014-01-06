@@ -1,0 +1,92 @@
+{include file="../templates/sistema_de_produccion/cabecera_popup.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<body onunload = "javascript:cerrar();">
+
+{if $consigna == 'dividir_corte'}
+	<br>
+	<table width="80%" border="0" align="center" cellpadding="0" cellspacing="3">
+	{foreach key=cambio item=div from=$detalle_division}
+		<tr>
+			<td class="enunciados" style="text-align:center;">Producto</td>
+			<td class="enunciados" style="text-align:center;">Tipo</td>
+		</tr>
+		<tr>
+			<td class="datos-reporte">{$div.nombre_familia}</td>
+			<td class="datos-reporte">{$div.nombre_estilo}</td>
+		</tr>
+		<tr>
+			<td class="enunciados" style="text-align:center;">Clip</td>
+			<td class="enunciados" style="text-align:center;">Cantidad</td>
+		</tr>	
+		<tr>
+			<td class="datos-reporte">{$div.clip}</td>
+			<td class="datos-reporte">{$div.cantidad}</td>
+		</tr>
+	{/foreach}
+	</table>
+{else}
+	{if $consigna == 'detalle_corte'}
+		<br>
+		<table width="80%" border="0" align="center" cellpadding="0" cellspacing="3">
+		{foreach key=cambio item=div from=$detalle_division}
+			<tr>
+				<td class="enunciados" style="text-align:center;">Material</td>
+				<td class="enunciados" style="text-align:center;">Cantidad</td>
+				<td class="enunciados" style="text-align:center;">Golpe</td>
+			</tr>
+			<tr>
+				<td style="padding:3px;text-align:center;">{$div.nombre}</td>
+				<td style="padding:3px;text-align:center;">{$div.cantidad}</td>
+				<td style="padding:3px;text-align:center;">{$div.golpe}</td>
+			</tr>
+		{/foreach}
+		</table>
+	{else}
+		<br>
+		<table width="80%" border="0" align="center" cellpadding="0" cellspacing="3">
+		{foreach key=cambio item=div from=$detalle_division}
+			<tr>
+				<td class="enunciados" style="text-align:center;">Material</td>
+				<td class="enunciados" style="text-align:center;">Cantidad</td>
+			</tr>
+			<tr>
+				<td style="padding:3px;text-align:center;">{$div.nombre}</td>
+				<td style="padding:3px;text-align:center;">{$div.cantidad}</td>
+			</tr>
+		{/foreach}
+		</table>
+	{/if}
+{/if}
+
+<table width="80%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="4">Divisi&oacute;n de la cantidad</th>	           
+	</tr>
+	
+	<form action="../../controladores/sistema_de_produccion/hoja_ruta_corte.php" method="post" name="dividir" id="dividir" ONSUBMIT="return pregunta();">
+	<tr>
+		<td class="enunciados" style="text-align:center;">Cantidad 1: </td>
+		<td style="padding:3px;text-align:center;">
+			<select name="cantidad1" size="3" id="cantidad1" style="margin:5px;width:100px;" onkeypress="return handleEnter(this, event)" onChange="cantidad2.value = cantidad.value-this.value">
+				{html_options values=$vector_cantidad output=$vector_cantidad selected=$valor_seleccionado}
+			</select>
+			
+			<input type="hidden" name="cantidad" id="cantidad" value="{$div.cantidad}"/>
+			<input type="hidden" name="h_id" id="h_id" value="{$div.hoja_id}"/>
+			<input type="hidden" name="did" id="did" value="{$div.detalle_id}"/>
+			<input type="hidden" name="dcid" id="dcid" value="{$codigo_division}"/>
+			<input type="hidden" name="consigna" id="consigna" value="{$consigna}"/>
+		</td>
+
+		<td class="enunciados" style="text-align:center;">Cantidad 2: </td>
+		<td style="padding:3px;text-align:center;"><input name="cantidad2" type="text" id="cantidad2" value="0" size="3" readonly/></td>
+	</tr>
+	<tr>
+		<td colspan="4" style="padding:10px;text-align:center;">
+			<input name="dividir" type="submit" value="Dividir Cantidad" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'"/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input name="dividir" type="reset" value="Reestablecer" class="boton"/>
+		</td>
+	</tr>
+	</form>
+</table>

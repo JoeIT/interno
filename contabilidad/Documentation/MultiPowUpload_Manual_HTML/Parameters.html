@@ -1,0 +1,1086 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>MultiPowUpload properties</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+
+<p><b>MultiPowUpload movie parameters</b>&nbsp;<hr/>
+</p>
+
+<strong>Attention! Replace symbols " with the &quot;&amp;quot;&quot; at all parameters values and symbols "&" with the "%26" at URL values or &quot; &amp;amp;&quot; at other values!</strong>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>
+      <p>Parameter</p>    </th>
+    <th width="60">
+      <p align="left">Type</p>    </th>
+    <th>
+      <p>Description</p>    </th>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="showLink" id="showLink">showLink</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Only for commercial version! Determines whether Flash will show MultiPowUpload lable with link. Default value is <code>true</code> </p>    </td>
+  </tr>
+  
+  <tr>
+    <td>
+      <code><a name="alertAboutOldversion" id="alertAboutOldversion">alertAboutOldversion</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether Flash will execute javascript:alert("Flash is too old...") method if user has too old Flash player. Default value is <code>true</code> </p>    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="useExternalInterface" id="useExternalInterface">useExternalInterface</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether Flash will use External Interface i.e communication between Flash and the Java Script. Default value is <code>false</code> </p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="fontFamily" id="fontFamily">fontFamily</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>The font name for text. The default value is <code>"_sans"</code>.</p>    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="fontSize" id="fontSize">fontSize</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>The font size for text. The default value is <code>12</code>.</p>    </td>
+  </tr>
+     <tr>
+    <td>
+      <code><a name="listUseRollOver" id="listUseRollOver">listUseRollOver</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether rolling over a row activates highlighting. The default value is <code>true</code>.</p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="showIOError" id="showIOError">showIOError</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether occured IO error will be shown or Flash will try upload file again. The default value is <code>false</code>(Tryes to upload again). For details see <a href="Knownbugs.html">Known bugs and limitations</a></p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="removeUploadedFilesOnCancel" id="removeUploadedFilesOnCancel">removeUploadedFilesOnCancel</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Remove or not files from list when cancel button pressed. Default value is <code>false</code></p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="cancelImmediately" id="cancelImmediately">cancelImmediately</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Cancel upload/download immediately or wait while file will be fully uploaded. Default value is <code>false</code></p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="numberRetry" id="numberRetry">numberRetry</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>The number of times Flash will try to upload file if IO error occures. Default value is <code>3</code></p>    </td>
+  </tr>
+    <tr>
+    <td>
+      <code><a name="javaScriptEventsPrefix" id="javaScriptEventsPrefix">javaScriptEventsPrefix</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Prefix for MultiPowUpload Java Script events names. Default value is <code>MultiPowUpload</code></p>    </td>
+  </tr>
+
+    <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="labelUploadVisible" id="labelUploadVisible">labelUploadVisible</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether label "Select files to Upload" visible or not. The default value is <code>true</code>.</p>    </td>
+  </tr> 
+    <tr bgcolor="#FFFFFF">
+    <td>
+      <code><a name="browseButtonVisible" id="browseButtonVisible">browseButtonVisible</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether browseButton visible or not. The default value is <code>true</code>.</p>    </td>
+  </tr>
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="removeButtonVisible" id="removeButtonVisible">removeButtonVisible</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether removeButton visible or not. The default value is <code>true</code>.</p>    </td>
+  </tr>
+     <tr bgcolor="#FFFFFF">
+    <td>
+      <code><a name="clearButtonVisible" id="clearButtonVisible">clearButtonVisible</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether clearButton visible or not. The default value is <code>true</code>.</p>    </td>
+  </tr>
+    <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="uploadButtonVisible" id="uploadButtonVisible">uploadButtonVisible</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether uploadButton visible or not. The default value is <code>true</code>.</p>    </td>
+  </tr> 
+   <tr bgcolor="#FFFFFF">
+    <td>
+      <code><a name="progressBarVisible" id="progressBarVisible">progressBarVisible</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether own movie progress bar will be shown or not. Default value is <code>true</code></p>    </td>
+  </tr>
+ <tr bgcolor="#FFFFFF">
+    <td>
+      <code><a name="dateFormatString" id="dateFormatString">dateFormatString</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Pattern to show files date. Default value is <code>d.m.Y H:i </code></p>
+	  <strong>Characters</strong> types:
+	  <table width="637" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="32">&nbsp;</td>
+    <td width="341"><strong>Description</strong></td>
+    <td width="263"><strong>Example returned values</strong></td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>Lowercase Ante meridiem and Post meridiem</td>
+    <td>am or pm</td>
+  </tr>
+  <tr>
+    <td>A</td>
+    <td>Uppercase Ante meridiem and Post meridiem</td>
+    <td>AM or PM</td>
+  </tr>
+  <tr>
+    <td>d</td>
+    <td>Day of the month, 2 digits with leading zeros</td>
+    <td>01 to 31</td>
+  </tr>
+  <tr>
+    <td>D</td>
+    <td>Textual representation of a day, three letters</td>
+    <td>Mon through Sun*</td>
+  </tr>
+  <tr>
+    <td>F</td>
+    <td>Full textual representation of a month</td>
+    <td>January through December*</td>
+  </tr>
+  <tr>
+    <td>g</td>
+    <td>12-hour format of an hour without leading zeros</td>
+    <td>1 through 12</td>
+  </tr>
+  <tr>
+    <td>G</td>
+    <td>24-hour format of an hour without leading zeros</td>
+    <td>0 through 23</td>
+  </tr>
+  <tr>
+    <td>h</td>
+    <td>12-hour format of an hour with leading zeros</td>
+    <td>01 through 12</td>
+  </tr>
+  <tr>
+    <td>H</td>
+    <td>24-hour format of an hour with leading zeros</td>
+    <td>00 through 23</td>
+  </tr>
+  <tr>
+    <td>i</td>
+    <td>Minutes with leading zeros</td>
+    <td>00 to 59</td>
+  </tr>
+  <tr>
+    <td>j</td>
+    <td>Day of the month without leading zeros</td>
+    <td>1 to 31</td>
+  </tr>
+  <tr>
+    <td>l</td>
+    <td>Full textual representation of the day of the week (lowercase 'L')</td>
+    <td>Sunday through Saturday*</td>
+  </tr>
+  <tr>
+    <td>L</td>
+    <td>Whether it's a leap year</td>
+    <td>1 if it is a leap year, 0 otherwise</td>
+  </tr>
+  <tr>
+    <td>m</td>
+    <td>Numeric representation of a month, with leading zeros</td>
+    <td>01 through 12</td>
+  </tr>
+  <tr>
+    <td>M</td>
+    <td>Short textual representation of a month, three letters</td>
+    <td>Jan through Dec*</td>
+  </tr>
+  <tr>
+    <td>n</td>
+    <td>Numeric representation of a month, without leading zeros</td>
+    <td>1 through 12</td>
+  </tr>
+  <tr>
+    <td>O</td>
+    <td>Difference to Greenwich time (GMT) in hours</td>
+    <td>Example: 5 (for EST )</td>
+  </tr>
+  <tr>
+    <td>s</td>
+    <td>Seconds, with leading zeros</td>
+    <td>00 throguh 59</td>
+  </tr>
+  <tr>
+    <td>t</td>
+    <td>Number of days in the given month</td>
+    <td>28 through 31</td>
+  </tr>
+  <tr>
+    <td>U</td>
+    <td>Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>w</td>
+    <td>Numeric representation of the day of the week</td>
+    <td>0 (for Sunday) through 6 (for Saturday)</td>
+  </tr>
+  <tr>
+    <td>Y</td>
+    <td>Full numeric representation of a year, 4 digits</td>
+    <td>Examples: 1999 or 2003</td>
+  </tr>
+  <tr>
+    <td>y</td>
+    <td>Two digit representation of a year</td>
+    <td>Examples: 99 or 03</td>
+  </tr>
+</table>
+
+	  </td>
+  </tr>
+  
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="uploadUrl" id="uploadUrl">uploadUrl</a></code>    </td>
+    <td width="60">
+      <p align="left">URL</p>    </td>
+    <td>
+      <p>The URL of the server script configured to handle upload through HTTP POST calls. The URL can be HTTP only.<br />
+      If you are using symbols "&" at uploadUrl value replace them with the "%26" string!<br />
+      <strong>Special characters at URL  must be encoded (like &quot;~&quot; should be &quot;%7E&quot;)!!!</strong> Otherwise willn't work at Mac OS</p>    </td>
+  </tr>
+ <tr>
+    <td>
+      <code><a name="redirectUploadUrl" id="redirectUploadUrl">redirectUploadUrl</a></code>    </td>
+    <td width="60">
+      <p align="left">URL</p>    </td>
+    <td>
+      <p>URL of the page that automatically will be loaded after upload is finished. <br />
+        Component will POST to the specified URL the uploaded files details in format <em>MultiPowUploadFileName_0=firstfilename</em>, <em>MultiPowUploadFileSize_0=firstfilesize</em>, etc . Code of the script can retrive files details like for standard POST variables:<br />
+        ASP code Example: </p>
+      <textarea  name="textarea" cols="60" rows="5" wrap="off">
+<% 
+	Response.Write "You uploaded first file with name " & Request.Form("MultiPowUploadFileName_0") & " and size " & Request.Form("MultiPowUploadFileSize_0") 
+	Response.Write "You uploaded second file with name " & Request.Form("MultiPowUploadFileName_1") & " and size " & Request.Form("MultiPowUploadFileSize_1")
+%>
+      </textarea></td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="redirectTarget" id="redirectTarget">redirectTarget</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Target to redirect redirectUploadUrl. The same like "target" parameter in &lt;a&gt; html tag.
+		Default value is <code>_self</code></p>    </td>
+  </tr>
+   <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="fileTypes" id="fileTypes">fileTypes</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>An array of file types used to filter the files displayed in the dialog box. Example:<div class="listing">
+<pre>All files|*.*;Images|*.jpg\;*.jpeg\;*.gif\;*.png\;*.bmp</pre></div>
+      Default value is <code>All files|*.*</code> (All files are displayed)</p>    </td>
+  </tr>
+   <tr>
+    <td>
+      <code><a name="maxFileSize" id="maxFileSize">maxFileSize</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Maximum file size each allowed for upload in bytes. Default value is <code>-1</code> (Unlimited)</p>    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="maxFileCount" id="maxFileCount">maxFileCount</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Maximum number of files allowed for upload. Default value is <code>-1</code> (Unlimited)</p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="maxFileSizeTotal" id="maxFileSizeTotal">maxFileSizeTotal</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Maximum total files size allowed for upload in bytes. Default value is <code>-1</code> (Unlimited)</p>    </td>
+  </tr>
+    
+  <tr bgcolor="#FFF0F0">
+    <td>
+      <code><a name="downloadMode" id="downloadMode">downloadMode</a></code>    </td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether Flash Movie has interface to download files. Default value is <code>false</code> </p>    </td>
+  </tr>
+   <tr bgcolor="#FFF0F0">
+    <td>
+      <p><code><a name="filesToDownload" id="filesToDownload">filesToDownload</a></code></p>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>List of files to show when Flash is in Download mode (<code>downloadMode=true</code>). Format: <br>
+	   URL1|FileName1|Size1;URL2|FileName2|Size2 (etc.)
+	   <br>Example:
+      <div class="listing">
+<pre>landscape.jpg|landscape.jpg|48546;frog.jpg|frog.jpg|45119</pre></div>
+      Default value is <code>Empty string</code></p>    </td>
+  </tr>  
+  
+  <tr bgcolor="#F0F0FF">
+    <td>
+      <code><a name="loaderMode" id="loaderMode">loaderMode</a></code></td>
+    <td width="60">
+      <p align="left">Boolean</p>    </td>
+    <td>
+      <p>Determines whether Flash Movie has interface to load image files. Default value is <code>false</code></p>    </td>
+  </tr>
+ 
+  <tr bgcolor="#F0F0FF">
+    <td>
+      <code><a name="imageToLoad" id="imageToLoad">imageToLoad</a></code>    </td>
+    <td width="60">
+      <p align="left">URL</p>    </td>
+    <td>
+      <p>URL of image to load if Flash is in Image Loader mode (<code>loaderMode=true</code>)</p>    </td>
+  </tr>
+    <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="backgroundColor" id="backgroundColor">backgroundColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The background color of the Flash movie. The default color is <code>#F8F6E6</code></p>    </td>
+  </tr> 
+     <tr>
+    <td>
+      <code><a name="textColor" id="textColor">textColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The color of top lable text. The default color is <code>#000000</code></p>    </td>
+  </tr> 
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="buttonTextColor" id="buttonTextColor">buttonTextColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The color of buttons labels when button is active. The default color is <code>#0B333C</code></p>    </td>
+  </tr> 
+     <tr>
+    <td>
+      <code><a name="buttonBackgroundColor" id="buttonBackgroundColor">buttonBackgroundColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The button background color when the button is up and active. The default color is <code>#EFEBEF</code></p>    </td>
+  </tr> 
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="buttonBorderColor" id="buttonBorderColor">buttonBorderColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The button border color when the button is active. The default color is <code>#919999</code></p>    </td>
+  </tr> 
+     <tr>
+    <td>
+      <code><a name="buttonDisabledTextColor" id="buttonDisabledTextColor">buttonDisabledTextColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The color of buttons labels when button is disabled. The default color is <code>#848384</code></p>    </td>
+  </tr> 
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="buttonDisabledBackgroundColor" id="buttonDisabledBackgroundColor">buttonDisabledBackgroundColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The button background color when the button is disabled. The default color is <code>#f2f2f2</code></p>    </td>
+  </tr> 
+     <tr>
+    <td>
+      <code><a name="buttonDisabledBorderColor" id="buttonDisabledBorderColor">buttonDisabledBorderColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The button border color when the button is disabled. The default color is <code>buttonBorderColor</code></p>    </td>
+  </tr> 
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="buttonRollOverBorderColor" id="buttonRollOverBorderColor">buttonRollOverBorderColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The button border color when the pointer rolls over it. The default color is <code>buttonBorderColor</code></p>    </td>
+  </tr> 
+     <tr>
+    <td>
+      <code><a name="listTextColor" id="listTextColor">listTextColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The text color of items in list. The default color is <code>#000000</code></p>    </td>
+  </tr> 
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="listTextSelectedColor" id="listTextSelectedColor">listTextSelectedColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The text color of of items in list in the selected row. The default color is <code>#005F33</code></p>    </td>
+  </tr> 
+     <tr>
+    <td>
+      <code><a name="listTextRollOverColor" id="listTextRollOverColor">listTextRollOverColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The text color of of items in list when the pointer rolls over it. The default color is <code>#005F33</code></p>    </td>
+  </tr> 
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="listBackgroundColor" id="listBackgroundColor">listBackgroundColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The background color of the list. The default color is <code>backgroundColor</code></p>    </td>
+  </tr> 
+     <tr>
+    <td>
+      <code><a name="listSelectionColor" id="listSelectionColor">listSelectionColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The background color of a selected row. The default color is <code>#CDFFC1</code></p>    </td>
+  </tr> 
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="listRollOverColor" id="listRollOverColor">listRollOverColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The background color of a row when the pointer rolls over it. The default color is <code>#E3FFD6</code></p>    </td>
+  </tr> 
+     <tr>
+    <td>
+      <code><a name="listUploadedColor" id="listUploadedColor">listUploadedColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The background color of item in list when it was uploaded or downloaded. The default color is <code>#F0ECC8</code></p>    </td>
+  </tr> 
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="progressBarColor" id="progressBarColor">progressBarColor</a></code>    </td>
+    <td width="60">
+      <p align="left">Color</p>    </td>
+    <td>
+      <p>The foreground color in denoting the percent complete. The default color is <code>#00ff00</code></p>    </td>
+  </tr> 
+ 
+
+  
+ 
+  <tr>
+    <td>
+      <code><a name="labelUploadText" id="labelUploadText">labelUploadText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Select&nbsp;Files&nbsp;to&nbsp;upload"</code></p>    </td>
+  </tr>
+   <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="uploadButtonText" id="uploadButtonText">uploadButtonText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Upload"</code></p>    </td>
+  </tr>
+    <tr>
+    <td>
+      <code><a name="browseButtonText" id="browseButtonText">browseButtonText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Browse..."</code></p>    </td>
+  </tr>
+      <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="removeButtonText" id="removeButtonText">removeButtonText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Remove item"</code></p>    </td>
+  </tr>  
+      <tr>
+	  
+    <td>
+      <code><a name="clearListButtonText" id="clearListButtonText">clearListButtonText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Clear&nbsp;list"</code></p>    </td>
+  </tr>
+            <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="cancelButtonText" id="cancelButtonText">cancelButtonText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Cancel"</code></p>    </td>
+  </tr>
+ <tr>
+    <td>
+      <code><a name="totalSizeText" id="totalSizeText">totalSizeText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Total files size &lt;SIZE&gt;"</code></p>    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="progressUploadCompleteText" id="progressUploadCompleteText">progressUploadCompleteText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Upload complete"</code></p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="progressUploadingText" id="progressUploadingText">progressUploadingText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Uploading..."</code></p>    </td>
+  </tr>
+            <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="progressUploadCanceledText" id="progressUploadCanceledText">progressUploadCanceledText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Next files upload canceled. Wait..."</code></p>    </td>
+  </tr>
+      <tr>
+    <td>
+      <code><a name="progressUploadStoppedText" id="progressUploadStoppedText">progressUploadStoppedText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Upload stopped"</code></p>    </td>
+  </tr>
+        <tr bgcolor="#F8F8F8" >
+    <td>
+      <code><a name="progressMainText" id="progressMainText">progressMainText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"&lt;PERCENT&gt;% Uploaded (&lt;FILESNUM&gt; files)&lt;PART2DIV&gt;&lt;BR&gt;Transfer rate: &lt;RATEVALUE&gt;/sec&lt;BR&gt;Time left: &lt;LEFTMIN&gt; min &lt;LEFTSEC&gt; sec"</code><br />
+        <br />
+          Also can be used following patterns:<br />
+&lt;FAILCOUNT&gt; - Count of unuploaded files.<br />
+&lt;SUCCESSCOUNT&gt; - Count of successfully uploaded files.<br />
+&lt;FILESTOUPLOADCOUNT&gt; - Total files count.</p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="retryDialogYesLabel" id="retryDialogYesLabel">retryDialogYesLabel</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Yes"</code></p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="retryDialogNoLabel" id="retryDialogNoLabel">retryDialogNoLabel</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"No"</code></p>    </td>
+  </tr>
+  <tr>
+    <td>
+      <code><a name="retryDialogCaption" id="retryDialogCaption">retryDialogCaption</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Retry upload?"</code></p>    </td>
+  </tr>
+    <tr>
+    <td>
+      <code><a name="retryDialogMessage" id="retryDialogMessage">retryDialogMessage</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Some files was not uploaded. Do you want to try upload again?"</code></p>    </td>
+  </tr>
+   <tr>
+    <td>
+      <code><a name="labelDownloadText" id="labelDownloadText">labelDownloadText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Select&nbsp;Files&nbsp;to&nbsp;download"</code></p>    </td>
+  </tr>
+            <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="downloadButtonText" id="downloadButtonText">downloadButtonText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Download"</code></p>    </td>
+  </tr>
+           <tr>
+    <td>
+      <code><a name="progressDownloadCompleteText" id="progressDownloadCompleteText">progressDownloadCompleteText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Download complete"</code></p>    </td>
+  </tr> 
+          <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="progressDownloadingText" id="progressDownloadingText">progressDownloadingText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Downloading..."</code></p>    </td>
+  </tr> 
+          <tr>
+    <td>
+      <code><a name="progressDownloadCanceledText" id="progressDownloadCanceledText">progressDownloadCanceledText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Next files download canceled. Wait..."</code></p>    </td>
+  </tr> 
+ 
+   <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="progressDownloadStoppedText" id="progressDownloadStoppedText">progressDownloadStoppedText</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Download stopped"</code></p>    </td>
+  </tr>
+  
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="fileSizeExceedMessage" id="fileSizeExceedMessage">fileSizeExceedMessage</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Only files less than &lt;MAXFILESIZE&gt; Kb are allowed. &lt;COUNTINVALIDFILES&gt; files were ignored!"</code></p>    </td>
+  </tr>
+  
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="fileSizeTotalExceedMessage" id="fileSizeTotalExceedMessage">fileSizeTotalExceedMessage</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Total files size should be less than &lt;MAXFILESIZETOTAL&gt; Kb. &lt;COUNTINVALIDFILES&gt; files were ignored!"</code></p>    </td>
+  </tr>
+  
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="filesCountExceedMessage" id="filesCountExceedMessage">filesCountExceedMessage</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Only &lt;MAXFILECOUNT&gt; files allowed to upload! &lt;COUNTINVALIDFILES&gt; files were ignored!"</code></p>    </td>
+  </tr>
+  
+     <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="zeroSizeMessage" id="zeroSizeMessage">zeroSizeMessage</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"&lt;COUNTINVALIDFILES&gt; files with zero size were ignored!"</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="fileTypeWrongMessage" id="fileTypeWrongMessage">fileTypeWrongMessage</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Only files with following type: &lt;FILETYPES&gt; allowed to upload! &lt;COUNTINVALIDFILES&gt; files were ignored!"</code></p>    </td>
+  </tr>
+  
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="sortAscLabel" id="sortAscLabel">sortAscLabel</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Sort ASC"</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="sortDescLabel" id="sortDescLabel">sortDescLabel</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Sort DESC"</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="sortByNameLabel" id="sortByNameLabel">sortByNameLabel</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Sort by name"</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="sortBySizeLabel" id="sortBySizeLabel">sortBySizeLabel</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Sort by size"</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="sortByDateLabel" id="sortByDateLabel">sortByDateLabel</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Default value: <code>"Sort by date"</code></p>    </td>
+  </tr>
+   <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="fileListPattern" id="fileListPattern">fileListPattern</a></code>    </td>
+    <td width="60">
+      <p align="left">String</p>    </td>
+    <td>
+      <p>Gives way to change file list representation. Possible patterns: &lt;FILENAME&gt;, &lt;SIZE&gt;, &lt;DATE&gt;
+		Default value: <code>&lt;FILENAME&gt; (&lt;SIZE&gt;)</code></p>    </td>
+  </tr>
+     <tr>
+    <td>
+      <code><a name="labelUploadWidth" id="labelUploadWidth">labelUploadWidth</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>400</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="labelUploadHeight" id="labelUploadHeight">labelUploadHeight</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>22</code></p>    </td>
+  </tr>
+       <tr>
+    <td>
+      <code><a name="labelUploadX" id="labelUploadX">labelUploadX</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>10</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="labelUploadY" id="labelUploadY">labelUploadY</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>7</code></p>    </td>
+  </tr>
+ <tr>
+    <td>
+      <code><a name="browseButtonWidth" id="browseButtonWidth">browseButtonWidth</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>94</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="browseButtonHeight" id="browseButtonHeight">browseButtonHeight</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>22</code></p>    </td>
+  </tr>
+       <tr>
+    <td>
+      <code><a name="browseButtonX" id="browseButtonX">browseButtonX</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>4</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="browseButtonY" id="browseButtonY">browseButtonY</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>28</code></p>    </td>
+  </tr>  
+  <tr>
+    <td>
+      <code><a name="removeButtonWidth" id="removeButtonWidth">removeButtonWidth</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>100</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="removeButtonHeight" id="removeButtonHeight">removeButtonHeight</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>22</code></p>    </td>
+  </tr>
+       <tr>
+    <td>
+      <code><a name="removeButtonX" id="removeButtonX">removeButtonX</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>117</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="removeButtonY" id="removeButtonY">removeButtonY</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>28</code></p>    </td>
+  </tr>  
+  <tr>
+    <td>
+      <code><a name="clearListButtonWidth" id="clearListButtonWidth">clearListButtonWidth</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>94</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="clearListButtonHeight" id="clearListButtonHeight">clearListButtonHeight</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>22</code></p>    </td>
+  </tr>
+       <tr>
+    <td>
+      <code><a name="clearListButtonX" id="clearListButtonX">clearListButtonX</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>338</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="clearListButtonY" id="clearListButtonY">clearListButtonY</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>28</code></p>    </td>
+  </tr>  
+  <tr>
+    <td>
+      <code><a name="filesListWidth" id="filesListWidth">filesListWidth</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>440</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="filesListHeight" id="filesListHeight">filesListHeight</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>230</code></p>    </td>
+  </tr>
+       <tr>
+    <td>
+      <code><a name="filesListX" id="filesListX">filesListX</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>4</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="filesListY" id="filesListY">filesListY</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>61</code></p>    </td>
+  </tr>  
+  <tr>
+    <td>
+      <code><a name="uploadButtonWidth" id="uploadButtonWidth">uploadButtonWidth</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>94</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="uploadButtonHeight" id="uploadButtonHeight">uploadButtonHeight</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>22</code></p>    </td>
+  </tr>
+       <tr>
+    <td>
+      <code><a name="uploadButtonX" id="uploadButtonX">uploadButtonX</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>4</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="uploadButtonY" id="uploadButtonY">uploadButtonY</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>305</code></p>    </td>
+  </tr>  
+  <tr>
+    <td>
+      <code><a name="labelInfoWidth" id="labelInfoWidth">labelInfoWidth</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>330</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="labelInfoHeight" id="labelInfoHeight">labelInfoHeight</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>60</code></p>    </td>
+  </tr>
+       <tr>
+    <td>
+      <code><a name="labelInfoX" id="labelInfoX">labelInfoX</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>110</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="labelInfoY" id="labelInfoY">labelInfoY</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>300</code></p>    </td>
+  </tr>  
+  <tr>
+    <td>
+      <code><a name="progressBarWidth" id="progressBarWidth">progressBarWidth</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>328</code></p>    </td>
+  </tr>
+       <tr bgcolor="#F8F8F8">
+    <td>
+      <code><a name="progressBarX" id="progressBarX">progressBarX</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>110</code></p>    </td>
+  </tr>
+       <tr >
+    <td>
+      <code><a name="progressBarY" id="progressBarY">progressBarY</a></code>    </td>
+    <td width="60">
+      <p align="left">Integer</p>    </td>
+    <td>
+      <p>Default value: <code>295</code></p>    </td>
+  </tr>  
+     
+</table>
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<br />
+
+<table align="center" width="80%">
+<tr>
+	<th colspan="4">Características del nuevo producto</th>
+</tr>
+<tr>
+	<td class="enunciados" >  Orden de producción No.: </td>
+	<td  class="body-sector" > {$detalle_orden.ordenproducto_id} </td>
+	<td  class="enunciados"> Cliente: </td>
+	<td class="body-sector" >  {$detalle_orden.clientenombre} </td>
+</tr>
+<tr>
+	<td  class="enunciados">  Fecha de Solicitud: </td>
+	<td  class="body-sector">  {$detalle_orden.fechasolicitud}</td>
+	<td  class="enunciados"> Fecha de Culminación: </td>
+	<td  class="body-sector">  {$detalle_orden.fechaculminacion}</td>
+</tr>
+<tr>
+	<td class="enunciados">  Modelo a Desarrollar: </td>
+	<td class="body-sector">	{$detalle_orden.modelo}   </td>
+	<td class="enunciados">  Cantidad: </td>
+	<td class="body-sector"> {$detalle_orden.cantidad} </td>
+</tr>
+<tr>
+	<td  class="enunciados">  Codigo: </td>
+	<td class="body-sector"> {$detalle_orden.codigo} </td> 						
+</tr>
+</table>
+
+{if $materiales_orden !=null}
+<br />
+<table align="center" width="80%">
+<tr>
+	<th colspan="10">Lista de materiales</td>
+</tr>
+<tr>
+	{foreach name=cabezera key=key item=item from=$materiales_orden[0]}
+		{if $key!="codigo"}
+		<td class="enunciados"><center>{$key|upper}</center></td>
+		{/if}
+	{/foreach}
+</tr>
+{foreach name=contenido item=materiales from=$materiales_orden}
+<tr>
+	{foreach key=key item=item from=$materiales}
+		{if $key == "codigo"}
+			{assign var=material_id value=$item}
+		{else}
+			<td class="body-sector"><center> {$item} </center> </td>
+		{/if}
+	{/foreach}
+</tr>
+{/foreach}
+</table>
+<br>
+{/if}

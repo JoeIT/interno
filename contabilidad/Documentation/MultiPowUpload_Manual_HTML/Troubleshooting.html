@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Cross domain security (crossdomain.xml)</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+<style type="text/css">
+<!--
+.style1 {color: #A02C43}
+-->
+</style>
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+<h1>Troubleshooting</h1>
+<p>Here you can find most ofter errors and problems can occure while upload via MultiPowUpload. 
+Some articles join in groups relayted to technology of file processing code at server side.</p>
+<h1>Any HTTP error:</h1>
+MultiPowUpload just return HTTP error number if it occures while upload. Use HTTP Sniffers to get full server response with error description. Like <a href="http://www.ieinspector.com/httpanalyzer/download.html">HTTP Analyzer</a> (15 days trial)<br>
+HTTP Sniffer also can be helpfull to see how MultiPowUpload sends files (Request).<br><br>
+You can find most HTTP errors short descriptions at <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">w3.org</a> website. 
+
+<h1>ASP (ASP.OLD) file processing script</h1>
+<span class="style1"><b>Error 403</b></span><br>See solution here <a href="http://support.microsoft.com/kb/327659">http://support.microsoft.com/kb/327659</a><br>
+<br> 
+<span class="style1"><b>Write Permissions to UploadedFiles\ folder</b><br>
+<b>Error like "Access to the path "C:\Inetpub\wwwroot\Upload\UploadedFiles\myfile.jpg" is denied"</b></span><br>
+The directory where uploaded files will be saved on the web server must have Read, Write, and Delete NTFS permissions for the <strong>Anonymous</strong> or authenticated user (If Windows authentication used): <br />
+Right-click the file in Explorer, choose <b>"Properties"</b> and select the <strong>Security</strong> tab. Click <b>"Add"</b> to add the appropriate user or group. Highlight the needed account, and check the boxes for the desired access.<br>
+<br>
+
+<h1>ASP.NET file processing script</h1>
+<span class="style1"><b>Create web application in folder with script<br>Parser Error Message: It is an error to use a section registered as allowDefinition='MachineToApplication' beyond application level. This error can be caused by a virtual directory not being configured as an application in IIS</b></span><br>
+ASP.NET code works only in folders at server with created "web application". To create: Open Control panel->Administrative tools->
+Internet Information Services->Expand "Default web site", right mouse click at the needed folder and select "Properties" in context menu.
+In the folder properties dialog box open "Directory" tab and click "Create" button (create Application), click "ok" .
+<br><br>
+<span class="style1"><b>Write Permissions to UploadedFiles\ folder</b><br>
+<b>Error like "Access to the path "C:\Inetpub\wwwroot\Upload\UploadedFiles\myfile.jpg" is denied"</b></span><br>
+To grant <strong>ASP.NET</strong> and <strong>Anonymouse</strong> or other needed account write access to a folder where uploaded files will be saved, right-click the file in Explorer, choose <strong>"Properties"</strong> and select the <strong>Security</strong> tab. Click <strong>"Add"</strong> to add the appropriate user or group. Highlight the needed account, and check the boxes for the desired access.
+<br><br>
+<span class="style1"><b>Error "System.Web.HttpException: Maximum request length exceeded"</b><br />
+<b>Upload large files</b></span><br>
+See solution <a href="http://www.powupload.com/System.Web.HttpException-Maximum-request-length-exceeded.aspx">here</a><br />
+<br>
+
+<b><span class="style1">Error "System.Web.HttpException: Request timed out"</span></b><br>
+See solution <a href="http://www.powupload.com/System.Web.HttpException-Request-timed-out.aspx">here</a><br />
+<br>
+
+<b><span class="style1">Error "OutOfMemoryException: Exception of type System.OutOfMemoryException was thrown"</span></b><br>
+See solution <a href="http://www.powupload.com/System.OutOfMemoryException-was-thrown.aspx">here</a><br />
+<br>
+
+<h1>IIS7 (Windows Vista) ASP.NET file processing script</h1>
+<span class="style1"><b>
+HTTP Error 404.13 - Not Found<br>
+Description: The request filtering module is configured to deny a request that exceeds the request content length.</b><br>
+<b>Upload files greater than 30 MB</b></span><br>
+By default in IIS 7 enabled requestFiltering that have <strong>MaxAllowedContentLength</strong> property. It specifies, in bytes, the maximum length of content in a request. 
+The default is 30000000 (approximately 30 megabytes.)
+To change this value you must include following code in your Web.config file if you want to apply this setting only to you application.
+If you want to change this setting for all of the computer and not just this ASP.NET application, you must modify the Machine.config file. By default, the element is set to the following parameters in the Machine.config file: The Machine.config file is located in the \System Root\Microsoft.NET\Framework\Version Number\CONFIG directory.
+<textarea  name="" cols="100" rows="10" wrap="off">
+<configuration>
+   <system.webServer>
+      <security>
+         <requestFiltering>
+            <requestLimits maxAllowedContentLength="100000000"/>  
+         </requestFiltering>
+      </security>
+   </system.webServer>
+</configuration>
+</textarea>
+<br><br>
+If you have error that requestFiltering cannot be overriden you must edit mashine.config file 
+and change string <br> 
+<code>&lt;section name="requestFiltering" overrideModeDefault="Deny" /&gt;</code> <br>
+to 
+ <code>&lt;section name="requestFiltering" overrideModeDefault="Allow" /&gt;</code><br>
+ 
+<br>
+<h1>APACHE server</h1>
+<span class="style1"><b>
+HTTP Error 403 <br />
+Access denied with code 403. Error processing request body: Multipart: invalid part header (missing colon): Submit Query or <br />
+HTTP
+Error 406<br /> 
+mod_security-message: Access denied with code 406. Error processing request body: Multipart: final boundary missing or <br />
+HTTP
+Error 500<br />
+mod_security-message: Access denied with code 500. Error processing request body: Multipart: invalid part header (missing colon): Submit Query</b></span><br>
+This can happen because you have enabled an Apache module named <strong>mod_security</strong> on your server which blocks the headers sent by Flash.<br>
+Solution<br>
+To fix this problem you have two options:<br>
+1.	Disable the mod_security firewall module in Apache and use a dedicated firewall on your server.<br>
+2.	In the site root add a .htaccess file containing the following lines:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SecFilterEngine Off<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SecFilterScanPOST Off<br>
+
+<br>
+<h1>PHP</h1>
+<span class="style1"><b>
+Information relayted to files upload in PHP
+</b></span><br>
+You can find a lot of information relayted to file upload in PHP code at this website <a href="http://de3.php.net/manual/en/features.file-upload.php">http://de3.php.net/manual/en/features.file-upload.php</a><br>
+By default <strong>uploadfiles.php</strong> script shows error constant.
+See description of all constants relayted to upload at <a href="http://php.net/manual/en/features.file-upload.errors.php">http://php.net/manual/en/features.file-upload.errors.php</a><br><br>
+
+<span class="style1"><b>
+php.ini settings relayted to upload
+</b></span><br />
+<p>The most  common cause of problems related to file uploads is PHP itself. The following php.ini  settings effect file uploads:<br />
+    <br />
+    <strong>file_uploads  boolean</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="83"><p align="center">Name</p></td>
+    <td width="51"><p align="center">Default</p></td>
+    <td width="133"><p align="center">Changeable</p></td>
+    <td width="362"><p align="center">Changelog</p></td>
+  </tr>
+  <tr>
+    <td width="83"><p>file_uploads</p></td>
+    <td width="51"><p>&quot;1&quot;</p></td>
+    <td width="133"><p>PHP_INI_SYSTEM</p></td>
+    <td width="362"><p>PHP_INI_ALL in PHP &lt;= 4.2.3. Available    since PHP 4.0.3</p></td>
+  </tr>
+</table>
+<p><br />
+  This parameter has to be set to 1 to accept file uploads, value 0 is to not  accept file uploads. Defaults to 1<br />
+  <br />
+  <strong>post_max_size  integer</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="82"><p align="center">Name</p></td>
+    <td width="51"><p align="center">Default</p></td>
+    <td width="133"><p align="center">Changeable</p></td>
+    <td width="358"><p align="center">Changelog</p></td>
+  </tr>
+  <tr>
+    <td width="82"><p>post_max_size</p></td>
+    <td width="51"><p>&quot;8M&quot;</p></td>
+    <td width="133"><p>PHP_INI_PERDIR</p></td>
+    <td width="358"><p>PHP_INI_SYSTEM in PHP &lt;= 4.2.3. Available    since PHP 4.0.3</p></td>
+  </tr>
+</table>
+<p><br />
+    <br />
+  This is the maximum size of a POST request that PHP will accept. The default  for PHP 4.3.x is 8M. If the file(s) you are trying to upload have a single or  combined size over this value, PHP will exit. This affects the total post data.  For example, if this were set to 8M and you are uploading four 3M files, PHP  would not accept the files. You could, however, upload the four 3M files  individually without a problem from this setting.<a name="ini.post-max-size" id="ini.post-max-size"></a><br />
+  To  upload large files, this value must be larger than <a href="http://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize">upload_max_filesize</a>. <br />
+  If  memory limit is enabled by your configure script, <a href="http://www.php.net/manual/en/ini.core.php#ini.memory-limit">memory_limit</a> also affects file uploading. Generally speaking, <a href="http://www.php.net/manual/en/ini.core.php#ini.memory-limit">memory_limit</a> should be larger than <em>post_max_size</em>. <br />
+  If the size of post  data is greater than post_max_size, the $_POST and $_FILES <a href="http://www.php.net/manual/en/language.variables.predefined.php#language.variables.superglobals" title="PHP Superglobals">superglobals</a> are empty. This can be tracked in  various ways, e.g. by passing the $_GET variable to the script  processing the data, i.e. &lt;form action=&quot;edit.php?processed=1&quot;&gt;,  and then checking if $_GET['processed'] is set. <br />
+  <a name="ini.memory-limit" id="ini.memory-limit"></a><strong>memory_limit</strong><strong> integer</strong></p>
+<table border="1" cellpadding="0">
+  <tr>
+    <td><p align="center">Name</p></td>
+    <td><p align="center">Default</p></td>
+    <td><p align="center">Changeable</p></td>
+    <td><p align="center">Changelog</p></td>
+  </tr>
+  <tr>
+    <td><p>memory_limit</p></td>
+    <td><p>&quot;128M&quot;</p></td>
+    <td><p>PHP_INI_ALL</p></td>
+    <td><p>&quot;8M&quot; before PHP 5.2.0, &quot;16M&quot; in PHP 5.2.0</p></td>
+  </tr>
+</table>
+<p>This sets the maximum  amount of memory in bytes that a script is allowed to allocate. This helps  prevent poorly written scripts for eating up all available memory on a server.  Note that to have no memory limit, set this directive to -1. </p>
+<p><strong>upload_max_filesize  integer</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><p align="center">Name</p></td>
+    <td><p align="center">Default</p></td>
+    <td><p align="center">Changeable</p></td>
+    <td><p align="center">Changelog</p></td>
+  </tr>
+  <tr>
+    <td><p>upload_max_filesize</p></td>
+    <td><p>&quot;2M&quot;</p></td>
+    <td><p>PHP_INI_PERDIR</p></td>
+    <td><p>PHP_INI_ALL in PHP &lt;= 4.2.3.</p></td>
+  </tr>
+</table>
+<p><br />
+    <br />
+  This is the maximum size of an individual uploaded file. The default for PHP  4.3.x is 2M.<br />
+  <br />
+  <strong>max_input_time  ineger</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><br />
+      Name </td>
+    <td><p align="center">Default</p></td>
+    <td><p align="center">Changeable</p></td>
+    <td><p align="center">Changelog</p></td>
+  </tr>
+  <tr>
+    <td><p>max_input_time</p></td>
+    <td><p>&quot;-1&quot;</p></td>
+    <td><p>PHP_INI_PERDIR</p></td>
+    <td><p>Available since PHP 4.3.0.</p></td>
+  </tr>
+</table>
+<p><br />
+  This is the maximum time PHP will accept input in seconds.</p>
+<p><a name="ini.upload-tmp-dir" id="ini.upload-tmp-dir"></a><strong>upload_tmp_dir</strong><strong> string</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><p align="center">Name</p></td>
+    <td><p align="center">Default</p></td>
+    <td><p align="center">Changeable</p></td>
+    <td><p align="center">Changelog</p></td>
+  </tr>
+  <tr>
+    <td><p>upload_tmp_dir</p></td>
+    <td><p>NULL</p></td>
+    <td><p>PHP_INI_SYSTEM</p></td>
+    <td><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>The temporary  directory used for storing files when doing file upload. Must be writable by  whatever user PHP is running as. If not specified PHP will use the system's  default. <br />
+    <br />
+    <br />
+    <strong>Definition of  PHP_INI_* constants</strong><strong> </strong></p>
+<table border="1" cellpadding="0">
+  <tr>
+    <td><br />
+      Constant </td>
+    <td><p align="center">Value</p></td>
+    <td><p align="center">Meaning</p></td>
+  </tr>
+  <tr>
+    <td><p>PHP_INI_USER</p></td>
+    <td><p>1</p></td>
+    <td><p>Entry can be set in user scripts or in <a href="http://www.php.net/manual/en/configuration.changes.php#configuration.changes.windows" title="Changing PHP configuration via the Windows registry">Windows registry</a> </p></td>
+  </tr>
+  <tr>
+    <td><p>PHP_INI_PERDIR</p></td>
+    <td><p>2</p></td>
+    <td><p>Entry can be set in php.ini, .htaccess or httpd.conf</p></td>
+  </tr>
+  <tr>
+    <td><p>PHP_INI_SYSTEM</p></td>
+    <td><p>4</p></td>
+    <td><p>Entry can be set in php.ini or httpd.conf</p></td>
+  </tr>
+  <tr>
+    <td><p>PHP_INI_ALL</p></td>
+    <td><p>7</p></td>
+    <td><p>Entry can be set anywhere</p></td>
+  </tr>
+</table>
+<br />
+<span class="style1"><b>Change  Apache settings</b></span>
+<p>If you do not have access to change php.ini and your website is running on  apache, you may be able to include these settings in an .htaccess file. This is only possible if  &quot;AllowOverride Options&quot; or &quot;AllowOverride All&quot; privileges  have been set (by you, by your ISP, or by a system administrator) in httpd.conf.<br />
+    <br />
+  If this is feasible, or if you want to try the solution on your own, create or  edit a file named .htaccess (assuming you want a 6Mb max attachment size):<br />
+  php_value  post_max_size &quot;7M&quot;<br />
+  php_value upload_max_filesize &quot;6M&quot;<br />
+  php_value max_input_time &quot;120&quot;</p>
+<p><span class="style1"><b>Permissions </b></span></p>
+  <p>If it is a Window server  nothing is required and by default window gives all permissions.
+  </p>
+For Linux and Uinx you have to give write (Chmod)  permission to both temp and destination directories to allow uploaded files to  store.<br />
+<br>
+  </p>
+
+  <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>        </p>
+        <p>        </p>
+        <p>        </p>
+      </div>
+</div>
+</body>
+</html>

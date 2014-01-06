@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<link href="../templates/pda-cases.css" rel="stylesheet" type="text/css">
+{literal}
+<script> 
+function cerrarse(){ 
+window.close() 
+} 
+</script> 
+{/literal}
+</head>
+
+<body>
+<p><span class="bold-med-text4">User<b>:</b></span> <span class="bold-med-text2"><b>{$LOGINUS}</b></span><span class="text-b"><b> |</b></span><b> 
+
+<a href="javascript:onClick=window.close();" target="_top"><img src="../images/logout.jpg" border="0" alt="Logout" onclick="cerrarse"></a></b></p>
+
+
+{literal}
+<script type="text/javascript" language="javascript">
+   var http_request = false;
+   function makePOSTRequest(url, parameters) {
+      http_request = false;
+      if (window.XMLHttpRequest) { // Mozilla, Safari,...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType) {
+         	// set type accordingly to anticipated content type
+            //http_request.overrideMimeType('text/xml');
+            http_request.overrideMimeType('text/html');
+         }
+      } else if (window.ActiveXObject) { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+      if (!http_request) {
+         alert('Cannot create XMLHTTP instance');
+         return false;
+      }
+      
+      http_request.onreadystatechange = alertContents;
+      http_request.open('POST', url, true);
+      http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      http_request.setRequestHeader("Content-length", parameters.length);
+      http_request.setRequestHeader("Connection", "close");
+      http_request.send(parameters);
+   }
+
+   function alertContents() {
+      if (http_request.readyState == 4) {
+         if (http_request.status == 200) {
+            //alert(http_request.responseText);
+            result = http_request.responseText;
+            document.getElementById('myspan').innerHTML = result;            
+         } else {
+            alert('There was a problem with the request.');
+         }
+      }
+   }
+   
+   function post(obj) {
+      var poststr = "qty=" + encodeURI( document.getElementById("cantidad").value );
+      makePOSTRequest('http://192.168.0.5/scr/show_despachos.php', poststr);
+   }
+</script>
+{/literal}
+<table width="600" border="0" align="center" cellpadding="0" cellspacing="0" style="border:solid 1px #999999">
+  <tr>
+    <td><div align="center" class="big-text">Lista de despachos recientes desde Bolivia <br />
+    {if $mensaje ne ""}&nbsp;<span class="green-med-text">{$mensaje}</span>{/if}
+	{if $mensaje_err ne ""}&nbsp;<span class="red-medium-text">{$mensaje_err}</span>{/if}</div></td>
+  </tr>
+  <tr>
+    <td>
+      <form id="fcant" name="fcant" method="post" action="javascript:post(document.getElementById('fcant'));">
+	    <div align="left"><span class="bold-medium-text">Cantidad de despachos a mostrar:</span> 
+          <select name="cantidad" id="cantidad" size="1" onchange="javascript:post(this.parentNode);">
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+          </select>
+        </div>
+      </form>    </td>
+  </tr>
+  <tr>
+    <td height="36">
+	<form name="fdesp" id="fdesp" method="post" action="../scr/show_despachos.php">
+	<table border="0" cellspacing="2" cellpadding="2">
+      <tr>
+        <td class="bold-medium-text">Seleccione el depacho para migrar:</td>
+        <td> <select name="iddespacho">
+	      
+		  <option value="0">- - Despachos- -</option>
+		{section name=nz loop=$despachos}
+          
+	      <option value="{$despachos[nz].iddespacho}">{$despachos[nz].nombre_despacho} - ({$despachos[nz].fecha_ref})</option>
+	      
+		  {/section}
+            
+	      </select> </td>
+      </tr>
+      <tr>
+        <td align="right" class="bold-medium-text">Observaciones:</td>
+        <td><textarea name="obs" cols="20" id="obs"></textarea></td>
+      </tr>
+      
+      <tr>
+        <td>&nbsp;</td>
+        <td> <input name="send" type="submit" id="send" value="Migrar" /></td>
+      </tr>
+    </table>
+	</form>	</td>
+  </tr>
+</table>
+</body>
+</html>

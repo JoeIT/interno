@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>ASP.NET (VB.NET syntax) file processing code example</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+
+<p>
+ASP.NET has native object that stores uploaded files.
+Native ASP.NET object has one seriouse disadvantage: It uses memory equal to files size. If you uploads large files you can get "<strong>out of memory</strong>" error. </p>
+
+<p>May be you will be interested in our another product <a target="_blank" href="http://www.powupload.com" title="File upload component">PowUpload ASP.NET control</a>.
+PowUpload handles and stores the contents of the POST request to a file on the server hard disk rather than loading it into memory as the built-in ASP.NET upload support does. PowUpload provides rich server-side progress indicator that lets users to monitor the progress of their uploads and some ather advanced features.<br>You can see PowUpload code example <a target="_self" href="ASPNETPowUploadFileProc.html">here</a>.</p>
+
+  <h4>uploadfiles.aspx code sample:</h4>
+<textarea  name="" cols="100" rows="16" wrap="off">
+<%@ Page language="VB"%>
+<%						
+		Response.Write("Upload result:<br>") 'At least one symbol should be sent to response!!!
+		
+		dim FolderToSave as String = Server.MapPath("") & "\UploadedFiles\"
+		
+		dim myFile as HttpPostedFile = Request.Files(0)
+		if not myfile is nothing andalso myFile.FileName <>"" then
+			myFile.SaveAs(FolderToSave & System.IO.Path.GetFileName(myFile.FileName))
+			Response.Write("File " & myFile.FileName & " succesfully saved.<br>")
+		else
+	     		Response.Write("No files sent. Script is OK!")	'Say to Flash that script exists and can receive files
+		end if		
+		
+%>
+</textarea>
+
+  <h4>web.config file configuration:</h4>
+<textarea  name="" cols="100" rows="7" wrap="off">
+...
+&lt;system.web&gt;
+	&lt;httpRuntime  maxRequestLength="1048576" executionTimeout="3600" /&gt;
+...
+&lt;/system.web&gt;
+...
+</textarea>
+
+<p>
+         <b><code>httpRuntime</code></b> - element cConfigures ASP.NET HTTP runtime settings. 
+</p>
+<p>
+          <b><code>maxRequestLength</code></b> - Attribute indicates the maximum file upload size supported by ASP.NET. 
+          This limit can be used to prevent denial of service attacks caused by users posting large files to the server. 
+          The size specified is in kilobytes. The default is "4096" (4 MB). Max value is "1048576" (1 GB) for .NET Framework 1.0 and 1.1 and 
+		  "2097151" (2 GB) for .NET Framework 2.0. 
+</p>
+<p>
+          <b><code>executionTimeout</code></b> - Attribute indicates the maximum number of seconds that a request is allowed to 
+          execute before being automatically shut down by ASP.NET. 
+          The executionTimeout value should always be longer than the amount of time that the upload process can take.
+</p>
+
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+	
+</body>
+</html>

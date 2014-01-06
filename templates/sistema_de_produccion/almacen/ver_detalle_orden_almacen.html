@@ -1,0 +1,109 @@
+<div id=cabecera>
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+{literal}
+<SCRIPT LANGUAGE="JavaScript">
+/* Creamos la función */
+function PantallaCompleta(URL) {
+	if (navigator.appName!="Explorer") {
+		abrir=window.open(URL, '', "height="+window.screen.availHeight+", width="+(window.screen.availWidth-10)+", top=0, left=0, toolbar=yes, status=yes, scrollbars=auto, location=no, menubar=yes, directories=no, resizable=yes");
+		abrir.window.innerWidth=window.screen.width-5
+		abrir.window.innerHeight=window.screen.height-50
+		abrir.self.moveTo(0,0)
+	} else
+		window.open(URL, '', 'fullscreen=yes, scrollbars=yes');
+}
+
+</script>
+{/literal}
+</div>
+     
+	  <br />
+<table align="center" width="95%">
+	          <tr >
+			      <td class="enunciados">  Orden de Prod. No.   </td>
+				  <td   class="body-sector" align="center" >{$cabecera.numero_orden} </td>
+				  <td class="enunciados"> CUP No.  </td> <td  class="body-sector" align="center"> {$cabecera.cup_num}</td>
+				  
+				  <td class="enunciados" >  Cliente   </td>
+				  <td  class="body-sector" >{$cabecera.cliente} </td>
+				    <td class="enunciados" colspan="3"> No.Ref. Cliente    </td>
+				   <td  class="body-sector" colspan="2"> {$cabecera.cliente_id}  </td>
+				  
+				  
+			  </tr>
+			  <tr>
+			  <td class="enunciados"> Fecha    </td> <td  class="body-sector"  align="center"> {$cabecera.fecha}  </td>
+			       <td class="enunciados"> Fecha Entrega/Despacho </td>
+				   <td  class="body-sector" align="center" nowrap="nowrap"> {$cabecera.fecha_entrega}</td>
+				  <td class="enunciados"> Fecha Reprogramación </td>
+	 		     <td  class="body-sector" align="center"> {$cabecera.fecha_reprogramacion}</td>  
+			  </tr>
+			
+	     </table>
+<br />
+
+	
+ {if $detalle !=null}
+
+ 			     
+	    {assign var=contador value=0}
+     <table width="95%"  align="center">
+	 <th colspan="14">
+				  Detalle de Orden de Producción
+</th>
+  		<tr>
+    		 <td class="enunciados"><center>Hoja</center></td>
+		     <td class="enunciados"><center>Cantidad</center></td>
+			 <td class="enunciados"><center>Modelo</center></td>
+			 <td class="enunciados"><center>Tipo</center></td>
+			 <td class="enunciados"><center>Clip</center></td>
+			 <td class="enunciados"><center>Color</center></td>
+			 <td class="enunciados"><center>Pedido</center></td>
+			 <td class="enunciados"><center>Observaciones</center></td>
+			 <td class="enunciados"><center>Orden</center></td>
+			 <td class="enunciados"><center>Num. Asig.</center></td>
+			 <td class="enunciados"><center>Maquinista</center></td>
+			 <td class="enunciados"><center>Asignada</center></td>
+				
+				</tr>
+		 	  {assign var=flag value=""}
+		      {assign var=CSSclass value=0}
+		      {assign var=clases value="lista-normal"}	 
+   			  {assign var=num_hoja value=1}
+			  
+			{foreach name=contenido item=detalles from=$detalle}
+			   {if $detalles.detalle_id != $flag}
+      			   {assign var="CSSclass" value="`$CSSclass+1`"}
+				   {assign var=num_hoja value=1}
+			       {if ($CSSclass mod 2) eq 0}
+				      {assign var=clases value="lista-seleccionada"}
+		    	  {else}
+			    	  {assign var=clases value="lista-normal"}
+			      {/if}
+			  {else}
+			       {assign var=num_hoja value=$num_hoja+1}
+		      {/if}
+			    <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+				 <td align="center">{$num_hoja}</td>
+				{foreach key=key item=item from=$detalles}
+	    			  {if $key == "detalle_id"}
+					      {assign var=flag value=$item}
+					  {else}
+					   {if $key == "pedido" || $key == "asignada" || $key == "cantidad" || $key == "asignacion" || $key == "orden"}
+					        <td align="center"> {$item} </td>
+						 {else}
+						    <td> {$item} </td>
+						 {/if}
+					  {/if}		
+				{/foreach}	
+				</tr>
+			{/foreach}
+	  </table><br>
+
+	   
+<br/>
+<br/>
+
+
+
+{/if}

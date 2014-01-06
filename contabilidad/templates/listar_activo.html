@@ -1,0 +1,171 @@
+{include file="cabecera.html"} <br />
+{literal}
+
+<script language="javascript">
+/*function actualizar (paginaservidor,combo,lista,clave){
+
+var miAjax = new Ajax(paginaservidor,
+{
+	method: 'get',
+	data:clave+'='+$(combo).value,
+	
+	update: $(lista)
+	
+});
+miAjax.request();
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}*/
+function actualizar (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { primaria: $F(combo)} 
+});
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}
+</script>
+{/literal}
+<form name="orden" method="get" action="../controladores/activo.php"  align="center">
+  <table border="0" align="center" cellpadding="0" cellspacing="3" width="35%">
+    <tr>
+      <th>Modificar Activos</th>
+    </tr>
+  </table>
+  <table width="35%" border="0" align="center" cellpadding="0" cellspacing="3">
+				<tr> {if $error != null}
+					 <td class="error-box" colspan="2"> {$error}</td> </tr>{/if}
+	{if $errores.err_pri != null }<tr> 
+					 <td class="error-box" colspan="2"> {$errores.err_pri} </td> </tr> {/if}
+  
+  {if $errores.err_sec != null }<tr> 
+					 <td class="error-box" colspan="2"> {$errores.err_sec} </td> </tr> {/if}
+
+ {if $errores.err_gru != null }<tr> 
+					 <td class="error-box" colspan="2"> {$errores.err_gru} </td> </tr> {/if}
+  
+  {if $errores.err_confirm!= null }<tr> 
+					 <td class="error-box" colspan="2"> {$errores.err_confirm} </td> </tr> {/if}
+  
+	
+	 
+  
+    <td width="22%" class="enunciados">Localizacion Primaria</td>
+	 
+    <td width="23%">
+      <select name="pri" id="pri2" onchange="actualizar ('combo.php','pri2','secundaria','primaria')" >
+                <option value="selc">Seleccionar</option>
+          
+                          
+  {foreach item=item from=$primaria}	 
+	   	
+            
+        
+        
+          
+          <option value="{$item.primaria_id}">{$item.descripcion}</option>
+          
+          
+         
+            
+         	    	   
+	  
+	{/foreach}	
+  
+          
+      
+      
+        
+        </select></td>
+    </tr>
+  <tr>
+    <td class="enunciados">Localizacion Secundaria </td>
+    <td><div id="secundaria" ></div>
+    </td>
+    </tr>
+  <tr>
+    <td class="enunciados">Cuenta:</td>
+    <td><select name="gru" id="sec"  >
+      <option value="selc">Seleccionar</option>
+      
+          
+  {foreach item=item from=$grupo}	 
+	   
+      		
+        
+      <option value="{$item.grupo_id}">{$item.descripcion}</option>
+      
+        
+         	    	   
+	  
+	{/foreach}	
+  
+      
+    </select></td>
+    </tr>
+  <tr>
+    <td class="enunciados">Numero Activo: </td>
+    <td><input type="text" name="num_act" /></td>
+  </tr>
+</table>
+
+<center><p><input type="submit" value="Buscar Activo" name="listar_activo" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+  </p></center>
+</form>
+  <p>{if $busqueda1}  </p>
+  <table align="center"  width="95%" cellpadding="3">
+    <tr>
+      <th colspan="6"> Lista de Activos </th>
+    </tr>
+    <tr>
+      <td width="13%" class="enunciados" style="text-align:center">Activo</td>
+      <td width="11%" class="enunciados" style="text-align:center">Loc Primaria </td>
+      <td width="14%" class="enunciados" style="text-align:center">Loc secundaria </td>
+      <td width="5%" class="enunciados" style="text-align:center">Grupo</td>
+      <td width="13%" class="enunciados" style="text-align:center">Num correlativo </td>
+      <td width="44%" class="enunciados" style="text-align:center">Descripcion</td>
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$lista1}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+    <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+     
+	  
+      <td align="center">
+	<!--
+	solo para modificar los activos que ya tinen sin responsables
+	-->  
+	  <!--<a href="../controladores/modificar_activo.php?funcion=detalle&elegido={$lista1[ind].act_id} " name="{$lista1[ind].act_id}" id="{$lista1[ind].act_id}">{$lista1[ind].numero}</a>
+-->
+
+		<a href="../controladores/modificar_activo.php?funcion=detalle&elegido={$lista1[ind].act_id} " name="{$lista1[ind].act_id}" id="{$lista1[ind].act_id}">{$lista1[ind].numero}</a>
+      <td>{if $lista1[ind].localizacion < 10}0{$lista1[ind].localizacion}{else}{$lista1[ind].localizacion}{/if}</td>
+			   <td align="center">
+			   {if $lista1[ind].locsecundaria < 10}0{$lista1[ind].locsecundaria}{else}{$lista1[ind].locsecundaria}{/if}</td>
+			   
+			       <td>{if $lista1[ind].grupo_id < 10}0{$lista1[ind].grupo_id}{else}{$lista1[ind].grupo_id}{/if}</td>
+                   <td>{$lista1[ind].num_act}</td>
+                   <td>{$lista1[ind].descripcion}</td>
+      
+    </tr>
+    {/section}
+  <tr>
+    <td colspan="6"><hr>    </td>
+    </tr>
+  </table>
+  <br />
+ 
+{/if}
+<p>&nbsp;</p>
+  <p>&nbsp;    </p>
+
+</form>
+
+</body>

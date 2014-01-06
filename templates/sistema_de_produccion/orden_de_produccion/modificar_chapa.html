@@ -1,0 +1,77 @@
+
+        {include file="../templates/sistema_de_produccion/cabecera.html"} 
+  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar la chapa: " + nombre ))
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+						
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+	 {/literal}
+
+<body>
+<table width="100%">
+	<tr>
+		<td width="80%">
+			{if $error != null}
+				 <table align="center" class="anuncio" >
+						{if $error.err_descripcion != null} 
+						<tr> 
+							<td> <font> {$error.err_descripcion} </td> 
+						</tr>
+						{/if}
+						{if $error.err_fuente != null} 
+						<tr> 
+							<td> <font> {$error.err_fuente} </td> 
+						</tr>
+						{/if}
+				 </table>
+			 {/if}
+			<form name="form_modificar" method="post" action="../../controladores/sistema_de_produccion/lista_chapa.php">
+				<input type="hidden" name="elegido" value="{$id}">
+				{if $errores == null}
+	  			    <input type="hidden" name="descrip_aux" value={$descripcion}>
+				{else}
+				    <input type="hidden" name="descrip_aux" value={$descrip_aux}>
+				{/if}
+				<input type="hidden" name="funcion" value="modificar_datos">
+				<table align="center" >
+					<th colspan="2">
+						Modificar Chapa
+					</th>
+		 			<tr>
+  						<td class="enunciados">  Nombre: </td>
+  						<td class="body-sector">  
+							<input type="text" name="descripcion" value="{$descripcion}" > 
+						</td>
+		 			</tr>
+				</table>
+
+		   		<p align="center"> 
+					<input class="button1" type="submit" name="modificar_datos" value="Modificar"  onClick=consultar(name)> &nbsp;
+	            	<input class="button1" type="submit" name="volver" value="Volver a la lista" onClick=consultar(name)>
+				</p>
+			</form>
+		</td>
+	</tr>
+</table>
+</body>

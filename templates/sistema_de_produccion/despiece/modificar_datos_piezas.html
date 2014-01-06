@@ -1,0 +1,99 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}	 
+<br  />
+ <table width="95%" align="center">
+   <tr>
+     <th colspan="4"> DATOS MATERIAL </th>
+   </tr>
+   <tr>
+     <td class="enunciados"> Descripcion: </td>
+     <td class="body-sector">{$datos_materiales.nombre}-{$datos_materiales.descripcion} </td>
+   </tr>
+  <td class="enunciados"> Dimensiones: </td>
+      <td class="body-sector">{$datos_materiales.largo}x{$datos_materiales.ancho} </td>
+    <td class="enunciados"> Unidad: </td>
+    <td class="body-sector">{$datos_materiales.unidad} </td>
+  </tr>
+ </table>
+ </p>
+ <form name="volver" id="volver" action="../../controladores/sistema_de_produccion/modificar_despiece.php" method="get">
+		    <input type="hidden" name="orden_id" id="orden_id" value="{$orden_id}">
+  			 <input type="hidden" name="detalle_id" id="detalle_id" value="{$detalle_id}">
+			 <input type="hidden" name="material_id"  value="{$material_id}">
+  			 <input type="hidden" name="funcion" id="funcion" value="volver_piezas">
+		<center>	<input name="volver" type="submit" value="Volver al listado de piezas" class="button1" />  </center>
+		</form> 
+<hr width="70%">
+ 
+
+   <form name="modificar_despiece_piezas_material" method="get" action="../../controladores/sistema_de_produccion/modificar_despiece.php"  align="center" id="modificar_despiece_piezas_material">
+   <input type="hidden" name="orden_id"  value="{$orden_id}">
+   <input type="hidden" name="detalle_id"  value="{$detalle_id}">
+   <input type="hidden" name="material_id"  value="{$material_id}">
+   <input type="hidden" name="componente_id"  value="{$componente_id}">
+   <input type="hidden" name="funcion" id="funcion" value="modificar_datos_pieza_registro">
+   
+    <table width="95%" align="center">
+         <tr>
+         <th  colspan="4"> DATOS ACTUALES DE PIEZA </th>
+		 </tr>
+	     <tr>
+		     <td class="enunciados"> Posicion Pieza:  </td> <td class="body-sector">{$datos_pieza.descripcion} </td>
+		</tr>
+		 <tr>
+		     <td class="enunciados"> Dimensiones:  </td> <td class="body-sector">{$datos_pieza.largo}x{$datos_pieza.ancho} </td>
+		</tr>
+		 <tr>
+		     <td class="enunciados"> Cantidad:  </td> <td class="body-sector">{$datos_pieza.cantidad} </td>
+		</tr>
+		<tr>
+		<th colspan="4"> DATOS A ACTUALIZARSE </th>
+       </tr>
+   	 {if $errores.err_texto_posicion != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_posicion} </td>
+	  </tr>
+     {/if}
+	  <tr>
+	    <td class="enunciados" >Pieza :</td>
+	    <td colspan="3"><input name="texto_posicion" type="text" id="posicion" value="{if $posicion != null}{$posicion}{else}{$datos_pieza.descripcion}{/if} " tabindex="1" size="50"  onkeypress="return handleEnter(this, event)" /> <a href="javascript:ventanaSecundaria ('registrar_material.php')"> registrar posicion</a>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_posiciones" class="autorelleno"> </div>
+      {literal}
+      <script>
+					new Ajax.Autocompleter("posicion", "lista_posiciones", "../../controladores/sistema_de_produccion/modificar_despiece.php?busqueda_ajax=posiciones", {method:"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla})
+								
+								</script>
+      {/literal} </td>
+	  
+  </tr>
+  {if $errores.err_texto_largo != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_largo} </td>
+	  </tr>
+     {/if}
+      <tr>
+		      <td class="enunciados">  Largo :  </td> <td class="body-sector"> <input type="text" name="texto_largo" id="texto_largo" tabindex="2" value="{if $largo != null}{$largo}{else}{$datos_pieza.largo}{/if}" onkeypress="return handleEnter(this, event)"/> </td>
+	 </tr>
+	  {if $errores.err_texto_ancho != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_ancho} </td>
+	  </tr>
+     {/if}
+	 <tr>
+			  <td class="enunciados">  Ancho:   </td> <td class="body-sector"> <input type="text" name="texto_ancho" id="texto_ancho" tabindex="3" value="{if $ancho != null}{$ancho}{else}{$datos_pieza.ancho}{/if}" onkeypress="return handleEnter(this, event)"/> </td>
+	  </tr>
+	<tr>
+	 {if $errores.err_texto_cantidad != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_cantidad} </td>
+	  </tr>
+     {/if}
+	<tr>
+			  <td class="enunciados">  Cantidad:   </td> <td class="body-sector"> <input type="text" name="texto_cantidad" id="texto_cantidad" tabindex="4"value="{if $cantidad != null}{$cantidad}{else}{$datos_pieza.cantidad}{/if}" onkeypress="return handleEnter(this, event)"/> </td>
+	  </tr>
+	<tr>
+   
+    <td  colspan="3" align="center"><input name="submit" type="submit" value="Modificar" class="enviar"  tabindex="5"/>    </td>
+  </tr>
+    </table>
+</form>	

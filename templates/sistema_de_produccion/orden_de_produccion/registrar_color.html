@@ -1,0 +1,88 @@
+{if $color=="true"}
+    {include file="../templates/sistema_de_produccion/cabecera.html"} 
+{else}
+	{include file="../templates/sistema_de_produccion/cabecera_popup.html"} 
+{/if}
+	  {if $color=="false" and $errores.err_confirm != null}
+		 {literal}
+			<script language="JavaScript"> 
+				 window.close();
+			</script>
+		 {/literal}
+	
+	  {else}
+<br>
+ <table width="100%">
+	<tr>
+		
+		<td width="80%">
+		
+	
+		{if $errores != null}
+		     <table align="center" class="error-box">
+                 	{if $errores.err_descripcion != null} 
+					<tr> 
+						<td>{$errores.err_descripcion} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_coleccion != null} 
+					<tr> 
+						<td>{$errores.err_coleccion} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_color != null} 
+					<tr> 
+						<td>  {$errores.err_color} </td> 
+					</tr>
+					{/if}
+					
+		 	 </table>
+		 {/if}
+
+			<form name="form_registrar" method="post" action="../../controladores/sistema_de_produccion/registrar_color.php">
+			{if $color=="false"}
+				    <input type="hidden" name="popup" value="false">
+			{else}
+					<input type="hidden" name="popup" value="true">
+			{/if}	
+			<table border="0" align="center" >
+				<th colspan="2"> {$title}</th>
+			  	<tr>
+					<td class="enunciados">Nombre:</td>
+					<td><input class="all-border-purple" type="text" name="descripcion" value="{$descripcion}" id="color" class="edit" />
+						<span id="spinner" style="display: none"></span>
+								<div id="lista_colores" class="autorelleno">
+								</div>
+								{literal}
+								<script>
+										new Ajax.Autocompleter("color", "lista_colores", "../../controladores/sistema_de_produccion/registrar_color.php?busqueda_ajax=colores", {method:"post", paramName: "value", minChars: 1, indicator: "spinner"});
+								</script>
+								{/literal}
+						
+					</td>
+				</tr>
+				<tr>
+					<td class="enunciados">Colección:</td>
+					<td><input class="all-border-purple" type="text" name="coleccion" value="{$coleccion}" id="coleccion" class="edit" />
+						<span id="spinner" style="display: none"></span>
+								<div id="lista_coleccion_colores" class="autorelleno">
+								</div>
+								{literal}
+								<script>
+										new Ajax.Autocompleter("coleccion", "lista_coleccion_colores", "../../controladores/sistema_de_produccion/registrar_color.php?busqueda_ajax=colecciones", {method:"post", paramName: "value", minChars: 1, indicator: "spinner"});
+								</script>
+								{/literal}
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input class="button1" type="submit" value="Registrar">
+					</td>
+				</tr>
+			</table>
+			</form>
+		</td>
+	</tr>
+</table> 
+</body>
+{/if}

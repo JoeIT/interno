@@ -1,0 +1,129 @@
+{include file="cabecera_popup.html"}
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Upload files with other Form fields example</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<p><br>
+<spam class="enunciados"></spam>
+</p>
+
+
+{literal}
+<script language="JavaScript">	
+	function mysubmit()
+	{
+		var Flash;
+		if(document.embeds && document.embeds.length>=1 && navigator.userAgent.indexOf("Safari") == -1)
+			Flash = document.getElementById("EmbedFlashFilesUpload");
+		else
+			Flash = document.getElementById("FlashFilesUpload");
+		var FormObj = document.getElementById("myform");
+
+		var FormValues = '';
+		for (var i = 0; i<FormObj.elements.length; i++)
+			FormValues += escape(FormObj.elements[i].name) + '=' + escape(FormObj.elements[i].value) + ((i!=(FormObj.elements.length-1))?'&':'');
+		Flash.SetVariable("SubmitFlash", FormValues);
+		
+		/*
+		var fname="contenido";
+		top.frames[fname].document.location.href='activo.php?opcion=registrar_activo';
+		*/
+		/*opener.location.href='activo.php?opcion=registrar_activo';
+		
+		this.close();*/
+		return false;
+	}
+	function mysubmit1()
+	{
+		var Flash;
+		if(document.embeds && document.embeds.length>=1 && navigator.userAgent.indexOf("Safari") == -1)
+			Flash = document.getElementById("EmbedFlashFilesUpload");
+		else
+			Flash = document.getElementById("FlashFilesUpload");
+		var FormObj = document.getElementById("myform");
+
+		var FormValues = '';
+		for (var i = 0; i<FormObj.elements.length; i++)
+			FormValues += escape(FormObj.elements[i].name) + '=' + escape(FormObj.elements[i].value) + ((i!=(FormObj.elements.length-1))?'&':'');
+		Flash.SetVariable("SubmitFlash", FormValues);
+		
+		/*
+		var fname="contenido";
+		top.frames[fname].document.location.href='activo.php?opcion=registrar_activo';
+		*/
+		opener.location.href='activo.php?opcion=registrar_activo';
+		
+		this.close();
+		return false;
+	}
+</script>
+{/literal}
+<form method="POST" onSubmit="return mysubmit();" id="myform" name="myform" action="">
+	<table width="450" align="center">
+	<tr>
+	  <td colspan="2" align="center">Fotos Activos</td>
+      </tr>
+	<tr>
+	  <td class="enunciados">Numero Activos:</td>
+	  <td><input name="text" type="text" value="{$numero}"></td>
+	  </tr>
+  </table>
+	
+	<table align="center">	
+	  <td align="center">		
+			<font style="font-size:10px;font-family:Verdana, Arial, Helvetica, sans-serif" color="#494949">		</font><br>
+		<OBJECT id="FlashFilesUpload" codeBase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
+		width="450" height="350" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" VIEWASTEXT>
+		<!-- Replace symbols " with the &quot; at all parameters values and 
+		symbols "&" with the "%26" at URL values or &amp; at other values!
+		The same parameters values should be set for EMBED object below.  -->
+	<PARAM NAME="FlashVars" VALUE="uploadUrl=uploadfiles.php
+&uploadButtonVisible=No">
+	<PARAM NAME="BGColor" VALUE="#F8F6E6">
+	<PARAM NAME="Movie" VALUE="ElementITMultiPowUpload1.7.swf">
+	<PARAM NAME="Src" VALUE="ElementITMultiPowUpload1.7.swf">
+	<PARAM NAME="WMode" VALUE="Window">
+	<PARAM NAME="Play" VALUE="-1">
+	<PARAM NAME="Loop" VALUE="-1">
+	<PARAM NAME="Quality" VALUE="High">
+	<PARAM NAME="SAlign" VALUE="">
+	<PARAM NAME="Menu" VALUE="-1">
+	<PARAM NAME="Base" VALUE="">
+	<PARAM NAME="AllowScriptAccess" VALUE="always">
+	<PARAM NAME="Scale" VALUE="ShowAll">
+	<PARAM NAME="DeviceFont" VALUE="0">
+	<PARAM NAME="EmbedMovie" VALUE="0">	    
+	<PARAM NAME="SWRemote" VALUE="">
+	<PARAM NAME="MovieData" VALUE="">
+	<PARAM NAME="SeamlessTabbing" VALUE="1">
+	<PARAM NAME="Profile" VALUE="0">
+	<PARAM NAME="ProfileAddress" VALUE="">
+	<PARAM NAME="ProfilePort" VALUE="0">
+	
+	<!-- Embed for Netscape,Mozilla/FireFox browsers support. Flashvars parameters are the same.-->
+		<!-- Replace symbols " with the &quot; at all parameters values and 
+		symbols "&" with the "%26" at URL values or &amp; at other values! -->
+	<embed bgcolor="#F8F6E6" id="EmbedFlashFilesUpload" src="ElementITMultiPowUpload1.7.swf" quality="high" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"	type="application/x-shockwave-flash" width="450" height="350" flashvars="uploadfiles.php
+&uploadButtonVisible=No">	</embed>
+  </OBJECT>  </td>
+	</tr>
+	<tr>
+	  <td align="center">&nbsp;</td>
+    </tr>
+	<tr>
+	  <td align="right">
+	    <input name="submitbtn" onClick="mysubmit();" type="submit" value="Upload" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+      <input name="submitbtn2" onClick="mysubmit1();" type="submit" value="Cerrar" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'"></td>
+    </tr>
+</table>
+
+
+<br>
+<br>
+</form>
+
+
+</body>
+</html>

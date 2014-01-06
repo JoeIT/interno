@@ -1,0 +1,164 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<div id="installOK">
+  <div class="oculto"> <br />
+	<form name="busqueda" method="get" action="../../controladores/sistema_de_produccion/almacen.php"  align="center">
+	 <input type="hidden" name="funcion"  value="buscar">
+      <table border="0" align="center" cellpadding="0" cellspacing="3">
+        <tr>
+          <th colspan="6"> Entrega de material </th>
+        </tr>
+        {if $aviso != ""}
+        <tr>
+          <td colspan="6"> {if $aviso == "Ya se realizo la entrega"}
+            <div class="anuncio" align="center"><img width="40" height="40" src="../../templates/imagenes/propiedad.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$aviso}</div>
+            {else}
+            <div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$aviso}</div>
+            {/if} </td>
+        </tr>
+        {/if}
+        <tr>
+          <th colspan="6"> Busqueda por Asignación </th>
+        </tr>
+        <tr>
+          <td class="enunciados">Ingresar asignación:</td>
+          <td class="body-table"><input name="asignacion" type="text" value="{$asignacion}" />
+          </td>
+          <td class="body-table"><input name="boton" type="submit" value="  Buscar  " />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <br>
+  <!-- <form name="imprimir_orden" method="post" action="../../controladores/sistema_de_produccion/almacen.php"  align="center">
+-->
+  {if $materiales!= ""}
+  <form name="impresion" method="get" action="../../controladores/sistema_de_produccion/almacen.php"  align="center">
+    <input type="hidden" name="funcion"  value="cambio">
+    <table border="0" align="center" cellpadding="0" cellspacing="3">
+      <tr>
+        <td colspan="8" align="right"> {$fecha} </td>
+      </tr>
+      <tr>
+        <th colspan="8"> Nota de Entrega y Producción </th>
+      </tr>
+      <tr>
+        <td class="enunciados"><center>
+            Orden de producción
+          </center></td>
+        <td class="enunciados"><center>
+            Asignacion
+          </center></td>
+        <td class="enunciados"><center>
+            Entregado A:
+          </center></td>
+        <td class="enunciados"><center>
+            Cantidad
+          </center></td>
+        <td class="enunciados" colspan="2"><center>
+            Producto
+          </center></td>
+	  </tr>
+      {assign var=cont value=0}
+      {foreach name=contenido item=estilos from=$materiales}
+    <tr> {if $cont == 0}							
+        {foreach key=key item=item from=$estilos}
+        {if $key == "Orden"}
+        <td class="body-sector"><center>
+            {$item}
+          </center></td>
+        {/if}
+        {if $key == "Asignacion"}
+        {assign var=num_asig value=$item}
+        <td class="body-sector"><center>
+            {$item}
+          </center></td>
+        {/if}
+        {if $key == "Personal"}
+        <td class="body-sector">{$item}</td>
+        {/if}
+        {if $key == "Cantidad"}
+        <td class="body-sector"><center>
+            {$item}
+          </center></td>
+        {assign var=cantidades value=$item}
+        {/if}
+        {if $key == "Producto"}
+        <td class="body-sector" colspan="2">{$item}</td>
+        {/if}
+        {/foreach}
+        {assign var=cont value=1}
+        {/if}
+	</tr>
+	{/foreach}
+    <tr>
+        <td colspan="3" valign="top">
+		
+
+		<table align="center" >
+            <th colspan="3"> Materiales - ALMACEN </th>
+            <tr >
+              <td class="enunciados"><center>
+                  Cantidad
+                </center></td>
+              <td class="enunciados"><center>
+                  Material
+                </center></td>
+            </tr>
+            {foreach name=contenido item=estilos from=$materiales}
+            <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';"> {foreach key=key item=item from=$estilos}
+              {if $key == "Cant_mat"}
+              {assign var=c value=$item*$cantidades}
+              <td><center>
+                  {$c}
+                </center></td>
+              {/if}
+              {if $key == "Material"}
+              <td>{$item}</td>
+              {/if}
+              {/foreach}
+			</tr>
+            {/foreach}
+    </table>
+	</td>
+    <td colspan="3" valign="top">
+	<table align="center" >
+            <th colspan="3"> Materiales - CORTE </th>
+            <tr >
+              <td class="enunciados"><center>
+                  Cantidad
+                </center></td>
+              <td class="enunciados"><center>
+                  Material
+                </center></td>
+            </tr>
+            {foreach name=contenido item=estilos from=$materiales2}
+            <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+              <td><center>
+                  {$estilos.total}
+                </center></td>
+              <td>{$estilos.nombre} - {$estilos.posicion}</td>
+            </tr>
+            {/foreach}
+          </table>
+		</td>
+      </tr>
+    </table>
+	<hr width="80%" align="center"/>
+    <input type="hidden" name="asignacion"  value="{$num_asig}">
+    {if $imprimir != 0}
+    <center>
+      <!--
+	  <input value="imprimir" onclick="javascript:PantallaCompleta1('../../controladores/sistema_de_produccion/almacen.php?funcion=imprimir&asignacion={$num_asig}')" type="image" src="../../templates/imagenes/fileprint.gif" width="25" height="25" >
+	  -->
+      <input type="button" value="Imprimir" onclick="javascript:PantallaCompleta1('../../controladores/sistema_de_produccion/almacen.php?funcion=imprimir&asignacion={$num_asig}')" >&nbsp;&nbsp;<img src="../../templates/imagenes/fileprint.gif" width="25" height="25"/>
+    </center>
+    {/if}
+  </form>
+  {/if}
+ </div>
+
+<br />
+<br />
+
+</body>

@@ -1,0 +1,151 @@
+<html>
+<head>
+	<title>Registrar materiales</title>
+	<link rel="stylesheet" type="text/css" href="../../templates/css/macaws-css.css">
+	<script src="../../templates/script/prototype.js" type="text/javascript"></script>
+	<script src="../../templates/script/macaws-scripts.js" type="text/javascript"></script>
+	<script src="../../templates/script/scriptaculous.js" type="text/javascript"></script>
+	<script type="text/javascript" src="../../templates/script/ajax-dynamic-content.js"></script>
+	<script type="text/javascript" src="../../templates/script/ajax.js"></script>
+	<script type="text/javascript" src="../../templates/script/ajax-tooltip.js"></script>
+	
+	{if $errores.err_confirm != null}
+		{literal}
+			<script language="JavaScript"> 
+				window.close();
+			</script>
+		{/literal}
+	{/if}
+	
+	{literal}
+	<script>
+	function toggle(thisname, tipo) {
+		tr = document.getElementsByTagName('tr')
+		for (i=0;i<tr.length;i++){
+			if (tr[i].getAttribute(thisname)){
+				if (tipo == 2)
+					tr[i].style.display = '';
+				else
+					tr[i].style.display = 'none';
+			}
+		}
+	}
+	</script>
+	{/literal}
+</head>
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#0C5791" >
+		<tr>
+			<td>
+				<div align="right"><img src="../../templates/imagenes/pop_up.jpg" alt="Macaws S.R.L." width="500" /></div>
+			</td>
+		</tr>
+</table>
+
+
+<form name="formregistro" method="post" action="../../controladores/sistema_de_produccion/registrar_material.php">
+<input type="hidden" name="funcion" id="funcion" value="validar">
+<table width="60%" border="0" align="center" cellpadding="3">
+	<th colspan="2">Registro de materiales</th>
+	{if $errores.err_confirm != null}
+		<tr><td colspan="2" class="error-box">{$errores.err_confirm}</td></tr>
+	{/if}
+	{if $errores.err_nombre != null} 
+		<tr><td colspan="2" class="error-box">{$errores.err_nombre}</td></tr> 
+	{/if}
+		<tr>
+			<td width="30%" class="enunciados">Nombre:</td>
+			<td width="70%"><input name="nombre" type="text"  onKeyPress="return handleEnter(this, event)" value="{$nombre}" ></td>
+			</tr>
+	{if $errores.err_descripcion != null }
+		<tr><td colspan="2" class="error-box">{$errores.err_descripcion}</td></tr>
+	{/if}
+		<tr><td class="enunciados">Descripción:</td>
+			<td>
+				<input  type="text" name="descripcion"  value="{$descripcion}" onKeyPress="return handleEnter(this, event)"/>
+			</td>
+		</tr>
+	{if $errores.err_unidad != null }
+		<tr><td colspan="2" class="error-box">{$errores.err_unidad}</td></tr>
+	{/if}
+		<tr><td class="enunciados">Unidad:</td>
+			<td>
+				<select name="unidad" size="1">
+				  <option value="Hoja" {if $unidad=='Hoja'}selected="selected"{/if}>Hoja</option>
+				  <option value="Juego" {if $unidad=='Juego'}selected="selected"{/if}>Juego</option>
+				  <option value="Metro" {if $unidad=='Metro'}selected="selected"{/if}>Metro</option>
+				  <option value="Pie2" {if $unidad=='Pie2'}selected="selected"{/if}>Pie 2</option>
+				  <option value="Pieza" {if $unidad=='Pieza'}selected="selected"{/if}>Pieza</option>
+				</select>
+				<!--
+				<input  type="text" name="unidad" value="{$unidad}" onKeyPress="return handleEnter(this, event)"/>
+				-->
+			</td>
+		</tr>
+		
+	{if $errores.err_tipo != null } 
+	   <tr><td colspan="2" class="error-box">{$errores.err_tipo}</td></tr>
+	{/if}
+	   <tr><td class="enunciados">Tipo:</td>
+		   <td>
+				<input type="radio" name="tipo" value="insumo" checked="checked" onClick="toggle('nameit',2);">&nbsp;Corte
+				<br>
+				<input type="radio" name="tipo" value="articulo" {if $tipo=='articulo'}checked="checked"{/if} onClick="toggle('nameit',1);">&nbsp;Almac&eacute;n
+		   </td>
+	   </tr>
+	   
+   {if $errores.err_largo != null }
+		<tr><td colspan="2" class="error-box">{$errores.err_largo}</td></tr>
+   {/if}
+		<tr><td class="enunciados">Largo:</td>
+			<td ><input  type="text" name="largo"  value="{$largo}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+	{if $errores.err_ancho != null }
+		<tr><td colspan="2" class="error-box">{$errores.err_ancho}</td></tr>
+	{/if}
+		<tr><td class="enunciados">Ancho:</td>
+			<td ><input  type="text" name="ancho"  value="{$ancho}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+
+
+
+	{if $errores.err_nombre_tipo != null } 
+	   <tr><td colspan="2" class="error-box">{$errores.err_nombre_tipo}</td></tr>
+    {/if}
+	   <tr nameit=ocultar><td class="enunciados">Categoria:</td>
+
+		   <td class="body-sector" style="padding:3px;">
+			<span align="left" class="entrada">
+				<img src="../../templates/imagenes/combo.jpg" class="imagenes"/>
+				<input name="nombre_tipo" type="text" value="{$nombre_tipo}" id="autorelleno" style="border:none;" onKeyPress="return handleEnter(this, event)" size="20"/>
+			</span>
+		   
+				<span id="spinner" style="display: none"></span>
+				<div id="lista_opciones" class="autorelleno"></div>
+				{literal}
+					<script>			
+			        new Ajax.Autocompleter("autorelleno", "lista_opciones", "../../controladores/sistema_de_produccion/registrar_material.php?busqueda_ajax=tipos",					{method: "post", paramName: "value" , minChars: 1, indicator: "spinner" });
+					</script>
+				{/literal}
+			</td>
+	   </tr>
+
+	  
+	{if $errores.err_desperdicio != null }
+		<tr>
+			<td colspan="2" class="error-box">{$errores.err_desperdicio}</td>
+		</tr>
+	{/if}
+	    <tr nameit=ocultar><td class="enunciados">Desperdicio:(%)</td>
+		   <td><input type="text" name="desperdicio" id="desperdicio" value="{$desperdicio}" onKeyPress="return handleEnter(this, event)"/></td>
+		</tr>
+
+		
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="&nbsp;&nbsp;Registrar&nbsp;&nbsp;" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+			</td>
+		</tr>
+	</table>
+	</form>
+</body></html>

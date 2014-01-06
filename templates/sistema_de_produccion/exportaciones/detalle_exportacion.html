@@ -1,0 +1,41 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."} <br />
+
+{if $detalle_despacho != null}
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td class="enunciados" style="text-align:center;">Nombre</td>
+    <td class="enunciados" style="text-align:center;">Fecha de despacho</td>
+    <td class="enunciados" style="text-align:center;">Cantidad</td>
+  </tr>
+  <tr class="lista-normal">
+    <td style="text-align:center;">{$detalle_despacho.nombre_despacho}</td>
+    <td style="text-align:center;">{$detalle_despacho.fecha_despacho}</td>
+    <td style="text-align:center;">{$detalle_despacho.cantidad}</td>
+  </tr>
+</table>
+{/if}
+
+
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th>Reportes exportaciones</th>
+  </tr>
+  <tr>
+	 <td style="text-align:center;">
+	 	<a href="../../reportes/exportaciones/{$detalle_despacho.nombre_despacho}-{$detalle_despacho.fecha_despacho}.xls" target="_blank">{$detalle_despacho.nombre_despacho}-{$detalle_despacho.fecha_despacho}</a>
+	 </td>
+  </tr>
+{if $mostrar_formato == true}
+  <tr>
+    <th>PACKING LIST - LISTA DE EMPAQUE</th>
+  </tr>
+  <tr>
+	 <td style="text-align:center;">
+	 	<a href="../../reportes/exportaciones/{$formato}-{$detalle_despacho.nombre_despacho}-{$detalle_despacho.fecha_despacho}.xls" target="_blank">{$formato}-{$detalle_despacho.nombre_despacho}-{$detalle_despacho.fecha_despacho}</a>
+	 </td>
+  </tr>
+{/if}
+</table>
+
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

@@ -1,0 +1,240 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<script>
+function tabuladores(nombre, tab, tit){
+	document.getElementById("pcorte").style.display = "none";
+	document.getElementById("pdividido").style.display = "none";
+	document.getElementById("pdesbaste").style.display = "none";
+	document.getElementById("psellado").style.display = "none";
+	document.getElementById("pplanchado").style.display = "none";
+
+	document.getElementById("corte").className = "noseleccionado";
+	document.getElementById("dividido").className = "noseleccionado";
+	document.getElementById("desbaste").className = "noseleccionado";
+	document.getElementById("sellado").className = "noseleccionado";
+	document.getElementById("planchado").className = "noseleccionado";
+
+	document.getElementById("tcorte").className = "titulo_no";
+	document.getElementById("tdividido").className = "titulo_no";
+	document.getElementById("tdesbaste").className = "titulo_no";
+	document.getElementById("tsellado").className = "titulo_no";
+	document.getElementById("tplanchado").className = "titulo_no";
+
+	document.getElementById(nombre).style.display = "block";
+	document.getElementById(tab).className = "seleccionado";
+	document.getElementById(tit).className = "titulo";
+}
+
+</script>
+{/literal}
+
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="8">Orden de Producci&oacute;n</th>  
+	</tr>
+	<tr>
+		<td class="enunciados">No.:</td>
+		<td class="datos-reporte">{$cabecera.numero_orden}</td>
+		<td class="enunciados">CUP No.:</td>
+		<td class="datos-reporte">{$cabecera.cup_num}</td>
+		<td class="enunciados">Cliente:</td>
+		<td class="datos-reporte">{$cabecera.cliente} </td>
+		<td class="enunciados">No.Ref. Cliente:</td>
+		<td class="datos-reporte">{$cabecera.cliente_id}</td>
+	</tr>
+	<tr>
+		<td class="enunciados">Fecha:</td>
+		<td class="datos-reporte" style="text-align:center;">{$cabecera.fecha}</td>
+		<td class="enunciados">Fecha Entrega/Despacho:</td>
+		<td class="datos-reporte" style="text-align:center;">{$cabecera.fecha_entrega}</td>
+		<td class="enunciados">Fecha Reprogramación:</td>
+		<td class="datos-reporte" style="text-align:center;">{$cabecera.fecha_reprogramacion}</td>
+		<td/>
+		<td/>
+	</tr>
+</table>
+
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td>
+		<div id="corte"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=2&tabu=1&oid={$op_id}" id="tcorte" >Corte</a></div>
+	</td>
+    <td>
+		<div id="dividido"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=2&tabu=2&oid={$op_id}" id="tdividido" >Dividido</a></div>
+	</td>
+    <td>
+		<div id="desbaste"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=2&tabu=3&oid={$op_id}" id="tdesbaste" >Desbaste</a></div>
+	</td>
+    <td>
+		<div id="sellado"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=2&tabu=4&oid={$op_id}" id="tsellado" >Sellado</a></div>
+	</td>
+    <td>
+		<div id="planchado"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=2&tabu=5&oid={$op_id}" id="tplanchado" >Planchado</a></div>
+	</td>
+  <tr>
+    <td colspan="5">
+		<!-- aqui se detallan los contenidos-->
+		<div id="pcorte" style="display:none;">
+			<div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/corte.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Corte</div>
+		</div>
+		<div id="pdividido" style="display:none;">
+			<div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/asignacion.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Dividido</div>
+		</div>	
+		<div id="pdesbaste" style="display:none;">
+			<div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/asignacion.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Desbaste</div>
+		</div>
+		<div id="psellado" style="display:none;">
+			<div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/sellado.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Sellado</div>
+		</div>	
+		<div id="pplanchado" style="display:none;">
+			<div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/planchado.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Planchado</div>
+		</div>
+		</div>	
+	</td>
+  </tr>
+</table>
+
+<br />
+{if $mensaje != null}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+
+{if $detalle != null}
+	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="7">Detalle de &oacute;rden de producci&oacute;n</th>	           
+	</tr>
+	
+	<tr>
+		<td class="enunciados" style="text-align:center;">Producto</td>
+		<td class="enunciados" style="text-align:center;">Tipo</td>
+		<td class="enunciados" style="text-align:center;">Clip</td>
+		<td class="enunciados" style="text-align:center;">Color</td>
+		<td class="enunciados" style="text-align:center;">Cant.</td>
+		{if $tabu == 1}
+			<td class="enunciados" style="text-align:center;">Dividir</td>
+		{/if}
+		<td class="enunciados" style="text-align:center;">Asignar</td>
+	</tr>
+	
+	<form action="../../controladores/sistema_de_produccion/hoja_ruta_corte.php" method="post" name="detalle" id="detalle">
+	{assign var=flag value=""}
+	{assign var=CSSclass value=0}
+	{assign var=clases value="lista-normal"}
+	
+	{foreach key=cambio item=orden from=$detalle}
+		
+		{if $orden.iguales != $flag}
+			{assign var="CSSclass" value="`$CSSclass+1`"}
+			{if ($CSSclass mod 2) eq 0}
+				{assign var=clases value="lista-seleccionada"}
+			{else}
+				{assign var=clases value="lista-normal"}
+			{/if}
+		{/if}
+	<label for="{$orden.hoja_id}">
+	<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className='lista_terrible';" onmouseout="this.className='{$clases}';">
+
+		<td>&nbsp;{$orden.nombre_familia}</td>
+		<td style="text-align:center;">{$orden.nombre_estilo}</td>
+		<td style="text-align:center;">{$orden.clip}</td>
+		<td style="text-align:center;">{$orden.color}</td>
+		<td style="text-align:center;">{$orden.cantidad}</td>
+		
+		{if $tabu == 1}
+			<td style="text-align:center;">
+				<a href="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=4&hid={$orden.hoja_id}');">Dividir</a>
+			</td>
+		{/if}
+		
+		<td style="text-align:center;{if $orden.completo == 1}background-color:#00B400;{else}{if $orden.registrados != 0}background-color:#FCD15B;{/if}{/if}">
+			<input type="hidden" name="did[{$orden.hoja_id}]" value="{$orden.detalle_id}" />
+			{if $orden.despiece == 1}
+				<input type="checkbox" name="hid[]" value="{$orden.hoja_id}" id="{$orden.hoja_id}"/>
+			{else}
+				<span style="color:#FF0000;font-weight:bold;">Sin despiece</span>
+			{/if}
+		</td>
+		
+		{assign var=flag value=$orden.iguales}
+	</tr>
+	</label>
+	{/foreach}
+
+	  <tr>
+		<td colspan="7">
+			<hr />
+		</td>
+	  </tr>
+
+	  <tr>
+		<td colspan="7" style="padding:10px;text-align:center;">
+			<input name="operar" type="submit" value="Realizar Asignaci&oacute;n" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input name="operar" type="reset" value="Reestablecer Asignaci&oacute;n" class="boton"/>
+		</td>
+	  </tr>
+	</form>
+	
+	</table>
+{else}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle;"/>&nbsp;&nbsp;&nbsp;Esta Orden no tiene productos</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+
+<br />
+
+{if $tabu eq "5"}
+	{literal}
+		<script>
+			tabuladores("pplanchado", "planchado", "tplanchado");
+		</script>
+	{/literal}
+{else}
+	{if $tabu eq "4"}
+		{literal}
+			<script>
+				tabuladores("psellado", "sellado", "tsellado");
+			</script>
+		{/literal}
+	{else}
+		{if $tabu eq "3"}
+			{literal}
+				<script>
+					tabuladores("pdesbaste", "desbaste", "tdesbaste");
+				</script>
+			{/literal}
+		{else}
+			{if $tabu eq "2"}
+				{literal}
+					<script>
+						tabuladores("pdividido", "dividido", "tdividido");
+					</script>
+				{/literal}
+			{else}
+				{if $tabu eq "1"}
+					{literal}
+						<script>
+							tabuladores("pcorte", "corte", "tcorte");
+						</script>
+					{/literal}
+				{/if}
+			{/if}
+		{/if}
+	{/if}
+{/if}
+{include file="../templates/contenido/includes/pie.html"}

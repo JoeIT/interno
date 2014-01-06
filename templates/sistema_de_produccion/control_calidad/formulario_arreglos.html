@@ -1,0 +1,52 @@
+{if $resumen_arreglos!=null}
+<form action="../../controladores/sistema_de_produccion/registrar_confirmacion_arreglo.php" method="post" name="confirmacion_arreglo" id="confirmacion_arreglo">
+<table width="70%" border="0" cellspacing="1" cellpadding="0" align="center">
+				<tr>
+					<th colspan="5">Detalle arreglos </th>
+				</tr>
+				  <tr>
+					<td class="enunciados" style="text-align:center;">Cantidad</td>
+					<td class="enunciados" style="text-align:center;">Fecha Inicio</td>
+					<td class="enunciados" style="text-align:center;">Responsable Arreglo</td>
+					<td class="enunciados" style="text-align:center;">Fecha Finalización</td>
+					<td class="enunciados" style="text-align:center;">Confirmación</td>
+				 </tr>
+                 {foreach key=key item=arreglos from=$resumen_arreglos}
+				
+					<td class="lista-seleccionada" style="padding:3px;" align="center">{$arreglos.cantidad}</td>
+					
+					<td class="lista-normal" style="padding:3px;text-align:justify;" align="center"><center>{$arreglos.fecha}</center></td>
+					
+	 				<td class="lista-seleccionada" style="padding:3px;"  align="center">{$arreglos.responsable}</td>
+					
+					<td class="lista-normal" style="padding:3px;text-align:justify;" align="center"> <center>{$arreglos.fecha_finalizacion_arreglo}</center></td>
+					{if $arreglos.fecha_finalizacion_arreglo != ""}
+					<td class="lista-normal" style="padding:3px;text-align:justify;" align="center"> <center> <font color="#FF0000"> Confirmado </font> </center></td>
+					{else}
+					    <td class="lista-normal" style="padding:3px;" align="center"> 
+						       <input type="checkbox" name="seleccionados[]" value="{$arreglos.arreglo_id}" />
+						</td>
+					{/if}
+				</tr>
+				{/foreach}
+				
+		  </table>
+		  <br />
+		  
+		  <center>  <input name="" type="submit" value="Confirmar arreglos" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/> </center>
+		  
+				<input name="num_asignacion" type="hidden" value="{$detalle_asignacion.asignacion}"/>
+				<input type="hidden"  name="funcion" id="funcion" value="confirmar_arreglo" />
+    {else}
+	     <table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center">
+				<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>
+				&nbsp;&nbsp;&nbsp; No existen rechazos registrados
+			</div>
+		</td>
+	  </tr>
+	</table>
+	{/if}	
+<br />

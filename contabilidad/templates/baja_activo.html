@@ -1,0 +1,149 @@
+{include file="cabecera.html"} <br/>
+{literal}
+
+<script language="javascript">
+/*function actualizar (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor+'?'+clave+'='+$F(combo), { 
+	  method: 'get', 
+	   
+	});
+
+//alert (paginaservidor+'?'+clave+'='+$F(combo)+' - ' + secundaria.innerHTML);
+}
+*/
+function actualizar (paginaservidor, combo, lista, clave){
+	new Ajax.Updater(lista, paginaservidor+'?'+clave+'='+$F(combo), { 
+	  method: 'get'	});
+}
+
+function correlativo (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { cuenta: $F(combo)} 
+});
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}
+/*function actualizar (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { primaria: $F(combo)} 
+});
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}*/
+</script>
+{/literal}
+<form name="orden" method="get" action="../controladores/darbaja.php"  align="center">
+ 
+ <div align="center">Detalle   activos </div> 
+
+<input type="hidden" name="funcion" value="validar" />
+<input type="hidden" name="act_id" value="{$detalle.act_id}" />
+<table  border="0" align="center" cellpadding="0" cellspacing="3" >
+  <tr>
+    <th colspan="12"><div align="center">Responsable /Activo </div></th>
+	
+	
+	
+  </tr>
+  <tr style="font-family:tahoma; font-size:11px"><td colspan="12" >Nombre: {$nombre_asis}</td></tr>
+  <tr  style="font-family:tahoma; font-size:11px"><td colspan="12" >Responsable Primario: {$nombre_asis2}</td></tr>
+  <tr  style="font-family:tahoma; font-size:11px"><td colspan="12">{$detalle.desgru}</td></tr>
+  <td class="enunciados" align="center" >Numero</td>
+  <td class="enunciados" align="center" >Fecha Compra </td>
+    <td class="enunciados" align="center" >Descripcion</td>
+    <td class="enunciados" align="center" > Unidad  </td>
+    <td class="enunciados" align="center" >Serie</td>
+    <td class="enunciados" align="center" >Primaria  </td>
+    <td class="enunciados" align="center" >Secunadaria</td>
+    <td class="enunciados" align="center" >Vida Util  </td>
+    <td class="enunciados" align="center" >Valor de Compra </td>
+	<td class="enunciados" align="center" >Valor Residual </td>
+	<td class="enunciados" align="center" >Adquisicion</td>
+	<td class="enunciados" align="center" >Detalle Adquisicion</td>
+  </tr>
+    {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+  
+  
+    <tr  align="center" bgcolor="#E5E5E5"  style="font-family:tahoma; font-size:11px"> 
+    <td align="center" >{$detalle.num_act}</td>
+	<td align="center" >{$detalle.fecha}</td>
+    <td align="center" >{$detalle.desact}</td>
+    <td align="center" >{$detalle.unidad}</td>
+    <td align="center" >{$detalle.serie}</td>
+	<td align="center" >{$detalle.despri}</td>
+    <td align="center" >{$detalle.dessec}</td>
+	<td align="center" >{$detalle.vida_util} </td>
+    <td align="center" >{$detalle.valor_compra|commify:2}</td>
+	<td align="center" >{$detalle.valor_residual|commify:2}</td>
+	<td align="center" >{$adquis.nombre} </td>
+	<td align="center" >{$detalle.det_adqui} </td>
+  </tr>
+</table>
+
+
+  <br />
+  <table border="0" cellspacing="2" cellpadding="0">
+    {if $foto != ""}
+  <tr>{foreach item=item from=$foto}
+    <td width="6%"><img src="personal_resizeImage.php?max=150&amp;imgorig=../controladores/UploadedFiles/{$item.fotografia}" alt="{$item.fotografia}" name="imagen_fotografia" border="1" align="middle" id="imagen_fotografia"/>
+          <input type="hidden" name="foto" value="{$item.fotografia}" />
+      <input type="hidden" name="numerito" value="{$numerito}" /></td>
+    {/foreach}
+    <td width="94%">&nbsp;</td>
+  </tr>
+    {else}
+  <tr >"no existe foto para el activo"</tr>
+    {/if}
+  </table>
+  <p>&nbsp;</p>
+  <fieldset style="width:95%;">
+<legend style="color:#6699CC">Dar de baja </legend>
+<table width="95%" border="0" cellspacing="2" cellpadding="2">
+ 	 
+  <tr> 
+   {if $errores.observacion!= null }
+     <td class="error-box">{$errores.observacion} </td>
+	 {/if}
+     <td >&nbsp;</td>
+  </tr>
+
+  <tr>
+   <td class="enunciados"><div align="left">Observaciones</div></td>
+   <td><textarea name="observaciones" cols="35" rows="4"></textarea></td>
+   <td class="enunciados">Fecha</td>
+   <td><span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input type="text" name="fecha" value="{$fecha}" readonly style="border:none;"/>
+		</span>
+        <input type="button" id="fecha_boton" class="boton" value="..." /></td>
+  </tr>
+</table>
+
+  </fieldset>
+    <input type="submit" value="Insertar Baja" name="insertar_baja" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" />
+    </p>
+</center>
+</form>
+{literal}
+<script type="text/javascript">
+  							 Calendar.setup({
+						     inputField     :    "fecha",     // id del campo de texto
+						     ifFormat     :     "%Y-%m-%d" ,   // formato de la fecha que se escriba en el campo de texto
+						     button     :    "fecha_boton"     // el id del botón que lanzará el calendario
+							});
+						</script>
+{/literal}
+</body>

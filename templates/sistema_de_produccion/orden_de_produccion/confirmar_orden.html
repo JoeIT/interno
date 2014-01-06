@@ -1,0 +1,150 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+{literal}
+
+<SCRIPT LANGUAGE="JavaScript">
+/* Creamos la función */
+function PantallaCompleta(URL) {
+	if (navigator.appName!="Explorer") {
+		abrir=window.open(URL, '', "height="+window.screen.availHeight+", width="+(window.screen.availWidth-10)+", top=0, left=0, toolbar=yes, status=yes, scrollbars=auto, location=no, menubar=yes, directories=no, resizable=yes");
+		abrir.window.innerWidth=window.screen.width-5
+		abrir.window.innerHeight=window.screen.height-50
+		abrir.self.moveTo(0,0)
+	} else
+		window.open(URL, '', 'fullscreen=yes, scrollbars=yes');
+}
+
+</script>
+{/literal}
+    
+		  <br/>
+	 
+ 	     <table align="center">
+	          <tr >
+			      <td class="enunciados">  Orden de Prod. No.   </td>
+				  <td   class="body-sector" align="center" >{$cabecera.numero_orden} </td>
+				  <td class="enunciados"> CUP No.  </td> <td  class="body-sector" align="center"> {$cabecera.cup_num}</td>
+				  
+				  <td class="enunciados" >  Cliente   </td>
+				  <td  class="body-sector" >{$cabecera.cliente} </td>
+				    <td class="enunciados" colspan="3"> No.Ref. Cliente    </td>
+				   <td  class="body-sector" colspan="2"> {$cabecera.cliente_id}  </td>
+				  
+				  
+			  </tr>
+			  <tr>
+			  <td class="enunciados"> Fecha    </td> <td  class="body-sector"  align="center"> {$cabecera.fecha}  </td>
+			       <td class="enunciados"> Fecha Entrega/Despacho </td>
+				   <td  class="body-sector" align="center" > {$cabecera.fecha_entrega}</td>
+				  <td class="enunciados"> Fecha Reprogramación </td>
+	 		     <td  class="body-sector" align="center"> {$cabecera.fecha_reprogramacion}</td>   
+			  </tr>
+<tr>
+	<td colspan="10" style="text-align:right;">
+		{if $excel !=  null}
+		<img src="../../templates/imagenes/excel.gif" width="15" height="15" alt="{$item}.xls" border="0" align="middle">
+		<a href="../../reportes/ordenes/{$excel}.xls">
+			OP: {$excel}
+		</a>
+		{/if}
+	</td>
+</tr>
+
+
+			
+	     </table>
+<br />
+
+
+ 
+   
+ {if $detalle !=null}
+
+
+    <table align="center" width="95%">
+	  <tr> 
+	     <th colspan="13">
+		   Detalle de orden de producción
+		 </th>
+	   </tr>
+  		<tr>
+    	
+		     <td class="enunciados"><center>Cant</center></td>
+			 <td class="enunciados"><center>Uni</center></td>
+			 <td class="enunciados"><center>Modelo</center></td>
+			 <td class="enunciados"><center>Estilo</center></td>
+			 <td class="enunciados"><center>Origen Cuero</center></td>
+			 <td class="enunciados"><center>Color</center></td>
+			 <td class="enunciados"><center>Clip</center></td>
+			 <td class="enunciados"><center>Sello / Herraje</center></td>
+			 <td class="enunciados"><center>Etiqueta</center></td>
+			 <td class="enunciados"><center>Pedido</center></td>
+			 <td class="enunciados"><center>Obs.</center></td>
+			  <td class="enunciados"><center>Grabado</center></td>
+			 <td class="enunciados"><center>Lugar Sellado</center></td>
+			 
+			</tr>
+			{assign var=CSSclass value=0}
+			{assign var=clases value="lista-normal"}
+			
+   			{foreach name=contenido item=detalles from=$detalle}
+			  {assign var="CSSclass" value="`$CSSclass+1`"}
+			  {if ($CSSclass mod 2) eq 0}
+			  {assign var=clases value="lista-seleccionada"}
+			  {else}
+			  {assign var=clases value="lista-normal"}
+			  {/if}
+		<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+			{*foreach key=key item=item from=$detalles*}
+			      <td><center> {$detalles.Cant} </center> </td>
+				  <td><center> {$detalles.Uni} </center> </td>
+				  <td><center> {$detalles.Modelo} </center> </td>
+				  <td><center> {$detalles.Estilo} </center> </td>
+				  <td><center> {$detalles.OrigenCuero} </center> </td>
+				  <td><center> {$detalles.Color} </center> </td>
+				  <td><center> {$detalles.Clip} </center> </td>
+				  <td><center> {$detalles.Sello} </center> </td>
+				  <td><center> {$detalles.Etiqueta} </center> </td>
+				  <td><center> {$detalles.Pedido} </center> </td>
+				   <td><center>
+			
+			<img src="../../templates/imagenes/information.gif" class="imagenes" onMouseOver="ajax_showTooltip('../../controladores/sistema_de_produccion/ver_tool_tip.php?funcion=ordenprod&elegido={$detalles.codigo}&orden_id={$cabecera.codigo}',this);return false" onMouseOut="ajax_hideTooltip()"  onKeyPress="ajax_hideTooltip()" style="border:none;" />
+				        
+                  
+
+				</center>
+				</td>
+				  <td><center> {$detalles.Grabado} </center> </td>
+				  <td><center> {$detalles.LugarSellado} </center> </td>
+				  
+	    		
+	   	  			
+	    	
+				    
+				  
+				        
+				
+				  
+				
+				
+			{*/foreach*}		</tr>
+			{/foreach}
+	  </table><br>
+
+	 
+
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	<table>
+	<tr>
+	  <td  class="enunciados"> Observaciones: </td>
+	  <td class="body-sector">{$cabecera.observaciones}</td>
+	</tr>
+	</table>
+<br />
+	<center> <img src="../../templates/imagenes/fileprint.gif" class="imagenes"/>
+	 <button name="boton_impresion"  value="Imprimir"  title="Imprimir" onclick="javascript:PantallaCompleta('orden_prod_impresion.php?orden_id={$orden_id}')">  Imprimir orden </button>
+	 
+	
+
+{/if}
+    
+

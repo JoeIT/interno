@@ -1,0 +1,274 @@
+<link href="../../templates/css/macaws-imprimir.css" rel="stylesheet" type="text/css"/>
+
+<head>
+<title> Numero de Orden: {$cabecera.numero_orden}  &nbsp;&nbsp;&nbsp;  Fecha: {$cabecera.fecha_entrega} </title>
+
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = false;
+		factory.printing.leftMargin = 0.1;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:07cm;
+	margin-top:1.4cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+</style>
+
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:1.5cm;
+	margin-right:0.5cm;
+	margin-top:1.15cm;
+	padding: 0cm;
+	width:27.9cm;
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+
+.noprint {
+	display: none;
+}
+</style>
+
+{/literal}
+
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+
+<div id="installOK">
+
+	      <table width="90%" border="1" cellpadding="0"  cellspacing="0">
+		         <tr>
+				      <td rowspan="2" width="200"  align="center"  class="tabla-orden" > <img src="../../templates/imagenes/logo-macaws-gris.jpg" width="50" height="50" /> <td>
+					  <td  width="500" align="center" class="tabla-orden" > REGISTRO DEL SISTEMA DE GESTION INTEGRADO </td>
+  					  <td width="120" align="center" class="tabla-orden"> CODIGO </td>
+				 	  <td width="120" align="center" class="tabla-orden"> <strong>REVISION </strong></td>
+				 </tr>
+				 <tr>
+				   <td>
+				   <td  align="center" class="tabla-orden"> <strong>ORDEN DE PRODUCCION MARROQUINERIA </strong> </td>
+  				      <td align="center" class="tabla-orden"> <strong> RG - 15 </strong> </td>
+   				      <td align="center" class="tabla-orden"> <strong>3 </strong></td>
+				 </tr>
+
+		  </table>
+		  <br>
+		  <br>
+ 	     <table width="100%">
+	          <tr >
+			      <td class="header-reporte" colspan="2">  Orden de Producción No.   </td>
+			 <td class="text10" colspan="2" align="center" >{$cabecera.numero_orden} </td>
+				  <td colspan="3" width="150"/>
+	   		      <td class="header-reporte" colspan="2">  Cliente   </td>
+				  <td class="text10" colspan="3">{$cabecera.cliente} </td>
+				  <td colspan="1" width="50"/>
+				  <td class="header-reporte"> Fecha Entrega/Despacho </td>
+				  <td class="header-reporte"> Fecha Reprogramación </td>
+			  </tr>
+			  <tr>
+			       <td class="header-reporte"> Fecha    </td> <td class="text10" align="center"> {$cabecera.fecha}  </td>
+	 		       <td class="header-reporte"> CUP No.  </td> <td class="text10" align="center"> {$cabecera.cup_num}</td>
+				   <td colspan="3"/>
+			       <td class="header-reporte" colspan="3"> No.Ref. Cliente    </td>
+				   <td class="text10" colspan="2"> {$cabecera.cliente_id}  </td>
+				   <td colspan="1" />
+				   <td align="center" class="text10"> {$cabecera.fecha_entrega}</td>
+				   <td align="center" class="text10"> {if $cabecera.fecha_reprogramacion!= '0000-00-00'}{$cabecera.fecha_reprogramacion}{/if}</td>
+			  </tr>
+			  <tr>
+			     <td colspan="14"/>
+				 <td class="header-reporte"> Vo. Bo. Reprogramación  </td>
+			  </tr>
+			   <tr>
+			     <td colspan="14"/>
+				 <td bordercolor="#999999"/>
+			  </tr>
+</table>
+	   
+ {if $detalle !=null}
+    <form name="imprimir_orden" method="post" action="../controladores/orden_prod_impresion.php"  align="center">
+     <input type="hidden" name="orden_id"  value="{$orden_id}">
+     <table width="100%" cellpadding="0" cellspacing="0" border="1">
+  		<tr>
+    		   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Cantidad</center></td>
+       		   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold;  border-collapse:collapse;"><center>Unidad</center></td>
+       		   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold;  border-collapse:collapse;"><center>Descripción Modelo</center></td>
+       		   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold;  border-collapse:collapse;"><center>Tipo</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold;  border-collapse:collapse;"><center>Origen Cuero</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Color</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>CLIP</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Sello/herraje</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Etiqueta</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Pedido</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Estado</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Grabado</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Lugar sellado</center></td>
+			   <td style="background:#EFEFEF; border-color: #999999; font-size:7px; font-weight:bold; border-collapse:collapse;"><center>Observaciones</center></td>
+	    </tr>
+			{assign var=contador value=0}
+   			{foreach name=contenido item=detalles from=$detalle}
+			 
+    	<tr>
+			{foreach key=key item=item from=$detalles}
+			   
+	    		{if $key == "codigo"}
+	   	  			{assign var=detalles value=$item}
+	    		{else}
+				     {if $key == "Cant"}
+					     {assign var=contador value=$contador+$item}
+					 {/if}
+					 {if $key != "tipo"}
+					 	<td class="tabla-orden"><center>{if $item=="" || $item==" " } &nbsp; {else}{$item}{/if} </center></td>
+					 {/if}
+				{/if}
+			{/foreach}		</tr>
+			{/foreach}
+</table>
+	  <font class="text10">
+	  	<strong>Total: {$contador} </strong> <br/>
+		<br/>
+		Observaciones: {$cabecera.observaciones}
+	   <br/>
+	    <br/>
+	  <strong> Distribucion:</strong> <br/>
+	  </font>
+	       <table align="center" cellpadding="0" cellspacing="0" width="80%">
+				    <tr>
+					    <td class="textcabecera2"> Copia 1</td>  <td class="header-reporte"> Gerencia General </td> <td bordercolor="black" width="130" style="border:thin">
+						<td class="textcabecera2"> Copia 4  </td> <td class="header-reporte"> Coordinador de Maquinado </td> <td width="50"/>
+					<tr>
+			 <tr>
+					    <td class="textcabecera2"> Copia 2 </td>  <td class="header-reporte"> Comité de Diseño </td> <td/> 
+						<td class="textcabecera2"> Copia 5  </td> <td class="header-reporte"> Responsable de Almacén </td> <td width="50"/>
+			 <tr>
+			 <tr>
+					    <td class="textcabecera2"> Copia 3 </td>  <td class="header-reporte"> Responsable de Control de Calidad </td> <td width="50"/> 
+						<td class="textcabecera2"> Copia 6  </td> <td class="header-reporte"> Responsable de Comité de Gestión </td> <td width="50"/> 
+			 <tr>					
+</table>
+
+
+{/if}
+        
+
+
+<div id=idControls class="noprint" style="text-align:center;width:100%;">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				<input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Configurar P&aacute;gina" onClick="factory.printing.PageSetup()" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+				<hr size="1">
+			</td>
+		</tr>
+		</table>
+</div>
+
+
+
+</body>
+</html>

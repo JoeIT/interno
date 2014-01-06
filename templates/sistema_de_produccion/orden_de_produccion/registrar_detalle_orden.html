@@ -1,0 +1,256 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<p> <table>
+          <tr>
+		      <td class="header-table">  Orden de Producción No. :  </td> <td class="body-sector">{$num_orden} </td>
+			  <td class="header-table">  Cliente :   </td> <td class="body-sector">{$cliente} </td>
+		  </tr>
+		  <tr>
+		       <td class="header-table"> Fecha :   </td> <td class="body-sector"> {$fecha}  </td>
+ 		       <td class="header-table"> Fecha de Entrega/Despacho:  </td> <td class="body-sector"> {$fechaentrega}</td>
+		  </tr>
+    </table>
+ </p>
+ <hr width="70%">
+ 
+ {if $detalle !=null}
+    <form name="confirma_orden" method="post" action="../../controladores/sistema_de_produccion/confirmar_orden.php"  align="center">
+     <input type="hidden" name="orden_id"  value="{$orden_id}">
+     <table>
+  		<tr>
+    		{foreach name=cabezera key=key item=item from=$detalle[0]}
+		     <td class="header-table"><center>{$key|upper}</center></td>
+			{/foreach}   		</tr>
+   			{foreach name=contenido item=detalles from=$detalle}
+    	<tr>
+			{foreach key=key item=item from=$detalles}
+	    		{if $key == "codigo"}
+	   	  			{assign var=detalles value=$item}
+	    		{/if}
+				<td class="body-sector"><font><center> {$item} </center></font> </td>
+			{/foreach}		</tr>
+			{/foreach}
+		</table><br>
+		
+		<center> <input name="submit" type="submit" value="Confirmar Orden" class="button1"/> </center>
+	</form>	
+  <hr width="70%">
+
+{/if}
+ 
+<h2 align="center" class="text8" >Agregar nuevo producto a la orden </h2>
+<form name="detalle_orden" method="post" action="../../controladores/sistema_de_produccion/registrar_detalle_orden.php"  align="center">
+    <input type="hidden" name="num_orden"  value="{$num_orden}">
+	<input type="hidden" name="fecha"  value="{$fecha}">
+    <input type="hidden" name="fechaentrega"  value="{$fechaentrega}">
+	<input type="hidden" name="cliente"  value="{$cliente}">
+	<input type="hidden" name="orden_id"  value="{$orden_id}">
+    <table width="80%" border="0">
+      {if $errores.err_texto_cantidad != null || $errores.err_texto_unidad != null }
+      <tr> {if $errores.err_texto_cantidad != null}
+        <td colspan="2" align="center" class="error-box">{$errores.err_texto_cantidad}</td>
+        {else}<td colspan="2"></td>{/if}<td></td>
+        {if $errores.err_texto_unidad != null}
+        <td class="error-box" colspan="2" align="center">{$errores.err_texto_unidad}</td>
+        {/if} </tr>
+      {/if}
+  <tr>
+    <td  class="header-table">Cantidad:</td>
+    <td><input name="texto_cantidad" type="text" id="cantidad" value="{$cantidad}"  tabindex="1"     
+ onkeypress="return handleEnter(this, event)"/></td>
+    <td class="body-sector"/>
+    <td class="header-table">Unidad:</td>
+    <td><input name="texto_unidad" type="text" id="unidad" value="{if $unidad!=null}{$unidad}{else}Pzs.{/if}" tabindex="2"  onkeypress="return handleEnter(this, event)"/></td>
+	<td class="body-sector"/>
+  </tr>
+      {if $errores.err_texto_modelo != null ||  $errores.err_texto_estilo != null }
+  <tr> {if $errores.err_texto_modelo != null}
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_modelo} </td>
+    {else}
+    <td colspan="2"></td>
+    {/if}
+    <td class="body-sector"></td>
+    {if $errores.err_texto_estilo != null}
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_estilo}</td>
+    {/if} </tr>
+      {/if}
+  <tr>
+    <td class="header-table">Descripcion del producto:</td>
+    <td><input name="texto_modelo" type="text" id="modelo" value="{$modelo}" tabindex="3"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_modelos" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("modelo", "lista_modelos", "../clases/lista_modelos.php", {method:"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('modelo.html')"> registrar modelo</a> </td>
+    <td class="header-table">Estilo del producto:</td>
+    <td><input name="texto_estilo" type="text" id="estilo" value="{$estilo}" tabindex="4"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_estilos" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("estilo", "lista_estilos", "../clases/lista_estilos.php", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_estilo.php')"> registrar estilo</a> </td>
+  </tr>
+      {if $errores.err_texto_cuero != null || $errores.err_texto_color != null }
+  <tr> {if $errores.err_texto_cuero != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_cuero} </td>
+    {else}
+    <td colspan="2"></td>
+    {/if}
+    <td></td>
+    {if $errores.err_texto_color != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_color} </td>
+    {/if} </tr>
+      {/if}
+  <tr>
+    <td class="header-table"> Origen Cuero:</td>
+    <td class="body-table"><input name="texto_cuero" type="text" id="cuero" value="{$cuero}" tabindex="5"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_cueros" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("cuero", "lista_cueros", "../clases/lista_cueros.php", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_cuero.php')"> registrar cuero</a> </td>
+    <td class="header-table">Color del Producto:</td>
+    <td><input name="texto_color" type="text" id="color" value="{$color}" tabindex="6"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_colores" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("color", "lista_colores", "../clases/lista_colores.php", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_color.php')">registrar color</a> </td>
+  </tr>
+      {if $errores.err_texto_clip != null || $errores.err_texto_sello != null }
+  <tr> {if $errores.err_texto_clip != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_clip} </td>
+    {else}
+    <td colspan="2"></td>
+    {/if}
+    <td></td>
+    {if $errores.err_texto_sello != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_sello} </td>
+    {/if} </tr>
+      {/if}
+  <tr>
+    <td class="header-table">Clip del producto :</td>
+    <td><input name="texto_clip" type="text" id="clip" value="{$clip}" tabindex="7"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_clips" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("clip", "lista_clips", "../clases/lista_clips.php", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_clip.php')"> registrar clip</a> </td>
+    <td class="header-table"><label for="sello"> Sello/Chapa del  producto </label>
+      :</td>
+    <td><input name="texto_sello" type="text" id="sello" value="{$sello}" tabindex="8"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_sellos" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("sello", "lista_sellos", "../clases/lista_chapas.php", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_chapa.php')"> registrar chapa</a> </td>
+  </tr>
+      {if $errores.err_texto_etiqueta != null || $errores.err_texto_grabado != null }
+  <tr> {if $errores.err_texto_etiqueta != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_etiqueta} </td>
+    {else}
+    <td colspan="2"></td>
+    {/if}
+    <td></td>
+    {if $errores.err_texto_grabado != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_grabado} </td>
+    {/if} </tr>
+      {/if}
+  <tr>
+    <td class="header-table"> Etiqueta del producto:</td>
+    <td><input name="texto_etiqueta" type="text" id="etiqueta" value="{$etiqueta}" tabindex="9"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_etiquetas" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("etiqueta", "lista_etiquetas", "../clases/lista_etiquetas.php", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_etiqueta.php')"> registrar etiqueta</a> </td>
+    <td class="header-table"><label for="grabado">Grabado </label>
+      :</td>
+    <td><input name="texto_grabado" type="text" id="grabado" value="{$grabado}" tabindex="10" onkeypress="return handleEnter(this, event)"/>    </td>
+	<td class="body-sector"/>
+  </tr>
+  
+      {if $errores.err_texto_lugar_grabado != null || $errores.err_texto_fuente != null }
+  <tr> {if $errores.err_texto_lugar_grabado != null } <td colspan="2" align="center" class="error-box"> {$errores.err_texto_lugar_grabado} </td> {else} <td colspan="2"></td> {/if} <td></td>
+    {if $errores.err_texto_fuente != null }<td colspan="2" align="center" class="error-box"> {$errores.err_texto_fuente} </td>
+    {/if} </tr>{/if}
+  <tr>
+    <td class="header-table"><label for="lugar_grabado"> Lugar grabado </label>
+      :</td>
+    <td><input name="texto_lugar_grabado" type="text" id="texto_lugar_grabado" value="{$lugar_grabado}" tabindex="11"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_grabados" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("texto_lugar_grabado", "lista_grabados", "../clases/lista_grabados.php", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_lugar.php')"> Registrar lugar grabado</a> </td>
+	<td class="header-table"><label for="fuente"> Tipo de Fuente </label>
+      :</td>
+    <td><input name="texto_fuente" type="text" id="texto_fuente" value="{$fuente}" tabindex="12"/>
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_fuentes" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("texto_fuente", "lista_fuentes", "../clases/lista_fuentes.php", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_fuente.php')"> registrar fuente</a> </td>
+  </tr>
+      
+ 
+      {if $errores.err_texto_pedido != null || $errores.err_texto_prioridad != null }
+  <tr> {if $errores.err_texto_pedido != null } <td colspan="2" align="center" class="error-box"> {$errores.err_texto_pedido} </td> {else} <td colspan="2"></td> {/if} <td></td>
+    {if $errores.err_texto_prioridad != null }<td colspan="2" align="center" class="error-box"> {$errores.err_texto_prioridad} </td>  {/if} </tr>{/if}
+  <tr>
+    <td class="header-table">Pedido:</td>
+    <td><input name="texto_pedido" type="text" id="pedido" value="{$pedido}" tabindex="13" onkeypress="return handleEnter(this, event)" />    </td>
+	<td class="body-sector"/>
+	 <td class="header-table">Prioridad:</td>
+    <td><input name="texto_prioridad" type="text" id="prioridad" value="{if $priodidad!=null}{$prioridad}{else}1{/if}" tabindex="14" onkeypress="return handleEnter(this, event)"/>    </td>
+	 <td class="body-sector"/>
+  </tr>
+  <tr>
+    <td class="header-table"> Observaciones del producto: </td>
+    <td><textarea name="observaciones"   cols="15" rows="6" wrap="off" id="observaciones" tabindex="15" onkeypress="return handleEnter(this, event)">{$observaciones}</textarea>    </td>
+	<td class="body-sector"/>
+	<td class="header-table"> Observaciones Internas sobre el producto: </td>
+    <td><textarea name="observaciones_internas" cols="15" rows="6" wrap="off" id="observaciones_internas"  tabindex="16" onkeypress="return handleEnter(this, event)">{$observaciones_internas}</textarea>    </td>
+	<td class="body-sector"/>
+  </tr>
+  <tr>
+    <td colspan="2"/>
+    <td  align="center"><input name="submit" type="submit" value="Registrar" class="button1" />    </td>
+  </tr>
+    </table>
+</form>	

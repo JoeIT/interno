@@ -1,0 +1,94 @@
+<head>
+      {include file="../templates/sistema_de_produccion/cabecera.html"}
+      <LINK REL="stylesheet" TYPE="text/css" HREF="css/fortte-css.css">
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+					
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+	 {/literal}
+</head>
+<body>
+   <table width="100%">
+   		<tr>
+
+			<td width="80%">
+
+				<h2 align="center" class="text8" >Busqueda de Familia</h2>
+				<p align="center"><a class="link-menu" href="../../controladores/sistema_de_produccion/registrar_familia.php"><img src="../../templates/imagenes/familia.gif" class="imagen-menu"><br>Nuevo</a></p>				 
+
+			<form  name="form_lista" method="post" action="../../controladores/sistema_de_produccion/lista_familia.php">
+			<input type="hidden" name="elegido">
+        	<input type="hidden" name="funcion">	     
+
+						<table align="center">
+						<tr>
+							<td>
+								<center>
+								<input class="search-box" type="text" id="parametro" name="parametro" class="edit">
+								</center>
+							</td>
+							<td>
+								<INPUT type="radio" id="opcion" name="opcion" value="modelo" >
+									<font class="text8">Modelo</font><BR>
+			  					<INPUT type="radio" id="radio" name="opcion"   value="familia" CHECKED>
+									<font class="text8">Familia</font><BR>
+							</td>
+							<td>
+								<INPUT class="button1" type="submit" id="buscar" name="buscar" value="buscar" onclick=consultar(name,value)> 
+							</td>
+						</tr>
+					</table>
+			  </form>
+							
+			 <hr width="70%" align="center" color="#3661A0">
+	             <br>
+						<h2 align="center" class="text8" >Lista de Familias</h2>
+	             <table align="center" border="0" >
+  					<tr>
+ 					     <td class="header-table"><center> FAMILIAS </center></td>
+				     	 <td class="header-table"><center> MODIFICAR  </center></td>
+						 <td class="header-table"><center> ELIMINAR  </center></td>
+			   		</tr>
+   					{foreach name=contenido item=modelos from=$modelo}
+						<tr>
+							{foreach key=key item=item from=$modelos}
+								{if $key == "familia"}
+									{assign var=usuario value=$item}
+								{/if}
+								<td class="body-table">{$item}	</td>
+							{/foreach}
+							<td class="body-table">
+							    <center>
+								<INPUT TYPE="image" SRC="../../templates/imagenes/modificar.gif"  width=15 height=15 border=0  name="{$item}" value=modificar onclick=consultar(name,value)>
+								</center>
+							</td>
+							<td class="body-table">
+							    <center>
+								<INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif" width=15 height=15 border=0  name={$usuario} value=eliminar onclick=consultar(name,value)>
+								</center>
+							</td>
+	   					</tr>  
+					{/foreach}
+				</table>
+				<br>
+			    <center>
+		</form>  
+				</td>
+			</tr>
+		</table> 
+</body>

@@ -1,0 +1,47 @@
+<head> 
+      {include file="../templates/sistema_de_produccion/cabecera.html"}
+	   
+</head>
+<body>
+<table width="100%">
+	<tr>
+		
+		<td width="80%">
+		
+			{if $error != null}
+				 <table align="center" class="error-box">
+						{if $error.err_descripcion != null} 
+						<tr> 
+							<td> <font color=black> {$error.err_descripcion} </td> 
+						</tr>
+						{/if}
+						{if $error.err_fuente != null} 
+						<tr> 
+							<td> <font color=black> {$error.err_fuente} </td> 
+						</tr>
+						{/if}
+				 </table>
+			 {/if}
+
+			<form  name="form_lista" method="post" action="../../controladores/sistema_de_produccion/lista_fuente.php">
+				<input type="hidden" name="elegido"  value="{$id}">
+				<input type="hidden" name="funcion" value="modificar_datos">
+				<table align="center" >
+					<th colspan="2">Modificar fuente de texto</th>
+		 			<tr>
+  						<td class="enunciado">  Nombre: </td>
+  						<td class="body_sector">  <input type="text" name="descripcion" value="{$descripcion}"> </td>
+		 			</tr>
+				</table>
+
+		   		<table align="center"> 
+				<tr><td><input type="submit" class="button1" name="modificar" value="Modificar"></td></form>
+				<form  name="form_lista" method="post" action="../../controladores/sistema_de_produccion/lista_fuente.php">
+				
+	            <td><input type="submit" class="button1" name="volver" value="Volver a la lista"></td></tr>
+			   </table>
+				</form>
+		</td>
+	</tr>
+</table>
+</body>

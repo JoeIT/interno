@@ -1,0 +1,132 @@
+				<html xmlns:o="urn:schemas-microsoft-com:office:office"
+				xmlns:x="urn:schemas-microsoft-com:office:excel"
+				xmlns="http://www.w3.org/TR/REC-html40">
+
+				<head>
+				<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+				<meta name=ProgId content=Excel.Sheet>
+				<!--[if gte mso 9]><xml>
+				 <o:DocumentProperties>
+				  <o:LastAuthor>Sriram</o:LastAuthor>
+				  <o:LastSaved>2005-01-02T07:46:23Z</o:LastSaved>
+				  <o:Version>10.2625</o:Version>
+				 </o:DocumentProperties>
+				 <o:OfficeDocumentSettings>
+				  <o:DownloadComponents/>
+				 </o:OfficeDocumentSettings>
+				</xml><![endif]-->
+				<style>
+				<!--table
+					{mso-displayed-decimal-separator:"\.";
+					mso-displayed-thousand-separator:"\,";}
+				@page
+					{margin:1.0in .75in 1.0in .75in;
+					mso-header-margin:.5in;
+					mso-footer-margin:.5in;}
+				tr
+					{mso-height-source:auto;}
+				col
+					{mso-width-source:auto;}
+				br
+					{mso-data-placement:same-cell;}
+				.style0
+					{
+					mso-number-format:General;
+					text-align:general;
+					vertical-align:bottom;
+					white-space:nowrap;
+					mso-rotate:0;
+					mso-background-source:auto;
+					mso-pattern:auto;
+					color:windowtext;
+					font-size:8.0pt;
+					font-weight:400;
+					font-style:normal;
+					text-decoration:none;
+					font-family:Arial;
+					mso-generic-font-family:auto;
+					mso-font-charset:0;
+					border:none;
+					mso-protection:locked visible;
+					mso-style-name:Normal;
+					mso-style-id:0;}
+				td
+					{mso-style-parent:style0;
+					padding-top:1px;
+					padding-right:1px;
+					padding-left:1px;
+					mso-ignore:padding;
+					color:windowtext;
+					font-size:8.0pt;
+					font-weight:400;
+					font-style:normal;
+					text-decoration:none;
+					font-family:Arial;
+					mso-generic-font-family:auto;
+					mso-font-charset:0;
+					mso-number-format:General;
+					text-align:general;
+					vertical-align:bottom;
+					border:none;
+					mso-background-source:auto;
+					mso-pattern:auto;
+					mso-protection:locked visible;
+					white-space:nowrap;
+					mso-rotate:0;}
+				.xl24
+					{mso-style-parent:style0;
+					 white-space:normal;
+					 }
+				 .x324
+					{
+					 mso-style-parent:style0;
+					 white-space:normal;
+					 font-weight:bold;
+					
+					}
+				.clasecabecera
+					{mso-style-parent:style0;
+					color:#000000;
+					border-top:.5pt solid yellow;
+					border-right:.5pt solid yellow;
+					border-bottom:.5pt solid yellow;
+					border-left:.5pt solid yellow;
+					background-color: #E5E5E5;
+					mso-pattern:black none;}
+				.titulares
+					{mso-style-parent:style0;
+					text-align:center;
+					vertical-align:middle;
+					border:.5pt solid windowtext;
+					background:#F2F2F2;
+					mso-pattern:black none;}
+				-->
+				</style>
+				<!--[if gte mso 9]><xml>
+				 <x:ExcelWorkbook>
+				  <x:ExcelWorksheets>
+				   <x:ExcelWorksheet>
+					<x:Name>srirmam</x:Name>
+					<x:WorksheetOptions>
+					 <x:Selected/>
+					 <x:ProtectContents>False</x:ProtectContents>
+					 <x:ProtectObjects>False</x:ProtectObjects>
+					 <x:ProtectScenarios>False</x:ProtectScenarios>
+					</x:WorksheetOptions>
+				   </x:ExcelWorksheet>
+				  </x:ExcelWorksheets>
+				  <x:WindowHeight>10005</x:WindowHeight>
+				  <x:WindowWidth>10005</x:WindowWidth>
+				  <x:WindowTopX>120</x:WindowTopX>
+				  <x:WindowTopY>135</x:WindowTopY>
+				  <x:ProtectStructure>False</x:ProtectStructure>
+				  <x:ProtectWindows>False</x:ProtectWindows>
+				 </x:ExcelWorkbook>
+				</xml><![endif]-->
+				</head>
+
+				<body link=blue vlink=purple>
+				<table x:str border=0 cellpadding=0 cellspacing=0 style='border-collapse: collapse;table-layout:fixed;'><tr><td class=clasecabecera width=64 >Codigo</td><td class=clasecabecera width=64 >Fecha Ingreso </td><td class=clasecabecera width=64 >Fecha Baja</td><td class=clasecabecera width=64 >T/C baja</td><td class=clasecabecera width=64 >UFV baja</td><td class=clasecabecera width=64 >Descripcion</td><td class=clasecabecera width=64 >T/C de la Compra</td><td class=clasecabecera width=64 >UFV de la Compra</td><td class=clasecabecera width=64 >Vida Util(meses)</td><td class=clasecabecera width=64 >Valor Compra</td><td class=clasecabecera width=64 >Valor de la otra gestion a 2008-03-31$7.5 UFV 1.32548</td><td class=clasecabecera width=64 >Valor UFV inicial2008-12-01con1.45511</td><td class=clasecabecera width=64 >Valor al2008-12-31con UFV1.46897</td><td class=clasecabecera width=64 >Depreciacion Acum Actualiza2008-12-31con UFV1.46897</td><td class=clasecabecera width=64 >Valor Neto s/g Actual Ufv al2008-12-31con UFV1.46897</td><td class=clasecabecera width=64 >Vida Util Restante</td></tr><tr><td class=clasecabecera width='64' colspan='16'>Vehiculos</td></tr><tr><td class=xl24 width=64 >10.01.05.00002</td><td class=xl24 width=64 >2003-04-30</td><td class=xl24 width=64 >2008-07-31</td><td x:num class=xl24  width=64 >7.14</td><td x:num class=xl24  width=64 >1.39088</td><td class=xl24 width=64 >1 GLOB. VAGONETA MERCEDES BENZ MODELO A160 AÑO B
+2002, COLOR PLOMO MOTOR No A1688172920 PLACA 1188LKX</td><td x:num class=xl24  width=64 >7.61000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >60</td><td x:num class=xl24  width=64 >146378.45000</td><td x:num class=xl24  width=64 >168359.58369934</td><td x:num class=xl24  width=64 >1.45511</td><td x:num class=xl24  width=64 >174348.47404203</td><td x:num class=xl24  width=64 >174347.47404203</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=xl24 width=64 >10.01.05.00007</td><td class=xl24 width=64 >2002-08-13</td><td class=xl24 width=64 >2009-01-27</td><td x:num class=xl24  width=64 >7.07</td><td x:num class=xl24  width=64 >1.481</td><td class=xl24 width=64 >1 GLOB. MITSUBISHI MONTERO SPORT CHASIS No
+BJMYONK9703J0001 17 MOTOR No. 4M40 COLOR PLOMO
+PLACA 1186ECS</td><td x:num class=xl24  width=64 >7.26000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >60</td><td x:num class=xl24  width=64 >233102.69000</td><td x:num class=xl24  width=64 >281032.15941517</td><td x:num class=xl24  width=64 >1.45511</td><td x:num class=xl24  width=64 >311455.33030759</td><td x:num class=xl24  width=64 >311454.33030759</td><td x:num class=xl24  width=64 >1</td><td x:num class=xl24  width=64 >0</td></tr><tr><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >379481.14</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >449391.74311451</td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >485803.80434962</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >485801.80434962</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >2</td><td class=x324 width=64  style='background-color:#FFFF66' > </td></tr><tr><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >379481.14</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >449391.74311451</td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >485803.80434962</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >485801.80434962</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >2</td><td class=x324 width=64  style='background-color:#FFFF66' > </td></tr></table></body></html>

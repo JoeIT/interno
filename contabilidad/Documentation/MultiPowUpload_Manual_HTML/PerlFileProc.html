@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Perl (Unix version) file processing code example</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+<p>
+Perl has built-in methods to receive uploaded files. You can read one article about this <a target="_blank" href="http://www.sitepoint.com/article/uploading-files-cgi-perl">here</a>. 
+</p>
+<p>By default script saves files to folder &quot;/UploadedFiles/&quot;. You can modify code in any text editor. </p>
+  <h4>unixupload.pl code sample:</h4>
+<textarea  name="" cols="100" rows="40" wrap="off">
+#!/usr/bin/perl -w 
+
+	use CGI; 
+	use File::Basename;
+	
+	
+	$query = new CGI; 
+	
+	print $query->header ( ); 
+	print $query->start_html();
+
+	print "Upload result:<br>"; # At least one symbol should be sent to response!!!
+		
+	$upload_dir = dirname($ENV{'PATH_TRANSLATED'})."/UploadedFiles/";
+	
+	my $filename = $query->param("Filedata"); 	
+	$filename =~ s/.*[\/\\](.*)/$1/; 
+	my $upload_filehandle = $query->upload("Filedata");
+		
+	if(defined($upload_filehandle))	
+	{
+		open UPLOADFILE, ">$upload_dir\\$filename"; 
+		binmode UPLOADFILE; 
+		while ( <$upload_filehandle> ) 
+		{ 
+		 print UPLOADFILE; 
+		} 
+		close UPLOADFILE;
+		print "file \"$filename\" uploaded";
+	}
+	else
+	{
+	     	print "No files sent. Script is OK!"; # Say to Flash that script exists and can receive files.	
+	}
+
+	print $query->br();
+	
+	
+	print "--------------";
+	print $query->end_html();
+</textarea>
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+</body>
+</html>

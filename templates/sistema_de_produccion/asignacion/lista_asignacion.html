@@ -1,0 +1,74 @@
+<p>{include file="../templates/sistema_de_produccion/cabecera.html"} </p>
+<p>&nbsp;</p>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+  <td colspan="10" style="text-align:right;">
+		{if $excel !=  null}
+		<img src="../../templates/imagenes/excel.gif" width="15" height="15" alt="{$item}.xls" border="0" align="middle">
+		<a href="../../reportes/asignaciones/{$excel}.xls">
+			OP: {$excel}
+		</a>
+		{/if}
+	</td>
+  </tr>
+</table>
+<br><br />
+
+<center>
+  <table width="95%" border="0" cellspacing="0" cellpadding="0">
+   <thead>
+    <tr>
+    <th colspan="13" >{$excel}</th>
+    </tr>
+    <tr class="enunciados">
+      <th class="enunciados" style="text-align:center">Cup.</th>
+      <th class="enunciados" style="text-align:center">Asig</th>
+      <th class="enunciados" style="text-align:center">Cant</th>
+      <th class="enunciados" style="text-align:center" >Descripcion</th>
+      <th class="enunciados" style="text-align:center">Estilo_es</th>
+      <th class="enunciados" style="text-align:center">Color_es</th>
+      <th class="enunciados" style="text-align:center">Clip_es</th>
+      <th class="enunciados" style="text-align:center">Nombres</th>
+      <th class="enunciados" style="text-align:center">Apellidos</th>
+      <th class="enunciados" style="text-align:center">Clase</th>
+      <th class="enunciados" style="text-align:center">Fecha_f</th>
+      <th width="7%"class="enunciados" style="text-align:center">Fecha_r</th>
+      <!-- <th class="enunciados" style="text-align:center">obs</th>-->
+    </tr>
+	</thead>
+	<tbody>
+	<!-- loop los estilos  -->
+	{assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$reporte_asignaciones}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+	
+    <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+<!-- hast aqui son estilos-->
+      
+	  <td><div align="center">{$reporte_asignaciones[ind].cup}</div></td>
+      <td><div align="center">{$reporte_asignaciones[ind].id}</div></td>
+      <td><div align="center">{$reporte_asignaciones[ind].asignacion}</div></td>
+      <td><div align="left">{$reporte_asignaciones[ind].descripcion}</div></td>
+      <td><div align="left">{$reporte_asignaciones[ind].estilo_es}</div></td>
+      <td><div align="center">{$reporte_asignaciones[ind].color_es}</div></td>
+      <td><div align="center">{$reporte_asignaciones[ind].clip_es}</div></td>
+      <td nowrap="nowrap"><div align="center">{$reporte_asignaciones[ind].nombres}</div></td>
+      <td nowrap="nowrap"><div align="center">{$reporte_asignaciones[ind].apellidos}</div></td>
+      <td><div align="center">{$reporte_asignaciones[ind].clase}</div></td>
+      <td nowrap="nowrap"> <div align="center">{$reporte_asignaciones[ind].fecha_f}</div></td>
+      <td nowrap="nowrap"><div align="right">{$reporte_asignaciones[ind].fecha_r}</div></td>
+     <!--<td nowrap="nowrap"><div align="center">{$reporte_asignaciones[ind].obs}</div></td> -->
+    </tr>
+	{/section}
+	<tbody>
+  </table>
+  <br>
+</center>
+
+</body>

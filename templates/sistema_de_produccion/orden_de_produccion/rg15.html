@@ -1,0 +1,60 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"} <br />
+<title>Exportaci&oacute;n / Local</title>
+{literal}
+<style type="text/css">
+.compare {
+
+width: 410px;
+border: 1px solid #999;
+margin: 0 auto 1em auto;
+}
+.compare thead th {
+font: bold .7em/1.4em Verdana, sans-serif;
+color: #000;
+text-align: left;
+padding: .5em;
+background-color: #FFFFE1;
+}
+.compare tbody th {
+font: .7em/1.4em Verdana, sans-serif;
+color: #000;
+text-align: center;
+padding: .5em;
+border-top: 1px solid #eee;
+background-color: #E9E9E9;
+}
+.compare tbody td {
+font: .7em/1.4em Verdana, sans-serif;
+color: #666;
+text-align: center;
+border-top: 1px solid #eee;
+padding: .5em;
+}
+</style>
+{/literal}
+</head>
+
+<body>
+<form name="orden" method="post" action="../../controladores/sistema_de_produccion/registrar_orden.php?funcion=radio"  align="center">
+<table class="compare tbody" align="center">
+    <tr>
+      <th><b>Selecci&oacute;n&nbsp;</b></th>
+      <th><b>Cliente&nbsp;</b></th>
+    </tr>
+    <tr>
+      <td ><label><input type="radio" name="radio" id="exporta" value="exporta" checked/></label></td>
+      <td >Orden Exportaci&oacute;n</td>
+    </tr>
+    <tr>
+      <td><label><input type="radio" name="radio" id="local" value="local" /></label></td>
+      <td>Orden Macaws Stock Local</td>
+    </tr>
+
+  </table>
+  <center>
+  <br>
+  <input type="submit" value="Generar Orden" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+</center>
+</form>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{include file="../templates/contenido/includes/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{include file="../templates/contenido/includes/usuario.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script language="javascript">
+             $(document).ready(function()
+             {
+             $("a[rel = 'lightbox']").lightBox();
+             });
+            </script>
+            
+{/literal}
+<table width="90%" border="0">
+  <tr>
+    <td  valign="top" style="font-family:Bradley Hand ITC,Lucida Grande, Lucida Sans Unicode, Verdana, Helvetica, Arial, sans-serif; font-size:25px; color:#0099CC; border-bottom:1px solid #09C;"><b>{$categoria}:</b> {$mes}</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">
+    <table width="100%" border="0"  >
+	<tr >
+    {section name=i loop=$item}
+	<td align="center"><a href="../galeria/{$categoria}/{$mes}/{$item[i].ruta}" rel="lightbox"  title=" {$item[i].titulo}"><img src="../galeria/{$categoria}/{$mes}/{$item[i].ruta}" height="100"  class="imagedropshadow" /><br/></a>  
+    <img src="../templates/imagenes/zoom.PNG"  width="20" height="20"/><span style="font-size:10px; color:#666">{$item[i].titulo}</span>
+   </td>
+    {if not ($smarty.section.i.rownum mod 4)}
+        {if not $smarty.section.i.last}
+      </tr>		 		 
+		 <tr > 
+        {/if}
+    {/if}
+        {if $smarty.section.i.last}
+            {* creamos las celdas vacias que toquen *}
+            {math equation = "n - a % n" n=4 a=$item|@count assign="cells"}
+            {if $cells ne 4}
+                {section name=pad loop=$cells}
+                        <td width="1%" align="center">&nbsp;</td>
+                 {/section}
+             {/if}
+                </tr>
+        {/if}
+{/section}
+
+</table>
+    
+    </td>
+    <td width="13%" nowrap="nowrap" valign="top" style="border-left:1px solid #CCC; padding-left:20px; color:#0099CC" id="tgalleryA"><div style="background-color:#09C; border-left:solid #CCC; width:150;color:#FFF;">Colección</div>
+    {foreach from=$directorios key=k item=v}
+   <li><img src="../templates/imagenes/folder_image.png" /><a href="../controladores/galeria.php?nombrearchivo={$categoria}&mes={$v}">{$v}</a></li>
+{/foreach}
+
+    </td>
+  </tr>
+</table>

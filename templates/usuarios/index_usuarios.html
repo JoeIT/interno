@@ -1,0 +1,99 @@
+{* Lista usuarios *}
+{php}
+	session_start();
+
+	if(!isset($_SESSION['nombre']))
+	{
+		header("location: ../index.php");
+	}
+	else
+	{
+{/php}
+<html>
+	<head>
+		<LINK REL="stylesheet" TYPE="text/css" HREF="../../vistas/configs/estilo.css">
+	     <title> Usuarios </title>
+		 {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+		    function consultar(nombre,opcion)
+		    {
+		      if(opcion=="eliminar")
+		      {
+		         if(confirm("Esta seguro que desea eliminar al usuario " + nombre ))
+		         {
+				    document.form1.elegido.value=nombre;
+		      	    document.form1.funcion.value=opcion;
+		         	document.form1.submit();
+
+				 }
+				 else
+				 {
+				   document.form1.funcion.value="index";
+				 }
+			  }
+		      else
+		      {
+		        	document.form1.elegido.value=nombre;
+		      	    document.form1.funcion.value=opcion;
+		         	document.form1.submit();
+
+		      }
+		    }
+		   </SCRIPT>
+
+		{/literal}
+	</head>
+
+	<body>
+	
+	<form name="form1" method="post" action="index.php">
+
+		<!--#FORMS OCULTOS HIDDEN-->
+			<input type="hidden" name="elegido" >
+			<input type="hidden" name="funcion">
+			
+	    <h1 align="center">USUARIOS</h1>
+		
+		<table align="center" border="0">
+
+			<tr bgcolor="{#rowBgColor#}" >
+				{foreach name=cabezera key=key item=item from=$usuario[0]}
+					<th ><center><B> {$key|upper} <B> </center></th>
+				{/foreach}
+				<th ><center><B> MODIFICAR <B> </center></th>
+				<th ><center><B> ELIMINAR <B> </center></th>
+			</tr>
+
+
+		{foreach name=contenido item=usuarios from=$usuario}
+			<tr>
+				{foreach key=key item=item from=$usuarios}
+					{if $key == "id"}
+						{assign var=usuario value=$item}
+					{/if}
+					
+					<td> {$item} </td>
+					
+				{/foreach}
+				<td><center>
+	                   <INPUT TYPE="image" SRC="../../vistas/imagenes/modificar.png"  width=25 height=25 border=0 name={$usuario} value=modificar onclick=consultar(name,value) >
+
+				</center></td>
+				<td><center>
+
+						<INPUT TYPE="image" SRC="../../vistas/imagenes/eliminar.png" width=25 height=25 border=0 name={$usuario} value=eliminar onclick=consultar(name,value)>
+
+				</center></td>
+	      	</tr>
+		{/foreach}
+
+	</table>
+	<center>  <a href="adicionar.php" ><img SRC="../../vistas/imagenes/clientenuevo.png" width=50 height=50 border=0></a><b>Adicionar usuario </b></center>
+	</form>
+	</body>
+</html>
+{php}
+
+}
+
+{/php}

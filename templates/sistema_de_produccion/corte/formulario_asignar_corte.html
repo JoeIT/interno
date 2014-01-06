@@ -1,0 +1,391 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script>
+var ua = window.navigator.userAgent
+var msie = ua.indexOf ( "MSIE " )
+</script>
+{/literal}
+
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td><div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/asignacion.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$titulo_asignacion}</div></td>
+  </tr>
+</table>
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+<tr>
+  <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="3">
+      <tr>
+        <td style="text-align:left;"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=2&oid={$op_id}">Volver al detalle de la orden</a> </td>
+        <td style="text-align:right;padding:1px;"> Asignaci&oacute;n <span style="font-size:36px;font-weight:bolder;">{$cont_asignados}</span> de <span style="font-size:36px;font-weight:bolder;">{$long_hid}</span> {assign var="ncont_asignados" value="`$cont_asignados-1`"} </td>
+      </tr>
+    </table></td>
+</tr>
+{if $cabecera_hoja != null}
+  {foreach key=cambio item=corte from=$cabecera_hoja}
+<tr>
+  <td>
+    <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+      <tr>
+        <td class="enunciados" style="text-align:center;">Producto</td>
+        <td class="enunciados" style="text-align:center;">Tipo</td>
+        <td class="enunciados" style="text-align:center;">Clip</td>
+        <td class="enunciados" style="text-align:center;">Cantidad</td>
+        <td class="enunciados" style="text-align:center;">Instructivo</td>
+      </tr>
+      <tr>
+        <td class="datos-reporte">{$corte.nombre_familia}</td>
+        <td class="datos-reporte">{$corte.nombre_estilo}</td>
+        <td class="datos-reporte">{$corte.clip}</td>
+        <td class="datos-reporte">{$corte.cantidad}</td>
+        <td class="datos-reporte">
+			{if $corte.url != null}
+				<a href="{$corte.url}" target="_blank">Ver instructivo N&deg; <span style="font-weight:bold;font-size:1.5em;">{$corte.instructivo_id}</span></a>
+			{else}
+				<span style="color:#FF0000;">Sin instructivo</span>
+			{/if}
+		</td>
+      </tr>
+    </table></td>
+</tr>
+{/foreach}
+  {/if}
+<tr>
+  <td><hr />
+  </td>
+</tr>
+{if $detalle_del_despiece != null}
+<tr>
+<td align="center">
+  <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+    <tr>
+      <th colspan="3">Detalle del despiece</th>
+    </tr>
+    <tr>
+      <td class="enunciados" style="text-align:center;width:300px;">Nombre</td>
+      <td class="enunciados" style="text-align:center;width:100px;">Cantidad</td>
+      <td class="enunciados" style="text-align:center;">Posici&oacute;n</td>
+    </tr>
+  </table>
+  <div style="height:100px;margin:0px;overflow-y:scroll;">
+    <table width="100%" border="0" align="right" cellpadding="0" cellspacing="1">
+      {assign var=flag value=""}
+      {assign var=CSSclass value=0}
+      {assign var=clases value="lista-normal"}
+      
+      {foreach key=key item=item from=$detalle_del_despiece}	
+      {if $item.tipo_material != $flag}
+      {assign var="CSSclass" value="`$CSSclass+1`"}
+      {if ($CSSclass mod 2) eq 0}
+      {assign var=clases value="lista-seleccionada"}
+      {else}
+      {assign var=clases value="lista-normal"}
+      {/if}
+      {/if}
+      <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+        <td style="padding:3px;text-align:left;width:300px;">{$item.nombre}</td>
+        <td style="padding:3px;text-align:center;width:100px;">{$item.cantidad}</td>
+        <td style="padding:3px;text-align:left;">&nbsp;{$item.posicion}</td>
+      </tr>
+      {assign var=flag value=$item.tipo_material}
+      {/foreach}
+    </table>
+  </div>
+  </td>
+  
+  </tr>
+  
+  {/if}
+  <tr>
+    <td> {*aqui hacemos la diferenciacion entre los tipos de asignacion*}
+      {*1 corte - 2,3,4,5 iguales - 6 entrega*}
+      
+      {if $tabu == 1}
+      {*para corte*}
+      <form action="../../controladores/sistema_de_produccion/hoja_ruta_corte.php" method="post" name="buscar" id="buscar">
+        {if $imprimir == null}
+        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+          <tr>
+            <th colspan="8">Asignaci&oacute;n de corte</th>
+          </tr>
+          <tr>
+            <td class="enunciados" style="text-align:center;">X</td>
+            <td class="enunciados" style="text-align:center;">Material</td>
+            <td class="enunciados" style="text-align:center;">Sistema</td>
+            <td class="enunciados" style="text-align:center;">>></td>
+            <td class="enunciados" style="text-align:center;">Cantidad</td>
+            <td class="enunciados" style="text-align:center;">x golpe</td>
+            <td class="enunciados" style="text-align:center;">Dividir</td>
+            <td class="enunciados" style="text-align:center;">Nombre operario</td>
+          </tr>
+          {foreach key=cambio item=corte from=$lista_corte}
+          
+          {if $comprobacion[$corte.dcid] != null}
+          <tr>
+            <td colspan="8"><div class="anuncio" align="center">{$comprobacion[$corte.dcid]}</div></td>
+          </tr>
+          {/if}
+          <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+            <td style="padding:3px;text-align:center;"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=7&dcid={$corte.dcid}&op=1" onclick="{literal}if(confirm('¿Esta seguro de eliminar el material?') == false){return false;}{/literal}"><img src="../../templates/imagenes/icon_minus.jpg" border="0"/></a> </td>
+            <td style="padding:3px;">{$corte.nombre}
+              <input name="{$corte.apodo}corteid" type="hidden" value="{$corte.dcid}" size="2"/></td>
+            <td style="padding:3px;text-align:center;">{$corte.sis_cantidad} x {$corte.sis_golpe}</td>
+            <td style="padding:3px;text-align:center;"><input name="{$corte.apodo}maximo" type="hidden" value="{$corte.sis_cantidad}" size="2"/>
+              <input name="{$corte.apodo}maxgol" type="hidden" value="{$corte.sis_golpe}" size="2"/>
+              <img src="../../templates/imagenes/asignar.gif" alt="Asignar" id="{$corte.cantidad}" onclick="document.forms[0].{$corte.apodo}cantidad.value = document.forms[0].{$corte.apodo}maximo.value;document.forms[0].{$corte.apodo}golpe.value = document.forms[0].{$corte.apodo}maxgol.value;"/> </td>
+            <td style="padding:3px;text-align:center;"><input name="{$corte.apodo}cantidad" type="text" onkeypress="return enter_handle(this, event, 1, 0)" value="{$corte.cantidad}" size="3" maxlength="3" onblur=""/>
+            </td>
+            <td style="padding:3px;text-align:center;"><input name="{$corte.apodo}golpe" type="text" onkeypress="return enter_handle(this, event, 1, 0)" value="{$corte.golpe}" size="3" maxlength="4"/>
+            </td>
+            <td style="padding:3px;text-align:center;"><a href="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=8&dcid={$corte.dcid}&op=1')">Dividir</a> </td>
+            <td style="padding:3px;"><span align="left" class="entrada" style="margin:5px;">
+				{if $especiales != null and $corte.completo == ' '}
+					<input name="{$corte.apodo}operario_nom" id="{$corte.apodo}operario_nom" type="text" style="border:none;" value="{$especiales.completo}" size="30" onkeypress="{literal}if ( msie > 0 ) return enter_handle(this, event, 6, 1){/literal}" onchange="{literal}if (this.value == ''){ {/literal}{$corte.apodo}operario_id{literal}.value = '' }{/literal}"/>
+				{else}
+					<input name="{$corte.apodo}operario_nom" id="{$corte.apodo}operario_nom" type="text" style="border:none;" value="{$corte.completo}" size="30" onkeypress="{literal}if ( msie > 0 ) return enter_handle(this, event, 6, 1){/literal}" onchange="{literal}if (this.value == ''){ {/literal}{$corte.apodo}operario_id{literal}.value = '' }{/literal}"/>
+				{/if}
+              <img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.forms[0].{$corte.apodo}operario_nom.focus();document.forms[0].{$corte.apodo}operario_nom.select();"/> </span>
+				{if $especiales != null and $corte.completo == ' '}
+					<input name="{$corte.apodo}categoria" type="hidden" id="{$corte.apodo}categoria" size="2" value="{$especiales.clase}"/>
+					<input name="{$corte.apodo}operario_id" type="hidden" id="{$corte.apodo}operario_id" size="2" value="{$especiales.personal_id}"/>
+				{else}
+					<input name="{$corte.apodo}categoria" type="hidden" id="{$corte.apodo}categoria" size="2" />
+					<input name="{$corte.apodo}operario_id" type="hidden" id="{$corte.apodo}operario_id" size="2" value="{$corte.personal_id}"/>
+				{/if}
+              <div id="{$corte.apodo}lista_operarios" class="autorelleno"></div>
+              <span id="spinner" style="display:none"></span> {literal}
+              <script language="javascript">
+					new Ajax.Autocompleter("{/literal}{$corte.apodo}operario_nom{literal}", "{/literal}{$corte.apodo}lista_operarios{literal}", "../../controladores/sistema_de_produccion/hoja_ruta_corte.php?busqueda_ajax=nombres&puesto=5", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+						
+					function mostrar_categoria(text,li){ 
+					  cadena = li.id;
+					  caracteristicas = cadena.split("-");
+					  document.getElementById("{/literal}{$corte.apodo}categoria{literal}").value = caracteristicas[1];
+					  document.getElementById("{/literal}{$corte.apodo}operario_id{literal}").value = caracteristicas[0];
+					  var str = document.getElementById("{/literal}{$corte.apodo}operario_nom{literal}").value;
+					  document.getElementById("{/literal}{$corte.apodo}operario_nom{literal}").value = str.substr(5);
+					  
+					  if ( msie <= 0 ){
+						var i;
+						var field = eval({/literal}{$corte.apodo}operario_nom{literal});
+						var salto = 6;
+						
+						for (i = 0; i < field.form.elements.length; i++)
+							if (field == field.form.elements[i])
+								break;
+						i = (i + salto) % field.form.elements.length;
+						if (field.form.elements[i] != null){
+							field.form.elements[i].focus();
+							field.form.elements[i].select();
+							return false;
+						}
+					  }
+					}
+					</script>
+              {/literal} </td>
+          </tr>
+          {/foreach}
+        </table>
+        {literal}
+        <script language="javascript">
+				if (document.buscar.elements[3].value != null){
+					document.buscar.elements[3].select();
+					document.buscar.elements[3].focus();
+				}
+			</script>
+        {/literal}
+        
+        {else}
+        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+          <tr>
+            <th colspan="4">Asignaci&oacute;n de corte</th>
+          </tr>
+          <tr>
+            <td class="enunciados" style="text-align:center;">Material</td>
+            <td class="enunciados" style="text-align:center;">Cantidad</td>
+            <td class="enunciados" style="text-align:center;">x golpe</td>
+            <td class="enunciados" style="text-align:center;">Nombre operario</td>
+          </tr>
+          {foreach key=cambio item=corte from=$lista_corte}
+          <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+            <td style="padding:3px;">{$corte.nombre}</td>
+            <td style="padding:3px;text-align:center;">{$corte.sis_cantidad}</td>
+            <td style="padding:3px;text-align:center;">{$corte.sis_golpe}</td>
+            <td style="padding:3px;">{$corte.completo}</td>
+          </tr>
+          {/foreach}
+        </table>
+        {/if}
+        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+          <tr>
+            <td colspan="8" style="padding:10px;text-align:center;"> {if $clave !=  null}
+              <input name="imprimir_corte" type="submit" value="Imprimir" class="boton" onclick="javascript:PantallaCompleta1('../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=3&hid={$hid}&op={$tabu}')"/>
+              &nbsp;&nbsp;&nbsp;
+              {/if}
+              
+              {if $imprimir == null}
+              {if $avanzar_asignados == null}
+              <input name="asignar_corte" type="submit" value="GUARDAR asignaci&oacute;n" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+              {else}
+              <input name="asignar_avanzar_corte" type="submit" value="Avanzar COPIANDO" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+              {/if}
+              &nbsp;&nbsp;&nbsp;
+              {/if}
+              <input name="asignar_corte_sin_modificar" type="submit" value="Avanzar SIN GUARDAR" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+              &nbsp;&nbsp;&nbsp;
+              <input name="asignar_corte" type="reset" value="Cancelar" class="boton"/>
+            </td>
+          </tr>
+        </table>
+      </form>
+      {else}
+      {*2,3,4,5 para los demas*}
+      {if $tabu != 6}
+      <form action="../../controladores/sistema_de_produccion/hoja_ruta_corte.php" method="post" name="buscar" id="buscar">
+        {if $imprimir == null}
+        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+          <tr>
+            <th colspan="7">{$titulo_asignacion}</th>
+          </tr>
+          <tr>
+            <td class="enunciados" style="text-align:center;">X</td>
+            <td class="enunciados" style="text-align:center;">Material</td>
+            <td class="enunciados" style="text-align:center;">Sistema</td>
+            <td class="enunciados" style="text-align:center;">>></td>
+            <td class="enunciados" style="text-align:center;">Cantidad</td>
+            <td class="enunciados" style="text-align:center;">Dividir</td>
+            <td class="enunciados" style="text-align:center;">Nombre operario</td>
+          </tr>
+          {foreach key=cambio item=corte from=$lista_corte}
+          {if $comprobacion[$corte.dcid] != null}
+          <tr>
+            <td colspan="8"><div class="anuncio" align="center">{$comprobacion[$corte.dcid]}</div></td>
+          </tr>
+          {/if}
+          <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+            <td style="padding:3px;text-align:center;"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=7&dcid={$corte.dcid}&op={$tabu}" onclick="{literal}if(confirm('¿Esta seguro de eliminar el material?') == false){return false;}{/literal}"><img src="../../templates/imagenes/icon_minus.jpg" border="0"/></a> </td>
+            <td style="padding:3px;">{$corte.nombre}
+              <input name="{$corte.apodo}corteid" type="hidden" value="{$corte.dcid}" size="2"/></td>
+            <td style="padding:3px;text-align:center;">{$corte.sis_cantidad}</td>
+            <td style="padding:3px;text-align:center;"><input name="{$corte.apodo}maximo" type="hidden" value="{$corte.sis_cantidad}" size="2"/>
+              <img src="../../templates/imagenes/asignar.gif" alt="Asignar" id="{$corte.cantidad}" onclick="document.forms[0].{$corte.apodo}cantidad.value = document.forms[0].{$corte.apodo}maximo.value;"/> </td>
+            <td style="padding:3px;text-align:center;"><input name="{$corte.apodo}cantidad" type="text" onkeypress="return enter_handle(this, event, 1, 0)" value="{$corte.cantidad}" size="3" maxlength="3" onblur=""/>
+            </td>
+            <td style="padding:3px;text-align:center;"><a href="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=8&dcid={$corte.dcid}&op={$tabu}')">Dividir</a> </td>
+            <td style="padding:3px;"><span align="left" class="entrada" style="margin:5px;">
+				{if $especiales != null and $corte.completo == ' '}
+					<input name="{$corte.apodo}operario_nom" id="{$corte.apodo}operario_nom" type="text" style="border:none;" value="{$especiales.completo}" size="30" onkeypress="{literal}if ( msie > 0 ) return enter_handle(this, event, 6, 1){/literal}" onchange="{literal}if (this.value == ''){ {/literal}{$corte.apodo}operario_id{literal}.value = '' }{/literal}"/>
+				{else}
+					<input name="{$corte.apodo}operario_nom" id="{$corte.apodo}operario_nom" type="text" style="border:none;" value="{$corte.completo}" size="30" onkeypress="{literal}if ( msie > 0 ) return enter_handle(this, event, 6, 1){/literal}" onchange="{literal}if (this.value == ''){ {/literal}{$corte.apodo}operario_id{literal}.value = '' }{/literal}"/>
+				{/if}
+              <img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.forms[0].{$corte.apodo}operario_nom.focus();document.forms[0].{$corte.apodo}operario_nom.select();"/> </span>
+				{if $especiales != null and $corte.completo == ' '}
+					<input name="{$corte.apodo}categoria" type="hidden" id="{$corte.apodo}categoria" size="2" value="{$especiales.clase}"/>
+					<input name="{$corte.apodo}operario_id" type="hidden" id="{$corte.apodo}operario_id" size="2" value="{$especiales.personal_id}"/>
+				{else}
+					<input name="{$corte.apodo}categoria" type="hidden" id="{$corte.apodo}categoria" size="2" />
+					<input name="{$corte.apodo}operario_id" type="hidden" id="{$corte.apodo}operario_id" size="2" value="{$corte.personal_id}"/>
+				{/if}
+              <div id="{$corte.apodo}lista_operarios" class="autorelleno"></div>
+              <span id="spinner" style="display:none"></span> {literal}
+              <script>
+				new Ajax.Autocompleter("{/literal}{$corte.apodo}operario_nom{literal}", "{/literal}{$corte.apodo}lista_operarios{literal}", "../../controladores/sistema_de_produccion/hoja_ruta_corte.php?busqueda_ajax=nombres&puesto=5", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+				
+				function mostrar_categoria(text,li){
+				  cadena = li.id;
+				  caracteristicas = cadena.split("-");
+				  document.getElementById("{/literal}{$corte.apodo}categoria{literal}").value = caracteristicas[1];
+				  document.getElementById("{/literal}{$corte.apodo}operario_id{literal}").value = caracteristicas[0];
+				  var str = document.getElementById("{/literal}{$corte.apodo}operario_nom{literal}").value;
+				  document.getElementById("{/literal}{$corte.apodo}operario_nom{literal}").value = str.substr(5);
+				  
+				  if ( msie <= 0 ){
+					var i;
+					var field = eval({/literal}{$corte.apodo}operario_nom{literal});
+					var salto = 5;
+					
+					for (i = 0; i < field.form.elements.length; i++)
+						if (field == field.form.elements[i])
+							break;
+					i = (i + salto) % field.form.elements.length;
+					if (field.form.elements[i] != null){
+						field.form.elements[i].focus();
+						field.form.elements[i].select();
+						return false;
+					}
+				  }
+				}
+			</script>
+              {/literal} </td>
+          </tr>
+          {/foreach}
+        </table>
+        {*script si existe*}
+        
+        {literal}
+        <script language="javascript">
+					if (document.buscar.elements[2].value != null){
+						document.buscar.elements[2].select();
+						document.buscar.elements[2].focus();
+					}
+				</script>
+        {/literal}
+        
+        {else}
+        {*solo lectura*}
+        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+          <tr>
+            <th colspan="4">Asignaci&oacute;n de corte</th>
+          </tr>
+          <tr>
+            <td class="enunciados" style="text-align:center;">Material</td>
+            <td class="enunciados" style="text-align:center;">Cantidad</td>
+            <td class="enunciados" style="text-align:center;">Nombre operario</td>
+          </tr>
+          {foreach key=cambio item=corte from=$lista_corte}
+          <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+            <td style="padding:3px;">{$corte.nombre}</td>
+            <td style="padding:3px;text-align:center;">{$corte.sis_cantidad}</td>
+            <td style="padding:3px;">{$corte.completo}</td>
+          </tr>
+          {/foreach}
+        </table>
+        {/if}
+        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+          <tr>
+            <td colspan="8" style="padding:10px;text-align:center;"> {if $clave !=  null}
+              <input name="imprimir_corte" type="submit" value="Imprimir" class="boton" onclick="javascript:PantallaCompleta1('../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=3&hid={$hid}&op={$tabu}')"/>
+              &nbsp;&nbsp;&nbsp;
+              {/if}
+              
+              {if $imprimir == null}
+              {if $avanzar_asignados == null}
+              <input name="asignar_corte" type="submit" value="GUARDAR asignaci&oacute;n" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+              {else}
+              <input name="asignar_avanzar_corte" type="submit" value="Avanzar COPIANDO" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+              {/if}
+              &nbsp;&nbsp;&nbsp;
+              {/if}
+              <input name="asignar_corte_sin_modificar" type="submit" value="Avanzar SIN GUARDAR" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+              &nbsp;&nbsp;&nbsp;
+              <input name="asignar_corte" type="reset" value="Cancelar" class="boton"/>
+            </td>
+          </tr>
+        </table>
+      </form>
+      {else}
+      {*6 para entrega*}
+      para la entrega
+      {/if}
+      {/if} </td>
+  </tr>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="text-align:center;"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=9&hid={$hid}&tabu={$tabu}" onclick="{literal}if(confirm('¿Esta seguro de Reasignar asignaci&oacute;n?') == false){return false;}{/literal}">Reasignar</a></div>
+<br />
+<br />
+{include file="../templates/contenido/includes/pie.html"}

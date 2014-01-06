@@ -1,0 +1,49 @@
+{if $lista_indicadores != null}
+	<div id="div_dinamico">
+	{foreach key=area item=varea from=$lista_indicadores}
+		<div class="area">{$area}</div>
+		{foreach key=grupo item=vgrupo from=$varea}
+			<div class="grupo">{$grupo}</div>
+			{foreach key=nombre item=vnombre from=$vgrupo}
+				<div class="metas">
+					<div class="vobservacion"> <a href="javascript:mostrar_formulario({$vnombre.indicador_id});">Actualizar</a> </div>
+					<div class="vvalor" id="vvalor{$vnombre.indicador_id}">
+						<span style="float:left;">{$vnombre.valor}</span>
+						{if $vnombre.fecha != null}
+						<span style="float:right;" title={$vnombre.fecha}><img src="../../templates/indicadores/pics/date.jpg"></span>
+						{/if}
+						{if $vnombre.observacion != null}
+						<span style="float:right;" title={$vnombre.observacion}><img src="../../templates/indicadores/pics/obs.jpg"></span>
+						{/if}
+					</div>
+					
+					<div id="vnombre">{$vnombre.nombre}</div>
+				</div>
+			{/foreach}
+		{/foreach}
+	{/foreach}
+	</div>
+{/if}
+
+<div id="bloqueo" style="display:none;text-align:center;"></div>
+
+<div id="formulario" style="display:none;text-align:center;">
+	<fieldset>
+	<legend>Actualizaci&oacute;n de meta</legend>
+	<form>
+		<input type="hidden" name="meta_id" id="meta_id" />
+		<span id="men_valor"> Ingrese valor </span>
+		<div style="width:38%;float:left;padding-right:5px;text-align:right;"><label for="meta_valor">Valor: </label></div>
+		<div style="width:60%;float:left;text-align:left;"><input name="meta_valor" id="meta_valor" type="text" /></div>
+		
+		<div style="width:38%;float:left;padding-right:5px;text-align:right;"><label for="meta_obs">Observaciones: </label></div>
+		<div style="width:60%;float:left;text-align:left;"><textarea name="meta_obs" id="meta_obs" cols="15" rows="3"></textarea></div>
+		
+		<div style="clear:both;padding-top:10px;">
+			<input name="insertar" type="button" value="Insertar" onClick="insertar_registro('actualizar_metas', meta_id, meta_valor, meta_obs);" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" />
+			&nbsp;&nbsp;&nbsp;
+			<input name="cerrar" type="button" value="Cerrar" onClick="ocultar_formulario();" class="boton" />
+		</div>
+	</form>
+  </div>
+</div>

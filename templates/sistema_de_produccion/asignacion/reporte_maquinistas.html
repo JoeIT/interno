@@ -1,0 +1,50 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+
+<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+  <tr>
+    <th colspan="8">Reporte de maquinistas </th>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:center;">Maquinista</td>
+    <td class="enunciados" style="text-align:center;">Nro. Asignacion</td>
+    <td class="enunciados" style="text-align:center;">Cantidad</td>
+    <td class="enunciados" style="text-align:center;">Producto</td>
+    <td class="enunciados" style="text-align:center;">Orden</td>
+    <td class="enunciados" style="text-align:center;">Medio Proceso</td>
+    <td class="enunciados" style="text-align:center;">Fecha Entrega</td>
+  </tr>
+	
+	  {assign var=flag value=""}
+	  {assign var=CSSclass value=0}
+	  {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=maquinistas from=$reporte_maquinistas}
+      {if $maquinistas.maquinista != $flag}
+      {assign var="CSSclass" value="`$CSSclass+1`"}
+      {if ($CSSclass mod 2) eq 0}
+      {assign var=clases value="lista-seleccionada"}
+      {else}
+      {assign var=clases value="lista-normal"}
+      {/if}
+      {/if}
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+   
+    <td style="text-align:left;">{$maquinistas.maquinista}</td>
+    <td style="text-align:center;">{$maquinistas.asignacion_detalle_id}</td>
+    <td style="text-align:center;">{$maquinistas.cantidad}</td>
+    <td style="text-align:left;"> {if $maquinistas.producto==""}<span style="color:#FF0000">Ninguno</span> {else}{$maquinistas.producto } {$maquinistas.tipo}{/if}</td>
+    <td style="text-align:center;">{$maquinistas.orden}</td>
+	<td style="text-align:center;" nowrap="nowrap">{$maquinistas.fecha_medio}</td>
+	<td style="text-align:center;" nowrap="nowrap">{$maquinistas.fecha_fin}</td>
+  </tr>
+        {assign var=flag value=$maquinistas.maquinista}
+  {/foreach}
+  <tr>
+    <td colspan="7"><hr />
+    </td>
+  </tr>
+</table>
+<br />
+{include file="../templates/contenido/includes/pie.html"}

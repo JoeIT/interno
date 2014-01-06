@@ -1,0 +1,59 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+<br />
+
+<div align="center">
+	<div style="border:1px #ABBEEF solid;width:90%;">
+		<div style="background-color:#ABBEEF;color:#000;font-weight:bold;">
+			VEHICULO {$autodesc}
+		</div>
+		<div style="background-color:#D6DFF7;color:#000;font-weight:bold;">
+			Placa {$autoplaca}
+		</div>
+		
+		<p align="center" style="color:#FF0000">{$mensaje_error}</p>
+		<form name="form1" method="post" action="porteria.php?opcion=porteria_movauto">
+		<div class="row">
+			<span class="label">KILOMETRAJE :</span><span class="formw">{$kmout}</span>
+		</div>
+		<div class="row">
+			<span class="label">Responsable :</span>
+			<span class="formw">
+				<select name="responsable" onKeyPress="return handleEnter(this, event)">
+                	<option value="0" selected>Seleccion un responsable</option>
+					{section name=i loop=$resultado}
+					<option value="{$resultado[i].idpersona}">{$resultado[i].nombre_completo}</option>
+					{/section} 
+                </select>
+			</span>
+		</div>
+		<div class="row">
+			<span class="label">Destino :</span><span class="formw"><input type="text" name="destino" size="50" maxlength="150" value="{$destino}" onKeyPress="return handleEnter(this, event)"></span>
+		</div>
+		<div class="row">
+			<span class="label">Observaciones :</span><span class="formw"><textarea name="observaciones" cols="50" rows="2" onKeyPress="return handleEnter(this, event)">{$observaciones}</textarea></span>
+		</div>
+		
+		<div style="clear:both;padding-top:10px;">
+			<input type="submit" name="Submit" value="Marcar Salida" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+			<input type="hidden" name="accion" value="guardar_salida">
+			<input type="hidden" name="idauto" value="{$idauto}">
+			<input type="hidden" name="kmout" value="{$kmout}">
+			<input type="hidden" name="autodesc" value="{$autodesc}">
+			<input type="hidden" name="autoplaca" value="{$autoplaca}">
+		</div>
+		</form>
+	</div>
+</div>
+
+{if $mensaje != null}
+<br />
+<br />
+<div align="center">
+	<div class="anuncio" align="center" style="width:90%;"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+</div>
+{/if}
+
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

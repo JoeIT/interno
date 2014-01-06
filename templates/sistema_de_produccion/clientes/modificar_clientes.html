@@ -1,0 +1,57 @@
+
+      {include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<br />
+<table width="70%" align="center">
+ <th>
+		MODIFICAR CLIENTE
+</th>
+</table>
+
+	<form name="form_modificar" method="post" action="../../controladores/sistema_de_produccion/lista_clientes.php?funcion=modificar_datos">
+		<input type="hidden" name="elegido" id="elegido" value="{$id}">
+		<table align="center"  width="70%" >
+			{if $errores.err_confirm != null }<tr> <td class="error-box">{$errores.err_confirm} </td> </tr> {/if}
+			{if $errores.err_nombre != null} <tr> <td class="error-box"> {$errores.err_nombre} </td> </tr> {/if}
+ 			<tr>
+  				<td class="enunciados">  Nombre: </td>
+  				<td>  <input  type="text" name="nombre" value="{$nombre}"  onkeypress="return handleEnter(this, event)"> </td>
+ 			</tr>
+			{if $errores.err_pais != null } <tr> <td class="error-box"> { $errores.err_pais}</td> </tr> {/if}
+ 			<tr>
+  				<td class="enunciados">  Pais: </td>
+				<td>
+			      <select name="pais"  id="pais" onkeypress="return handleEnter(this, event)">
+				    {html_options values=$paises output=$paises selected=$pais}
+				</select>
+			
+			</td>
+ 			</tr>
+			{if $errores.err_ciudad != null }<tr> <td class="error-box">{$errores.err_ciudad} </td> </tr> {/if}
+ 			<tr>
+ 				<td class="enunciados">Ciudad: </td>
+ 				<td class="body-sector">   <input type="text" name="ciudad" value="{$ciudad}" onkeypress="return handleEnter(this, event)"></td>
+ 			</tr>
+			{if $errores.err_direccion != null }<tr> <td class="error-box">{$errores.err_direccion} </td> </tr> {/if}
+			<tr>
+  				<td class="enunciados">Direccion: </td>
+  				<td class="body-sector">  <input type="text" name="direccion" value="{$direccion}" onkeypress="return handleEnter(this, event)"> </td>
+ 			</tr>
+			{if $errores.err_telefono != null }<tr> <td class="error-box">{$errores.err_telefono} </td> </tr> {/if}
+			<tr>
+ 				<td class="enunciados">Telefono: </td>
+ 				<td class="body-sector">   <input  type="text" name="telefono" value="{$telefono}" onkeypress="return handleEnter(this, event)"> </td>
+			</tr>
+			{if $errores.err_email != null }<tr> <td class="error-box">{$errores.err_email} </td> </tr> {/if}
+  			<tr>
+  				<td class="enunciados">Correo Electronico: </td>
+  				<td class="body-sector">  <input type="text" name="email" value="{$email}" onkeypress="return handleEnter(this, event)"> </td>
+ 			</tr>
+		</table>
+
+	   <h1 align="center"> <input class="button1"  type="submit" name="modificar" value="Modificar"> &nbsp;
+
+	      <input class="button1" type="submit" name="volver" value="Volver a la lista" onClick=consultar_op(name)>
+	   </h1>
+	</form>
+	

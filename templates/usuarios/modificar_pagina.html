@@ -1,0 +1,78 @@
+<head> 
+         {include file="../../templates/sistema_de_produccion/cabecera.html"}
+	   {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(opcion)
+			{
+				if(opcion!="modificar")
+				{
+					document.form_modificar.funcion.value="index";
+					
+				}
+			}
+			</SCRIPT>
+		{/literal}
+	  
+</head>
+<body>
+<table width="100%">
+	<tr>
+		<td width="80%">
+		{if $errores != null}
+			error
+		     <table align="center" >
+                 	{if $errores.err_nombre != null} 
+					<tr> 
+						<td class="error-box">{$errores.err_nombre} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_url != null} 
+					<tr> 
+						<td class="error-box">  {$errores.err_url} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_confirm != null} 
+					<tr> 
+						<td class="error-box"> {$errores.err_confirm} </td> 
+					</tr>
+					{/if}
+		 	 </table>
+			 {/if}
+
+			<form name="form_modificar" method="get" action="../../controladores/usuarios/paginas.php">
+				<input type="hidden" name="elegido"  value="{$id}">
+
+				<input type="hidden" name="funcion" value="modificar_datos">
+				<table align="center" >
+					<th colspan="3">Modificar pagina</th>
+		 			<tr>
+  						<td class="enunciados"> Descripción: </td>
+  						<td class="body-sector"><input size="60" type="text" name="nombre" value="{$descripcion}" ></td>
+		 			</tr>
+					<tr>
+  						<td class="enunciados">  URL: </td>
+  						<td class="body-sector"><textarea name="url" cols="60">{$url}</textarea></td>
+		 			</tr>
+					<tr>
+  						<td class="enunciados">  Observaciones: </td>
+  						<td class="body-sector" ><input size="60" type="text" name="obs" value="{$obs}" ></td>
+		 			</tr>
+					<tr>
+  						<td class="enunciados">  Icono: </td>
+  						<td class="body-sector" ><input size="60" type="text" name="icono" value="{$icono}" ></td>
+		 			</tr>
+					<tr>
+  						<td class="enunciados"> Pestaña: </td>
+  						<td class="body-sector" ><input size="60" type="text" name="pestana" value="{$pestana}" ></td>
+		 			</tr>
+				</table>
+
+		   		<h1 align="center"> 
+				<input class="button1" type="submit" name="modificar" value="Modificar"  onClick=consultar(name)> &nbsp;
+	            <input class="button1" type="submit" name="volver" value="Volver a la lista" onClick=consultar(name)>
+			   </h1>
+			</form>
+		</td>
+	</tr>
+</table>
+</body>

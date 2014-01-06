@@ -1,0 +1,64 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<br />
+
+<table align="center" width="80%">
+<tr>
+	<th colspan="4">Caracteristicas de la orden de producto nuevo</th>
+</tr>
+<tr>
+	<td class="enunciados">Orden de producción No.:</td>
+	<td class="body-sector">{$detalle_orden.ordenproducto_id}</td>
+	<td class="enunciados">Cliente:</td>
+	<td class="body-sector">{$detalle_orden.clientenombre}</td>
+</tr>
+<tr>
+	<td class="enunciados">Fecha de Solicitud:</td>
+	<td class="body-sector">{$detalle_orden.fechasolicitud}</td>
+	<td class="enunciados">Fecha de Culminación:</td>
+	<td class="body-sector">{$detalle_orden.fechaculminacion}</td>
+</tr>
+<tr>
+	<td class="enunciados">Modelo a Desarrollar:</td>
+	<td class="body-sector">{$detalle_orden.modelo}</td>
+	<td class="enunciados">Cantidad:</td>
+	<td class="body-sector">{$detalle_orden.cantidad}</td>
+</tr>
+<tr>
+	<td class="enunciados">Codigo:</td>
+	<td class="body-sector">{$detalle_orden.codigo}</td>
+</tr>
+</tr>
+</table>
+
+<form action="../../controladores/sistema_de_produccion/registrar_fotografia_orden_productos.php" name="modificar_estado_orden_productos" id="modificar_estado_orden_productos"  method="post" enctype="multipart/form-data">
+	<input type="hidden" name="elegido" id="elegido" value="{$detalle_orden.ordenproducto_id}">
+	<input type="hidden" name="estado" id="estado" value="normas">
+	<input type="hidden" name="funcion" id="funcion" value="validar">
+	<table align="center" >
+	<tr>
+		<th colspan="4">Registro de imagen de nuevo producto</th>
+	</tr>
+	<tr>
+		<td class="enunciados">Observaciones:</td>
+		<td class="body-sector" colspan="3">
+			<textarea name="observaciones" rows=2 cols=40 style="overflow:auto;overflow-x:hidden;overflow-y:hidden;" wrap="virtual"> </textarea>
+		</td>
+	</tr>
+	{if $error != null}
+	<tr>
+		<td class="error-box">{$error}</td>
+	</tr>
+	{/if}
+	<tr>
+		<td class="enunciados">Seleccione la Imagen:</td>
+		<td><input type="file" name="grafico" id="grafico" value="grafico" /></td>
+	</tr>
+	</table>
+	<input type="hidden" name="opcion" id="opcion" value="{$opcion}">
+	<br />
+	<br />
+	<center>
+	<input type="submit" name="ver_nuevas" value="Registrar Fotografía" />
+	</center>
+</form>

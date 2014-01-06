@@ -1,0 +1,195 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}	 
+
+{literal}
+<script language="javascript">
+  var laclave = false;
+  function verificacion(){
+	laclave = true;
+	return true;
+  }
+  
+  window.onbeforeunload = confirmExit;
+  function confirmExit()
+  {
+  	if (laclave == false){
+		return "Debe presionar VER REPORTE DE MATERIALES para actualizar los cambios";
+	}
+  }
+
+</script>
+{/literal}
+
+<br  />
+ <table width="95%" align="center">
+ 		<tr >
+		   <th colspan="4"> Detalle del producto seleccionado </th>
+   </tr>
+          <tr>
+		      <td class="enunciados">  Producto :  </td> <td class="body-sector">{$cabecera.Modelo} </td>
+			  <td class="enunciados">  Estilo:   </td> <td colspan="7" class="body-sector">{$cabecera.Estilo} </td>
+		  </tr>
+		  <tr>
+		       <td class="enunciados"> Color :   </td> <td class="body-sector"> {$cabecera.Color}  </td>
+			  
+ 		       <td class="enunciados"> Clip:  </td> <td class="body-sector"> {$cabecera.Clip}</td>
+		  </tr>	    
+		 <tr>
+		        <td class="enunciados"> Sello:   </td> <td class="body-sector"> {$cabecera.Sello}  </td>
+			  
+ 		       <td class="enunciados"> Etiqueta:  </td> <td class="body-sector"> {$cabecera.Etiqueta}</td>
+		 </tr>	
+		  <tr>
+		        <td class="enunciados"> Cuero:   </td> <td class="body-sector"> {$cabecera.Cuero}  </td>
+			    <td class="enunciados"> Cantidad:   </td> <td class="body-sector"> {$cabecera.Cantidad}  </td>
+		 </tr>	 
+		 <tr>
+		 <td class="enunciados"><span class="body-sector">Observaciones:</span></td> 
+		 <td colspan="3" class="body-sector">{$cabecera.Observaciones} </td>
+	     </tr>
+</table>
+ </p>
+		
+ 
+<form name="agregar_material_despiece_detalle_orden" method="get" action="../../controladores/sistema_de_produccion/modificar_despiece.php"  align="center" id="agregar_material_despiece_detalle_orden" onsubmit="return verificacion();">
+	 <input type="hidden" name="orden_id"  value="{$orden_id}">
+     <input type="hidden" name="detalle_id"  value="{$detalle_id}">
+	 <input type="hidden" name="funcion"  value="registrar_material" id="funcion">
+	
+    <table  border="0" width="95%" align="center">
+	<tr>
+	<th colspan="4">
+		Agregar material a despiece
+</th>
+</tr>
+	 {if $errores.err_texto_material != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_material} </td>
+	  </tr>
+     {/if}
+	  <tr>
+	    <td class="enunciados" >Descripcion del material:</td>
+	    <td ><input name="texto_material" type="text" id="material" value="{$material}" tabindex="1"  size="60" onkeypress="{literal}if(window.event.keyCode==13) document.agregar_material_despiece_detalle_orden.registrar.focus(); {/literal}" />
+        <span id="spinner" style="display: none"></span>
+        <div id="lista_materiales" class="autorelleno"> </div>
+      {literal}
+      <script>
+					new Ajax.Autocompleter("material", "lista_materiales", "../../controladores/sistema_de_produccion/modificar_despiece.php?busqueda_ajax=materiales", {method:"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : get_seleccion_id})
+					function get_seleccion_id(text,li)
+					{ 
+					  cadena=li.id;
+					  caracteristicas=cadena.split("-");
+					  document.getElementById("dimensiones").value = caracteristicas[1];
+  					  document.getElementById("desperdicio").value = caracteristicas[2];    
+					  document.getElementById("unidad").value = caracteristicas[0];
+					  
+					}
+					
+								</script>
+      {/literal} </td>
+	   <td class="body-sector"> <input type="text" name="unidad" id="unidad"  readonly="readonly" size="5"/> </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaMateriales('registrar_material.php')" onclick="javascript:verificacion();"> registrar material</a> </td>
+  </tr>
+      <tr>
+		      <td class="enunciados">  Dimensiones :  </td> <td class="body-sector"> <input type="text" name="dimensiones" id="dimensiones"  readonly="readonly"/> </td>
+	 </tr>
+	 <tr>
+			  <td class="enunciados">  Desperdicio:   </td> <td class="body-sector"> <input type="text" name="desperdicio" id="desperdicio" readonly="readonly"/> </td>
+	  </tr>
+		   <tr>
+    <td/><!-- -->
+    <td  align="center"> <input name="registrar" type="submit" value="&nbsp;&nbsp;Registrar Material&nbsp;&nbsp;" tabindex="2" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>    </td>
+  </tr>
+    </table>
+</form>
+
+ 
+{if $lista_materiales !=null}
+
+<table width="95%" align="center">
+<tr>
+<td align="right"  colspan="9"> 
+ <a href="../../controladores/sistema_de_produccion/modificar_despiece.php?funcion=deshacer_despiece&orden_id={$orden_id}&detalle_id={$detalle_id}" style="font-size:10px" name="deshacer" id="deshacer" onclick="{literal}if(confirm('¿Esta seguro que desea reasignar despiece? Se eliminarán todos los datos ingresados') == false){return false;}{/literal}"/><img src="../../templates/imagenes/warning.gif" class="imagenes" />Deshacer despiece</a> 
+</td>
+</tr>
+  <tr>
+	<th colspan="9">
+	  Lista de materiales asignados
+	</th>
+  </tr>
+  
+  <tr>
+	<td class="enunciados" style="text-align:center">Nombre (modificar material)</td>
+	<td class="enunciados" style="text-align:center">Descripci&oacute;n</td>
+	<td class="enunciados" style="text-align:center">Unidad</td>
+	<td class="enunciados" style="text-align:center">Largo</td>
+   	<td class="enunciados" style="text-align:center">Ancho</td>
+	<td class="enunciados" style="text-align:center">Desperdicio</td>
+	<td class="enunciados" style="text-align:center">Entregar a:</td>
+	<td class="enunciados" style="text-align:center">Ver Piezas</td>
+	<td class="enunciados" style="text-align:center">Eliminar</td>
+  </tr>
+
+  {foreach name=contenido item=detalles from=$lista_materiales}
+	{assign var=material_id value=$detalles.material_id}
+  <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+
+	<td >
+	  <a href="../../controladores/sistema_de_produccion/modificar_despiece.php?funcion=modificar_material_despiece&elegido={$material_id}&orden_id={$orden_id}&detalle_id={$detalle_id}" name="{$material_id}" id="{$material_id}" onclick="javascript:verificacion();">
+		{$detalles.nombre}
+	  </a>
+	</td>
+	<td >{$detalles.descripcion}</td>
+	<td >{$detalles.unidad}</td>
+	<td >{$detalles.largo}</td>
+	<td >{$detalles.ancho}</td>
+	<td style="text-align:center;">{$detalles.desperdicio}</td>
+	
+	<td style="text-align:center;">
+	  {if $detalles.tipo_material_id != null}
+		<span style="color:#FF0000;">Corte</span>
+	  {else}
+		<span style="color:#0033FF;">Almacen</span>
+	  {/if}
+	</td>
+	
+	<td >
+		<center>
+		<a href="../../controladores/sistema_de_produccion/modificar_despiece.php?funcion=modificar_piezas&elegido={$material_id}&orden_id={$orden_id}&detalle_id={$detalle_id}" name="{$material_id}" id="{$material_id}" onclick="javascript:verificacion();"> <img src="../../templates/imagenes/cuero.gif" class="imagenes" /></a>
+		</center>
+	</td>	
+	<td >
+		<center>
+		<a href="../../controladores/sistema_de_produccion/modificar_despiece.php?funcion=eliminar_material_despiece&elegido={$material_id}&orden_id={$orden_id}&detalle_id={$detalle_id}" onclick="{literal}javascript:verificacion();if(confirm('¿Esta seguro de eliminar el material?') == false){return false;}{/literal}" name="{$material_id}" id="{$material_id}"> <img src="../../templates/imagenes/eliminar.gif" class="imagenes" /> </a> 
+		</center>
+	</td>
+  </tr>
+  {/foreach}
+</table>
+<br>
+{/if}
+
+
+
+	<table align="center" width="80%">
+	<tr>
+	
+	<td>		
+	<form name="realizar_calculos" id="realizar_calculos" action="../../controladores/sistema_de_produccion/modificar_despiece.php" method="get" onsubmit="return verificacion();">
+		    <input type="hidden" name="orden_id" id="orden_id" value="{$orden_id}">
+  			 <input type="hidden" name="detalle_id" id="detalle_id" value="{$detalle_id}">
+  			 <input type="hidden" name="funcion" id="funcion" value="realizar_calculos">
+		<center>	<input name="realizar_calculos" type="submit" value="VER REPORTE DE MATERIALES" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>  </center>
+	  </form> 
+   </td>
+   <td>
+     <form name="volver" id="volver" action="../../controladores/sistema_de_produccion/ver_detalle_orden_despiece.php" method="get" onsubmit="return verificacion();">
+		    <input type="hidden" name="orden_id" id="orden_id" value="{$orden_id}">
+  			 <input type="hidden" name="detalle_id" id="detalle_id" value="{$detalle_id}">
+  			 <input type="hidden" name="funcion" id="funcion" value="volver">
+		<center>	<input name="volver" type="submit" value="VOLVER AL DETALLE" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>  </center>
+	  </form> 
+    </td>
+   </tr>
+   </table>
+	
+	

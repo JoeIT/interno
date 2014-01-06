@@ -1,0 +1,99 @@
+<table width="85%" border="0" align="center" cellpadding="3" cellspacing="1">
+  <tr>
+    <th colspan="4">Detalle de la asignaci&oacute;n</th>
+  </tr>
+  <tr>
+    <td class="enunciados">Recepcionados: </td>
+    <td class="lista-normal">{$resumen_calidad.recepcionados} de {$detalle_asignacion.cantidad}</td>
+    <td class="enunciados">Asignados a limpieza: </td>
+    <td class="lista-normal">{$resumen_calidad.asignados_limpieza}</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Asignados a control de calidad: </td>
+    <td class="lista-normal">{$resumen_calidad.asignados_calidad}</td>
+    <td class="enunciados">Pendientes para control de calidad: </td>
+    <td class="lista-normal">{$resumen_calidad.pendientes_calidad}</td>
+  </tr>
+</table>
+{if $detalle_control != null}
+<br />
+<table width="85%" border="0" align="center" cellpadding="3" cellspacing="1">
+  <form action="../../controladores/sistema_de_produccion/calidad_control.php" method="post" name="controlcali" id="controlcali">
+    <tr>
+      <th colspan="4">Asignaciones para control de calidad</th>
+    </tr>
+    <tr>
+      <td class="enunciados" style="text-align:center;">Responsable limpieza</td>
+      <td class="enunciados" style="text-align:center;">Fecha de limpieza</td>
+      <td class="enunciados" style="text-align:center;">Cantidad</td>
+      <td class="enunciados" style="text-align:center;">Responsable Control de Calidad</td>
+    </tr>
+    {assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=control from=$detalle_control}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+    <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+      <td><input name="controlid{$CSSclass}" type="hidden" id="controlid{$CSSclass}" size="2"  value="{$control.control_calidad_id}"/>
+        {$control.limpiador} </td>
+      <td style="text-align:center;">{$control.fecha_limpieza}</td>
+      <td style="text-align:center;">{$control.limpieza_cantidad}</td>
+      <td>
+	  {if $control.controlador != null}
+	  	&nbsp;&nbsp;{$control.controlador}
+	  {else}
+	  	<span align="left" class="entrada" style="margin:5px;">
+          <input name="responsablecontrol{$CSSclass}" type="text" style="border:none;" onkeypress="return enter_handle(this, event, 4, 1)" value="{$control.controlador}" size="30" onchange="{literal}if (this.value == ''){ document.controlcali.operarioid{/literal}{$CSSclass}{literal}.value = '' ;}{/literal}"/>
+		  <img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.controlcali.responsablecontrol{$CSSclass}.focus();document.controlcali.responsablecontrol{$CSSclass}.select();"/>
+		</span>
+        <input name="categoria{$CSSclass}" type="hidden" id="categoria{$CSSclass}" size="2" />
+        <input name="operarioid{$CSSclass}" type="hidden" id="operarioid{$CSSclass}" size="2" value="{$control.controlador_id}"/>
+        <div id="listaoperarios{$CSSclass}" class="autorelleno"></div>
+        <span id="spinner" style="display:none"></span>
+		{literal}
+        <script>
+			new Ajax.Autocompleter("{/literal}responsablecontrol{$CSSclass}{literal}", "{/literal}listaoperarios{$CSSclass}{literal}", "../../controladores/sistema_de_produccion/calidad_control.php?busqueda_ajax=nombres&puesto=4", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+				
+			function mostrar_categoria(text,li){ 
+				cadena = li.id;
+				caracteristicas = cadena.split("-");
+				document.getElementById("{/literal}categoria{$CSSclass}{literal}").value = caracteristicas[1];
+				document.getElementById("{/literal}operarioid{$CSSclass}{literal}").value = caracteristicas[0];
+				var str = document.getElementById("{/literal}responsablecontrol{$CSSclass}{literal}").value;
+				document.getElementById("{/literal}responsablecontrol{$CSSclass}{literal}").value = str.substr(5);
+			}
+		</script>
+        {/literal}
+	  {/if}
+	  </td>
+    </tr>
+    {/foreach}
+	
+	{*si ya fueron asignados todos no se muestran los botones*}
+	{if $resumen_calidad.asignados_limpieza != $resumen_calidad.asignados_calidad}
+    <tr>
+      <td colspan="4" style="padding:10px;text-align:center;">
+	  	<input name="asignar_control" type="submit" value="Asignar Control Calidad" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input name="buscar" type="reset" value="Reestablecer Asignaci&oacute;n" class="boton"/>
+      </td>
+    </tr>
+	{/if}
+  </form>
+</table>
+{/if}
+
+{*mostramos un mensaje*}
+{if $mensaje_calidad != null}
+<br />
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+	<td><div class="anuncio" align="center"> <img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/> &nbsp;&nbsp;&nbsp;{$mensaje_calidad} </div></td>
+  </tr>
+</table>
+{/if}

@@ -1,0 +1,130 @@
+{include file="cabecera.html"} <br />
+{literal}
+<style>
+
+body { 
+   overflow:scroll;  
+}
+
+</style>
+
+
+
+
+<script>
+
+function actualizar (paginaservidor, combo, lista, clave){
+	new Ajax.Updater(lista, paginaservidor+'?'+clave+'='+$F(combo), { 
+	  method: 'get'	});
+}
+
+function correlativo (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { cuenta: $F(combo)} 
+});
+}
+</script>
+
+{/literal}
+<form name="asignacion_rep" method="get" action="../controladores/rep_ingreso.php"  align="center">
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="3">
+  <tr>
+    <th colspan="13" > Reporte de activos ingresados </th>
+  </tr>
+  {if $error.fecha != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.fecha}</div></td>
+  </tr>
+  {/if}
+   {if $error.control != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.control}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="enunciados"> Fecha Inicio: </td>
+    <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+          <input type="text" name="fecha_inicio" id="fecha_inicio" value="{$fecha_inicio}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" />
+      </span>
+        <input type="button" name="b_fecha_inicio" id="b_fecha_inicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_inicio", ifFormat:"%Y-%m-%d",button:"b_fecha_inicio"});</script>
+      {/literal} </td>
+    <td class="enunciados"> Fecha Fin: </td>
+    <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+          <input type="text" name="fecha_fin" id="fecha_fin" value="{$fecha_fin}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" />
+      </span>
+        <input type="button" name="b_fecha_fin" id="b_fecha_fin" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_fin", ifFormat:"%Y-%m-%d",button:"b_fecha_fin"});</script>
+      {/literal} </td>
+  </tr>
+   {if $error.fecha_inter != null}  {/if}
+  {if $error.gest != null}
+  {/if}
+</table>
+<div align="center">
+
+</div>
+<p>&nbsp;</p>
+<p align="center">
+  <input type="submit" value="Generar" name="generar" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" />
+</p>
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+</form>    
+
+<table border="0" cellpadding="0" cellspacing="2">
+        
+  <tbody>
+    <!-- loop los estilos  -->
+  </tbody>
+ 
+  <tbody>
+  </tbody>
+</table>
+
+<p>{if $ver}</p>
+
+ 
+  <table align="center"   cellpadding="3">
+    <tr>
+      <th colspan="2"> Lista de Activos </th>
+    </tr>
+    <tr>
+      <td class="enunciados" style="text-align:center">Activo</td>
+      <td  class="enunciados" style="text-align:center">Descripcion</td>
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$act}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+    <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+     
+	  
+      <td align="center">
+
+		
+		<a href="../controladores/rep_ingreso.php?funcion=detalle&elegido={$act[ind].act_id} " name="{$act[ind].act_id}" id="{$lista1[ind].act_id}">{$act[ind].numero}</a>
+      <td>{$act[ind].descripcion}</td>
+    </tr>
+    {/section}
+  <tr>
+    <td colspan="2"><hr>    </td>
+    </tr>
+  </table>
+  <br />
+ 
+
+<p>{/if}
+
+
+</body>

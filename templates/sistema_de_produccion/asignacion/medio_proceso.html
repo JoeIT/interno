@@ -1,0 +1,156 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+
+<form action="asignacion.php?opcion=10" method="post">
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="2" style="border:1px solid #D8D8D8;">
+  <tr>
+  	<th colspan="2">Control de medio proceso y muestras iniciales</th>
+  </tr>
+  {if $errores.num_asignacion != null}
+  <tr>
+	<td/>
+	<td style="padding-left:3px;">
+		<div class="error-box">{$errores.num_asignacion}</div>
+	</td>
+  </tr>
+  {/if}
+  <tr>
+	<td width="50%" class="enunciados">Ingrese N&uacute;mero de Asignaci&oacute;n:</td>
+	<td class="body-sector" style="padding:3px;">
+		<div align="left" class="entrada">
+			<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+			<input type="text" name="num_asignacion" id="num_asignacion" value="{$num_asignacion}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+		</div>
+	</td>
+  </tr>
+
+{if $cerrado == "no" && $tipo_mp != 3}
+
+{if $resultado_asignacion != null}
+
+<!-- -->
+ <tr>
+ <td colspan="2">
+ 
+ 
+ 
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" style="empty-cells:show;">
+  <tr>
+    <td class="enunciados" style="text-align:right;width:20%">O.P. # CUP:</td>
+    <td class="lista-seleccionada" style="padding-left:3px;text-align:left;width:30%;">{$resultado_asignacion.cup}</td>
+    <td class="enunciados" style="text-align:right;">Modelo:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.modelo}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Asignaci&oacute;n:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.asignacion}</td>
+    <td class="enunciados" style="text-align:right;">Tipo:</td>
+    <td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.tipo}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Maquinista:</td>
+    <td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.completo}</td>
+    <td class="enunciados" style="text-align:right;">Color:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.color}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Cantidad:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.cantidad}</td>
+    <td class="enunciados" style="text-align:right;">Clip:</td>
+    <td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.clip}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Fecha Inicio:</td>
+    <td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.fini}</td>
+    <td class="enunciados" style="text-align:right;">Cuero:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.cuero}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Fecha Finalización:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.ffin}</td>
+    <td rowspan="2" class="enunciados" style="text-align:right;">Observaciones:</td>
+    <td rowspan="2" class="lista-seleccionada" style="padding:3px;text-align:justify;
+	{if $resultado_asignacion.observaciones != null}width:30%;{/if}">
+	{$resultado_asignacion.observaciones}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Fecha Reprog.:</td>
+    <td class="lista-seleccionada" style="padding-left:3px;text-align:left;">
+	{if $resultado_asignacion.frep != null}
+		{$resultado_asignacion.frep}
+	{else}
+		"No tiene reprogramaci&oacute;n"
+	{/if}
+	</td>
+  </tr>
+
+</table>
+{/if}
+<!-- -->
+
+</td>
+</tr>
+
+
+
+  <tr>
+	<td width="50%" class="enunciados">Tipo de control:</td>
+	<td class="body-sector" style="padding:3px;">
+		{if $tipo_mp == 2}
+			<input type="radio" name="tipo" id="tipo2" value="1" style="background-color:#F9F8F8;border:none;" checked="checked" /> <label for="tipo2" style="cursor:pointer;font-weight:bold;">Muestra</label>
+			<br />
+		{/if}
+		{if $tipo_mp == 1}
+			<input type="radio" name="tipo" id="tipo3" value="2" style="background-color:#F9F8F8;border:none;" checked="checked" /> <label for="tipo3" style="cursor:pointer;font-weight:bold;">Medio proceso</label>
+		{/if}
+		{if $tipo_mp == 0}
+			<input type="radio" name="tipo" id="tipo2" value="1" style="background-color:#F9F8F8;border:none;" checked="checked" /> <label for="tipo2" style="cursor:pointer;font-weight:bold;">Muestra</label>
+			<br />
+			<input type="radio" name="tipo" id="tipo3" value="2" style="background-color:#F9F8F8;border:none;" /> <label for="tipo3" style="cursor:pointer;font-weight:bold;">Medio proceso</label>
+		{/if}
+	</td>
+  </tr>
+
+  
+  <tr>
+	<td colspan="2" style="padding:10px;text-align:center;">
+		<input name="registrar" type="submit" value="Registrar" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+	</td>
+  </tr>
+{else}
+  <tr>
+	<td colspan="2" style="padding:10px;text-align:center;">
+		<input name="buscar" type="submit" value="Buscar" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+	</td>
+  </tr>
+  {literal}
+  <script language="javascript">
+  	document.getElementById('num_asignacion').select();
+  </script>
+  {/literal}
+{/if}
+</table>
+</form>
+
+<!--mostramos si existe el mensaje-->
+{if $mensaje != null}
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+	<td>
+		<div class="anuncio" align="center">
+			{$mensaje}
+			{if $mpf != null}
+				<br />
+				Fecha medio proceso: {$mpf}
+			{/if}
+			{if $mif != null}
+				<br />
+				Fecha muestra inicial: {$mif}
+			{/if}
+		</div>
+	</td>
+  </tr>
+</table>
+{/if}
+<!--Fin Restultados de la busqueda-->

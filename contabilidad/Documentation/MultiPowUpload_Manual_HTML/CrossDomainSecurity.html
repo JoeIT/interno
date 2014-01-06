@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Cross domain security (crossdomain.xml)</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+<h1>Allowing cross-domain data loading</h1>
+<p>When a MultiPowUpload  attempts to access data from another domain, Flash Player automatically attempts to load a policy file from that domain. If the domain of the document with MultiPowUpload that is attempting to access the data is included in the policy file, the data is automatically accessible.</p>
+<p>Policy files must be named crossdomain.xml, and can reside either at the root directory. Policy files function only on servers that communicate over HTTP, HTTPS, or FTP. The policy file is specific to the port and protocol of the server where it resides. </p>
+<p>For example, a policy file located at https://www.macromedia.com:8080/crossdomain.xml applies only to data loading calls made to www.macromedia.com over HTTPS at port 8080. </p>
+<p>An exception to this rule is the use of an XMLSocket object to connect to a socket server in another domain. In that case, an HTTP server running on port 80 in the same domain as the socket server must provide the policy file for the method call.</p>
+<p>An XML policy file contains a single <code>&lt;cross-domain-policy&gt;</code> tag, which, in turn, contains zero or more <code>&lt;allow-access-from&gt;</code> tags. Each <code>&lt;allow-access-from&gt;</code> tag contains an attribute, <code>domain</code>, which specifies either an exact IP address, an exact domain, or a wildcard domain (any domain). Wildcard domains are indicated by either a single asterisk (<code>*</code>), which matches all domains and all IP addresses, or an asterisk followed by a suffix, which matches only those domains that end with the specified suffix. Suffixes must begin with a dot. However, wildcard domains with suffixes can match domains that consist of only the suffix without the leading dot. For example, foo.com is considered to be part of *.foo.com. Wildcards are not allowed in IP domain specifications.</p>
+<p>If you specify an IP address, access is granted only to SWF files loaded from that IP address using IP syntax (for example, http://65.57.83.12/flashmovie.swf), not those loaded using domain-name syntax. Flash Player does not perform DNS resolution.</p>
+<p>The following example shows a policy file that permits access to Flash documents that originate from foo.com, www.friendOfFoo.com, *.foo.com, and 105.216.0.40, from a Flash document on foo.com:</p>
+<textarea  name="" cols="100" rows="8" wrap="off">
+<?xml version="1.0"?>
+<!-- http://www.foo.com/crossdomain.xml -->
+<cross-domain-policy>
+  <allow-access-from domain="www.friendOfFoo.com" />
+  <allow-access-from domain="*.foo.com" />
+  <allow-access-from domain="105.216.0.40" />
+</cross-domain-policy>
+</textarea><p>You can also permit access to documents originating from any domain, as shown in the following example:</p>
+<textarea  name="" cols="100" rows="6" wrap="off">
+<?xml version="1.0"?>
+<!-- http://www.foo.com/crossdomain.xml -->
+<cross-domain-policy>
+  <allow-access-from domain="*" />
+</cross-domain-policy>
+</textarea>
+<p>Each <code>&lt;allow-access-from&gt;</code> tag also has the optional <code>secure </code>attribute. The <code>secure</code> attribute defaults to <code>true</code>. You can set the attribute to <code>false</code> if your policy file is on an HTTPS server, and you want to allow SWF files on an HTTP server to load data from the HTTPS server.</p>
+<p>Setting the <code>secure</code> attribute to <code>false</code> could compromise the security offered by HTTPS.</p>
+<p>If the SWF file you are downloading comes from an HTTPS server, but the SWF file loading it is on an HTTP server, you need to add the <code>secure=&quot;false&quot;</code> attribute to the <code>&lt;allow-access-from&gt;</code> tag, as shown in the following code:</p>
+<textarea  name="" cols="100" rows="2" wrap="off">
+&lt;allow-access-from domain=&quot;www.foo.com&quot; secure=&quot;false&quot; /&gt; 
+</textarea><p>A policy file that contains no <code>&lt;allow-access-from&gt;</code> tags has the same effect as not having a policy on a server.</p>
+
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+</body>
+</html>

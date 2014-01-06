@@ -1,0 +1,50 @@
+<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+  <tr>
+    <th colspan="8">Lista de &Oacute;rdenes de Producci&oacute;n</th>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:center;">Orden Prod.</td>
+    <td class="enunciados" style="text-align:center;">Cliente</td>
+    <td class="enunciados" style="text-align:center;">Entrega</td>
+    <td class="enunciados" style="text-align:center;">Finalizaci&oacute;n</td>
+	
+    <td class="enunciados" style="text-align:center;">Cantidad</td>
+	
+    <td class="enunciados" style="text-align:center;">Asignados</td>
+    <td class="enunciados" style="text-align:center;">Entregados</td>
+    <td class="enunciados" style="text-align:center;">Pendientes</td>
+  </tr>
+	
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=orden from=$ordenes}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	{*if $orden.cantidad!=$orden.entregados && $orden.orden_id > 343*}
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+    <td>
+		<a href="../../controladores/sistema_de_produccion/asignacion.php?opcion=2&oid={$orden.orden_id}">
+			{$orden.num_orden}
+		</a>
+	</td>
+    <td>{$orden.cliente}</td>
+    <td style="text-align:center;">{$orden.fecha}</td>
+    <td style="text-align:center;">{$orden.fechaentrega}</td>
+    <td style="color:#FF0000;text-align:center;">{$orden.cantidad}</td>
+    <td style="font-weight:bold;padding-left:3em;">{$orden.asignados-$orden.entregados}</td>
+    <td style="font-weight:bold;padding-left:3em;">{$orden.entregados}</td>
+    <td style="font-weight:bold;padding-left:3em;">{$orden.pendientes}</td>
+  </tr>
+	{*/if*}
+  {/foreach}
+  <tr>
+    <td colspan="8"><hr /></td>
+  </tr>
+</table>
+<br />
+{include file="../templates/contenido/includes/pie.html"}

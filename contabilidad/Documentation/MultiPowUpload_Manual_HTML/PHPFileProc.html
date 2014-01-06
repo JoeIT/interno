@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>PHP (Windows version) file processing code example</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+<p>
+PHP has built-in methods to receive uploaded files. You can read more about this <a target="_blank" href="http://www.php.net/manual/en/features.file-upload.php">here</a>. 
+</p>
+<p>By default script saves files to folder &quot;/UploadedFiles/&quot;. You can modify code in any text editor. </p>
+  <h4>unixupload.php code sample:</h4>
+<textarea  name="" cols="100" rows="27" wrap="off">
+<?php
+// In PHP versions earlier than 4.1.0, $HTTP_POST_FILES should be used instead
+// of $_FILES.
+
+echo 'Upload result:<br>'; // At least one symbol should be sent to response!!!
+
+$uploaddir = dirname($_SERVER['SCRIPT_FILENAME'])."/UploadedFiles/";
+
+echo '<pre>';
+if(count($_FILES) > 0)
+{
+	$arrfile = pos($_FILES);
+	$uploadfile = $uploaddir . basename($arrfile['name']);
+
+	if (move_uploaded_file($arrfile['tmp_name'], $uploadfile))
+	   echo "File is valid, and was successfully uploaded.\n";
+}
+else
+	echo 'No files sent. Script is OK!'; //Say to Flash that script exists and can receive files
+
+echo 'Here is some more debugging info:';
+print_r($_FILES);
+
+echo "</pre>";
+
+?>
+</textarea>
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+</body>
+</html>

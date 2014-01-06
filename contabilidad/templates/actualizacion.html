@@ -1,0 +1,773 @@
+{include file="cabecera.html"} <br />
+{literal}
+
+<style>
+
+body { 
+   overflow:scroll;  
+}
+
+.sortcol {
+	cursor: pointer;
+	padding-right: 20px;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.sortasc {
+	background-color: #DDFFAC;
+	background-image: url(up.gif);
+}
+.sortdesc {
+	background-color: #B9DDFF;
+	background-image: url(down.gif);
+}
+.nosort {
+	cursor: default;
+}
+
+
+</style>
+<script type="text/javascript" src="../templates/scriptaculous/lib/prototype.js"></script>
+<script type="text/javascript" src="../templates/fastinit.js"></script>
+<script type="text/javascript" src="../templates/tablesort.js"></script>	
+		
+<script>
+
+function actualizar (paginaservidor, combo, lista, clave){
+	new Ajax.Updater(lista, paginaservidor+'?'+clave+'='+$F(combo), { 
+	  method: 'get'	});
+}
+
+function correlativo (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { cuenta: $F(combo)} 
+});
+}
+</script>
+
+{/literal}
+<form name="asignacion_rep" method="get" action="../controladores/activo.php"  align="center">
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="3">
+  <tr>
+    <th colspan="13" > Actualizaciones</th>
+  </tr>
+  {if $error.fecha != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.fecha}</div></td>
+  </tr>
+  {/if}
+  {if $error.control != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.control}</div></td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados"> Fecha Inicio: </td>
+    <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+          <input type="text" name="fecha_inicio" id="fecha_inicio" value="{$fecha_inicio}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" />
+      </span>
+        <input type="button" name="b_fecha_inicio" id="b_fecha_inicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_inicio", ifFormat:"%Y-%m-%d",button:"b_fecha_inicio"});</script>
+      {/literal} </td>
+    <td class="enunciados"> Fecha Fin: </td>
+    <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+          <input type="text" name="fecha_fin" id="fecha_fin" value="{$fecha_fin}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" />
+      </span>
+        <input type="button" name="b_fecha_fin" id="b_fecha_fin" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_fin", ifFormat:"%Y-%m-%d",button:"b_fecha_fin"});</script>
+      {/literal} </td>
+  </tr>
+   {if $error.fecha_inter != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.fecha_inter}</div></td>
+  </tr>
+  {/if}
+   {if $error.gest != null}
+  <tr>
+    <td></td>
+	<td></td>
+    <td colspan="4"><div class="error-box" style="width:100%;">
+      <div align="right">{$error.gest}</div>
+    </div></td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td height="44" class="enunciados">Fecha Corte: </td>
+    <td class="body-sector"><input type="text" name="corte"  value="{$corte}"/></td>
+    <td class="enunciados">Gestion:</td>
+    <td class="body-sector"><select name="gest" id="gestion1" >
+      <option value="selc">Seleccionar</option>
+      
+      
+      
+  		 {foreach item=item from=$gestion}	          
+      
+      
+      <option value="{$item.gestion_id}">{$item.gestion}</option>
+      
+      
+  	{/foreach}	
+    
+    </select>
+      <br />
+    <a  href="javascript:ventanaSecundaria('gestion.php?popup=true')"> registrar gestion </a> </td>
+  </tr>
+</table>
+<div align="center">
+<fieldset style="width:70%;">
+<legend style="color:#6699CC">Reporte Por</legend><br />
+<table width="70%" border="0" align="left" cellpadding="2" cellspacing="2">
+   {if $error.todo != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.todo}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td>&nbsp;</td>
+    <td class="body-sector"><input name="todo" type="radio" value="1" {if $todo==2} checked="checked" {/if} />
+      Todo</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="body-sector"><input name="todo" type="radio" value="2" {if $todo==2} checked="checked" {/if} />
+      Especifico </td>
+    <td >&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="enunciados">Localizacion Primaria; </td>
+    <td><div id="primaria">
+      <select name="pri" id="pri2" onchange="actualizar ('combo1.php','pri2','secundaria','primaria')" >
+        <option value="selc">Seleccionar</option>
+        
+          
+          
+
+		 {foreach item=item from=$primaria}	          
+                
+        
+        
+          
+        <option value="{$item.primaria_id}"  >{$item.descripcion}</option>
+        
+          
+        
+                 
+
+		{/foreach}	
+     
+ 
+      
+      
+        
+      </select>
+    </div></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="enunciados">Localizacion Secundaria:</td>
+    <td><div id="secundaria" >
+      <select name="secun" id="select"  >
+        <option value="selc">Seleccionar</option>
+        
+          
+            
+		 
+	   
+		{foreach item=item from=$secundaria}	 
+	   	    
+            
+      
+          
+          
+        <option value="{$item.secundaria_id}" >{$item.descripcion}</option>
+        
+          
+          
+                      	    	   
+	  
+	{/foreach}	
+  
+				
+      
+        
+        
+      </select>
+    </div></td>
+    <td>&nbsp;</td>
+  </tr>
+  {if $error.err_gru != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.err_gru}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td>&nbsp;</td>
+    <td class="enunciados">Cuenta:</td>
+    <td><select name="gru" id="sec"  >
+        <option value="selc">Seleccionar</option>
+      
+      
+      
+   
+  {foreach item=item from=$grupo}	 
+	        
+   
+      
+      
+      <option value="{$item.grupo_id}">{$item.descripcion}</option>
+      
+      
+    
+	  
+	{/foreach}	
+   
+ 
+    
+    
+    </select></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</fieldset>
+</div>
+<p>&nbsp;</p>
+<p align="center">
+  <input type="submit" value="Generar" name="actualizacion" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" />
+</p>
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+</form>    
+
+<table border="0" cellpadding="0" cellspacing="2">
+        
+  <tbody>
+    <!-- loop los estilos  -->
+  </tbody>
+  {assign var=total1 value=0}
+  {assign var=total2 value=0}
+  {assign var=total3 value=0}
+  {assign var=total4 value=0}
+  {assign var=total5 value=0}
+  {assign var=total6 value=0}
+  {assign var=CSSclass value=0}
+  {assign var=clases value=&quot;lista-normal&quot;}
+  {section name=ind loop=$lista_activo}
+  {assign var=&quot;CSSclass&quot; value=&quot;`$CSSclass+1`&quot;}
+  {if ($CSSclass mod 2) eq 0}
+  {assign var=clases value=&quot;lista-seleccionada&quot;}
+  {else}
+  {assign var=clases value=&quot;lista-normal&quot;}
+  {/if}
+  
+  
+  
+  
+  
+  
+  
+  
+  {/section}
+  <tbody>
+  </tbody>
+</table>
+	
+			
+<p>{if $ver}</p>
+<div align="center" style="font-size:18px">CUADRO DE ACTUALIZACIONES</div>
+{if $descrisecu.locsecundaria !=''}
+<div  align="left" style="font-size:13px; font-weight:bold">LOCALIZACION PRIMARIA: {$descripri.localizacion}-{$descripri.descripcion}</div>
+<div align="left" style="font-size:13px; font-weight:bold">LOCALIZACION SECUNDARIA: {$descrisecu.locsecundaria}-{$descrisecu.descripcion}  </div>{/if}
+<div id="content">
+<table class="sortable" border="0" cellspacing="2" cellpadding="0">
+  <thead>
+    <tr> </tr>
+    <tr class="enunciados">
+      <th class="enunciados" style="text-align:center">Codigo </th>
+      <th class="enunciados" style="text-align:center">Fecha Ingreso </th>
+      <th class="enunciados" style="text-align:center" width="30%">Descripcion</th>
+      <th class="enunciados" style="text-align:center">T/C</th>
+      <th class="enunciados" style="text-align:center" >VidaUtil<br />
+        (meses)</th>
+      <th class="enunciados" style="text-align:center">Valor Compra </th>
+      <th class="enunciados" style="text-align:center">Valor al <br />
+        {$fecha_antes} con $ <br />
+        {$valor_dolar}</th>
+      <th class="enunciados" style="text-align:center">Incremento<br />
+        por<br />
+        Actualizacion con T/C </th>
+      <th class="enunciados" style="text-align:center">Valor al<br />
+          <span class="enunciados" style="text-align:center"> {$fecha_fin} </span>con $ <br />
+        {$valor_dolar2}</th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Valor UFV al {$fecha_inter} <br />
+      {$valor_ufv}</th>
+	  <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Valor<br />
+        mes anterior <br />
+     {$valor_ufv}</th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Incremento<br />
+        por<br />
+      Actualizacion con UFV</th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Valor UFV al {$fecha_fin} con ufv <br />
+          <span class="enunciados" style="text-align:center">{$valor_ufv2}</span></th>
+      <!-- <th class="enunciados" style="text-align:center">obs</th>-->
+      <th class="enunciados" style="text-align:center">Depreciacion Acumulada en $ al {$fecha_antes} </th>
+      <th class="enunciados" style="text-align:center">Incremento de depreciacion $ </th>
+      <th class="enunciados" style="text-align:center">Depreciacion  del periodo </th>
+      <th class="enunciados" style="text-align:center">Depreciacion acumulada <span class="enunciados" style="text-align:center">final </span>en $ al {$fecha_fin} </th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Depreciacion Acumulada en <br>
+        UFV al {$fecha_antes} </th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Incremento de depreciacion UFV</th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Depreciacion  del periodo UFV </th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Depreciacion acumulada final en <br> 
+      UFVal {$fecha_fin} </th>
+      <th class="enunciados" style="text-align:center">Vida Restante </th>
+    </tr>
+ <tr>
+  <th colspan="22"><div align="left">{$descripcion.descripcion}</div>
+  <div align="left">	  </div></th>
+
+ </tr>
+ 
+  </thead>
+     <tbody>
+  {assign var=total1 value=0}
+  {assign var=total2 value=0}
+  {assign var=total3 value=0}
+  {assign var=total4 value=0}
+  {assign var=total5 value=0}
+  {assign var=total6 value=0}
+  
+  {assign var=totalD1 value=0}
+  {assign var=totalD2 value=0}
+  {assign var=totalD3 value=0}
+  {assign var=totalD4 value=0}
+  {assign var=totalD5 value=0}
+  {assign var=totalD6 value=0}
+  {assign var=totalD7 value=0}
+  
+  {assign var=CSSclass value=0}
+  {assign var=clases value="lista-normal"}
+  {section name=ind loop=$lista_activo}
+  
+  {assign var="CSSclass" value="`$CSSclass+1`"}
+  {if ($CSSclass mod 2) eq 0}
+  {assign var=clases value="lista-seleccionada"}
+  {else}
+  {assign var=clases value="lista-normal"}
+  {/if}
+ 
+ 
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+      <!-- hast aqui son estilos-->
+	 
+      <td nowrap="nowrap"><div align="center">{$lista_activo[ind].numero}</div></td>
+    <td nowrap="nowrap"><div align="center">{$lista_activo[ind].fecha}</div></td>
+    <td><div align="center">{$lista_activo[ind].descripcion}</div></td>
+    <td><div align="center">{$lista_activo[ind].tipo_cambio|commify:2}</div></td>
+    <td><div align="center">{$lista_activo[ind].vida_util}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor_compra|commify:2}{assign var="total1" value="`$total1+$lista_activo[ind].valor_compra`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor|commify:2}{assign var="total2" value="`$total2+$lista_activo[ind].valor`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].incremento|commify:2}{assign var="total3" value="`$total3+$lista_activo[ind].incremento`"}</div></td>
+    <td nowrap="nowrap"><div align="center">{$lista_activo[ind].valor1|commify:2}{assign var="total4" value="`$total4+$lista_activo[ind].valor1`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].ufv|commify:5}</div></td>
+	<td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].valor_ufvantes|commify:2}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].incremento_ufv|commify:2}{assign var="total5" value="`$total5+$lista_activo[ind].incremento_ufv`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].valor_ufv|commify:2}{assign var="total6" value="`$total6+$lista_activo[ind].valor_ufv`"}</div></td>
+    <td>{$lista_activo[ind].depre_acumulada|commify:2}{assign var="totalD1" value="`$totalD1+$lista_activo[ind].depre_acumulada`"}</td>
+    <td>{$lista_activo[ind].incremento_depre|commify:2}{assign var="totalD2" value="`$totalD2+$lista_activo[ind].incremento_depre`"}</td>
+    <td>{$lista_activo[ind].depre_periodo|commify:2}{assign var="totalD3" value="`$totalD3+$lista_activo[ind].depre_periodo`"}</td>
+    <td>{$lista_activo[ind].depre_fin|commify:2}{assign var="totalD4" value="`$totalD4+$lista_activo[ind].depre_fin`"}</td>
+    <td bgcolor="#CCCCCC">{$lista_activo[ind].depre_acumulada_ufv|commify:2}{assign var="totalD5" value="`$totalD5+$lista_activo[ind].depre_acumulada_ufv`"}</td>
+    <td bgcolor="#CCCCCC">{$lista_activo[ind].incremento_depreufv|commify:2}{assign var="totalD6" value="`$totalD6+$lista_activo[ind].incremento_depreufv`"}</td>
+    <td bgcolor="#CCCCCC">{$lista_activo[ind].depre_periodo_ufv|commify:2}{assign var="totalD7" value="`$totalD7+$lista_activo[ind].depre_periodo_ufv`"}</td>
+    <td bgcolor="#CCCCCC">{$lista_activo[ind].depre_fin_ufv|commify:2}{assign var="totalD8" value="`$totalD8+$lista_activo[ind].depre_fin_ufv`"}</td>
+    <td>{$lista_activo[ind].vida_restante}</td>
+  </tr>
+
+  
+  
+  {/section}
+  </tbody>
+  <TFOOT>
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+    <td nowrap="nowrap">&nbsp;</td>
+    <td nowrap="nowrap">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td style="font-weight:bold" ><div align="center">{$total1|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total2|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total3|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total4|commify:2}</div></td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+	<td bgcolor="#CCCCCC">&nbsp;</td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$total5|commify:2}</div></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$total6|commify:2}</div></td>
+     <td style="font-weight:bold" ><div align="center">{$totalD1|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD2|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD3|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD4|commify:2}</div></td>
+   	<td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$totalD5|commify:2}</div></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$totalD6|commify:2}</div></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$totalD7|commify:2}</div></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$totalD8|commify:2}</div></td>
+   
+  </tr>
+  </TFOOT>
+  </table>
+</div>
+<p>{/if}
+  
+{if $ver1}</p>
+<div align="center" style="font-size:18px">CUADRO DE ACTUALIZACIONES</div>
+{if $descrisecu.locsecundaria !=''}
+<div  align="left" style="font-size:13px; font-weight:bold">LOCALIZACION PRIMARIA: {$descripri.localizacion}-{$descripri.descripcion}</div>
+<div align="left" style="font-size:13px; font-weight:bold">LOCALIZACION SECUNDARIA: {$descrisecu.locsecundaria}-{$descrisecu.descripcion}  </div>{/if}
+
+<table class="sortable" border="0" cellspacing="2" cellpadding="0">
+  <thead>
+    
+    <tr class="enunciados">
+      <th class="enunciados" style="text-align:center">Numero Activo </th>
+	  <th class="enunciados" style="text-align:center">Fecha Compra </th>
+      <th class="enunciados" style="text-align:center" width="30%">Descripcion</th>
+      <th class="enunciados" style="text-align:center">T/C</th>
+      <th class="enunciados" style="text-align:center" >VidaUtil<br />
+        (meses)</th>
+      <th class="enunciados" style="text-align:center">Valor Compra </th>
+      <th class="enunciados" style="text-align:center">Valor al <br />
+        {$fecha_antes} con $ <br />
+        {$valor_dolar}</th>
+      <th class="enunciados" style="text-align:center">Incremento<br />
+        por<br />
+        Actualizacion con T/C </th>
+      <th class="enunciados" style="text-align:center">Valor al<br />
+        <span class="enunciados" style="text-align:center">{$fecha_fin}</span> con $ <br />
+        {$valor_dolar2}</th>
+		 <th class="enunciados" style="text-align:center">Depreciacion Acumulada en $ al {$fecha_antes} </th>
+		 <th class="enunciados" style="text-align:center">Incremento de Depreciacion</th>
+		 <th class="enunciados" style="text-align:center">Depreciacion Periodo</th>
+		 <th class="enunciados" style="text-align:center">Depreciacion acumulada <span class="enunciados" style="text-align:center">final</span> en $  al {$fecha_fin} </th>
+		 <th class="enunciados" style="text-align:center">Vida Restante</th>
+         <!-- <th class="enunciados" style="text-align:center">obs</th>-->
+    </tr>
+  <th colspan="14"><div align="left">{$descripcion.descripcion}</div>
+  <div align="left">	  </div></th>
+
+  </thead>
+  <tbody>
+    <!-- loop los estilos  -->
+  </tbody>
+  {assign var=total1 value=0}
+ {assign var=total2 value=0}
+ {assign var=total3 value=0}
+ {assign var=total4 value=0}
+
+ {assign var=totalD1 value=0}
+ {assign var=totalD2 value=0}
+ {assign var=totalD3 value=0}
+ {assign var=totalD4 value=0}
+ 
+  {assign var=CSSclass value=0} 
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$lista_activo}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+		 {if  $lista_activo[ind].numero !=''} 
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+      <!-- hast aqui son estilos-->
+	  
+      <td nowrap="nowrap"><div align="center">{$lista_activo[ind].numero}</div></td>
+	  <td><div align="center">{$lista_activo[ind].fecha}</div></td>
+    <td><div align="center">{$lista_activo[ind].descripcion}</div></td>
+    <td><div align="center">{$lista_activo[ind].tipo_cambio|commify:2}</div></td>
+    <td><div align="center">{$lista_activo[ind].vida_util}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor_compra|commify:2}{assign var="total1" value="`$total1+$lista_activo[ind].valor_compra`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor|commify:2}{assign var="total2" value="`$total2+$lista_activo[ind].valor`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].incremento|commify:2}{assign var="total3" value="`$total3+$lista_activo[ind].incremento`"}</div></td>
+    <td nowrap="nowrap"><div align="center">{$lista_activo[ind].valor1|commify:2}{assign var="total4" value="`$total4+$lista_activo[ind].valor1`"}</div></td>
+	 <td>{$lista_activo[ind].depre_acumulada|commify:2}{assign var="totalD1" value="`$totalD1+$lista_activo[ind].depre_acumulada`"}</td>
+    <td>{$lista_activo[ind].incremento_depre|commify:2}{assign var="totalD2" value="`$totalD2+$lista_activo[ind].incremento_depre`"}</td>
+    <td>{$lista_activo[ind].depre_periodo|commify:2}{assign var="totalD3" value="`$totalD3+$lista_activo[ind].depre_periodo`"}</td>
+	 <td>{$lista_activo[ind].depre_fin|commify:2}{assign var="totalD4" value="`$totalD4+$lista_activo[ind].depre_fin`"}</td>
+	 <td>{$lista_activo[ind].vida_restante}</td>
+	
+  </tr>
+  {/if}
+  {/section}
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+    <td height="19" nowrap="nowrap">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+	<td>&nbsp;</td>
+   <td style="font-weight:bold" ><div align="center">{$total1|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total2|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total3|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total4|commify:2}</div></td>
+	
+	<td style="font-weight:bold" ><div align="center">{$totalD1|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD2|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD3|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD4|commify:2}</div></td>
+	
+  </tr>
+  
+  <tbody>
+  </tbody>
+</table>
+{/if}
+{if $ver2}
+<div align="center" style="font-size:18px">CUADRO DE ACTUALIZACIONES</div>
+{if $descrisecu.locsecundaria !=''}
+<div  align="left" style="font-size:13px; font-weight:bold">LOCALIZACION PRIMARIA: {$descripri.localizacion}-{$descripri.descripcion}</div>
+<div align="left" style="font-size:13px; font-weight:bold">LOCALIZACION SECUNDARIA: {$descrisecu.locsecundaria}-{$descrisecu.descripcion}  </div>
+{/if}
+
+<table border="0" cellspacing="2" cellpadding="0">
+  <thead>
+    <tr class="enunciados">
+      <th class="enunciados" style="text-align:center">Numero Activo </th>
+      <th class="enunciados" style="text-align:center">Fecha Compra </th>
+      <th class="enunciados" style="text-align:center" width="30%">Descripcion</th>
+      <th class="enunciados" style="text-align:center">T/C</th>
+      <th class="enunciados" style="text-align:center" >VidaUtil<br />
+        (meses)</th>
+      <th class="enunciados" style="text-align:center">Valor Compra </th>
+	   <th class="enunciados" style="text-align:center">Valor de la otra gestion </th>
+      <th class="enunciados" style="text-align:center">Valor UFV al <span class="enunciados" style="text-align:center">{$fecha_antes}</span><br />
+        {$valor_ufv}</th>
+      <th class="enunciados" style="text-align:center">Valor del mes anterior al {$fecha_antes} con ufv <br />
+          <span class="enunciados" style="text-align:center">{$valor_ufv}</span> </th>
+      <th class="enunciados" style="text-align:center">Incremento<br />
+        por<br />
+        Actualizacion con UFV</th>
+      <th class="enunciados" style="text-align:center">Valor UFV al {$fecha_fin} con ufv <br />
+          <span class="enunciados" style="text-align:center">{$valor_ufv2}</span></th>
+      <th class="enunciados" style="text-align:center">Depreciacion Acumulada en <br>
+      UFV al {$fecha_antes} </th>
+      <th class="enunciados" style="text-align:center">Incremento de depreciacion UFV</th>
+      <th class="enunciados" style="text-align:center">Depreciacion  del periodo UFV </th>
+      <th class="enunciados" style="text-align:center">Depreciacion  final en <br>UFV al {$fecha_fin} </th>
+      <th class="enunciados" style="text-align:center">Vida Restante </th>
+      <!-- <th class="enunciados" style="text-align:center">obs</th>-->
+    </tr>
+  </thead>
+  <th colspan="16"><div align="left">{$descripcion.descripcion}</div>
+          <div align="left"> </div></th>
+  <tbody>
+    <!-- loop los estilos  -->
+  </tbody>
+  {assign var=total1 value=0}
+  {assign var=total5 value=0}
+  {assign var=total6 value=0}
+  {assign var=total7 value=0}
+  
+  {assign var=totalD1 value=0}
+  {assign var=totalD2 value=0}
+  {assign var=totalD3 value=0}
+  {assign var=totalD4 value=0}
+  
+  
+  
+  {assign var=CSSclass value=0}
+  {assign var=clases value="lista-normal"}
+  {section name=ind loop=$lista_activo}
+  {assign var="CSSclass" value="`$CSSclass+1`"}
+  {if ($CSSclass mod 2) eq 0}
+  {assign var=clases value="lista-seleccionada"}
+  {else}
+  {assign var=clases value="lista-normal"}
+  {/if}
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+                <!-- hast aqui son estilos-->
+                <td nowrap="nowrap"><div align="center">{$lista_activo[ind].numero}</div></td>
+    <td><div align="center">{$lista_activo[ind].fecha}</div></td>
+    <td><div align="center">{$lista_activo[ind].descripcion}</div></td>
+    <td><div align="center">{$lista_activo[ind].tipo_cambio|commify:2}</div></td>
+    <td><div align="center">{$lista_activo[ind].vida_util}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor_compra|commify:2}{assign var="total1" value="`$total1+$lista_activo[ind].valor_compra`"}</div></td>
+	<td>{$lista_activo[ind].valor|commify:2}</td>
+    <td><div align="center">{$lista_activo[ind].ufv|commify:5}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor_ufv|commify:2}{assign var="total7" value="`$total7+$lista_activo[ind].valor_ufv`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].incremento_ufv|commify:2}{assign var="total5" value="`$total5+$lista_activo[ind].incremento_ufv`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor_ufv2|commify:2}{assign var="total6" value="`$total6+$lista_activo[ind].valor_ufv2`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].depre_acumulada_ufv|commify:2}{assign var="totalD1" value="`$totalD1+$lista_activo[ind].depre_acumulada_ufv`"}</div></td>
+	<td><div align="center">{$lista_activo[ind].incremento_depre_ufv|commify:2}{assign var="totalD2" value="`$totalD2+$lista_activo[ind].incremento_depre_ufv`"}</div></td>
+	<td><div align="center">{$lista_activo[ind].depre_periodo_ufv|commify:2}{assign var="totalD3" value="`$totalD3+$lista_activo[ind].depre_periodo_ufv`"}</div></td>
+	<td><div align="center">{$lista_activo[ind].depre_fin_ufv|commify:2}{assign var="totalD4" value="`$totalD4+$lista_activo[ind].depre_fin_ufv`"}</div></td>
+	<td>{$lista_activo[ind].vida_restante}</td>
+  </tr>
+  {/section}
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+    <td nowrap="nowrap">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td style="font-weight:bold" ><div align="center">{$total1|commify:2}</div></td>
+    <td></td>
+	<td></td>
+    <td style="font-weight:bold" ><div align="center">{$total7|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total5|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total6|commify:2}</div></td>
+   	<td style="font-weight:bold" ><div align="center">{$totalD1|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD2|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD3|commify:2}</div></td>
+	<td style="font-weight:bold" ><div align="center">{$totalD4|commify:2}</div></td>
+  </tr>
+  <tbody>
+  </tbody>
+</table>
+{/if}
+{if $ver3}
+<div align="center" style="font-size:18px">CUADRO DE ACTUALIZACIONES</div>
+{if $descrisecu.locsecundaria !=''}
+<div  align="left" style="font-size:13px; font-weight:bold">LOCALIZACION PRIMARIA: {$descripri.localizacion}-{$descripri.descripcion}</div>
+<div align="left" style="font-size:13px; font-weight:bold">LOCALIZACION SECUNDARIA: {$descrisecu.locsecundaria}-{$descrisecu.descripcion}  </div>{/if}
+
+<table border="0" cellspacing="2" cellpadding="0">
+  <thead>
+   
+    <tr class="enunciados">
+      <th class="enunciados" style="text-align:center">Numero Activo </th>
+      <th class="enunciados" style="text-align:center">Fecha Compra </th>
+      <th class="enunciados" style="text-align:center" width="30%">Descripcion</th>
+      <th class="enunciados" style="text-align:center">T/C</th>
+      <th class="enunciados" style="text-align:center" >VidaUtil<br />
+        (meses)</th>
+      <th class="enunciados" style="text-align:center">Valor Compra </th>
+      <th class="enunciados" style="text-align:center">Valor al <br />
+        {$fecha_antes} con $ <br />
+        {$valor_dolar}</th>
+      <th class="enunciados" style="text-align:center">Incremento<br />
+        por<br />
+        Actualizacion con T/C </th>
+      <th class="enunciados" style="text-align:center">Valor al<br />
+          <span class="enunciados" style="text-align:center"> {$fecha_inter} </span>con $ <br />
+        {$valor_dolar2}</th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Valor UFV al <br>{$fecha_inter} <br>
+      {$valor_ufv}</th>
+		<th bgcolor="#CCCCCC" class="enunciados" style="text-align:center"><div align="center">Valor  al <br>{$fecha_inter} con ufv <br />
+		    {$valor_ufv}
+	  </div></th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Incremento<br />
+        por<br />
+      Actualizacion con UFV</th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Valor UFV al {$fecha_fin} con ufv <br />
+      <span class="enunciados" style="text-align:center">{$valor_ufv2}</span></th>
+		  
+		   <th class="enunciados" style="text-align:center">Depreciacion Acumulada en $ al<br>{$fecha_antes}</th>
+           <th class="enunciados" style="text-align:center">Incremento de depreciacion  </th>
+           <th class="enunciados" style="text-align:center">Depreciacion  del periodo </th>
+      <th class="enunciados" style="text-align:center">Depreciacion acumulada $ final al<br> {$fecha_fin} </th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Depreciacion Acumulada en <br>UFV al <br>{$fecha_antes}</th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Incremento de depreciacion UFV</th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Depreciacion  del periodo UFV </th>
+      <th bgcolor="#CCCCCC" class="enunciados" style="text-align:center">Depreciacion acumulada en <br>UFV al <br>{$fecha_fin} </th>
+      <th class="enunciados" style="text-align:center">Vida Restante </th>
+   
+    </tr>
+  <th colspan="22"><div align="left">{$descripcion.descripcion}</div>
+  <div align="left">	  </div></th>
+
+  <tbody>
+    <!-- loop los estilos  -->
+  </tbody>
+  {assign var=total1 value=0}
+  {assign var=total2 value=0}
+  {assign var=total3 value=0}
+  {assign var=total4 value=0}
+  {assign var=total5 value=0}
+  {assign var=total6 value=0}
+  {assign var=total7 value=0}
+  
+  {assign var=totalD1 value=0}
+  {assign var=totalD2 value=0}
+  {assign var=totalD3 value=0}
+  {assign var=totalD4 value=0}
+  {assign var=totalD5 value=0}
+  {assign var=totalD6 value=0}
+  {assign var=totalD7 value=0}
+  {assign var=totalD8 value=0}
+  
+  {assign var=CSSclass value=0}
+  {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$lista_activo}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+                <!-- hast aqui son estilos-->
+                <td nowrap="nowrap"><div align="center">{$lista_activo[ind].numero}</div></td>
+    <td nowrap="nowrap"><div align="center">{$lista_activo[ind].fecha}</div></td>
+    <td><div align="center">{$lista_activo[ind].descripcion}</div></td>
+    <td><div align="center">{$lista_activo[ind].tipo_cambio|commify:2}</div></td>
+    <td><div align="center">{$lista_activo[ind].vida_util}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor_compra|commify:2}{assign var="total1" value="`$total1+$lista_activo[ind].valor_compra`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].valor|commify:2}{assign var="total2" value="`$total2+$lista_activo[ind].valor`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].incremento|commify:2}{assign var="total3" value="`$total3+$lista_activo[ind].incremento`"}</div></td>
+    <td nowrap="nowrap"><div align="center">{$lista_activo[ind].valor1|commify:2}{assign var="total4" value="`$total4+$lista_activo[ind].valor1`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].ufv|commify:5}</div></td>
+	<td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].valor_ufv|commify:2}{assign var="total7" value="`$total7+$lista_activo[ind].valor_ufv`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].incremento_ufv|commify:2}{assign var="total5" value="`$total5+$lista_activo[ind].incremento_ufv`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].valor_ufv2|commify:2}{assign var="total6" value="`$total6+$lista_activo[ind].valor_ufv2`"}</div></td>
+	 <td><div align="center">{$lista_activo[ind].depre_acumulada|commify:2}{assign var="totalD1" value="`$totalD1+$lista_activo[ind].depre_acumulada`"}</div></td>
+    <td>{$lista_activo[ind].incremento_depre|commify:2}{assign var="totalD2" value="`$totalD2+$lista_activo[ind].incremento_depre`"}</td>
+    <td><div align="center">{$lista_activo[ind].depre_periodo|commify:2}{assign var="totalD3" value="`$totalD3+$lista_activo[ind].depre_periodo`"}</div></td>
+    <td><div align="center">{$lista_activo[ind].depre_fin|commify:2}{assign var="totalD4" value="`$totalD4+$lista_activo[ind].depre_fin`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].depre_acumulada_ufv|commify:2}{assign var="totalD5" value="`$totalD5+$lista_activo[ind].depre_acumulada_ufv`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].incremento_depreufv|commify:2}{assign var="totalD6" value="`$totalD6+$lista_activo[ind].incremento_depreufv`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].depre_periodo_ufv|commify:2}{assign var="totalD7" value="`$totalD7+$lista_activo[ind].depre_periodo_ufv`"}</div></td>
+    <td bgcolor="#CCCCCC"><div align="center">{$lista_activo[ind].depre_fin_ufv|commify:2}{assign var="totalD8" value="`$totalD8+$lista_activo[ind].depre_fin_ufv`"}</div></td>
+    <td>{$lista_activo[ind].vida_restante}</td>
+  </tr>
+  {/section}
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+    <td nowrap="nowrap">&nbsp;</td>
+    <td nowrap="nowrap">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td style="font-weight:bold" ><div align="center">{$total1|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total2|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total3|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$total4|commify:2}</div></td>
+    <td bgcolor="#CCCCCC"></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$total7|commify:2}</div></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$total5|commify:2}</div></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$total6|commify:2}</div></td>
+	<td style="font-weight:bold" ><div align="center">{$totalD1|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD2|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD3|commify:2}</div></td>
+    <td style="font-weight:bold" ><div align="center">{$totalD4|commify:2}</div></td>
+	<td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$totalD5|commify:2}</div></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$totalD6|commify:2}</div></td>
+    <td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$totalD7|commify:2}</div></td>
+	<td bgcolor="#CCCCCC" style="font-weight:bold" ><div align="center">{$totalD8|commify:2}</div></td>
+	
+  </tr>
+  <tbody>
+  </tbody>
+</table>
+{/if}
+</body>

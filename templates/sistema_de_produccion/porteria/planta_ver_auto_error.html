@@ -1,0 +1,42 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+<br />
+
+<div align="center">
+	<div style="border:1px #ABBEEF solid;width:80%;">
+		<div style="background-color:#ABBEEF;color:#000;font-weight:bold;">
+			No existe ning&uacute;n movimiento para el d&iacute;a especificado
+		</div>
+		<div style="background-color:#D6DFF7;color:#000;">
+			Haga click en &quot;&gt;&gt;&quot; para elegir una fecha
+		</div>
+		
+		<form name="form1" method="post" action="porteria.php?opcion=planta_auto&idauto={$idauto}">
+		<div>
+			<div style="background-color:#D6DFF7;font-size:10px;padding:10px 0 10px 0;width:20%;float:left;">VER DATOS DESDE :</div>
+			<div style="width:30%;float:left;">
+				<input type="text" name="fecha1" id="fecha1" value="{$fecha1}" size="12" readonly="readonly">
+				<input name="bfecha1" type="button" id="bfecha1" value=">>" class="boton" onkeypress="return enter_handle(this, event, 2, 1);" />
+				{literal}
+				<script type="text/javascript">Calendar.setup({inputField:"fecha1", ifFormat:"%Y-%m-%d",button:"bfecha1"});</script>
+				{/literal}
+			</div>
+			<div style="background-color:#D6DFF7;font-size:10px;padding:10px 0 10px 0;width:20%;float:left;">HASTA :</div>
+			<div style="width:28%;float:left;">
+				<input type="text" name="fecha2" id="fecha2" value="{$fecha2}" size="12" readonly="readonly">
+				<input name="bfecha2" type="button" id="bfecha2" value=">>" class="boton" onkeypress="return enter_handle(this, event, 1, 1);" />
+				{literal}
+				<script type="text/javascript">Calendar.setup({inputField:"fecha2", ifFormat:"%Y-%m-%d",button:"bfecha2"});</script>
+				{/literal}
+			</div>
+		</div>
+		<div style="border-top:1px #ABBEEF solid;clear:both;padding-top:10px;">
+			<input type="submit" name="Submit" value="Enviar Consulta" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+		</div>
+		</form>
+	</div>
+</div>
+
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

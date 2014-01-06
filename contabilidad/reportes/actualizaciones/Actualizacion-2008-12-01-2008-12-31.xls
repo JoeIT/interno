@@ -1,0 +1,129 @@
+				<html xmlns:o="urn:schemas-microsoft-com:office:office"
+				xmlns:x="urn:schemas-microsoft-com:office:excel"
+				xmlns="http://www.w3.org/TR/REC-html40">
+
+				<head>
+				<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+				<meta name=ProgId content=Excel.Sheet>
+				<!--[if gte mso 9]><xml>
+				 <o:DocumentProperties>
+				  <o:LastAuthor>Sriram</o:LastAuthor>
+				  <o:LastSaved>2005-01-02T07:46:23Z</o:LastSaved>
+				  <o:Version>10.2625</o:Version>
+				 </o:DocumentProperties>
+				 <o:OfficeDocumentSettings>
+				  <o:DownloadComponents/>
+				 </o:OfficeDocumentSettings>
+				</xml><![endif]-->
+				<style>
+				<!--table
+					{mso-displayed-decimal-separator:"\.";
+					mso-displayed-thousand-separator:"\,";}
+				@page
+					{margin:1.0in .75in 1.0in .75in;
+					mso-header-margin:.5in;
+					mso-footer-margin:.5in;}
+				tr
+					{mso-height-source:auto;}
+				col
+					{mso-width-source:auto;}
+				br
+					{mso-data-placement:same-cell;}
+				.style0
+					{
+					mso-number-format:General;
+					text-align:general;
+					vertical-align:bottom;
+					white-space:nowrap;
+					mso-rotate:0;
+					mso-background-source:auto;
+					mso-pattern:auto;
+					color:windowtext;
+					font-size:8.0pt;
+					font-weight:400;
+					font-style:normal;
+					text-decoration:none;
+					font-family:Arial;
+					mso-generic-font-family:auto;
+					mso-font-charset:0;
+					border:none;
+					mso-protection:locked visible;
+					mso-style-name:Normal;
+					mso-style-id:0;}
+				td
+					{mso-style-parent:style0;
+					padding-top:1px;
+					padding-right:1px;
+					padding-left:1px;
+					mso-ignore:padding;
+					color:windowtext;
+					font-size:8.0pt;
+					font-weight:400;
+					font-style:normal;
+					text-decoration:none;
+					font-family:Arial;
+					mso-generic-font-family:auto;
+					mso-font-charset:0;
+					mso-number-format:General;
+					text-align:general;
+					vertical-align:bottom;
+					border:none;
+					mso-background-source:auto;
+					mso-pattern:auto;
+					mso-protection:locked visible;
+					white-space:nowrap;
+					mso-rotate:0;}
+				.xl24
+					{mso-style-parent:style0;
+					 white-space:normal;
+					 }
+				 .x324
+					{
+					 mso-style-parent:style0;
+					 white-space:normal;
+					 font-weight:bold;
+					
+					}
+				.clasecabecera
+					{mso-style-parent:style0;
+					color:#000000;
+					border-top:.5pt solid yellow;
+					border-right:.5pt solid yellow;
+					border-bottom:.5pt solid yellow;
+					border-left:.5pt solid yellow;
+					background-color: #E5E5E5;
+					mso-pattern:black none;}
+				.titulares
+					{mso-style-parent:style0;
+					text-align:center;
+					vertical-align:middle;
+					border:.5pt solid windowtext;
+					background:#F2F2F2;
+					mso-pattern:black none;}
+				-->
+				</style>
+				<!--[if gte mso 9]><xml>
+				 <x:ExcelWorkbook>
+				  <x:ExcelWorksheets>
+				   <x:ExcelWorksheet>
+					<x:Name>srirmam</x:Name>
+					<x:WorksheetOptions>
+					 <x:Selected/>
+					 <x:ProtectContents>False</x:ProtectContents>
+					 <x:ProtectObjects>False</x:ProtectObjects>
+					 <x:ProtectScenarios>False</x:ProtectScenarios>
+					</x:WorksheetOptions>
+				   </x:ExcelWorksheet>
+				  </x:ExcelWorksheets>
+				  <x:WindowHeight>10005</x:WindowHeight>
+				  <x:WindowWidth>10005</x:WindowWidth>
+				  <x:WindowTopX>120</x:WindowTopX>
+				  <x:WindowTopY>135</x:WindowTopY>
+				  <x:ProtectStructure>False</x:ProtectStructure>
+				  <x:ProtectWindows>False</x:ProtectWindows>
+				 </x:ExcelWorkbook>
+				</xml><![endif]-->
+				</head>
+
+				<body link=blue vlink=purple>
+				<table x:str border=0 cellpadding=0 cellspacing=0 style='border-collapse: collapse;table-layout:fixed;'><tr><td class=clasecabecera width=64 >Planta</td></tr><tr><td class=clasecabecera width=64 >Gerencia General</td></tr><tr><td class=clasecabecera width=64 >Edificaciones</td></tr><tr><td class=clasecabecera width=64 >Codigo</td><td class=clasecabecera width=64 >Fecha Ingreso </td><td class=clasecabecera width=64 >Descripcion</td><td class=clasecabecera width=64 >T/C de la Compra</td><td class=clasecabecera width=64 >UFV de la Compra</td><td class=clasecabecera width=64 >Vida Util(meses)</td><td class=clasecabecera width=64 >Valor Compra</td><td class=clasecabecera width=64 >Valor de la otra gestion a 2008-03-31$7.5 UFV 1.32548</td><td class=clasecabecera width=64 >Valor UFV inicial2008-11-30con1.45462</td><td class=clasecabecera width=64 >Valor al mes anterior2008-11-30con1.45462</td><td class=clasecabecera width=64 >Incremento por actualizacion AF con UFV</td><td class=clasecabecera width=64 >Valor al2008-12-31con UFV1.46897</td><td class=clasecabecera width=64 >Depreciacion Acumulada2008-11-30con UFV1.45462</td><td class=clasecabecera width=64 >Incremento P/Dep Ac c/UFV2008-12-31con UFV1.46897</td><td class=clasecabecera width=64 >Depreciacion Periodo UFV</td><td class=clasecabecera width=64 >Depreciacion Acum Actualiza2008-12-31con UFV1.46897</td><td class=clasecabecera width=64 >Valor Neto s/g Actual Ufv al2008-12-31con UFV1.46897</td><td class=clasecabecera width=64 >Vida Util Restante</td></tr><tr><td class=xl24 width=64 >01.01.02.00008</td><td class=xl24 width=64 >2003-01-02</td><td class=xl24 width=64 >1 GLB. AMPLIACION EDIFICACION UNIDAD EXPORT.</td><td x:num class=xl24  width=64 >7.50000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >167937.38000</td><td x:num class=xl24  width=64 >195988.8957197</td><td x:num class=xl24  width=64 >1.45462</td><td x:num class=xl24  width=64 >215083.86961085</td><td x:num class=xl24  width=64 >2121.8280574417</td><td x:num class=xl24  width=64 >217205.6976683</td><td x:num class=xl24  width=64 >31814.489046606</td><td x:num class=xl24  width=64 >313.85373349658</td><td x:num class=xl24  width=64 >452.51187014228</td><td x:num class=xl24  width=64 >32580.854650244</td><td x:num class=xl24  width=64 >184624.84301805</td><td x:num class=xl24  width=64 >408</td></tr><tr><td class=xl24 width=64 >01.01.02.00001</td><td class=xl24 width=64 >1999-08-01</td><td class=xl24 width=64 >1 GLB. EDIFICACION GALPONES Y MUROS DE SEPARACION</td><td x:num class=xl24  width=64 >5.85000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >400684.93000</td><td x:num class=xl24  width=64 >599504.57054082</td><td x:num class=xl24  width=64 >1.45462</td><td x:num class=xl24  width=64 >657913.61499237</td><td x:num class=xl24  width=64 >6490.3963750949</td><td x:num class=xl24  width=64 >664404.01136746</td><td x:num class=xl24  width=64 >153513.17683155</td><td x:num class=xl24  width=64 >1514.4258208555</td><td x:num class=xl24  width=64 >1384.1750236822</td><td x:num class=xl24  width=64 >156411.77767609</td><td x:num class=xl24  width=64 >507992.23369137</td><td x:num class=xl24  width=64 >367</td></tr><tr><td class=xl24 width=64 >01.01.02.00003</td><td class=xl24 width=64 >1999-08-01</td><td class=xl24 width=64 >1 GLB. PORTERIA DE INGRESO</td><td x:num class=xl24  width=64 >5.85000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >8013.68000</td><td x:num class=xl24  width=64 >11990.063581507</td><td x:num class=xl24  width=64 >1.45462</td><td x:num class=xl24  width=64 >13158.24175916</td><td x:num class=xl24  width=64 >129.80762621437</td><td x:num class=xl24  width=64 >13288.049385374</td><td x:num class=xl24  width=64 >3070.2564104706</td><td x:num class=xl24  width=64 >30.288446116686</td><td x:num class=xl24  width=64 >27.68343621953</td><td x:num class=xl24  width=64 >3128.2282928068</td><td x:num class=xl24  width=64 >10159.821092567</td><td x:num class=xl24  width=64 >367</td></tr><tr><td class=xl24 width=64 >01.01.02.00009</td><td class=xl24 width=64 >1999-08-01</td><td class=xl24 width=64 >1 GLB. AREAS AUXILIARES</td><td x:num class=xl24  width=64 >5.85000</td><td x:num class=xl24  width=64 >1.20997</td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >20034.27000</td><td x:num class=xl24  width=64 >29975.263687728</td><td x:num class=xl24  width=64 >1.45462</td><td x:num class=xl24  width=64 >32895.719335971</td><td x:num class=xl24  width=64 >324.52019941372</td><td x:num class=xl24  width=64 >33220.239535385</td><td x:num class=xl24  width=64 >7675.6678450599</td><td x:num class=xl24  width=64 >75.721379863201</td><td x:num class=xl24  width=64 >69.208832365384</td><td x:num class=xl24  width=64 >7820.5980572884</td><td x:num class=xl24  width=64 >25399.641478096</td><td x:num class=xl24  width=64 >367</td></tr><tr><td class=xl24 width=64 >01.01.02.00010</td><td class=xl24 width=64 >2005-06-01</td><td class=xl24 width=64 >EDIFICACIONES (INMUEBLES HAM)</td><td x:num class=xl24  width=64 >8.10000</td><td class=xl24 width=64 ></td><td x:num class=xl24  width=64 >480</td><td x:num class=xl24  width=64 >666171.41000</td><td x:num class=xl24  width=64 >719857.15750417</td><td x:num class=xl24  width=64 >1.45462</td><td x:num class=xl24  width=64 >789992.01681558</td><td x:num class=xl24  width=64 >7793.3655809104</td><td x:num class=xl24  width=64 >797785.38239649</td><td x:num class=xl24  width=64 >69124.301471364</td><td x:num class=xl24  width=64 >681.91948832964</td><td x:num class=xl24  width=64 >1662.0528799927</td><td x:num class=xl24  width=64 >71468.273839686</td><td x:num class=xl24  width=64 >726317.10855681</td><td x:num class=xl24  width=64 >437</td></tr><tr><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >1262841.67</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >1557315.9510339</td><td class=x324 width=64  style='background-color:#FFFF66' > </td><td x:num class=x324 width=64 style='background-color:#FFFF66' >1709043.4625139</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >16859.917839075</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >1725903.380353</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >265197.89160505</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >2616.2088686616</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >3595.6320424021</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >271409.73251612</td><td x:num class=x324 width=64 style='background-color:#FFFF66' >1454493.6478369</td><td class=x324 width=64  style='background-color:#FFFF66' > </td></tr></table></body></html>

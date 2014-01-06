@@ -1,0 +1,286 @@
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = true;
+		factory.printing.leftMargin = 0;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:07cm;
+	margin-top:1.4cm;
+	width:27.9cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle;font-size:20px;
+	
+}
+.contenido2{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle; font-size:14px;
+/*	background-color:#999999;*/
+
+	
+}
+.contenido3{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle; 
+	font-size:10px;
+	
+}
+.dato{
+	border-color: #000000;
+	text-align: center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: middle;
+}
+.dato1{
+	border-color: #000000;
+	text-align: left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: top; /*margin-top: ;*/
+}
+
+.n_asignacion{
+	visibility:hidden;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+</style>
+
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:2cm;
+	margin-right:0.7cm;
+	margin-top:0.75cm;
+	padding: 0cm;
+	width:27.9cm;
+	
+	
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	
+	text-align: center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: middle;
+}
+.dato1{
+	
+	text-align: left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: text-top;
+}
+
+.noprint {
+	display: none;
+}
+</style>
+
+{/literal}
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+
+<div id="installOK" align="center" style="vertical-align:top;">
+
+
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+	  <tr>
+		<td width="115" rowspan="2" align="center"  class="contenido1" style="width:2.7cm;">
+			<img src="../../templates/imagenes/logo-macaws2.jpg" align="middle" style="height:1.9cm;width:2.2cm;"/>	</td>
+		<td width="394" align="center" class="contenido1" style="font-size:16px;font-weight:bold;width:8.9cm"><p>REGISTRO DEL SISTEMA DE GESTION<br>
+		  INTEGRADO </p></td>
+		<td width="115" rowspan="2" align="center" class="contenido2" style="text-align:center;width:2.5cm;">CODIGO<br>
+	      <strong>RG-40</strong></td>
+	    <td width="133" rowspan="2" align="center" class="contenido2" style="text-align:center;width:2.5cm;">REVISION <br><strong>{$doc.nro_revision}</strong></td>
+	  </tr>
+	  <tr>
+	    <td class="contenido1" style="font-size:16px;font-weight:bold;width:8.9cm" align="center">INFORME DE NO CONFORMIDADES Y<br>
+	      ACCIONES DE MEJORA </td>
+  </tr>
+  </table>
+
+<br>
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+  <tr >
+    <td bgcolor="#999999" class="contenido3"><div align="center"><em><strong>NO CONFORMIDAD</strong></em></div></td>
+   <!-- <td class="dato">{$doc.area}</td>-->
+    <td  class="dato">&nbsp;&nbsp;{if $doc.tipo=='No Conformidad'}X{/if}&nbsp;&nbsp;</td>
+    <td  bgcolor="#999999" class="contenido3"><div align="center"><em><strong>OBSERVACION</strong></em></div></td>
+    <td  class="dato">&nbsp;&nbsp;{if $doc.tipo=='Observacion'}X{/if}&nbsp;&nbsp;</td>
+    <td width="179" bgcolor="#999999" class="contenido3"><div align="center"><em><strong>OPORTUNIDAD DE MEJORA</strong></em></div></td>
+    <td  class="dato">&nbsp;&nbsp;{if $doc.tipo=='Oportunidad de mejora'}X{/if}&nbsp;&nbsp;</td>
+    <td width="69"  class="contenido3"><div align="center"><em><strong>ACCION CORRECTIVA</strong></em></div></td>
+    <td  class="dato">&nbsp;&nbsp;{if $doc.accion=='Correctiva'}X{/if}&nbsp;&nbsp;</td>
+    <td width="69"  class="contenido3"><div align="center"><em><strong>ACCION PREVENTIVA</strong></em></div></td>
+    <td  class="dato">&nbsp;&nbsp;{if $doc.accion=='Preventiva'}X{/if}&nbsp;&nbsp;</td>
+  </tr>
+</table>
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+  <tr >
+    <td width="278" class="contenido2" bgcolor="#999999"><div align="center"><em><strong>AREA</strong></em></div></td>
+    <td width="231" class="contenido2" bgcolor="#999999"><div align="center"><em><strong>RESPONSABLE</strong></em></div></td>
+    <td width="179" class="contenido2" bgcolor="#999999"><div align="center"><em><strong>FECHA</strong></em></div></td>
+    <td width="69" class="contenido2" bgcolor="#999999"><div align="center"><em><strong>No.</strong></em></div></td>
+  </tr>
+  <tr>
+    <td class="dato">{$doc.area_observada}</td>
+    <td class="dato">{$doc.responsable_observada}</td>
+    <td class="dato">{$doc.fec_apertura}</td>
+    <td class="dato">{$doc.nro_registro}</td>
+  </tr>
+</table>
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">
+  <tr>
+    <td width="605"><table width="612" height="59"  border="1" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;">
+      <tr >
+        <td bgcolor="#999999" width="392" class="contenido2"><em><strong>AREAS O UNIDADES INFORMADAS </strong></em></td>
+        <td bgcolor="#999999" colspan="4" class="contenido2" ><em><strong>TIEMPO DE CIERRE </strong></em></td>
+      </tr>
+      <tr>
+        <td class="dato">{$doc.area_informada}</td>
+<!--        <td  class="dato">&nbsp;&nbsp;{if $doc.cierre=='1 dia'}X{/if}&nbsp;&nbsp;</td>-->
+{if $doc.cierre=='1 dia'}<td width="49" class="contenido2" bgcolor="#999999"><b>1 dia</b></td>{else}<td width="49" class="contenido2">1 dia</td>{/if}
+{if $doc.cierre=='1 semana'}<td width="60" class="contenido2" bgcolor="#999999"><b>1 semana</b></td>{else}<td width="60" class="contenido2">1 semana</td>{/if}
+{if $doc.cierre=='1 mes'}<td width="35" class="contenido2" bgcolor="#999999"><b>1 mes</b></td>{else}<td width="35" class="contenido2">1 mes</td>{/if}
+{if $doc.cierre=='1/2 año'}<td width="58" class="contenido2" bgcolor="#999999"><b>1/2 año</b></td>{else}<td width="58" class="contenido2">1/2 año</td>{/if}
+    <!--    <td width="60" class="contenido2"><em>1 semana</em></td>
+        <td width="35" class="contenido2"><em>1 mes</em></td>
+        <td width="58" class="contenido2"><em>1/2 año</em></td>-->
+      </tr>
+    </table></td>
+    <td width="156" bgcolor="#999999" class="contenido2" ><div align="center"><em><strong>APERTURA<br>
+ GERENCIA GENERAL</strong> </em></div></td>
+  </tr>
+  <tr>
+    <td>
+    <table width="611" height="52" border="1" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;clear:both;">
+      <tr>
+        <td width="605"  class="contenido2"  bgcolor="#999999"><em><strong>DOCUMENTO QUE ORIGINO LA NO CONFORMIDAD /OPORTUNIDAD DE MEJORA </strong></em></td>
+      </tr>
+	   <tr>
+        <td class="dato">{$doc.motivo}</td>
+      </tr>
+    </table>
+    </td>
+    <td align="center">{if $doc.estado==1}<span style="font-family:Verdana, Geneva, sans-serif; font-size:12px; color:#33F; text-decoration:inherit;"><b>APROBADO</b></span>{else} &nbsp;{/if}</td>
+    
+  </tr> 
+</table>
+<!-----------------------------------------------------------------comienza-->
+<table border="1" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;width:20.3cm;margin:0cm;clear:both;">
+  <tr>
+     <td class="contenido2" width="605" bgcolor="#999999"  align="center"><em><strong>DESCRIPCION DEL HALLAZGO</strong></em></td>
+  </tr>
+  <tr>
+    <td class="dato" style="border-bottom-color:#FFF;">{$doc.descripcion}</td>
+  </tr>
+</table>
+<!-------------------------------------------------------------------termina-->
+<p>&nbsp;</p>
+	<div id=idControls class="noprint" style="text-align:center;width:100%; clear:both">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				<input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Configurar P&aacute;gina" onClick="factory.printing.PageSetup()" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+				<hr size="1">
+			</td>
+		</tr>
+		</table>
+</div>
+
+</div>
+
+</body>
+</html>

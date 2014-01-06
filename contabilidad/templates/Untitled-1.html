@@ -1,0 +1,143 @@
+<table align="center"  style="page-break-after:always;">
+	 
+  <tr>
+  <td valign="top">
+  <table height="66" border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+	  <tr>
+		<td rowspan="2" align="center"  class="contenido1" style="width:2.7cm;">
+			<img src="../../templates/imagenes/logo-macaws2.jpg" align="middle" style="height:1.4cm;width:1.8cm;"/>	</td>
+		<td class="contenido1" style="font-size:13px;font-weight:bold;width:8.9cm" align="center"><p>FORMULARIO DE CONTROL DE ACTIVOS </p>
+		  <p><br/>
+          </p></td>
+		<td align="center" class="contenido1" style="text-align:center;width:3.1cm;"><div align="center">CODIGO<br>
+	    </div></td>
+	  </tr>
+	  <tr>
+	    <td class="contenido1" style="font-size:13px;font-weight:bold;width:8.9cm" align="center"><p>KARDEX ACTIVO FIJO </p>
+          <span class="contenido1" style="font-size:11px;font-weight:bold;width:8.9cm"><span class="contenido1" style="font-size:11px;font-weight:bold;width:8.9cm">Pagina: {assign var=pagina value=$smarty.section.pagina.index_prev+2}{$pagina} / </span class="contenido1" style="font-size:11px;font-weight:bold;width:8.9cm">{$num_paginas}</span></td>
+        <td align="center" class="contenido1" style="text-align:center;width:3.1cm;"><span class="contenido1" style="text-align:center;width:3.1cm;">{$pagina.num_act}</span></td>
+    </tr>
+</table>
+	 <br>
+	 <br>
+  <br>
+
+  
+<table  border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="6"><div align="center">Caracteristicas del Bien </div></td>
+  </tr>
+  <tr>
+    <td colspan="3" aling="left"  style="background: #FFFFFF;  font-size:12px;"><strong>Descripcion:</strong></td>
+    <td colspan="3">{$res_kardex[pagina].descripcion}</td>
+  </tr>
+  <tr>
+    <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Unidad:</strong></td>
+    <td>{$pagina.unidad}</td>
+    <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Serie:</strong></td>
+    <td colspan="3">{$kardex.serie}</td>
+  </tr>
+  <tr>
+    <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Origen de Activo fijo: </strong></td>
+    <td  align="left" style="background: #FFFFFF;  font-size:12px;">Recibo Retencion 
+      <input type="checkbox" name="checkbox" value="checkbox"></td>
+    <td  align="left" style="background: #FFFFFF;  font-size:12px;"> Factura
+      <input type="checkbox" name="checkbox2" value="checkbox"></td>
+    <td  align="left" style="background: #FFFFFF;  font-size:12px;">Importacion Fabricacion interna
+      <input type="checkbox" name="checkbox22" value="checkbox"></td>
+    <td  align="left" style="background: #FFFFFF;  font-size:12px;">Ninguno
+      <input type="checkbox" name="checkbox23" value="checkbox"></td>
+    <td  align="left" style="background: #FFFFFF;  font-size:12px;">Ref FAF <br><br></td>
+  </tr>
+</table>
+
+	 <br>
+	 <br>
+	 <table width="95%" border="1" cellspacing="0" cellpadding="0">
+       <tr>
+         <td colspan="7"><div align="center">Otra Informacion </div></td>
+       </tr>
+       <tr>
+         <td colspan="7"  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Clasificacion del Bien:</strong> {$kardex.desgru}</td>
+       </tr>
+       <tr>
+         <td colspan="7"  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Ubicacion del Bien:</strong> {$kardex.despri}-{$kardex.dessecun}</td>
+       </tr>
+       <tr>
+         <td height="18" colspan="3"  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Fecha de Compra:</strong></td>
+         <td colspan="4"  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Fecha Alta :</strong> </td>
+       </tr>
+       <tr>
+         <td rowspan="3"  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Precio:</strong></td>
+         <td rowspan="3">{$kardex.valor_compra}</td>
+         <td colspan="2"  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Tasa Cambio </strong></td>
+         <td rowspan="3"  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Numero Factura</strong> </td>
+         <td colspan="2" rowspan="3">&nbsp;</td>
+       </tr>
+       <tr>
+         <td align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Dolar</strong> </td>
+         <td align="left" style="background: #FFFFFF;  font-size:12px;"> <strong>UFV</strong> </td>
+       </tr>
+       <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+     </table>
+	 <br>
+	 <br>
+	 <table width="95%" border="1" cellspacing="0" cellpadding="0">
+       <tr>
+         <td colspan="7"><div align="center">Historial</div></td>
+       </tr>
+       <tr>
+         <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>N&deg;</strong></td>
+         <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Fecha</strong></td>
+         <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Ref FAF</strong></td>
+         <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Actividad</strong></td>
+         <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Nuevo Responsable </strong></td>
+         <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Ci</strong></td>
+         <td  align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Firma /Acepatacion AF y Clausula</strong> </td>
+       </tr>
+       <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+     </table>
+	 <br>
+	 <br>
+	 <table  width="85%" border="1" cellpadding="0" cellspacing="0" 1border="0">
+        <tr>
+          <td colspan="4"><div align="center">Responsable / Asignado </div></td>
+        </tr>
+        <tr>
+          <td align="center" style="background: #FFFFFF;  font-size:12px;"><strong>Nombre</strong> </td>
+          <td colspan="3" align="center" style="background: #FFFFFF;  font-size:12px;"><div align="left">{$asignado}</div></td>
+        </tr>
+        <tr>
+          <td align="center" style="background: #FFFFFF;  font-size:12px;"><strong>Cargo</strong></td>
+          <td align="center" style="background: #FFFFFF;  font-size:12px;"><div align="left">{$respo.cargo}</div></td>
+          <td align="center" style="background: #FFFFFF;  font-size:12px;"><strong>Area</strong></td>
+          <td align="center" style="background: #FFFFFF;  font-size:12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$respo.area}</td>
+        </tr>
+        <tr>
+          <td align="center" style="background: #FFFFFF;  font-size:12px;"><strong>Telefono Domicilio</strong></td>
+          <td>&nbsp;</td>
+          <td align="center" style="background: #FFFFFF;  font-size:12px;"><strong>Telfono Celualar </strong></td>
+          <td>&nbsp;</td>
+        </tr>
+  </table>
+     <br>
+     <br>
+     <table border="1" cellspacing="0" cellpadding="0">
+       <tr>
+         <td><div align="center">Clausula de Conformidad </div></td>
+       </tr>
+       <tr>
+         <td>&quot;Como Funsionario de Macaws SRL declaro que el activo fijo expresado en el siguente documento esta bajo mi responsabilidad,por lo cual le dare un uso adecuado en el desempe&ntilde;o de mis funciones y a la destinacion institucional prevista para este activo.Me comprometo a informar oportunamente a la Unidad de activos Fijos sobre cualquier traslado temporal o definitivo de este activo mediante el cumplimiento de los procesos respectivos.En consecuencia,seran asumidos por mi el da&ntilde;o o la perdida de los mismos debido a mi negligencia o incumplimiento de los instructivos relacionados con su uso y conservacion&quot;</td>
+       </tr>
+     </table>

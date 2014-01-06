@@ -1,0 +1,100 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<h2 style="font-family:Arial;text-decoration:underline;text-align:center;">ACTUALIZAR INDICADORES</h2>
+<ul style="padding-left:50px;text-align:left;">
+{foreach item=item from=$lista_listar_indicadores}
+  <li><a href="indicadores.php?opcion=actualizar_indicadores&area={$item.area}">{$item.area}</a> ({$item.items} Item{if $item.items != 1}s{/if})</li>
+{/foreach}
+</ul>
+
+{if $lista_contenido_area != null}
+	<div align="center">
+		<fieldset style="border: 1px solid #66CCFF;font-size:0.9em;padding:0 10px;text-align:justify;width:80%;" >
+			<legend> Descripci&oacute;n de &iacute;conos: </legend>
+			<br />
+			<ul>
+				<li><img src="../../templates/indicadores/pics/up.gif" width="15" height="15" alt="Tendencia de subida"> Incremento del &uacute;ltimo valor del indicador con respecto al mes anterior.</li>
+				<li><img src="../../templates/indicadores/pics/down.gif" width="15" height="15" alt="Tendencia de bajada"> Decremento del &uacute;ltimo valor del indicador con respecto al mes anterior.</li>
+				<li><img src="../../templates/indicadores/pics/equal.gif" width="15" height="15" alt=""> El &uacute;ltimo valor del indicador con respecto al mes anterior se mantuvo constante.</li>
+				<li><img src="../../templates/indicadores/pics/date.jpg" width="10" height="10" alt="Fecha actualizaci&oacute;n">&nbsp;&nbsp;Fecha de actualizaci&oacute;n del valor.</li>
+				<li><img src="../../templates/indicadores/pics/obs.jpg" width="10" height="10" alt="Observaciones">&nbsp;&nbsp;Observaciones del valor.</li>
+			</ul>
+		</fieldset>
+	</div>
+	<br />
+
+	<table width="97%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+	  {foreach key=area item=valores_area from=$lista_contenido_area}  
+	  <tr class="enunciados">
+		<th colspan="{$limite+2}" style="text-align:left;font-size:1.5em;font-weight:bold;">{$area}</th>
+	  </tr>
+		{foreach key=grupo item=valores_grupo from=$valores_area}
+			{if $grupo != null && $grupo !="2 Cantidad de veces que se detuvo la máquina divididora ELLEGI por cambio de piezas"}
+			<tr class="lista-indicadores">
+			  <td colspan="{$limite+3}">
+			   {$grupo} &nbsp;&nbsp;
+			  {if $links != null && $links[$grupo] != null}
+			  <a href="{$links[$grupo]}">(Ver detalles)</a>
+			  {/if}
+			    </td>
+			</tr>
+			{/if}
+			{foreach key=indicador item=valores from=$valores_grupo}
+			  {if $grupo !="2 Cantidad de veces que se detuvo la máquina divididora ELLEGI por cambio de piezas"}
+			 <tr class="lista-seleccionada">
+			  
+			  <td rowspan="2" {if $indicador =="<b>2.9</b> Tapizado muebles" || $indicador =="<b>2.8</b> Tapizado vehiculos"}  style="background-color:#FFD5D6;" {/if}>
+			
+				{$indicador}
+				
+			  </td>
+			  
+		
+			  {assign var=c value=0}
+			  {foreach key=llave item=datos from=$valores}
+				{if $llave != 'id' && $llave != ''}
+				  {assign var="c" value="`$c+1`"}
+				  
+				  <td width="15%" style="text-align:center;"  {if $indicador =="<b>2.9</b> Tapizado muebles" || $indicador =="<b>2.8</b> Tapizado vehiculos"}  style="background-color:#FFD5D6;" {/if}>{$llave|date_format:'%B, %Y'}</td>
+				{/if}
+			  {/foreach}
+			  
+			  {section name=foo start=0 loop=$limite-$c step=1}
+				<td width="15%" rowspan="2" style="background-color:#CEE6FF;">&nbsp;</td>
+			  {/section}
+			  
+			  {assign var=m1 value=$mes_anterior|date_format:'%B, %Y'}
+			  {assign var=m2 value=$llave|date_format:'%B, %Y'}
+			  {if $m1 != $m2}
+				<td align="center" rowspan="2" width="10%" style="background-color:#FFD5D6;">
+			  {else}
+				<td align="center" rowspan="2" width="10%" >
+			  {/if}
+				<a href="javascript:popup('indicadores.php?opcion=valores&popup=yes&iid={$valores.id}', 400, 400);">
+				  Actualizar
+				</a>
+			  </td>
+			</tr>
+			
+			<tr class="lista-normal">
+			  {foreach key=llave item=datos from=$valores}
+				{if $llave != 'id'}
+				<td style="text-align:center;"  {if $indicador =="<b>2.9</b> Tapizado muebles" || $indicador =="<b>2.8</b> Tapizado vehiculos"}  style="background-color:#FFD5D6;" {/if}>
+				  {if $observaciones[$llave] != null}
+				  	<img src="../../templates/indicadores/pics/obs.jpg" alt="{$observaciones[$llave]}" style="float:right;cursor:pointer;"/>
+				  {/if}
+				  {$datos|commify:2}
+				</td>
+				{/if}
+			  {/foreach}
+			</tr>
+			
+			{/if}
+			{/foreach}
+		{/foreach}
+	  {/foreach}
+	</table>
+{/if}
+
+<br />
+<br />

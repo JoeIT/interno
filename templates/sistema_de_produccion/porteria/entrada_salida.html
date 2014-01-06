@@ -1,0 +1,138 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<script language="javascript" type="text/javascript">
+function primero() {
+	document.formulario.barcode.focus();
+}
+</script>
+{/literal}
+
+<br />
+<br />
+
+<div align="center">
+<div style="border:1px #ABBEEF solid;width:70%;">
+	<div style="background-color:#ABBEEF;color:#000;font-weight:bold;">
+		REGISTRO
+	</div>
+	
+	<div>
+		<br>
+		{literal}
+		<script type="text/javascript">
+			var currenttime = "{/literal}{$f}{literal}"
+			var montharray = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+			var serverdate = new Date(currenttime)
+			
+			function padlength(what) {
+				var output = (what.toString().length==1)? "0"+what : what
+				return output
+			}
+			
+			function displaytime() {
+				serverdate.setSeconds(serverdate.getSeconds() + 1)
+				var datestring = montharray[serverdate.getMonth()] + " " + padlength(serverdate.getDate()) + ", " + serverdate.getFullYear()
+				var timestring = padlength(serverdate.getHours()) + ":" + padlength(serverdate.getMinutes()) + ":" + padlength(serverdate.getSeconds())
+				document.getElementById("servertime").innerHTML = datestring + " " + timestring
+			}
+			
+			window.onload = function() {
+				setInterval("displaytime()", 1000);
+				primero();
+			}
+		</script>
+		{/literal}
+		
+		<div style="background-color:#EEE;font-size:2.5em;height:60px;vertical-align:middle;">
+			<span id="servertime"></span>
+		</div>
+	</div>
+	
+	<div style="padding:20px;">
+		<fieldset>
+		<legend>&nbsp;Codigo de acceso&nbsp;</legend>
+		<form name="formulario" method="post" action="porteria.php">
+			<input name="barcode" type="text" id="barcode" accesskey="e" style="height:30px; font-size:18px">
+			<br>
+		</form>
+		</fieldset>
+	</div>
+	
+	<div>
+		<span style="background-color:#D6DFF7;width:90%;">
+			ULTIMO REGISTRO:
+		</span>
+		<br>
+		<span style="color:#FF0000;font-size:1.5em;">
+			{$accion}
+		</span>
+		<span style="color:#000099;font-size:1.5em;">
+			- {$ahora}
+		</span>
+		<br>
+		{if $ncompleto != null}
+		<span style="color:#009933;">
+			{$ncompleto}
+		</span>
+		<br>
+		{/if}
+		
+		{if $accion eq "ENTRADA"}
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="10" height="10">
+				<param name="movie" value="../templates/entrada-retrasada.swf">
+				<param name="quality" value="high"><param name="LOOP" value="false">
+				<embed src="../templates/entrada-retrasada.swf" width="10" height="10" loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
+			</object>
+		{/if}
+		
+		{if $accion eq "ENTRADA"}
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="10" height="10">
+				<param name="movie" value="../templates/ingresando.swf">
+				<param name="quality" value="high"><param name="LOOP" value="false">
+				<embed src="../templates/ingresando.swf" width="10" height="10" loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
+			</object>
+		{/if}
+	
+		{if $accion eq "SALIDA"}
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="10" height="10">
+			  <param name="movie" value="../templates/salida.swf">
+			  <param name="quality" value="high"><param name="LOOP" value="false">
+			  <embed src="../templates/salida.swf" width="10" height="10" loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
+			</object>
+		{/if}
+		
+		{if $accion eq "ERROR DE USUARIO"}
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="10" height="10">
+				<param name="movie" value="../templates/persona-no-reconocida.swf">
+				<param name="quality" value="high"><param name="LOOP" value="false">
+				<embed src="../templates/persona-no-reconocida.swf" width="10" height="10" loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
+			</object>
+		{/if}
+	
+		{if $accion eq "ERROR - MISMO USUARIO"}
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="10" height="10">
+				<param name="movie" value="../templates/misma-tarjeta.swf">
+				<param name="quality" value="high"><param name="LOOP" value="false">
+				<embed src="../templates/misma-tarjeta.swf" width="10" height="10" loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>			
+			</object>
+		{/if}
+	
+		{if $accion eq "ERROR DE ENTRADA"}
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="10" height="10">
+				<param name="movie" value="../templates/sistema-listo.swf">
+				<param name="quality" value="high"><param name="LOOP" value="false">
+				<embed src="../templates/sistema-listo.swf" width="10" height="10" loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
+			</object>
+		{/if}
+	</div>
+	
+	<div style="background-color:#FCFFD5;border:1px solid #ABBEEF;font-size:0.8em;padding:5px;width:90%;text-align:center;">
+		<strong>Ayuda:</strong> Para ubicar el cursor en la caja de texto presione ALT + E
+	</div>
+	<br />
+</div>
+</div>
+
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

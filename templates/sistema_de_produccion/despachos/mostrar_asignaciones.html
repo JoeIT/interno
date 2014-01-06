@@ -1,0 +1,97 @@
+{include file="../templates/sistema_de_produccion/cabecera_popup.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script>
+var llave = 0;
+/*
+function pregunta(){
+	if (confirm('¿Esta seguro de despachar?')){
+		llave = 1;
+		return true;
+	} else {
+		return false;
+	}
+}
+*/
+function pregunta(){
+		llave = 1;
+		return true;
+}
+
+function cerrar(){
+	if (llave == 1){
+		opener.location.reload();
+		this.close();
+	}
+}
+
+function ver_cantidades(objeto, falta){
+	valor =  objeto.value;
+	if ( valor > falta){
+		alert('Ingrese cantidad menor o igual a ' + falta);
+		objeto.focus();
+		objeto.select();
+	}
+}
+
+</script>
+{/literal}
+
+<body onunload = "javascript:cerrar();">
+
+{if $asignaciones != null}
+<br>
+<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<form action="../../controladores/sistema_de_produccion/despacho.php" method="post" name="despachar" id="despachar" ONSUBMIT="return pregunta();">
+	<tr>
+	  <th colspan="6">Listado de asignaciones</th>
+	</tr>
+	<tr>
+	  <td class="enunciados" style="text-align:center;">&nbsp;</td>
+	  <td class="enunciados" style="text-align:center;">Nro. Asig.</td>
+	  <td class="enunciados" style="text-align:center;">Maquinista</td>
+	  <td class="enunciados" style="text-align:center;">Cant. Asig.</td>
+	  <td class="enunciados" style="text-align:center;">Despachados</td>
+	  <td class="enunciados" style="text-align:center;">Por despachar</td>
+	</tr>
+  {assign var=CSSclass value=0}
+  {assign var=clases value="lista-normal"}
+  
+  {foreach name=contenido item=orden from=$asignaciones}
+  {assign var="CSSclass" value="`$CSSclass+1`"}
+  {if ($CSSclass mod 2) eq 0}
+  {assign var=clases value="lista-seleccionada"}
+  {else}
+  {assign var=clases value="lista-normal"}
+  {/if}
+  
+  {if $orden.falta != 0}
+  <label for="asignacion{$CSSclass}">
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">		  
+	<td style="padding:3px;text-align:center;">
+		<input type="checkbox" name="asignaciones[{$orden.asignacion_detalle_id}]" id="asignacion{$CSSclass}" value="{$orden.asignacion_detalle_id}" checked="checked"/>
+	</td>
+	<td style="padding:3px;text-align:left;">{$orden.asignacion_detalle_id}</td>
+	<td style="padding:3px;text-align:left;">{$orden.maquinista}</td>
+	<td style="padding:3px;text-align:center;">{$orden.cantidad_asignada}</td>
+	<td style="padding:3px;text-align:center;">{$orden.despachado}</td>
+	<td style="padding:3px;text-align:center;">
+		{$orden.falta}
+		<input type="hidden" name="cantidad{$orden.asignacion_detalle_id}" size="3" value="{$orden.falta}" onKeyPress="return enter_handle(this, event, 1, 0)" onBlur="ver_cantidades(this, {$orden.falta});" readonly="readonly">
+	</td>
+  </tr>
+  </label>
+  {/if}
+  {/foreach}
+	<tr>
+		<td colspan="6">
+			<hr />
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6" style="padding:10px;text-align:center;">
+			<input name="despachar" type="submit" value="Despachar" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'"/>
+		</td>
+	</tr>
+	</form>
+</table>
+{/if}

@@ -1,0 +1,498 @@
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = true;
+		factory.printing.leftMargin = 0;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:07cm;
+	margin-top:1.4cm;
+	width:27.9cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle;font-size:20px;
+	
+}
+.blanco1{
+	border-color: #FFFFFF;
+	color: #FFFFFF;
+	text-align:center;
+	vertical-align:middle;font-size:20px;
+	
+}
+.contenido2{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle; font-size:14px;
+/*	background-color:#999999;*/
+
+	
+}
+.blanco2{
+	
+	color:#FFFFFF;
+	text-align:center;
+	vertical-align:middle; font-size:14px;
+	
+}
+.contenido3{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle; 
+	font-size:10px;
+	
+}
+.blanco3{
+	
+	color:#FFFFFF;
+	text-align:center;
+	vertical-align:middle; 
+	font-size:10px;
+	
+}
+.contenido4{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle; 
+	font-size:12px;
+	
+}
+.blanco4{
+	
+	color:#FFFFFF;
+	text-align:center;
+	vertical-align:middle; 
+	font-size:12px;
+	
+}
+.dato{
+	border-color: #000000;
+	text-align: center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: middle;
+}/*con el siguiente se lograr ocultar el contenido q recupere de la base de datos*/
+.dato2{
+	text-align: center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: middle;
+	color:#FFF;
+	
+}
+.dato1{
+	border-color: #000000;
+	text-align: left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: top; /*margin-top: ;*/
+}
+
+
+.n_asignacion{
+	visibility:hidden;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+</style>
+
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:2cm;
+	margin-right:0.7cm;
+	margin-top:0.75cm;
+	padding: 0cm;
+	width:27.9cm;
+	
+	
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	
+	text-align: center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: middle;
+}
+.dato1{
+	
+	text-align: left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align: text-top;
+}
+
+.noprint {
+	display: none;
+}
+</style>
+
+{/literal}
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+
+<div id="installOK" align="center" style="vertical-align:top;">
+
+
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+	  <tr>
+		<td width="115" rowspan="2" align="center"  class="contenido1" style="width:2.7cm;">&nbsp;</td>
+		<td width="394" align="center" class="blanco1" style="font-size:16px;font-weight:bold;width:8.9cm"><p>REGISTRO DEL SISTEMA DE GESTION<br>
+		  INTEGRADO </p>	    </td>
+		<td width="115" rowspan="2" align="center" class="blanco2" style="text-align:center;width:2.5cm;">CODIGO<br>
+	      <strong>RG-40</strong></td>
+	    <td width="133" rowspan="2" align="center" class="blanco2" style="text-align:center;width:2.5cm;">REVISION <br><strong>{$doc.nro_revision}</strong></td>
+	  </tr>
+	  <tr>
+	    <td class="blanco1" style="font-size:16px;font-weight:bold;width:8.9cm" align="center">INFORME DE NO CONFORMIDADES Y<br>
+	      ACCIONES DE MEJORA </td>
+  </tr>
+  </table>
+
+<br>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+  <tr >
+    <td  class="blanco3"><div align="center"><em><strong>NO CONFORMIDAD</strong></em></div></td>
+    <td  class="dato2">&nbsp;&nbsp;{if $doc.tipo=='No Conformidad'}X{/if}&nbsp;&nbsp;</td>
+    <td   class="blanco3"><div align="center"><em><strong>OBSERVACION</strong></em></div></td>
+    <td  class="dato2">&nbsp;&nbsp;{if $doc.tipo=='Observacion'}X{/if}&nbsp;&nbsp;</td>
+    <td width="179"  class="blanco3"><div align="center"><em><strong>OPORTUNIDAD DE MEJORA</strong></em></div></td>
+    <td  class="dato2">&nbsp;&nbsp;{if $doc.tipo=='Oportunidad de mejora'}X{/if}&nbsp;&nbsp;</td>
+    <td width="69"  class="blanco3"><div align="center"><em><strong>ACCION CORRECTIVA</strong></em></div></td>
+    <td  class="dato2">&nbsp;&nbsp;{if $doc.accion=='Correctiva'}X{/if}&nbsp;&nbsp;</td>
+    <td width="69"  class="blanco3"><div align="center"><em><strong>ACCION PREVENTIVA</strong></em></div></td>
+    <td  class="dato2">&nbsp;&nbsp;{if $doc.accion=='Preventiva'}X{/if}&nbsp;&nbsp;</td>
+  </tr>
+</table>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+  <tr >
+    <td width="278" class="blanco2"><div align="center"><em><strong>AREA</strong></em></div></td>
+    <td width="231" class="blanco2"><div align="center"><em><strong>RESPONSABLE</strong></em></div></td>
+    <td width="179" class="blanco2"><div align="center"><em><strong>FECHA</strong></em></div></td>
+    <td width="69" class="blanco2"><div align="center"><em><strong>No.</strong></em></div></td>
+  </tr>
+  <tr>
+    <td class="dato2">{$doc.area_observada}</td>
+    <td class="dato2">{$doc.responsable_observada}</td>
+    <td class="dato2">{$doc.fec_apertura}</td>
+    <td class="dato2">{$doc.nro_registro}</td>
+  </tr>
+</table>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">
+  <tr>
+    <td width="605"><table width="612" height="59"  border="0" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;">
+      <tr>
+        <td width="392" class="blanco2"><em><strong>AREAS O UNIDADES INFORMADAS </strong></em></td>
+        <td colspan="4" class="blanco2" ><em><strong>TIEMPO DE CIERRE </strong></em></td>
+      </tr>
+      <tr>
+        <td class="dato2">{$doc.area_informada}</td>
+<!--        <td  class="dato">&nbsp;&nbsp;{if $doc.cierre=='1 dia'}X{/if}&nbsp;&nbsp;</td>-->
+{if $doc.cierre=='1 dia'}<td width="49" class="blanco2" ><b>1 dia</b></td>{else}<td width="49" class="blanco2">1 dia</td>{/if}
+{if $doc.cierre=='1 semana'}<td width="60" class="blanco2" ><b>1 semana</b></td>{else}<td width="60" class="blanco2">1 semana</td>{/if}
+{if $doc.cierre=='1 mes'}<td width="35" class="blanco2" ><b>1 mes</b></td>{else}<td width="35" class="blanco2">1 mes</td>{/if}
+{if $doc.cierre=='1/2 año'}<td width="58" class="blanco2" ><b>1/2 año</b></td>{else}<td width="58" class="blanco2">1/2 año</td>{/if}
+    <!--    <td width="60" class="contenido2"><em>1 semana</em></td>
+        <td width="35" class="contenido2"><em>1 mes</em></td>
+        <td width="58" class="contenido2"><em>1/2 año</em></td>-->
+      </tr>
+    </table></td>
+    <td width="156"  class="blanco2" ><div align="center"><em><strong>APERTURA<br>
+ GERENCIA GENERAL</strong> </em></div></td>
+  </tr>
+  <tr>
+    <td>
+    <table width="611" height="52" border="0" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;clear:both;">
+      <tr>
+        <td width="605"  class="blanco2"><em><strong>DOCUMENTO QUE ORIGINO LA NO CONFORMIDAD /OPORTUNIDAD DE MEJORA </strong></em></td>
+      </tr>
+	   <tr>
+        <td class="dato2">{$doc.motivo}</td>
+      </tr>
+    </table>
+    </td>
+    <td align="center"><span style="font-family:Verdana, Geneva, sans-serif; font-size:12px; color:#FFF; text-decoration:inherit;"><b>APROBADO</b></span></td>
+  </tr> 
+</table>
+<!--<table border="0" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+  <tr>
+    <td>
+    <table width="650"  border="1" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;clear:both;">
+      <tr bgcolor="#999999">
+        <td  class="contenido2" height="45"><em><strong>DESCRIPCION DEL HALLAZGO</strong></em></td>
+      </tr>
+	   <tr>
+        <td class="dato">{$doc.descripcion}</td>
+  		</tr>
+     </table>
+      </td>
+<td>
+    <table width="117" border="1" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:0cm;margin:0cm;clear:both; border-top:0cm; border-top-width:medium;">
+      <tr>
+        <td  bgcolor="#999999" class="contenido2" height="35"><font size=2><strong>Comunicado a Gerencia de:</strong></font></td>
+      </tr>
+	   <tr>
+        <td  align="left" style="font-size:13px;">Firma:</td>
+      </tr>
+      <tr>
+      <td align="left" style="font-size:13px;">Fecha:</td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>-->
+<!-----------------------------------------------------------------comienza-->
+ <table border="0" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;clear:both;">
+  <tr>
+    <td class="blanco2" width="645"  height="45"><em><strong>DESCRIPCION DEL HALLAZGO</strong></em></td>
+    <td  class="blanco2" height="35" width="115"><font size=2><strong>Comunicado a Gerencia de:</strong></font></td>
+  </tr>
+  <tr>
+    <td class="dato2">{$doc.descripcion}</td>
+    <td align="left" style="font-size:13px; color:#FFF;">Firma:</td>
+  </tr>
+  <tr>
+    <td  style="border-top-color:#FFF; border:0;">&nbsp;</td>
+    <td align="left" style="font-size:13px;color:#FFF;">Fecha:</td>
+  </tr>
+</table>
+
+
+
+
+
+
+<!--accion-->
+<!--<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">  
+<tr bgcolor="#999999">
+    <td class="contenido2"><div align="center"><em><strong>ANALISIS DE LA CAUSA RAIZ DE NO CONFORMIDADES</strong></em></div></td>
+  </tr>
+</table>
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">
+  <tr height="30">
+</td>
+  </tr>
+  <tr>
+    <td class="dato" style="border-right-color:#FFF;">{$doc.analisis_causa}</td>
+    <td class="contenido2" style="border:none"><div align="left"><br><em>Firma:</em><br></div></td>
+    <td class="contenido2" style="border:none"><div align="left"><br><em>Fecha:</em><br></div></td>
+  </tr>
+</table>-->
+<br>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">
+<tr><td class="blanco2" colspan="3"><div align="center"><em><strong>ANALISIS DE LA CAUSA RAIZ DE NO CONFORMIDADES</strong></em></div></td></tr>
+<tr>
+  <td colspan="3" class="dato2" style="border-bottom-color:#FFF">{$doc.analisis_causa}</td>
+</tr>
+<tr>
+  <td style="border:none" width="70%">&nbsp;</td>
+  <td class="blanco2" style="border:none"><div align="left"><br><em>Firma:</em><br></div></td>
+  <td class="blanco2" style="border:none"><div align="left"><br><em>Fecha:</em><br></div></td>
+</tr>
+</table>
+
+
+
+
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">  
+<tr>
+    <td width="110" rowspan="2" class="blanco2"><div align="center"><em><strong>DISPOSICION:</strong></em></div></td>
+    <td width="164" class="blanco2"><div align="right">Reprocesar</div></td>
+    <td width="25"  class="dato2"><div align="right">&nbsp;&nbsp;{if $doc.disposicion=='Reprocesar'}X{/if}&nbsp;&nbsp;</div></td>
+    <td width="251" class="blanco2"><div align="right">Usar con Autorizaci&oacute;n </div></td>
+    <td width="27" class="dato2"><div align="right">&nbsp;&nbsp;{if $doc.disposicion=='Usar con autorización'}X{/if}&nbsp;&nbsp;</div></td>
+    <td width="98" class="blanco2"><div align="right">Devolver</div></td>
+    <td width="28" class="dato2"><div align="right">&nbsp;&nbsp;{if $doc.disposicion=='Devolver'}X{/if}&nbsp;&nbsp;</div></td>
+  </tr>
+  <tr>
+    <td class="blanco2"><div align="right">Reclasificar</div></td>
+    <td class="dato2"><div align="right">&nbsp;&nbsp;{if $doc.disposicion=='Reclasificar'}X{/if}&nbsp;&nbsp;</div></td>
+    <td class="blanco2"><div align="right">Desechar</div></td>
+    <td class="dato2"><div align="right">&nbsp;&nbsp;{if $doc.disposicion=='Desechar'}X{/if}&nbsp;&nbsp;</div></td>
+    <td class="blanco2"><div align="right">Otros</div></td>
+    <td class="dato2"><div align="right">&nbsp;&nbsp;{if $doc.disposicion=='Otros'}X{/if}&nbsp;&nbsp;</div></td>
+  </tr>
+</table>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">  
+<tr>
+    <td width="120" class="blanco2" rowspan="2"><div align="center"><em><strong>ACCION CORRECTIVA (A.C.)</strong></em></div></td>
+    <td width="671" class="dato2"><div align="left"><em>Inmediata:</em>&nbsp;&nbsp;{$doc.accion_inmediata}</div></td>
+</tr>
+<tr>
+    <td width="671" class="dato2"><div align="left"><em>Otras:</em>&nbsp;&nbsp;{$doc.accion_otras}</div></td>
+</tr>
+</table>
+<!-------------------------------------------------------------------termina-->
+
+
+<!--revision-->
+<br>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+  <tr>
+    <td class="blanco2"><div align="center"><em><strong>RESPONSABLE DE CUMPLIMIENTO A.C.</strong></em></div></td>
+    <td class="blanco2"><div align="center"><em><strong>FECHA DE CUMPLIMIENTO</strong></em></div></td>
+    <td class="blanco2"  colspan="2"><div align="center"><em><strong>FECHA DE VERIFICACION</strong></em></div></td>
+    <td class="blanco2"><div align="center"><em><strong>EXTENSION DEL PLAZO DE CIERRE</strong></em></div></td>
+    <td class="blanco2" colspan="2"><div align="center"><em><strong>FECHA DE VERIFICACION</strong></em></div></td>
+    <td  width="156" class="blanco2"><div align="center"><em><strong>Vo. Bo. Gerente General</strong></em></div></td>
+  </tr>
+  <tr>
+    <td class="dato2" style="border-bottom-color:#FFF">{$doc.responsable_cumplimiento}</td>
+    <td class="dato2" style="border-bottom-color:#FFF">{$doc.fec_cumplimiento}</td>
+    <td class="dato2" colspan="2">{$doc.fec_ver_cumplimiento}</td>
+    <td class="dato2" style="border-bottom-color:#FFF">{$doc.fec_extension}</td>
+	<td class="dato2" colspan="2" style="border-bottom-color:#FFF">{$doc.fec_ver_extension}</td>
+    <td  width="156" class="dato"></td>
+  </tr>
+  <tr>
+    <td style="border-top: hidden;"></td>
+    <td style="border-top: hidden;"></td>
+    {if $doc.efectividad=='Efectivo'}<td width="49" class="blanco4"><b>Efectivo</b></td>{else}<td width="49" class="blanco4">Efectivo</td>{/if}
+    {if $doc.efectividad=='No efectivo'}<td width="49" class="blanco4"><b>No efectivo</b></td>{else}<td width="49" class="blanco4">No efectivo</td>{/if}
+	<td style="border:none">&nbsp;</td>
+    {if $doc.efectividad_ext=='Efectivo'}<td width="49" class="blanco4"><b>Efectivo</b></td>{else}<td width="49" class="blanco4">Efectivo</td>{/if}
+    {if $doc.efectividad_ext=='No efectivo'}<td width="49" class="blanco4"><b>No efectivo</b></td>{else}<td width="49" class="blanco4">No efectivo</td>{/if}
+	<td style="border-top: hidden;"></td>
+  </tr>
+</table>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">
+  <tr>
+    <td class="blanco2" ><p align="left"><em><strong>CAUSA DE LA EXTENSI&Oacute;N DEL PLAZO: </strong></em>{$doc.causa_extension}</p></td>
+  </tr>
+</table>
+<br>
+<!--cierre-->
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">
+  <tr>
+    <td class="contenido2" ><p align="left"><em><strong>ACCIONES TOMADAS Y RESULTADOS OBTENIDOS: </strong></em>{$doc.accion_resultado}</p>
+    <p>&nbsp;</p></td>
+  </tr>
+</table>
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">  
+<tr>
+    <td width="342" bgcolor="#999999" class="contenido2"><div align="left"><em><strong>APLICA COMUNICACION CON EL CLIENTE?</strong></em></div></td>
+    <td width="155" class="contenido2"><div align="right"><em><strong>Si</strong></em></div></td>
+    <td  class="dato">&nbsp;&nbsp;{if $doc.aplica_comunicacion=='SI'}X{/if}&nbsp;&nbsp;</td>
+   <!-- <td width="24">&nbsp;</td>-->
+    <td width="214" class="contenido2"><div align="right"><em><strong>No</strong></em></div></td>
+<td  class="dato">&nbsp;&nbsp;{if $doc.aplica_comunicacion=='NO'}X{/if}&nbsp;&nbsp;</td>
+<!--    <td width="20">&nbsp;</td>-->
+  </tr>
+</table>
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">  <tr>
+    <td width="323" bgcolor="#999999" class="contenido2" ><div align="left"><em><strong>PERSONA QUE CONTACTO AL CLIENTE : </strong></em></div></td>
+    <td width="277" class="dato">&nbsp;{$doc.responsable_contacto}</td>
+    <td width="66" bgcolor="#999999" class="contenido2"><strong><em>FECHA:</em></strong></td>
+    <td width="91" class="dato">&nbsp;{if $doc.fec_contacto eq '0000-00-00'}--{else}{$doc.fec_contacto}{/if}</td>
+  </tr>
+</table>
+<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;margin:0cm;width:20.3cm; clear:both;">
+  <tr>
+    <td class="contenido2" ><p align="left"><em><strong>COMUNICACION CON EL CLIENTE: </strong></em>{$doc.comunicacion_cliente}</p></td>
+  </tr>
+</table>
+<!--fin-->
+<p>&nbsp;</p>
+	<div id=idControls class="noprint" style="text-align:center;width:100%; clear:both">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				<input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Configurar P&aacute;gina" onClick="factory.printing.PageSetup()" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+				<hr size="1">
+			</td>
+		</tr>
+		</table>
+</div>
+
+</div>
+
+</body>
+</html>

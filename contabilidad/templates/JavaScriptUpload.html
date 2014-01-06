@@ -1,0 +1,273 @@
+<HTML>
+	<HEAD>
+		<title>Flash with Java script file upload example.</title>
+		<link rel="stylesheet" href="styles.css">
+		<META http-equiv="PRAGMA" content="NO-CACHE">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></HEAD>
+<body>
+All files with examples should be opened from web server (i.e http://www.yourserver.com/example.html or http://localhost/example.html)!<br>
+<h3>MultiPowUpload external interface (JavaScript + HTML) sample</h3>
+Example demonstrates how to replace Flash interface and functionality with your custom HTML and Java Script code.
+<br>By default Flash posts files to "uploadfiles.aspx" ASP.NET file processing script. To set other script file name modify "uploadUrl" parameter value of Flash object. 
+<br><br>
+Before running this sample you need to set upload processing script file name at "uploadUrl" parameter in "FlashVars" attributes of OBJECT and EMBED tags. Also set the same script name at Form <b>"Action"</b> attribute and <b>uploadUrl</b> JavaScript variable. It can be: <ul>
+  <li>For ASP: <code>uploadUrl=FileProcessingScripts/ASP/ClearASP/uploadfiles.asp</code></li>
+  <li>For ASPPowUpload control: <code>uploadUrl=FileProcessingScripts/ASP/ASPPowUpload/uploadfiles.asp</code></li>
+  <li>For PHP : <code>uploadUrl=FileProcessingScripts/PHP/uploadfiles.php</code></li>
+  <li>For ASP.NET (C Sharp): <code>uploadUrl=FileProcessingScripts/ASP.NET/CSharp/uploadfiles.aspx</code></li>
+  <li>For ASP.NET (VB.NET): <code>uploadUrl=FileProcessingScripts/ASP.NET/VBNET/uploadfiles.aspx</code></li>
+   <li>For ASP.NET (PowUpload .NET control): <code>uploadUrl=FileProcessingScripts/ASP.NET/PowUpload/uploadfiles.aspx</code></li>
+  <li>For Perl : <code>uploadUrl=FileProcessingScripts/PERL/uploadfiles.pl</code></li>
+  <li>For Cold Fusion : <code>uploadUrl=FileProcessingScripts/ColdFusion/uploadfiles.cf</code></li>
+  <li>For JSP : <code>uploadUrl=FileProcessingScripts/JSP/uploadfiles.jsp</code></li>
+</ul>
+<table>
+	<tr>
+		<td align="center">
+			<font style="font-size:10px;font-family:Verdana, Arial, Helvetica, sans-serif" color="#494949">
+				You need at least 8 version of Flash player. Download last version 
+				<a target="_blank" href="http://www.adobe.com/shockwave/download/alternates/">here</a>
+			</font><br><br>
+<!-- FLASH UPLOAD CODE. START -->
+<div align="left" id="FlashUpload" style=" background-color:#99CCFF ">
+<OBJECT id="FlashFilesUpload" codeBase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
+		width="450" height="350" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" VIEWASTEXT>
+		<!-- Replace symbols " with the &quot; at all parameters values and 
+		symbols "&" with the "%26" at URL values or &amp; at other values!
+		The same parameters values should be set for EMBED object below. -->
+	<PARAM NAME="FlashVars" VALUE="uploadUrl=
+&useExternalInterface=Yes">
+	<PARAM NAME="BGColor" VALUE="#F8F6E6">
+	<PARAM NAME="Movie" VALUE="ElementITMultiPowUpload1.7.swf">
+	<PARAM NAME="Src" VALUE="ElementITMultiPowUpload1.7.swf">
+	<PARAM NAME="WMode" VALUE="Window">
+	<PARAM NAME="Play" VALUE="-1">
+	<PARAM NAME="Loop" VALUE="-1">
+	<PARAM NAME="Quality" VALUE="High">
+	<PARAM NAME="SAlign" VALUE="">
+	<PARAM NAME="Menu" VALUE="-1">
+	<PARAM NAME="Base" VALUE="">
+	<PARAM NAME="AllowScriptAccess" VALUE="always">
+	<PARAM NAME="Scale" VALUE="ShowAll">
+	<PARAM NAME="DeviceFont" VALUE="0">
+	<PARAM NAME="EmbedMovie" VALUE="0">	    
+	<PARAM NAME="SWRemote" VALUE="">
+	<PARAM NAME="MovieData" VALUE="">
+	<PARAM NAME="SeamlessTabbing" VALUE="1">
+	<PARAM NAME="Profile" VALUE="0">
+	<PARAM NAME="ProfileAddress" VALUE="">
+	<PARAM NAME="ProfilePort" VALUE="0">
+	
+	<!-- Embed for Netscape,Mozilla/FireFox browsers support. Flashvars parameters are the same.-->
+		<!-- Replace symbols " with the &quot; at all parameters values and 
+		symbols "&" with the "%26" at URL values or &amp; at other values! -->
+	<embed bgcolor="#F8F6E6" id="EmbedFlashFilesUpload" src="ElementITMultiPowUpload1.7.swf" quality="high" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"	type="application/x-shockwave-flash" width="450" height="350" flashvars="uploadUrl=
+&useExternalInterface=Yes">
+	</embed>
+  </OBJECT>
+ </div>
+ <!-- FLASH UPLOAD CODE. END -->
+ 
+ <!-- JAVA SCRIPT INTERFACE CODE. START -->
+ <div align="left" id="JSUpload" style="width:1px;height:1px;visibility:hidden;">
+  <input type="Button" value="Browse files..." name="flashInfoButton" onClick="javascript:browsefiles();" style="width:100px;" /><br>
+  <select id="fileslist" name="fileslist" style="HEIGHT:200px;WIDTH:300px;" multiple>
+  </select>
+	<table style="border:solid 1px #000033;" width="300" height="25" cellpadding="0" cellspacing="0">
+		<tr>
+			<td>
+				<table id="rowProgress" bgcolor="#0033ff" width="1" height="25" cellpadding="0" cellspacing="0">
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+<div id="lable">&nbsp;</div>
+<input type="Button" value="Upload" name="flashInfoButton" onClick="javascript:upload();" style="width:100px;" />
+</div> 
+<!-- JAVA SCRIPT INTERFACE CODE. END -->
+
+<!-- CLASSIC UPLOAD CODE. START -->
+<div align="left" id="ClassicUpload" style="width:1px;height:1px;visibility:hidden;">	
+	<script language="javascript">
+		var classicFilesCount = 1;
+		function ShowClassicUpload()
+		{
+			InitFlashObj(); //sometimes Flash not initialized while window.onload event
+			if(Flash) //hide flash
+			{
+				Flash.width = 1;
+				Flash.height = 1;
+			}
+			var JSUpload = document.getElementById("JSUpload");
+			if(JSUpload) //hide flash JavaScript interface
+			{
+				JSUpload.style.visibility = "hidden";
+				JSUpload.style.width = 1;
+				JSUpload.style.height = 1;
+				JSUpload.innerHTML = ""; // JSUpload willn't be available after this.
+			}
+			var ClassicUpload = document.getElementById("ClassicUpload");
+			ClassicUpload.style.visibility = "visible";
+			ClassicUpload.style.width = 350;
+			ClassicUpload.style.height = 200;			
+			
+		}
+		function AddFile() //Dinamicaly add new file fields
+		{	
+			var lastInputFile = document.getElementById("file" + classicFilesCount);
+			classicFilesCount ++;	
+			var elementNewFile = document.createElement('font');	
+			elementNewFile.innerHTML = '<BR><input type="file" name="file' + classicFilesCount + '" onChange="javascript: AddFile();" ID="file' + classicFilesCount + '" style="width:440;">';
+			document.getElementById("classicFilesList").appendChild(elementNewFile);
+		}
+	</script>
+	 <form name="form" method="post" action="" encType="multipart/form-data">
+		<p id="classicFilesList">
+			<input onChange="javascript: AddFile();" type="file" name="file1" id="file1" style="width:440;">
+		</p>			
+		<input type="submit" name="ClassicSubmitButton" value="Upload">
+	</form>
+</div>
+<input align="left" type="Button" value="Show classic upload" onClick="javascript:ShowClassicUpload();"/>
+<!-- CLASSIC UPLOAD CODE. END -->
+
+	  </td>
+  </tr>
+</table>
+	  
+<hr>		
+<a href="Default.html" title="Other examples">Other examples</a>
+  <script language="JavaScript">
+	
+	var Flash;
+	var uploadedfilescount = 0;
+	var uploadUrl = "";
+	
+	window.onload = function() {	
+		InitFlashObj();
+	}
+	
+	//Init "flash" object
+	function InitFlashObj()
+	{
+		if(document.embeds && document.embeds.length>=1 && navigator.userAgent.indexOf("Safari") == -1)
+			Flash = document.getElementById("EmbedFlashFilesUpload");
+		else
+			Flash = document.getElementById("FlashFilesUpload");
+	}
+	
+	/*
+		MultiPowUpload_onMovieLoad. Invoked when the movie loaded and if browsers supports ExternalInterface i.e 
+		 programming interface that enables straightforward communication between Flash Movie and JavaScript.
+	*/
+	function MultiPowUpload_onMovieLoad()
+	{
+		InitFlashObj(); //sometimes Flash not initialized while window.onload event
+		Flash.width = 1;
+		Flash.height = 1;
+		
+		var JSUpload = document.getElementById("JSUpload");
+		JSUpload.style.visibility = "visible";
+		JSUpload.style.width = 350;
+		JSUpload.style.height = 300;	
+	}
+	
+	/*
+		flash.browseFiles(typelist) displays a file-browsing dialog box in which the user can select a local file to upload. 
+		The dialog box is native to the user's operating system.
+		typelist - An array of file types used to filter the files displayed in the dialog box.
+	*/
+	function browsefiles()
+	{
+		var allTypes = new Array();
+		var imageTypes = new Object();
+		imageTypes.description = "All files";
+		imageTypes.extension = "*.*";
+		imageTypes.macType = "*";
+		allTypes.push(imageTypes);	
+		imageTypes = new Object();
+		imageTypes.description = "Images (*.JPG;*.JPEG;*.JPE;*.GIF;*.PNG;)";
+		imageTypes.extension = "*.jpg; *.jpeg; *.jpe; *.gif; *.png;";
+		imageTypes.macType = "JPEG;jp2_;GIFF;PNG;";
+		allTypes.push(imageTypes);	
+		Flash.browseFiles(allTypes);
+	}
+	
+	//Clear list
+	function clearListBox(lstBox)
+	{		
+		while (lstBox.length > 0)
+		{
+			lstBox.remove(0);
+		}
+	}
+	
+	//Update HTML progress bar state
+	function updateProgressBar(percentDone)
+	{
+		var rowProgress = document.getElementById("rowProgress");
+		if(percentDone>=1)
+			rowProgress.width = percentDone + "%";
+		else
+			rowProgress.width = "1";
+	}
+	
+	/*
+		flash.uploadAll(url) Starts the upload of a files in list to a remote server.
+		url - The URL of the server script configured to handle upload through HTTP POST calls.
+	*/
+	function upload()
+	{
+		updateProgressBar(0);
+		uploadedfilescount = 0;
+		document.getElementById("lable").innerHTML = "";
+		Flash.uploadAll(uploadUrl);
+	}
+	
+	//MultiPowUpload_onSelect. Invoked when the user selects a file to upload or download from the file-browsing dialog box.
+	function MultiPowUpload_onSelect()
+	{
+		var list = Flash.fileList();
+		var fileslist = document.getElementById("fileslist");
+		var i = 0;
+		clearListBox(fileslist);
+		for(i=0; i<list.length; i++)
+		{
+			fileslist.options[fileslist.options.length] = new Option(list[i].name + 
+			" (" + list[i].size + " bytes)", i, false, false );
+		}
+	}
+	
+	//MultiPowUpload_onProgress. Invoked periodically during the file upload or download operation
+	function MultiPowUpload_onProgress(type, index, fileBytesLoaded, fileBytesLength, totalBytesLoaded, totalBytesLength) 
+	{
+	   var PercentDone = new Number((totalBytesLoaded/totalBytesLength)*100).toFixed(1);
+	   document.getElementById("lable").innerHTML = PercentDone + "% uploaded" + " (" + uploadedfilescount + " files)";
+	   updateProgressBar(PercentDone);
+	}
+	
+	//MultiPowUpload_onError. Invoked when an input/output error occurs or when an upload/download fails because of an HTTP error
+	function MultiPowUpload_onError(type, index, error) 
+	{
+	   window.alert(error);
+	}
+	
+	//MultiPowUpload_onComplete. Invoked when the upload or download of single file operation has successfully completed
+	function MultiPowUpload_onComplete(type, index)
+	{
+		uploadedfilescount++;
+	}
+	
+	//MultiPowUpload_onCompleteAbsolute. Invoked when the upload or download of all files operation has successfully completed
+	function MultiPowUpload_onCompleteAbsolute(type, totalBytesLoaded)
+	{
+	  document.getElementById("lable").innerHTML = "Upload complete! Total bytes " + totalBytesLoaded + " (" + uploadedfilescount + " files)";
+		var fileslist = document.getElementById("fileslist");
+		clearListBox(fileslist);
+	}
+	  </script>
+</body>
+</HTML>

@@ -1,0 +1,138 @@
+{include file="header.html" title=$title}
+
+{literal}
+<script type="text/javascript">
+function enter_handle (field, event, salto, tipo) {
+	var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+	if (keyCode == 13) {
+		var i;
+		for (i = 0; i < field.form.elements.length; i++)
+			if (field == field.form.elements[i])
+				break;
+		
+		i = (i + salto) % field.form.elements.length;
+		if (field.form.elements[i] != null) {
+			field.form.elements[i].focus();
+			field.form.elements[i].select();
+			return false;
+		}
+	} else
+		if (tipo == 0)//validar numeros
+			if (keyCode < 48 || keyCode > 57)
+				return false;
+			else
+				return true;
+		else
+			return true;
+}
+
+</script>
+{/literal}
+<br/>
+{if $perdis ne null}
+{if $peropen < 2}
+<form name="formp" action="actions/action_registrarPeriodo.php" method="post">
+  <table width="700" border="0" cellpadding="2" cellspacing="1" class="tableblue">
+    <caption class="search-box" >
+      Registrar Periodo -
+      Gesti&oacute;n
+    </caption>
+	
+    <tr>
+      <td colspan="2" align="left" valign="top">
+		{if $reg_ok ne null}  
+		  <table width="500" border="1" cellpadding="0" cellspacing="0" class="finish">
+		<tr>
+		<td align="center" width="500">Se registro el periodo con exito.</td>
+		</tr>
+		</table>
+
+		{/if}	  </td>     
+    </tr>	
+    <tr>
+      <td align="right" valign="top" class="styleText">Gestion:</td>
+      <td valign="top">{$gestion}
+      <input type="hidden" name="gestion" value="{$gestion}" /></td>
+    </tr>
+    <tr>
+      <td width="200" align="right" valign="top" nowrap="nowrap" class="styleText">Periodos registrados:</td>
+      <td width="483" valign="top">
+	  
+        {section name=ind loop=$periodos}
+        {$periodos[ind].periodo}/{$periodos[ind].gestion}<br/>
+        {/section}	
+      </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top" class="styleText">Periodos abiertos: </td>
+      <td valign="top"> {if $abiertos ne null}
+        {section name=ind2 loop=$abiertos}
+        {$abiertos[ind2].periodo}/{$abiertos[ind2].gestion}<br/>
+        {/section}	
+        {else}
+        No disponible.
+        {/if} </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top" class="styleText">Periodos disponibles: </td>
+      <td valign="top"> {if $perdis ne null}
+        <select name="periodo" class="text3" onkeypress="return enter_handle(this, event, 1, 1)">
+          
+	{section name=idx loop=$perdis}
+	
+          <option value="{$perdis[idx]}">{$perdis[idx]}</option>
+          
+	{/section}
+	
+        </select>
+        {else}
+        <span id="errorlabel">No existe periodos disponibles para la gestion .</span>        {/if} </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top" class="styleText">I.V.A.:</td>
+      <td><input name="iva" type="text" class="text3" value="{$val.iva}" size="5" maxlength="6" onkeypress="return enter_handle(this, event, 1, 1)"/>
+        %&nbsp;&nbsp;&nbsp;&nbsp;<span id="errorlabel">{$error.iva}</span></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top" class="styleText">Observascion:</td>
+      <td><textarea name="obs" cols="70" class="text3" onkeypress="return enter_handle(this, event, 1, 1)">{$val.obs}</textarea></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">&nbsp;</td>
+      <td>	  
+	  <input name="registrar" type="submit" class="text3" value="Registrar" />
+	   <input name="cancelar" type="button" class="text3" onclick="location='/sistema/macaws/lcv.php'" value="Cancelar" />
+	  </td>
+    </tr>
+  </table> 
+</form>
+{else}
+<table width="700" border="1" cellpadding="0" cellspacing="0" class="error-box">
+	<tr>
+	<td align="center" width="700">
+		<p>
+		No puede registrar mas periodos, solo puede haber 2 periodos abiertos en el sistema.<br/>
+		Cierre alguno para poder continuar.<br/>
+		</p>
+	</td>
+	</tr>
+</table>
+{/if}
+{else}
+<table width="700" border="1" cellpadding="0" cellspacing="0" class="error-box">
+	<tr>
+	<td align="center" width="700">
+		<p>
+		SE COMPLETO EL REGISTRO DE 12 PERIODOS PARA ESTA GESTION.<br/>
+		GRACIAS.<br/>
+		</p>
+	</td>
+	</tr>
+</table>
+{/if}
+</body>
+</html>

@@ -1,0 +1,125 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<script language="javascript" type="text/javascript">
+
+function imprSelec(nombre){
+	
+	var ficha = document.getElementById(nombre);
+	var ventimp = window.open("","","toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,width=700,height=250");
+	ventimp.document.write("<title>Imprimir credencial</title><div style='text-align:center;'>");
+	ventimp.document.write(ficha.innerHTML + "</div>");
+	ventimp.document.close();
+	ventimp.print();
+	ventimp.close();
+}
+
+</script>
+{/literal}
+
+<br />
+
+<form action="../../controladores/sistema_de_produccion/personal.php" method="post" name="personal" id="personal" >
+<table width="80%" border="0" align="center" cellpadding="3" cellspacing="1">
+  <tr>
+    <th colspan="2">Datos del credencial</th>
+  </tr>
+
+   <tr>
+    <td class="enunciados" width="25%">
+		Tipo de Credencial: 
+	</td>
+    <td style="padding-left:8px;">
+		<input type="radio" name="tipo" id="t1" value="t1" {if $credencial.tipo == 't1'}checked="checked"{/if}/>&nbsp;<label for="t1">Planilla</label><br />
+		<input type="radio" name="tipo" id="t2" value="t2" {if $credencial.tipo == 't2' || $credencial.tipo == null}checked="checked"{/if}/>&nbsp;<label for="t2">Consultores</label><br />
+		<input type="radio" name="tipo" id="t3" value="t3" {if $credencial.tipo == 't3'}checked="checked"{/if}/>&nbsp;<label for="t3">Servicio externo</label>
+	</td>
+   </tr>
+
+  {if $errores.err_nombre_bus != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_nombre_bus}</div>
+	</td>
+	<td/>
+  </tr>
+  {/if}
+
+   <tr>
+    <td class="enunciados" width="25%">
+		C&oacute;digo:
+	</td>
+    <td >
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="pid" type="text" id="pid" value="{$credencial.pid}" tabindex="1" style="border:none;" readonly="readonly" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>
+	</td>
+   </tr>
+   <tr>
+    <td class="enunciados" width="25%">
+		Nombre:
+	</td>
+    <td >
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="nombre" type="text" id="nombre" value="{$credencial.nombre}" size="50" tabindex="2" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>
+	</td>
+   </tr>
+   <tr>
+    <td class="enunciados" width="25%">
+		Cargo:
+	</td>
+    <td >
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="cargo" type="text" id="cargo" value="{$credencial.cargo}" size="50" tabindex="3" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>
+	</td>
+   </tr>
+   <tr>
+    <td class="enunciados" width="25%">
+		Grupo sangu&iacute;neo:
+	</td>
+    <td >
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/sangre.jpg" class="imagenes"/>
+			<input name="gs" type="text" id="gs" value='{$credencial.gs}' style="border:none;" onkeypress="return enter_handle(this, event, 2, 1)"/>
+		</span>
+	</td>
+   </tr>
+   <tr>
+    <td class="enunciados" width="25%">
+		Fotograf&iacute;a:
+	</td>
+    <td >
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="fotografia" type="text" id="fotografia" value="{$credencial.fotografia}" readonly="readonly" tabindex="1" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>
+	</td>
+   </tr>
+   
+   <tr>
+    <td colspan="2" style="padding:10px;text-align:center;">
+	    <input name="mostrar_credencial" type="submit" value="Mostrar Credencial" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  	<input name="reset" type="reset" value="Reestablecer Datos" class="boton">
+		{if $imagen_credencial != null}
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input name="mostrar_credencial" type="button" value="&nbsp;&nbsp;Imprimir&nbsp;&nbsp;" onClick="javascript:imprSelec('imgcredencial')"; class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+		{/if}
+	</td>
+   </tr>
+   
+</table>
+</form>
+
+{if $imagen_credencial != null}
+	<div align="center" id="imgcredencial">
+		<span style="border:1px #000000 solid;">{$imagen_credencial}</span>
+	</div>
+	<br />
+{/if}

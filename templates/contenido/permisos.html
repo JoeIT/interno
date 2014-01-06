@@ -1,0 +1,32 @@
+{include file="../templates/contenido/includes/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{include file="../templates/contenido/includes/usuario.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<div align="center">
+	<br />
+	<br />
+	<table width="100%" border="1">
+	  <tr>
+	    <td>
+					<table border="1" >
+					<tr>
+						<th>Nombre</th>
+						<th>URL</th>
+					</tr>
+			 		{foreach key=key item=item from=$permisos}
+  					<tr>
+						<td >{$key}:{$item.nombre}</td>
+						<td >{$key}:{$item.url}</td>
+			   		</tr>
+					{/foreach}
+					</table>				
+		</td>
+      </tr>
+	  <tr>
+	    <td>
+		Algunas descripciones
+		</td>
+      </tr>
+	</table>
+</div>
+
+{include file="../templates/contenido/includes/pie.html"}

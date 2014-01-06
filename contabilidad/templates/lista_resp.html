@@ -1,0 +1,160 @@
+{include file="cabecera.html"} <br />
+{literal}
+
+<script language="javascript">
+/*function actualizar (paginaservidor,combo,lista,clave){
+
+var miAjax = new Ajax(paginaservidor,
+{
+	method: 'get',
+	data:clave+'='+$(combo).value,
+	
+	update: $(lista)
+	
+});
+miAjax.request();
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}*/
+function actualizar (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { primaria: $F(combo)} 
+});
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}
+</script>
+
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar el clip: " + nombre ))
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+						
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+	 {/literal}
+
+
+<form name="orden" method="get" action="../controladores/activo.php"  align="center">
+ 
+  <table  border="0" align="center" cellpadding="0" cellspacing="3">
+				<tr> 
+					 <th colspan="2">Responsable</th> </tr>
+					
+					   <tr> 
+				<tr> {if $error != null}
+					 <td class="error-box" colspan="2"> {$error}</td> </tr>{/if}
+					{if $errores.err_confirm != null }
+					   <tr> 
+					 <td class="error-box" colspan="2"> {$errores.err_confirm} </td> </tr> {/if}
+
+  
+ 
+  
+	
+	 
+  
+    <td class="enunciados"><div align="left">Responsable:</div></td>
+    <td class="body-sector"  >
+	<div align="left" class="entrada" style="margin:5px; border:none">
+	 <span class="entrada" style="margin:5px; border:none">
+	 	<span class="entrada" style="margin:5px;">
+
+		 <input type="text" name="nombre_asis2" id="nombre_asis2" style="border:none;"  onkeypress="return handleEnter(this, event)" value="{$nombre_asis2}" size="40"/>
+        </span>	</span><span class="entrada" style="margin:5px; border:none">
+        <span class="entrada" style="margin:5px; border:none"><img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="{literal}document.getElementById('nombre_asis2').focus();document.getElementById('nombre_asis2').select();{/literal}" style="cursor:pointer;" alt="Seleccionar Nombre"/></span>
+        <input type="hidden" name="resp_id2" id="resp_id2"  value="{$resp_id2}" />
+        </span><span class="entrada" style="margin:5px; border:none"><span class="entrada" style="margin:5px; border:none">
+        <input type="hidden" name="resp_1" id="resp_1"  value="{$resp_1}" />
+        </span></span></div>
+        <span id="spinner" style="display:none"> </span>
+        <div id="lista_nombres_asis" class="autorelleno"></div>
+      {literal}
+      <script>
+			new Ajax.Autocompleter("nombre_asis2", "lista_nombres_asis", "../controladores/activo.php?opcion=busqueda_ajax1", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+			function mostrar_categoria(text,li) {
+				cadena = li.id;
+				//caracteristicas = cadena.split("-");
+				//var str = document.getElementById("nombre_asis").value;
+				document.getElementById("resp_id2").value = cadena;
+				document.getElementById("nombre_asis2").value = str.substr(0)
+			}
+		</script>
+      {/literal}
+	  <div id="mainContent"> <a  href="javascript:ventanaSecundaria1 ('responsable.php?popup=true')"> registrar responsable </a> </div>
+	  </td>
+	  
+    </tr>
+</table>
+
+  <center><p><input type="submit" value="Buscar" name="listar_resp" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+  </p></center>
+  <p>{if $busqueda1}  </p>
+  <table align="center" cellpadding="3">
+    <tr>
+      <th colspan="9"> Lista de Responsables </th>
+    </tr>
+    <tr>
+      <td class="enunciados" style="text-align:center">Nombre</td>
+      <td class="enunciados">Cargo</td>
+      <td class="enunciados" style="text-align:center">Eliminar</td>
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+    
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+    <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+     
+	  
+      <td align="center">
+	<!--
+	solo para modificar los activos que ya tinen sin responsables
+	-->  
+	  <!--<a href="../controladores/modificar_activo.php?funcion=detalle&elegido={$lista1[ind].act_id} " name="{$lista1[ind].act_id}" id="{$lista1[ind].act_id}">{$lista1[ind].numero}</a>
+-->
+
+		<a href="../controladores/modificar_responsable.php?funcion=detalle&elegido={$resp.resp_id} " name="{$resp.resp_id}" id="{$resp.resp_id}">{$resp.completo}</a>
+      <td>{$resp.cargo}</td>
+	  <td class="body-sector"><center>
+	   <a href="../controladores/modificar_responsable.php?funcion=eliminar&elegido={$resp.resp_id} " onclick="{literal}if(confirm('Esta seguro de eliminar ?') == false){return false;}{/literal}">
+				<img src="../../templates/imagenes/eliminar.gif" width="29" height="30" class="imagenes"/>				</a>	
+            </center>    </tr>
+    
+  <tr>
+    <td colspan="9"><hr>    </td>
+    </tr>
+  </table>
+  <br />
+ 
+{/if}
+<p>&nbsp;</p>
+  <p>&nbsp;    </p>
+
+</form>
+
+</body>

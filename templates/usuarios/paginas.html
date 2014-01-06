@@ -1,0 +1,154 @@
+<head>
+      {include file="../../templates/sistema_de_produccion/cabecera.html"}
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar la pagina: " + nombre ))
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+						
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			function match_file(prueba)
+			{
+				document.form_lista.path.value=prueba;
+			}
+			</SCRIPT>
+	 {/literal}
+</head>
+<body>
+<br>
+ <table width="100%">
+	<tr>
+		
+		<td width="80%">
+
+		{if $errores != null}
+		     <table align="center" >
+                 	{if $errores.err_descripcion != null} 
+					<tr> 
+						<td class="error-box">{$errores.err_descripcion} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_pagina != null} 
+					<tr> 
+						<td class="error-box">  {$errores.err_pagina} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_confirm != null} 
+					<tr> 
+						<td class="error-box"> {$errores.err_confirm} </td> 
+					</tr>
+					{/if}
+		 	 </table>
+		 {/if}
+			<form name="form_lista" method="get" action="../../controladores/usuarios/paginas.php">
+			
+			<input type="hidden" name="elegido">
+       		<input type="hidden" name="funcion">
+       		<input type="hidden" name="path">	
+			<table width="55%" border="0" align="center" >
+				<th colspan="2">Nueva pagina</th>
+			  	<tr>
+					<td class="enunciados" width="20%">Descripción:</td>
+					<td class="body-sector" >
+					<input name="nombre" type="text" value="{$nombre}" size="80"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="enunciados">Url: </td>
+					<td class="body-sector"><input type="file" name="url" value="{$url}" size="70" onChange="match_file(this.value);"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="enunciados">Observaciones:</td>
+					<td class="body-sector" ><input type="text" name="observaciones" value="{$observaciones}" size="80"/>
+					</td>
+				</tr>
+				<th colspan="2">Menú</th>
+			<tr>
+					<td class="enunciados">Icono: </td>
+					<td class="body-sector"><input type="file" name="icono" value="{$icono}" size="30" onChange="match_file(this.value);"/>					<font class="enunciados">Pestaña:
+					
+					</font>
+					<input name="pestana" type="text" id="modelo" value="{$pestana}" size="19" />
+					
+					<span id="spinner" style="display: none">
+					 <img src="../templates/imagenes/spinner.gif" alt="Consultando…" /> 
+					 </span>
+				        <div id="lista_modelos" class="autorelleno"> </div>
+					  {literal}
+					  <script>
+							new Ajax.Autocompleter("modelo", "lista_modelos", "../../controladores/usuarios/paginas.php?busqueda_ajax=pestanas", {method:"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+					</script>
+      {/literal} 
+
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input class="input" type="button" name="registrar" value=registrar onclick=consultar(name,value)>
+					</td>
+				</tr>
+				
+			</table>
+
+		</td>
+	</tr>
+	<tr>
+		<td>
+		        <table align="center" >
+					<th colspan="5">Lista de paginas</th>
+  					<tr>
+				     	 <td class="enunciados"><center> Codigo  </center></td>						
+				     	 <td class="enunciados"><center> Nombre  </center></td>
+				 
+				     	 <td class="enunciados"><center> Observaciones  </center></td>
+				     	 <td class="enunciados"><center> Modificar  </center></td>
+						 <td class="enunciados"><center> Eliminar  </center></td>
+			   		</tr>
+   					{foreach name=contenido item=clips from=$pagina}
+						<tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+							{foreach key=key item=item from=$clips}
+								{if $key == "codigo"}						
+									{assign var=usuario value=$item}
+								{/if}
+								{if $key != "url"}						
+									<td >{$item}</td>
+								{/if}
+								
+							{/foreach}
+							<td class="body-sector"><center>
+								<INPUT TYPE="image" SRC="../../templates/imagenes/modificar.gif"  width=15 height=15 border=0  name={$usuario} value=modificar onclick=consultar(name,value) >
+								</center>
+							</td>
+							<td class="body-sector"><center>
+								<INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif" width=15 height=15 border=0  name={$usuario} value=eliminar onclick=consultar(name,value)>
+								</center>
+							</td>
+	   					</tr>  
+					{/foreach}
+				</table>
+				<br>
+			    <center>
+		</form>  
+		</td>
+	</tr>
+</table> 
+</body>

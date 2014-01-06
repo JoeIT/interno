@@ -1,0 +1,163 @@
+<body>
+{include file="../templates/sistema_de_produccion/cabecera.html"} <br />
+{literal}
+<script language="JavaScript">
+   function noVacio() {
+    var bError = false;
+     bError = bError || (eval("document.cierre.accion_resultado.value == ''"));
+     if (bError){
+      alert("(*) Campos obligatorios");
+	  eval("document.cierre.accion_resultado.focus()");
+    }
+    if (!bError) alert("Se ingreso correctamente los valores de cierre RG-40.");
+   }
+  </script>
+  {/literal}
+<form name="cierre" method="post" action="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=4&funcion=validar&elegido={$revision.nro_registro}"  align="center">
+  <table rules="rows" BORDERCOLOR="#666666" border=1 align="center" cellpadding="0" cellspacing="0" width="95%">
+    <tr>
+      <td colspan="6"  bgcolor="#A8A8A8">Apertura de {$revision.tipo} [Codigo <strong>RG-40</strong>]</td>
+      
+    </tr>
+    <tr>
+      <td width="22%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">N&deg;. Registro:</td>
+      <td width="13%" class="body-sector"><strong>{$revision.nro_registro}</strong></td>
+      <td width="13%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Revision #:</td>
+      <td width="18%" class="body-sector"><strong>{$revision.nro_revision}</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">No Conformidad:</td>
+      <td class="body-sector"><strong>{$revision.tipo}</strong></td>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accion:</td>
+      <td class="body-sector"><strong>{$revision.accion}</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Aperturado por:</td>
+      <td class="body-sector"><strong>{$revision.area_observada}</strong></td>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px"> Fecha Informe (Gerencia): </td>
+      <td class="body-sector"><strong>{$revision.fec_apertura}</strong></td>
+  <tr>
+    <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Area(s) Informada(s):</td>
+    <td class="body-sector"><strong>{$revision.area_informada}</strong></td>
+    <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Tiempo Cierre:</td>
+    <td class="body-sector"><strong>{$revision.cierre}</strong></td>
+  </tr>
+  <tr >
+      
+       <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Documento que origino la No Conformidad/oportunidad de mejora:</td>
+       <td class="body-sector"><strong>{$revision.motivo}</strong></td>
+       <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Descripcion del hallazgo:</td>
+       <td class="body-sector"><strong>{$revision.descripcion}</strong></td>
+</tr>
+  </table>
+  <table rules="rows" BORDERCOLOR="#666666" border=1 align="center" cellpadding="0" cellspacing="0" width="95%">
+    <tr bgcolor="#A8A8A8">
+      <td colspan="6">Analisis y Accion de {$revision.tipo}[Codigo <strong>RG-40</strong>]</td>
+    </tr>
+    <tr>
+    <td width="29%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Disposicion:</td>
+    <td width="25%" class="body-sector" ><strong>{$revision.disposicion}</strong></td>
+      <td width="21%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accion Correctiva Inmediata:</td>
+  <td width="25%" class="body-sector"><strong>{$revision.accion_inmediata}</strong></td>
+    </tr>
+<tr>
+      
+       <td bgcolor="#E6E6E6" width="29%" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Analisis de la causa raiz de No Conformidades:</td>
+       <td class="body-sector" ><strong>{$revision.analisis_causa}</strong></td>
+       <td bgcolor="#E6E6E6" width="21%" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accion Correctiva Otras:</td>
+       <td class="body-sector"><strong>{$revision.accion_otras}</strong></td>
+</tr>
+</table>
+
+
+
+
+  <table rules="rows" BORDERCOLOR="#666666" border=1 align="center" cellpadding="0" cellspacing="0" width="95%">
+    <tr>
+      <td colspan="6"  bgcolor="#A8A8A8">Verificaci&oacute;n de {$revision.tipo} [Codigo <strong>RG-40</strong>]</td>
+      
+    </tr>
+    <tr>
+      <td width="29%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Fecha de Cumplimiento:</td>
+      <td width="25%" class="body-sector"><strong>{$revision.fec_cumplimiento}</strong></td>
+      <td width="21%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Fecha de Extension:</td>
+      <td width="25%" class="body-sector"><strong>{$revision.fec_extension}</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Fecha Verificar Cumplimiento:</td>
+      <td class="body-sector"><strong>{$revision.fec_ver_cumplimiento}</strong></td>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Fecha Verificar Extension:</td>
+      <td class="body-sector"><strong>{$revision.fec_ver_extension}</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Resultado de verificacion</td>
+      <td class="body-sector"><strong>{$revision.efectividad}</strong></td>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px"> Resp. Cumplimiento: </td>
+      <td class="body-sector"><strong>{$revision.responsable_cumplimiento}</strong></td> 
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Causas de la extensi&oacute;n del plazo</td>
+      <td class="body-sector"><strong>{$revision.causa_extension}</strong></td>
+      
+  </table>
+    <table border="0" align="center" cellpadding="0" cellspacing="3" width="95%">
+    <tr><!--bgcolor="#20B2AA"-->
+      <th colspan="6" >Registro Cierre [Codigo <strong>RG-40</strong>]</th>
+    </tr>   
+<tr >
+      
+       <th colspan="6" class="enunciados" style="text-align:left"><span style="color:#F00">(*)</span>Acciones tomadas y resultados obtenidos</th>
+</tr>
+  <tr>
+ 
+  <td class="body-sector" colspan="6" rowspan="2"><p>
+<textarea name="accion_resultado" cols="100" rows="4" wrap="virtual" id="accion_resultado" style="overflow-x:hidden;overflow:auto">{$accion_resultado}</textarea>
+  </p>
+  </td>
+  </tr>
+<tr>
+</tr>
+<tr>
+    <td width="27%" class="enunciados">Aplica comunicacion con el cliente?</td>
+    <td width="28%" >&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;SI
+        <input name="aplica_comunicacion" type="radio" value="SI" ></td>
+      <td >NO
+        <input name="aplica_comunicacion" type="radio" value="NO" checked="checked" ></td>
+</tr>
+<tr>
+    <td width="27%" class="enunciados">Persona que contacto al cliente:</td>
+    <td class="body-sector" style="padding:3px;">
+
+	<span align="left" class="entrada" style="margin:5px;vertical-align:top;"><img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="responsable_contacto" type="text" id="responsable_contacto" value="{$responsable_contacto}" tabindex="1" style="border:none;" size="30" onKeyPress="return enter_handle(this, event, 1, 1)">
+		</span>
+        	</td>
+  </tr>
+  <tr>
+      <td class="enunciados">Fecha contacto:</td>
+      <td class="body-sector" style="padding:3px;">
+      <span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+            <input name="fec_contacto" type="text" id="cumple" value="{$fec_contacto}" style="border:none;" size="30" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+        </span>
+          <input type="button" id="cumplir" value="..." class="boton" />
+        {literal}
+        <script type="text/javascript">Calendar.setup({inputField:"cumple", ifFormat:"%Y-%m-%d",button:"cumplir"});</script>
+        {/literal} 
+        </td> 
+    </tr>
+  <tr>
+    <td width="27%" class="enunciados">Comunicacion con el cliente:</td>
+    <td class="body-sector" style="padding:3px;">
+<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+<textarea name="comunicacion_cliente" cols="50" rows="4" wrap="virtual" id="comunicacion_cliente" style="overflow-x:hidden;overflow:auto">{$comunicacion_cliente}</textarea>
+</span>
+</td>
+  </tr>
+  </table>
+  
+  <center>
+  <br>
+  <input type="submit" value="Guardar Datos" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'" onclick="noVacio()">
+</center>
+</form>
+</body>

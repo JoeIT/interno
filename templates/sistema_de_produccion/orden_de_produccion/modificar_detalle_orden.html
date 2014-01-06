@@ -1,0 +1,509 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<br />
+
+<form name="modificar_fecha_rep" method="post" action="../../controladores/sistema_de_produccion/modificar_detalle_orden.php?funcion=modificar_fecha"  align="center" id="modificar_fecha_rep">
+<table align="center" border="0" width="90%">
+<tr>
+	<th colspan="6">Orden de Producción</th>
+</tr>
+<tr>
+	<td class="enunciados">OP No.:</td>
+	<td class="body-sector">{$cabecera.numero_orden}</td>
+	<td class="enunciados">Cliente :</td>
+	<td colspan="2" class="body-sector">{$cabecera.cliente}</td>
+</tr>
+<tr>
+	<td class="enunciados">Fecha:</td>
+	<td class="body-sector">{$cabecera.fecha}</td>
+	<td class="enunciados">Fecha de<br />Entrega/Despacho:</td>
+	<td class="body-sector" nowrap="nowrap">{$cabecera.fecha_entrega}</td>
+	{if $pagina_envio=="modificar"}
+			<td class="enunciados">Fecha de<br />Reprogramación:</td>
+			<td class="body-sector">
+				<input type="hidden" name="orden_id"  value="{$cabecera.codigo}" id="orden_id">
+				<input type="hidden" name="pagina_envio"  value="{$pagina_envio}" id="pagina_envio">
+				<span id="texto_fecha">
+				{if $cabecera.fecha_reprogramacion!= null && $cabecera.fecha_reprogramacion!= "0000-00-00"}
+					{$cabecera.fecha_reprogramacion}
+				{else}
+					Fecha no registrada
+				{/if}
+				</span>
+				<input type="text" name="date2" id="campo_fecha_entrega" value="{$cabecera.fecha_reprogramacion}" readonly="readonly" style=" float:left;display:none;" />
+				<input type="button" id="fecha_entrega" value="..." style="display:none;" />
+				
+				<input name="modificar_fecha" type="submit" value="Reprogramar" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" id="boton_modificar" style="display:none"/>
+				{literal}
+				<script type="text/javascript">
+					Calendar.setup({inputField:"campo_fecha_entrega", ifFormat:"%d-%m-%Y", button: "fecha_entrega"});
+				</script>
+				{/literal}
+				{if $cabecera.fecha_reprogramacion!= null}
+					<a class="link-orden" href="#" id="link_modificar" onClick="registrar_fecha()">Modificar Fecha</a>
+				{else}
+					<a class="link-orden" href="#" onClick="registrar_fecha()" id="link_registrar">Registrar Fecha</a>
+				{/if}
+			</td>
+	{/if}
+</tr>
+</table>
+</form>
+
+<br />
+
+  {if $lista_indicadores_tipo != null}
+  <form method="post" action="modificar_detalle_orden.php?funcion=modificar&elegido={$orden_id}">
+  <table width="80%" border="1" cellspacing="0" cellpadding="1" align="center" style="border-collapse:collapse;">
+    <tr class="lista-indicadores">
+      <td colspan="6">Listado tipo de productos</td>
+      <td colspan="2" style="background-color:#175C93;"><input type="submit" name="enviar" value="Aplicar a todo" class="lista-indicadores" style="background-color:#175C93;border:none;cursor:pointer;padding:0px;width:100%;" onClick="if (confirm('Desea aplicar a todos?')) return true; else return false;"/></td>
+    </tr>
+	{assign var=col value=0}	
+	{foreach key=key item=item from=$lista_indicadores_tipo}
+	  {assign var="col" value="`$col+1`"}
+	  {if $col == 1}
+	  	<tr>
+	  {/if}
+		<td class="lista-seleccionada"><input type="radio" name="tipo" value="{$item.indicadores_tipo_id}" style="background-color:#E5E5E5;border:none;" {if $key == 0}checked="checked"{/if} />{$item.clase}</td><td class="lista-normal">{$item.nombre}</td>
+	  {if $col == 4}
+	  	</tr>
+		{assign var="col" value=0}
+	  {/if}
+	{/foreach}
+  </table>
+  </form>
+  {/if}
+
+
+
+
+
+
+ </p>
+ <form name="buscar_pedido_detalle" method="post" action="../../controladores/sistema_de_produccion/modificar_detalle_orden.php?funcion=buscar_pedido"  align="center" id="buscar_pedido_detalle">
+	<input type="hidden" name="orden_id"  value="{$cabecera.codigo}" id="orden_id">
+    <input type="hidden" name="pagina_envio"  value="{$pagina_envio}" id="pagina_envio">
+	<table width="70%" align="center">
+	<tr>
+	<td class="enunciados" colspan="1">Buscar por pedido u observacion:</td>
+	 <td>
+	<div align="left" class="entrada" style="margin:5px;">
+						<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+	<input name="texto_buscar_pedido" type="text" id="texto_buscar_pedido" value="{$texto_buscar_pedido}" tabindex="1"  size="15" style="border:none;" onkeypress="return handleEnter(this, event)"/>
+	</div>
+           
+     </td>
+	 <td><input name="buscar_pedido" type="submit" value="Buscar pedido" class="enviar" tabindex="2" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" /> </td>
+  </tr>
+</table>
+ </form>
+  
+{if $detalle_datos != null}
+	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="12">Ultimos pedidos</th>
+	</tr>
+	<tr>
+		<td class="enunciados" style="text-align:center;">OP</td>
+		<td class="enunciados" style="text-align:center;">Modelo</td>
+		<td class="enunciados" style="text-align:center;">Estilo</td>
+		<td class="enunciados" style="text-align:center;">Cuero</td>
+		<td class="enunciados" style="text-align:center;">Color</td>
+		<td class="enunciados" style="text-align:center;">Clip</td>
+		<td class="enunciados" style="text-align:center;">Sello</td>
+		<td class="enunciados" style="text-align:center;">Etiqueta</td>
+		<td class="enunciados" style="text-align:center;">Pedido</td>
+		<td class="enunciados" style="text-align:center;">Fuente</td>
+		<td class="enunciados" style="text-align:center;">Grabado</td>
+		<td class="enunciados" style="text-align:center;">Lugar grabado</td>
+	</tr>
+
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=orden from=$detalle_datos}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+		<td style="text-align:center;">
+			<a href="../../controladores/sistema_de_produccion/modificar_detalle_orden.php?funcion=copiar_identico&deid={$orden.detalle_id}&oid={$cabecera.codigo}">
+				{$orden.num_orden}
+			</a>
+		</td>
+		<td style="text-align:center;">{$orden.modelo}</td>
+		<td style="text-align:center;">{$orden.estilo}</td>
+		<td style="text-align:center;">{$orden.cuero}</td>
+		<td style="text-align:center;">{$orden.color}</td>
+		<td style="text-align:center;">{$orden.clip}</td>
+		<td style="text-align:center;">{$orden.sello}</td>
+		<td style="text-align:center;">{$orden.etiqueta}</td>
+		<td style="text-align:center;">{$orden.pedido}</td>
+		<td style="text-align:center;">{$orden.fuente}</td>
+		<td style="text-align:center;">{$orden.grabado}</td>
+		<td style="text-align:center;">{$orden.lugargrabado}</td>
+	</tr>
+	{/foreach}
+
+	<tr>
+		<td colspan="12">
+			<hr />
+		</td>
+	</tr>
+	</table>
+{/if}
+ 
+ 
+ <form name="agregar_producto_detalle_orden" method="post" action="../../controladores/sistema_de_produccion/modificar_detalle_orden.php?funcion=registrar"  align="center" id="agregar_producto_detalle_orden">
+	<input type="hidden" name="orden_id"  value="{$cabecera.codigo}" id="orden_id">
+	<input type="hidden" name="funcion"  id="funcion">
+	 <input type="hidden" name="pagina_envio"  value="{$pagina_envio}" id="pagina_envio">
+    <table width="90%"  align="center">
+	<tr>
+	<th colspan="6">
+				  Agregar Producto a la orden
+	</th>
+	</tr>
+	 {if $errores.err_texto_modelo != null }
+  <tr> 
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_modelo} </td>
+   </tr>
+     {/if}
+  <tr>
+    <td class="enunciados" colspan="1">Producto:</td>
+    <td colspan="4">
+	<div align="left" class="entrada" style="margin:5px;">
+						<img src="../../templates/imagenes/combo.jpg" class="imagenes"/>
+	<input name="texto_modelo" type="text" id="modelo" value="{$modelo}" tabindex="1"  size="73" style="border:none;"/>
+	
+	</div>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" style="display:none" /> </span>
+        <div id="lista_modelos" class="autorelleno"> </div>
+      {literal}
+      <script>
+		new Ajax.Autocompleter("modelo", "lista_modelos", "../../controladores/sistema_de_produccion/modificar_detalle_orden.php?busqueda_ajax=modelos", {method:"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+	  </script>
+      {/literal}
+	</td>
+	
+	<td>
+	<select name=tipo>
+	{foreach item=item from=$lista_indicadores_tipo}
+	  <option value="{$item.indicadores_tipo_id}" {if $item.indicadores_tipo_id == $tipo}selected="selected"{/if} >{$item.clase}</option>
+	{/foreach}
+	</select>
+	</td>
+	
+    <td class="body-sector">  </td>
+  </tr>
+      {if $errores.err_texto_cantidad != null || $errores.err_texto_unidad != null }
+      <tr> {if $errores.err_texto_cantidad != null}
+        <td colspan="2" align="center" class="error-box">{$errores.err_texto_cantidad}</td>
+        {else}<td colspan="2"></td>{/if}<td></td>
+        {if $errores.err_texto_unidad != null}
+        <td class="error-box" colspan="2" align="center">{$errores.err_texto_unidad}</td>
+        {/if} </tr>
+      {/if}
+  <tr>
+    <td  class="enunciados">Cantidad:</td>
+    <td><input name="texto_cantidad" type="text" id="cantidad" value="{$cantidad}"  tabindex="2"     
+ onkeypress="return handleEnter(this, event)"/></td>
+    <td class="body-sector"/>
+    <td class="enunciados">Unidad:</td>
+    <td><input name="texto_unidad" type="text" id="unidad" value="{if $unidad!=null}{$unidad}{else}Pzs.{/if}" tabindex="3"  onkeypress="return handleEnter(this, event)"/></td>
+	<td class="body-sector" />
+  </tr>
+     
+      {if $errores.err_texto_cuero != null || $errores.err_texto_color != null }
+  <tr> {if $errores.err_texto_cuero != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_cuero} </td>
+    {else}
+    <td colspan="2"></td>
+    {/if}
+    <td></td>
+    {if $errores.err_texto_color != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_color} </td>
+    {/if} </tr>
+      {/if}
+  <tr>
+    <td class="enunciados"> Origen Cuero:</td>
+    <td class="body-table"><input name="texto_cuero" type="text" id="cuero" value="{$cuero}" tabindex="4"/>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_cueros" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("cuero", "lista_cueros", "../../controladores/sistema_de_produccion/modificar_detalle_orden.php?busqueda_ajax=cueros", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_cuero.php')"> registrar cuero</a> </td>
+    <td class="enunciados">Color del Producto:</td>
+    <td><input name="texto_color" type="text" id="color" value="{$color}" tabindex="5"/>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_colores" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("color", "lista_colores", "../../controladores/sistema_de_produccion/modificar_detalle_orden.php?busqueda_ajax=colores", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_color.php')">registrar color</a> </td>
+  </tr>
+      {if $errores.err_texto_clip != null || $errores.err_texto_sello != null }
+  <tr> {if $errores.err_texto_clip != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_clip} </td>
+    {else}
+    <td colspan="2"></td>
+    {/if}
+    <td></td>
+    {if $errores.err_texto_sello != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_sello} </td>
+    {/if} </tr>
+      {/if}
+  <tr>
+    <td class="enunciados">Clip del producto :</td>
+    <td><input name="texto_clip" type="text" id="clip" value="{$clip}" tabindex="6"/>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_clips" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("clip", "lista_clips", "../../controladores/sistema_de_produccion/modificar_detalle_orden.php?busqueda_ajax=clips", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+										
+					</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_clip.php')"> registrar clip</a> </td>
+    <td class="enunciados"><label for="sello"> Sello/Chapa del  producto </label>
+      :</td>
+    <td><input name="texto_sello" type="text" id="sello" value="{$sello}" tabindex="7"/>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_sellos" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("sello", "lista_sellos", "../../controladores/sistema_de_produccion/modificar_detalle_orden.php?busqueda_ajax=sellos", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_chapa.php')"> registrar chapa</a> </td>
+  </tr>
+      {if $errores.err_texto_etiqueta != null || $errores.err_texto_grabado != null }
+  <tr> {if $errores.err_texto_etiqueta != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_etiqueta} </td>
+    {else}
+    <td colspan="2"></td>
+    {/if}
+    <td></td>
+    {if $errores.err_texto_grabado != null }
+    <td colspan="2" align="center" class="error-box"> {$errores.err_texto_grabado} </td>
+    {/if} </tr>
+      {/if}
+  <tr>
+    <td class="enunciados"> Etiqueta del producto:</td>
+    <td><input name="texto_etiqueta" type="text" id="etiqueta" value="{$etiqueta}" tabindex="8"/>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_etiquetas" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("etiqueta", "lista_etiquetas", "../../controladores/sistema_de_produccion/modificar_detalle_orden.php?busqueda_ajax=etiquetas", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_etiqueta.php')"> registrar etiqueta</a> </td>
+    <td class="enunciados"><label for="grabado">Grabado </label>
+      :</td>
+    
+	<td class="body-sector"/><input name="texto_grabado" type="text" id="grabado" value="{$grabado}" tabindex="9" onkeypress="return handleEnter(this, event)"/>
+  </tr>
+  
+      {if $errores.err_texto_lugar_grabado != null || $errores.err_texto_fuente != null }
+  <tr> {if $errores.err_texto_lugar_grabado != null } <td colspan="2" align="center" class="error-box"> {$errores.err_texto_lugar_grabado} </td> {else} <td colspan="2"></td> {/if} <td></td>
+    {if $errores.err_texto_fuente != null }<td colspan="2" align="center" class="error-box"> {$errores.err_texto_fuente} </td>
+    {/if} </tr>{/if}
+  <tr>
+    <td class="enunciados"><label for="lugar_grabado"> Lugar grabado </label>
+      :</td>
+    <td><input name="texto_lugar_grabado" type="text" id="texto_lugar_grabado" value="{$lugar_grabado}" tabindex="10"/>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_grabados" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("texto_lugar_grabado", "lista_grabados", "../../controladores/sistema_de_produccion/modificar_detalle_orden.php?busqueda_ajax=lugar_grabado", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_lugargrabado.php')"> Registrar lugar grabado</a> </td>
+	<td class="enunciados"><label for="fuente"> Tipo de Fuente </label>
+      :</td>
+    <td><input name="texto_fuente" type="text" id="texto_fuente" value="{$fuente}" tabindex="11"/>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_fuentes" class="autorelleno"> </div>
+      {literal}
+      <script>
+										new Ajax.Autocompleter("texto_fuente", "lista_fuentes", "../../controladores/sistema_de_produccion/modificar_detalle_orden.php?busqueda_ajax=fuentes", {method:
+										"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+								</script>
+      {/literal} </td>
+    <td class="body-sector"><a class="link-orden" href="javascript:ventanaSecundaria ('registrar_fuente.php')"> registrar fuente</a> </td>
+  </tr>
+      
+ 
+      {if $errores.err_texto_pedido != null || $errores.err_texto_prioridad != null }
+  <tr> {if $errores.err_texto_pedido != null } <td colspan="2" align="center" class="error-box"> {$errores.err_texto_pedido} </td> {else} <td colspan="2"></td> {/if} <td></td>
+    {if $errores.err_texto_prioridad != null }<td colspan="2" align="center" class="error-box"> {$errores.err_texto_prioridad} </td>  {/if} </tr>{/if}
+  <tr>
+    <td class="enunciados">Pedido:</td>
+    <td><input name="texto_pedido" type="text" id="pedido" value="{if $pedido!=null}{$pedido}{else}0{/if}" tabindex="12" onkeypress="return handleEnter(this, event)" />    </td>
+	<td class="body-sector"/>
+	 <td class="enunciados">Prioridad:</td>
+    <td> <input name="texto_prioridad" type="text" id="prioridad" value="{if $priodidad!=null}{$prioridad}{else}1{/if}" tabindex="13" onkeypress="return handleEnter(this, event)"/></td>
+	 <td class="body-sector"/>
+  </tr>
+  <tr>
+    <td class="enunciados"> Observaciones del producto: </td>
+    <td colspan="5"><textarea name="observaciones"   cols="30" rows="4" tabindex="14" onkeypress="return handleEnter(this, event)" style="overflow-x:hidden;overflow:auto" wrap="virtual">{$observaciones}</textarea>    </td>
+	<td class="body-sector"/>
+	</tr><tr>
+	<td class="enunciados"> Observaciones Internas sobre el producto: </td>
+    <td colspan="5"><textarea name="observaciones_internas" cols="30" rows="4" id="observaciones_internas"  tabindex="15" onkeypress="return handleEnter(this, event)" style="overflow-x:hidden;overflow:auto" wrap="virtual">{$observaciones_internas}</textarea>    </td>
+	<td class="body-sector"/>
+  </tr>
+  <tr>
+    <td colspan="2"/><!-- -->
+    <td  align="center"><input name="submit" type="submit" value="Registrar" class="enviar"  onmouseover="this.className='boton'" onmouseout="this.className='enviar'" />    </td>
+  </tr>
+    </table>
+   
+ </form>	
+
+
+ 
+ {if $detalle !=null}
+
+   <form name="modificar_detalle_orden" method="post" action="../../controladores/sistema_de_produccion/modificar_detalle_orden.php"  align="center" id="modificar_detalle_orden">
+   <input type="hidden" name="orden_id"  value="{$cabecera.codigo}">
+    <input type="hidden" name="pagina_envio"  value="{$pagina_envio}" id="pagina_envio">
+	
+     <table  width="95%" align="center">
+	 <tr>
+	 <th colspan="17">
+				  Detalle de Orden de Produccion
+</th>
+</tr>
+	<tr>
+		<td class="enunciados"><center>Cant</center></td>
+		<td class="enunciados"><center>Uni</center></td>
+		<td class="enunciados"><center>Modelo</center></td>	
+		<td class="enunciados"><center>Estilo</center></td>
+		<td class="enunciados"><center>Origen Cuero</center></td>
+		<td class="enunciados"><center>Color</center></td>
+		<td class="enunciados"><center>Clip</center></td>
+		<td class="enunciados"><center>Sello / Herraje</center></td>
+		<td class="enunciados"><center>Etiqueta</center></td>
+		<td class="enunciados"><center>Pedido</center></td>
+		<td class="enunciados"><center>Estado pedido</center></td>
+
+		<td class="enunciados"><center>Grabado</center></td>
+		<td class="enunciados"><center>Lugar Sellado</center></td>
+		<td class="enunciados"><center>Tipo</center></td>
+		<td class="enunciados"><center>Obs.</center></td>
+		<td class="enunciados"><center>Modif.</center></td>
+		<td class="enunciados"><center>Elim.</center></td>
+	  
+	</tr>
+	
+	{assign var=contador value=0}
+	{assign var=contador_items value=0}
+	
+	{assign var=CSSclass value=0}
+	{assign var=clases value="lista-normal"}
+	
+	{foreach name=contenido item=detalles from=$detalle}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+		{if ($CSSclass mod 2) eq 0}
+			{assign var=clases value="lista-seleccionada"}
+		{else}
+			{assign var=clases value="lista-normal"}
+		{/if}
+		
+		{assign var=contador value=$contador+1}
+		<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+		{foreach key=key item=item from=$detalles}
+			{if $key == "codigo"}
+				{assign var=detalle_id value=$item}
+			{else}
+				{if $key=="Cant"}
+					{assign var=contador_items value=$contador_items+$item}
+				{/if}
+					{if $key=="Observaciones"}
+						<td><center><img src="../../templates/imagenes/information.gif" class="imagenes" onMouseOver="ajax_showTooltip('../../controladores/sistema_de_produccion/ver_tool_tip.php?funcion=ordenprod&elegido={$detalles.codigo}&orden_id={$cabecera.codigo}',this);return false" onMouseOut="ajax_hideTooltip()"  onKeyPress="ajax_hideTooltip()" style="border:none;" /></center></td>
+					{else}
+							<td><center> {$item} </center> </td>
+					{/if}
+			{/if}
+		{/foreach}
+		
+		{if $detalle_asignaciones[$detalle_id].asignados==0 and $detalle_asignaciones[$detalle_id].corte==0}
+			<td>
+				<center> 
+				<a href="../../controladores/sistema_de_produccion/modificar_detalle_orden.php?funcion=modificar_detalle&elegido={$detalle_id}&orden_id={$cabecera.codigo}&pagina_envio={$pagina_envio}">
+				<img src="../../templates/imagenes/modificar.gif" class="imagenes"/>
+				</a>
+				</center>
+			</td>
+			<td>
+				<center>
+				<a href="../../controladores/sistema_de_produccion/modificar_detalle_orden.php?funcion=eliminar_detalle&elegido={$detalle_id}&orden_id={$cabecera.codigo}&pagina_envio={$pagina_envio}" onclick="{literal}if(confirm('¿Esta seguro de eliminar el producto de la orden?') == false){return false;}{/literal}">
+				<img src="../../templates/imagenes/eliminar.gif" class="imagenes"/>
+				</a>	
+				</center>
+			</td>
+		{else}
+			<td colspan="2" style="color:#FF0000; font-size:9px" align="center">
+			{if $detalle_asignaciones[$detalle_id].asignados!=0 and $detalle_asignaciones[$detalle_id].corte!=0 }
+			  Con asignaciones
+			{else}
+			  {if $detalle_asignaciones[$detalle_id].asignados!=0}
+				Asignado a maquinistas
+			  {/if}
+			  {if $detalle_asignaciones[$detalle_id].corte!=0}
+			  	Asignado a corte
+			  {/if}
+			{/if}
+			</td>
+		{/if}
+		
+	{/foreach}
+	</tr>
+			
+			
+		</table>
+		<table  style="margin-left:17px"> 
+		<tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+			<td class="enunciados"> <strong> Total: </strong> </td>
+			<td class="body-sector"> <strong>{$contador_items}</strong> </td>
+			</tr>
+			<tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+			<td class="enunciados"> <strong> Num. Items: </strong> </td>
+			<td class="body-sector"> <strong>{$contador}</strong> </td>
+			</tr>
+		</table>
+		
+	
+		</form>
+	 <form name="confirma_orden" method="get" action="../../controladores/sistema_de_produccion/confirmar_orden.php"  align="center">
+	  <input type="hidden" name="pagina_envio"  value="{$pagina_envio}" id="pagina_envio">
+     <input type="hidden" name="orden_id"  value="{$cabecera.codigo}" id="orden_id">
+	<center> <input name="submit" type="submit" value="Confirmar Orden" class="enviar"  onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/> </center>
+		
+		 
+	</form>	
+
+
+{/if}  
+<br />
+<br />
+<br />

@@ -1,0 +1,65 @@
+<head>
+      
+      {include file="include_cabecera.html"} 
+      <LINK REL="stylesheet" TYPE="text/css" HREF="css/fortte-css.css">
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="modificar_datos")
+				{
+					
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+	
+				}
+			}
+			</SCRIPT>
+	 {/literal}
+</head>
+<body>
+   <table width="100%">
+   		
+		<tr>
+			<td width="20%" valign="top">
+	               {include file="include_menu_izq.html"}
+			</td>
+			<td width="80%">
+		        {include file="include_menu_familia.html"} 
+		<form  name="form_lista" method="post" action="../controladores/lista_familia.php">
+		<input type="hidden" name="elegido">
+        	<input type="hidden" name="funcion">	     
+		    <hr width="70%">
+	             <p>&nbsp;</p>
+		         <p align="center" class="text2"><b> Lista de Modelos por Familia </b> </p>
+	             <table align="center" border="0" >
+  					<tr>
+				 		{foreach name=cabezera key=key item=item from=$family[0]}
+						    <td class="header-table"><center> {$key|upper} </center></td>
+						{/foreach}
+				     	    <td class="header-table"><center> ELIMINAR  </center></td>
+			   		</tr>
+   					{foreach name=contenido item=familias from=$family}
+						<tr>
+						{foreach key=key item=item from=$familias}
+								{if $key == "codigo"}
+									{assign var=usuario value=$item}
+								{/if}
+								<td class="body-table">{$item}</td>
+						{/foreach}
+
+						<td class="body-table"><center>
+							<INPUT TYPE="image" SRC="../templates/imagenes/eliminar.gif" width=25 height=25 border=0  name={$usuario} value=modificar_datos onclick=consultar(name,value)>
+								</center>
+						</td>
+	   					</tr>  
+					{/foreach}
+				</table>
+				<br>
+			    <center>
+		</form>  
+				</td>
+			</tr>
+		</table> 
+</body>

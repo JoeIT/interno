@@ -1,0 +1,267 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<script>
+function tabuladores(nombre, tab){
+	document.getElementById("pdacon").style.display = "none";
+	document.getElementById("pbicon").style.display = "none";
+	document.getElementById("carcon").style.display = "none";
+	
+	document.getElementById("pda").className = "noseleccionado";
+	document.getElementById("pbi").className = "noseleccionado";
+	document.getElementById("car").className = "noseleccionado";
+	
+	document.getElementById(nombre).style.display = "block";
+	document.getElementById(tab).className = "seleccionado";
+}
+</script>
+{/literal} <br />
+<table width="80%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th><div id="pda"><a href="../../controladores/sistema_de_produccion/modelos.php?opcion=1&tabu=1" class="titulo">PDA/Celulares</a></div></th>
+    <th><div id="pbi"><a href="../../controladores/sistema_de_produccion/modelos.php?opcion=1&tabu=2"  class="titulo">GIF/Portabiblias</a></div></th>
+    <th><div id="car"><a href="../../controladores/sistema_de_produccion/modelos.php?opcion=1&tabu=3"  class="titulo">Maletines/Bolsos</a></div></th>
+  </tr>
+  <tr>
+    <td colspan="5"><!-- aqui se detallan los contenidos-->
+      <div id="pdacon" style="display:none;">
+        <form action="../../controladores/sistema_de_produccion/modelos.php" method="post" name="producto" id="producto">
+          <table width="100%" border="0">
+            {if $errores.err_nombre != null}
+            <tr>
+              <td/>
+              <td><div class="error-box">{$errores.err_nombre}</div></td>
+            </tr>
+            {/if}
+            <tr>
+              <td width="40%" class="enunciados">Marca: (Ej. BlackBerry, Nokia)</td>
+              <td class="body-sector"><div align="left">
+                  <input name="nombre" type="text" id="nombre" value="{$nombre}" size="50" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                </div></td>
+            </tr>
+            {if $errores.err_numero != null}
+            <tr>
+              <td/>
+              <td><div class="error-box">{$errores.err_numero}</div></td>
+            </tr>
+            {/if}
+            <tr>
+              <td class="enunciados">Modelo: (Ej. 700p, N80)</td>
+              <td class="body-sector"><div align="left">
+                  <input name="numero" type="text" id="numero" value="{$numero}" size="50" onkeypress="return enter_handle(this, event, 3, 1)"/>
+                </div></td>
+            </tr>
+            {if $errores.err_texto_estilo != null || $errores.err_estilo != null}
+            <tr>
+              <td/>
+              <td> {if $errores.err_texto_estilo != null}
+                <div class="error-box"> {$errores.err_texto_estilo} </div>
+                {else}
+                <div class="error-box">{$errores.err_estilo}</div>
+                {/if} </td>
+            </tr>
+            {/if}
+            <tr>
+              <td class="enunciados">Estilo:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="tipo" type="hidden" id="tipo" value="1" />
+                  <input name="tabu" type="hidden" id="tab" value="1" />
+                  <input name="texto_estilo" type="text" id="estilo" value="{$estilo}" size="45" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                  <img align="middle" src="../../templates/imagenes/combo.jpg" style="cursor:pointer;" alt="Ver estilos" onclick="document.forms[0].texto_estilo.focus();document.forms[0].texto_estilo.select();" height="20" width="20"/> <span id="spinner" style="display:none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+                  <div id="lista_estilos" class="autorelleno"></div>
+                  {literal}
+                  <script>
+new Ajax.Autocompleter("estilo", "lista_estilos", "../../controladores/sistema_de_produccion/modelos.php?busqueda_ajax=estilo&tipex=1", {method: "post", paramName: "value", minChars: 1, indicator: "spinner"});
+</script>
+                  {/literal} </div></td>
+            </tr>
+          </table>
+          <br />
+          <table width="100%" border="0">
+            <tr>
+              <th colspan="2"> Posible Familia </th>
+            </tr>
+            <tr>
+              <td width="40%" class="enunciados">Marca de Posible Familia:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="posfamilia" type="text" id="posfamilia" value="{$posfamilia}" size="50" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                </div></td>
+            </tr>
+            <tr>
+              <td class="enunciados">Modelo de Posible Familia:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="posmodelo" type="text" id="posmodelo" value="{$posmodelo}" size="50" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                </div></td>
+            </tr>
+            <tr>
+              <td colspan="2"><div align="center"> <br />
+                  <input name="funcion" type="submit" value="Buscar PDA/Celulares" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input name="funcion" type="reset" value="Cancelar la B&uacute;squeda" class="boton"/>
+                </div></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <div id="pbicon" style="display:none;">
+        <form action="../../controladores/sistema_de_produccion/modelos.php" method="post" name="producto" id="producto">
+          <table width="100%" border="0">
+            {if $errores.err_nombre != null}
+            <tr>
+              <td/>
+              <td><div class="error-box">{$errores.err_nombre}</div></td>
+            </tr>
+            {/if}
+            <tr>
+              <td width="40%" class="enunciados">Nombre: (Ej. )</td>
+              <td class="body-sector">
+			  <div align="left">
+				<input name="nombre" type="text" id="nombre" value="{$nombre}" size="50" onkeypress="return enter_handle(this, event, 3, 1)"/>
+			  </div>
+			  </td>
+            </tr>
+
+            {if $errores.err_texto_estilo != null || $errores.err_estilo != null}
+            <tr>
+              <td/>
+              <td> {if $errores.err_texto_estilo != null}
+                <div class="error-box">{$errores.err_texto_estilo}</div>
+                {else}
+                <div class="error-box">{$errores.err_estilo}</div>
+                {/if}
+			  </td>
+            </tr>
+            {/if}
+            <tr>
+              <td class="enunciados">Estilo:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="tipo" type="hidden" id="tipo" value="2" />
+                  <input name="tabu" type="hidden" id="tab" value="2" />
+                  <input name="texto_estilo" type="text" id="estilo2" value="{$estilo}" size="45" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                  <img align="middle" src="../../templates/imagenes/combo.jpg" style="cursor:pointer;" alt="Ver estilos" onclick="document.forms[1].texto_estilo.focus();document.forms[1].texto_estilo.select();" height="20" width="20"/> <span id="spinner" style="display:none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+                  <div id="lista_estilos2" class="autorelleno"></div>
+                  {literal}
+                  <script>
+							new Ajax.Autocompleter("estilo2", "lista_estilos2", "../../controladores/sistema_de_produccion/modelos.php?busqueda_ajax=estilo&tipex=2", {method:"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+						</script>
+                  {/literal} </div></td>
+            </tr>
+          </table>
+          <br />
+          <table width="100%" border="0">
+            <tr>
+              <th colspan="2"> Posible Familia </th>
+            </tr>
+            <tr>
+              <td width="40%" class="enunciados">Marca de Posible Familia:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="posfamilia" type="text" id="posfamilia" value="{$posfamilia}" size="50" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                </div></td>
+            </tr>
+            <tr>
+              <td class="enunciados">Modelo de Posible Familia:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="posmodelo" type="text" id="posmodelo" value="{$posmodelo}" size="50" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                </div></td>
+            </tr>
+            <tr>
+              <td colspan="2"><br />
+                <div align="center">
+                  <input name="funcion" type="submit" value="Buscar GIF/Portabiblias" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input name="funcion" type="reset" value="Cancelar la B&uacute;squeda" class="boton"/>
+                </div></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <div id="carcon" style="display:none;">
+        <form action="../../controladores/sistema_de_produccion/modelos.php" method="post" name="producto" id="producto">
+          <table width="100%" border="0">
+            {if $errores.err_nombre != null}
+            <tr>
+              <td/>
+              <td><div class="error-box">{$errores.err_nombre}</div></td>
+            </tr>
+            {/if}
+            <tr>
+              <td width="40%" class="enunciados">Nombre: (Ej. )</td>
+              <td class="body-sector"><div align="left">
+                  <input name="nombre" type="text" id="nombre" value="{$nombre}" size="50" onkeypress="return enter_handle(this, event, 3, 1)"/>
+                </div></td>
+            </tr>
+            {if $errores.err_texto_estilo != null || $errores.err_estilo != null}
+            <tr>
+              <td/>
+              <td> {if $errores.err_texto_estilo != null}
+                <div class="error-box">{$errores.err_texto_estilo}</div>
+                {else}
+                <div class="error-box">{$errores.err_estilo}</div>
+                {/if}
+			  </td>
+            </tr>
+            {/if}
+            <tr>
+              <td class="enunciados">Estilo:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="tipo" type="hidden" id="tipo" value="3" />
+                  <input name="tabu" type="hidden" id="tab" value="3" />
+                  <input name="texto_estilo" type="text" id="estilo3" value="{$estilo}" size="45" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                  <img align="middle" src="../../templates/imagenes/combo.jpg" style="cursor:pointer;" alt="Ver estilos" onclick="document.forms[2].texto_estilo.focus();document.forms[2].texto_estilo.select();" height="20" width="20"/> <span id="spinner" style="display:none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+                  <div id="lista_estilos3" class="autorelleno"></div>
+                  {literal}
+                  <script>
+							new Ajax.Autocompleter("estilo3", "lista_estilos3", "../../controladores/sistema_de_produccion/modelos.php?busqueda_ajax=estilo&tipex=3", {method:"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla});
+						</script>
+                  {/literal} </div></td>
+            </tr>
+          </table>
+          <br />
+          <table width="100%" border="0">
+            <tr>
+              <th colspan="2"> Posible Familia </th>
+            </tr>
+            <tr>
+              <td width="40%" class="enunciados">Marca de Posible Familia:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="posfamilia" type="text" id="posfamilia" value="{$posfamilia}" size="50" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                </div></td>
+            </tr>
+            <tr>
+              <td class="enunciados">Modelo de Posible Familia:</td>
+              <td class="body-sector"><div align="left">
+                  <input name="posmodelo" type="text" id="posmodelo" value="{$posmodelo}" size="50" onkeypress="return enter_handle(this, event, 1, 1)"/>
+                </div></td>
+            </tr>
+            <tr>
+              <td colspan="2"><br />
+                <div align="center">
+                  <input name="funcion" type="submit" value="Buscar Maletines/Bolsos" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input name="funcion" type="reset" value="Cancelar la B&uacute;squeda" class="boton"/>
+                </div></td>
+            </tr>
+          </table>
+        </form>
+      </div></td>
+  </tr>
+</table>
+{if $tabu eq "3"}
+	{literal}
+<script>
+	tabuladores("carcon", "car");
+	</script>
+{/literal}
+{elseif $tabu eq "2"}
+	{literal}
+<script>
+	tabuladores("pbicon", "pbi");
+	</script>
+{/literal}
+{else}
+	{literal}
+<script>
+	tabuladores("pdacon", "pda");
+	</script>
+{/literal}
+{/if} 

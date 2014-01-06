@@ -1,0 +1,184 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script language="javascript">
+function colorear(obj, b, rowObj) {
+	rowObj.className = (b) ? 'lista_terrible' : obj.lang;
+}
+</script>
+{/literal}
+
+<br />
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>Recepciones</th>
+  <tr>
+    <td>
+		<!-- aqui se detallan los contenidos-->
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="3">
+		<form action="../../controladores/sistema_de_produccion/registrar_recepcion.php" method="get" name="buscar_num_asignacion" id="buscar_num_asignacion">
+		<input type="hidden"  name="funcion" id="funcion" value="buscar" />
+		  {if $errores.num_asignacion != null}
+		  <tr>
+			<td/>
+			<td style="padding-left:3px;">
+				<div class="error-box">
+				{$errores.num_asignacion}
+				</div>
+			</td>
+		  </tr>
+		  {/if}
+		  <tr>
+			<td class="enunciados">Ingrese N&uacute;mero de Asignaci&oacute;n:</td>
+			<td class="body-sector" style="padding:3px;">
+				<div align="left" class="entrada">
+					<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+					<input type="text" name="num_asignacion" id="num_asignacion" value="{$num_asignacion}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+				</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td colspan="2" style="padding:10px;text-align:center;">
+				<input name="buscar" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			</td>
+		  </tr>
+		</form>
+		</table>
+	</td>
+  </tr>
+</table>
+
+<!--mostramos si existe el mensaje de error-->
+{if $mensaje != null}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center">
+				<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>
+				&nbsp;&nbsp;&nbsp;{$mensaje}
+			</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+{if $total_recepcionado!=0}
+<form action="../../controladores/sistema_de_produccion/calidad_control.php" method="post" name="buscar" id="buscar">
+   	<input name="num_asignacion" type="hidden" value="{$num_asignacion}"/>
+	<table align="center">
+	<tr>
+	  <td>
+	<input type="submit" name="buscar" value="Asignaciones Control Calidad" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>  
+	</td>
+	</tr>
+	</table>
+</form>
+{/if}
+<!--Restultados de la busqueda-->
+{if $resultado_asignacion != null}
+  {assign var=detalle_asignacion value=$resultado_asignacion}
+  
+  {include file="../templates/sistema_de_produccion/control_calidad/resumen_asignacion.html"}
+<form action="../../controladores/sistema_de_produccion/registrar_recepcion.php" method="get" name="recepcion" id="recepcion">
+<table align="center">
+    <tr>
+	   <td class="enunciados"> Total a recepcionar:  </td>
+       <td class="lista-normal">  {$resultado_asignacion.cantidad} </td>	
+	
+	
+	   <td class="enunciados"> Recepcionado :  </td>
+       <td class="lista-normal">  {$total_recepcionado}  </td>	
+	
+	   <td class="enunciados"> Por Recepcionar:  </td>
+       <td class="lista-normal"> {$resultado_asignacion.cantidad-$total_recepcionado}    </td>	
+	</tr>
+ 
+</table>
+
+
+{if $total_recepcionado != 0}
+
+			 	<table width="70%" border="0" cellspacing="1" cellpadding="0" align="center">
+				<tr>
+					<th colspan="4">Detalle recepciones </th>
+				</tr>
+				  <tr>
+					<td class="enunciados" style="text-align:center;">Cantidad</td>
+					<td class="enunciados" style="text-align:center;">Fecha</td>
+					<td class="enunciados" style="text-align:center;">Dias de retraso</td>
+					<td class="enunciados" style="text-align:center;">Encargado de recepción</td>
+				 </tr>
+                 {foreach key=key item=recepciones from=$resumen_recepciones}
+				
+					<td class="lista-seleccionada" style="padding:3px;" align="center">{$recepciones.cantidad}</td>
+					
+					<td class="lista-normal" style="padding:3px;text-align:justify;" align="center">{$recepciones.fecha}</td>
+					
+	 				<td class="lista-seleccionada" style="padding:3px;"  align="center">{$recepciones.dias_retraso}</td>
+					
+	 				<td class="lista-normal" style="padding:3px;text-align:justify;" align="center">{$recepciones.usuario_recepcion}</td>
+				</tr>
+				{/foreach}
+               	
+				<tr>
+				     <td class="enunciados" style="text-align:center;">Total :  {$total_recepcionado} </td>
+					
+				</tr>
+			
+		  </table>
+	
+<br />
+{/if}
+{* las opciones para realizar la entrega *}
+{if $total_recepcionado < $resultado_asignacion.cantidad}
+<table width="65%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="3">Registrar recepción</th>
+	</tr>
+	{if $confirmacion != null}
+	<tr>
+		<td/>
+		<td>
+			<div class="error-box">
+				{$confirmacion}			</div>		</td>
+	</tr>
+	{/if}	
+
+	<tr>
+	    <td class="enunciados">Fecha de finalizaci&oacute;n: </td>
+		<td class="lista-seleccionada">{if $detalle_asignacion.frep != null and $detalle_asignacion.frep != '000-00-00'} {$detalle_asignacion.frep} {else} {$detalle_asignacion.ffin} {/if}</td>
+		<td class="enunciados" rowspan="2" style="text-align:center;"><span style="font-size:20px;font-weight:bold;">{$dias_retraso} </span>  D&iacute;as de retraso</td>
+	</tr>
+	<tr>
+	    <td class="enunciados">Fecha de recepci&oacute;n: </td>
+		<td class="lista-seleccionada">{$fecha_actual}</td>
+	</tr>
+	
+	{if $errores.cantidad != null}
+	<tr>
+		<td/>
+		<td><div class="error-box">{$errores.cantidad}</div></td>
+	</tr>
+	{/if}	
+	<tr>
+		<td class="enunciados">Cantidad a recepcionar: </td>
+		<td> <div align="left" class="entrada" style="margin:5px;">
+					<img src="../../templates/imagenes/ark2.gif" class="imagenes"/>
+					<input name="cantidad" type="text" id="cantidad" value="{$cantidad}" style="border:none;" onkeypress="return handleEnter(this, event)"/>
+			</div>
+		</td>
+		<td align="center">
+			{if $permiso != '' and $permiso == 'yes'}
+			<input name="anular_retraso" type="submit" value="S/R" style="background-color:#FF0000;color:#FFFF00;cursor:pointer;" />
+			{/if}
+			<input name="recepcionar" type="submit" value="Recepcionar" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			<input name="num_asignacion" type="hidden" value="{$resultado_asignacion.asignacion}"/>
+			<input type="hidden"  name="funcion" id="funcion" value="registrar_recepcion" />
+			<input type="hidden"  name="fret" value="{$dias_retraso}" />
+		</td>
+	</tr>
+</table>
+{/if}
+</form>
+{/if}
+<!--Fin Restultados de la busqueda-->
+
+<br />

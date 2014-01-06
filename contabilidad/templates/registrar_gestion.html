@@ -1,0 +1,82 @@
+ {if $menu=="false" and $errores.err_confirm != null}
+     {literal}
+        <script language="JavaScript"> 
+		     window.close();
+		</script>
+     {/literal}
+
+  {else}
+{if $menu!="false"}
+  {include file="cabecera_popup.html"}
+ {else}
+  
+  {include file="cabecera_popup.html"}
+ {/if}
+  <br />
+<table width="70%" align="center">
+     <th>
+		REGISTRAR GESTION </th>
+</table>
+
+				  
+			 		  
+                   		
+				      <form name="form_registrar" method="get" action="../controladores/gestion.php">
+				{if $menu=="false"}
+				    <input type="hidden" name="popup" value="true">
+				{else}
+				    <input type="hidden" name="popup" value="false">
+				{/if}	
+					
+				 <input type="hidden" name="funcion" value="validar">
+
+
+					<table width="70%" border="0" align="center">
+					 {if $errores.err_confirm != null }<tr> 
+					 <td class="error-box" colspan="2"> {$errores.err_confirm} </td> </tr> {/if}
+					  {if $errores.err_gestion != null} 
+					  <tr> <td class="error-box" colspan="2">  {$errores.err_gestion} </td> </tr> {/if}
+						<tr>
+						<td class="enunciados">Nombre:</td>
+						<td><input type="text" name="gestion"  value="{$gestion}" onKeyPress="return handleEnter(this, event)"/></td>
+						</tr>
+
+
+		<tr>
+			<td class="enunciados">Fecha inicio :</td>
+			<td class="body-sector">
+			<span align="left" class="entrada" style="margin:5px;vertical-align:top;"> 
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input type="text" name="fecha_inicio" id="fecha_inicio" value="{$fecha_inicio}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" />
+			</span>
+		     <input type="button" name="b_fecha_inicio" id="b_fecha_inicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_inicio", ifFormat:"%Y-%m-%d",button:"b_fecha_inicio"});</script>
+      {/literal}
+	   </td>
+	   </tr>
+				
+                       
+        <tr>
+			<td class="enunciados">Fecha fin :</td>
+			<td class="body-sector">
+			<span align="left" class="entrada" style="margin:5px;vertical-align:top;"> 
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+          <input type="text" name="fecha_fin" id="fecha_fin" value="{$fecha_fin}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" />
+      </span>
+        <input type="button" name="b_fecha_fin" id="b_fecha_fin" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_fin", ifFormat:"%Y-%m-%d",button:"b_fecha_fin"});</script>
+      {/literal} </td>
+		</tr>
+		</tr>
+			{if $errores.err_ci != null } {/if}			{if $errores.err_celular != null } {/if}			{if $errores.err_telefono != null } {/if}			{if $errores.err_area != null } {/if}
+		<tr>
+		  <td colspan="2"><div align="center">
+		    <input class="button1" type="submit" value="Registrar" name="registrar" />
+	      </div></td>
+		  </tr>
+	</table>
+
+ </form>
+{/if}

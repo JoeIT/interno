@@ -1,0 +1,52 @@
+{* Lista de clientes registrados *}
+      
+     {include file="../templates/sistema_de_produccion/cabecera.html"}
+ 
+<br>
+{if $avisos==""}
+	<table width="80%" align="center" class="anuncio">
+		<tr>
+			 <td>
+					Usted no tiene avisos importantes
+			</td>
+	     </tr>
+	 </table>
+{else}
+    <table width="80%" align="center">
+		<tr>
+			 <th colspan="9">
+					Lista de avisos anteriores
+			</th>
+	     </tr>  
+  		<tr>
+   			<td class="enunciados"><center> Fecha </center></td>
+			<td class="enunciados"><center> Emisor </center></td>
+			<td class="enunciados"><center> Aviso </center></td>
+   		</tr>
+			{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+		{foreach name=contenido item=cliente from=$avisos}
+			{assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">	
+				{foreach key=key item=item from=$cliente}
+		    		{if $key == "codigo"}
+		   	  			{assign var=cliente value=$item}
+					{else}
+						{if $key == "fecha"}
+							<td nowrap="nowrap"> {$item} </td>	
+						{else}
+							<td> {$item} </td>	
+						{/if}
+		    		{/if}
+					
+				
+				{/foreach}
+			{/foreach}
+	</table>
+{/if}
+	<br/>

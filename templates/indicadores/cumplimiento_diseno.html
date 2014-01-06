@@ -1,0 +1,105 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+
+{literal}
+<script src="../../templates/indicadores/script.js"></script>
+{/literal}
+
+<div align="right">
+<a href="indicadores.php?opcion=lista_indicadores&area=Producción">Indicadores de Producción</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
+</div>
+
+
+<table align="center" width="90%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+	<th colspan="2">Cumplimiento de fechas de diseños</th>
+  </tr>
+
+  <tr class="lista-normal">
+    <td colspan="2" style="font-size:1.2em;padding:5px;">
+	<strong>Descripci&oacute;n:</strong> Medir el cumplimiento de entrega en las fechas de diseños.
+	</td>
+  </tr>
+
+  <tr>
+    <td width="50%">
+		{if $valor_mes3 != null}
+		<table width="100%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+		  <tr>
+			<th colspan="2">{$mes3|date_format:'%B, %Y'} ({$fecha_ini_mes3} | {$fecha_fin_mes3})</th>
+		  </tr>
+		  <tr>
+			<td class="enunciados" width="50%">% de cumplimiento</td>
+			<td class="lista-normal">{$valor_mes3|commify:2} %</td>
+		  </tr>
+		  <tr>
+			<td colspan="2" align="right" class="lista-seleccionada"><a href="javascript:generar_contenido('{$fecha_ini_mes3}', '{$fecha_fin_mes3}', 'cumplimiento_diseno_detalle');">Detalle de ordenes</a></td>
+		  </tr>
+		</table>
+		{else}
+		  <br />
+		  <div align="center">
+			<div class="error-box" style="width:100%;">No existen datos para {$mes3|date_format:'%B, %Y'}</div>
+		  </div>
+		{/if}
+		
+		{if $valor_mes2 != null}
+		<br />
+		<table width="100%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+		  <tr>
+			<th colspan="2">{$mes2|date_format:'%B, %Y'} ({$fecha_ini_mes2} | {$fecha_fin_mes2})</th>
+		  </tr>
+		  <tr>
+			<td class="enunciados" width="50%">% de cumplimiento</td>
+			<td class="lista-normal">{$valor_mes2|commify:2} %</td>
+		  </tr>
+		  <tr>
+			<td colspan="2" align="right" class="lista-seleccionada"><a href="javascript:generar_contenido('{$fecha_ini_mes2}', '{$fecha_fin_mes2}', 'cumplimiento_diseno_detalle');">Detalle de ordenes</a></td>
+		  </tr>
+		</table>
+		{else}
+		  <br />
+		  <div align="center">
+			<div class="error-box" style="width:100%;">No existen datos para {$mes2|date_format:'%B, %Y'}</div>
+		  </div>
+		{/if}
+		
+		{if $valor_mes1 != null}
+		<br />
+		<table width="100%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+		  <tr>
+			<th colspan="2">{$mes1|date_format:'%B, %Y'} ({$fecha_ini_mes1} | {$fecha_fin_mes1})</th>
+		  </tr>
+		  <tr>
+			<td class="enunciados" width="50%">% de cumplimiento</td>
+			<td class="lista-normal">{$valor_mes1|commify:2} %</td>
+		  </tr>
+		  <tr>
+			<td colspan="2" align="right" class="lista-seleccionada"><a href="javascript:generar_contenido('{$fecha_ini_mes1}', '{$fecha_fin_mes1}', 'cumplimiento_diseno_detalle');">Detalle de ordenes</a></td>
+		  </tr>
+		</table>
+		{else}
+		  <br />
+		  <div align="center">
+			<div class="error-box" style="width:100%;">No existen datos para {$mes1|date_format:'%B, %Y'}</div>
+		  </div>
+		{/if}
+	</td>
+    <td align="right">
+		<img src="../../clases/indicadores/class.graphic.php?{$params}" border="1" alt="Cumplimiento diseño" style="height:200px;margin-top:10px;width:260px;" />
+	</td>
+  </tr>
+</table>
+
+<br />
+<br />
+
+<div id="contenido" style="text-align:center;">
+</div>
+
+<br />
+<br />
+
+<div id="ingresar" style="display:none;text-align:center;">
+</div>

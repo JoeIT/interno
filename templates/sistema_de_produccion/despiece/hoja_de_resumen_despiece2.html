@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+
+<html>
+<head>
+<title> Resumen Despiece - Orden de producción </title>
+</head>
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = false;
+		factory.printing.leftMargin = 0;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+
+var message="";
+///////////////////////////////////
+function clickIE() {if (document.all) {(message);return false;}}
+function clickNS(e) {if 
+(document.layers||(document.getElementById&&!document.all)) {
+if (e.which==2||e.which==3) {(message);return false;}}}
+if (document.layers) 
+{document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+
+document.oncontextmenu=new Function("return false")
+
+/*
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+
+function pulsarTecla(e) {
+  if (ns4) {var TeclaN=e.which; var teclaReal = String.fromCharCode(TeclaN)
+           alert("Número:  "+ TeclaN + "\nReal:  " + teclaReal)}
+  if (ie4) {var TeclaIE=event.keyCode; var teclaReal = String.fromCharCode(TeclaIE)
+           alert("No permitido:  "+ TeclaIE + " \ " + teclaReal)}
+}
+
+document.onkeydown = pulsarTecla
+if (ns4) document.captureEvents(Event.KEYDOWN)
+*/
+
+document.onkeydown = function(){ 
+if(window.event && (window.event.keyCode == 122 || window.event.keyCode == 116 || window.event.ctrlKey)){
+window.event.keyCode = 505; 
+}
+if(window.event.keyCode == 505){ 
+return false; 
+} 
+} 
+
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:07cm;
+	margin-top:1.4cm;
+	width:27.9cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+.n_asignacion{
+	visibility:hidden;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+</style>
+
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:2cm;
+	margin-right:0.7cm;
+	margin-top:0.15cm;
+	padding: 0cm;
+	width:27.9cm;
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+
+.noprint {
+	display: none;
+}
+</style>
+
+{/literal}
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+
+<div id="installOK" align="center" style="vertical-align:top;">
+	{*$num_paginas*}
+	{*$total_materiales*}
+    {assign var=num_material value=1}
+    {assign var=num_modelo value=1}
+    {assign var=pagina_materiales value=0}
+	
+	{section name=pagina loop=$num_paginas}
+          {if $pagina_materiales==1}
+		             {assign var=num_modelo value=$num_modelo-$columnas}
+		  {else}
+		               {assign var=num_material value=1}  
+		  {/if}
+	<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm; clear:both;">
+	  <tr>
+		<td  class="contenido1" style="width:2.7cm;" align="center">
+			<img src="../../templates/imagenes/logo-macaws2.jpg" align="middle" style="height:1.1cm;width:1.4cm;"/>	</td>
+		<td class="contenido1" style="font-size:11px;font-weight:bold;width:8.9cm" align="center">RESUMEN DESPIECE - ORDEN DE PRODUCCION<br/>Pagina: {assign var=pagina value=$smarty.section.pagina.index_prev+2}{$pagina} / {$num_paginas}  </td>
+		<td class="contenido1" style="text-align:center;width:3.1cm;" align="center">ORDEN<br>
+		<strong>{$cabecera_orden.numero_orden}</strong></td>
+		
+		
+	  </tr>
+	  </table>
+	  </br>
+     
+	  {if $num_paginas==$pagina}
+	  	     <table align="center">
+	  {else}
+	     <table align="center"  style="page-break-after:always;">
+	  {/if}
+	  <tr>
+	  <td valign="top">
+	      
+	    <table border="1" align="left" cellpadding="0" cellspacing="0">
+		<td align="center" style="background: #FFFFFF;  font-size:10px;"><strong> Item </strong></td>
+		<td align="center" style="background: #FFFFFF;  font-size:10px;"><strong> Detalle</strong> </td>
+		<td align="center" style="background: #FFFFFF;  font-size:10px;"><strong> Unidad </strong> </td>
+		{if $total_modelos < ($num_modelo+$maximo_modelos-1) }
+		         {assign var=columnas value=$total_modelos-$num_modelo+1 }
+
+		{else}
+   		         {assign var=columnas value=$maximo_modelos }
+		{/if}
+	
+		{section name=modelo loop=$columnas}
+		<td align="center" style="background: #FFFFFF;  font-size:10px;" nowrap="nowrap">   <strong>{*$modelo*}Prod. {$num_modelo}</strong></td>
+		  {assign var=num_modelo value=$num_modelo+1}
+		{/section}
+      
+		   <td align="center" style="background: #FFFFFF;  font-size:10px;"><strong> TOTAL </strong> </td>
+		    <td align="center" style="background: #FFFFFF;  font-size:9px;"><strong>&nbsp;&nbsp;&nbsp;Entrega&nbsp;&nbsp;&nbsp;</strong> </td>
+	   	   </tr>
+	  {if $total_materiales <= ($num_material+$maximo_materiales-1)}	
+	 	  {assign var=filas value=$total_materiales-$num_material+1}
+	      {assign var=numero_lineas_blancas value=$maximo_materiales-$filas}
+		  {assign var=pagina_materiales value=0}
+	 {else}
+  	 	  {assign var=filas value=$maximo_materiales}
+		  {assign var=pagina_materiales value=1}
+	      {assign var=numero_lineas_blancas value=$maximo_materiales-$filas}
+	 {/if}
+	 	       {section name=material loop=$filas}
+	 <tr> 
+	        <td align="center" style="background: #FFFFFF;  font-size:10px;">{$num_material}</td>
+	        <td align="left" style="background: #FFFFFF;  font-size:10px;" nowrap="nowrap">{$resumen_materiales[$num_material].material}</td>     
+	        <td align="center" style="background: #FFFFFF;  font-size:10px;">{$resumen_materiales[$num_material].unidad}</td>     
+	          {section name=num_columnas loop=$columnas}
+			  
+			  
+
+ 		      	 {assign var=iteracion value=$smarty.section.num_columnas.index_prev}
+				 {assign var=iteracion value=$iteracion+1}
+
+         {assign var=num_mod value=$num_modelo-$columnas+$iteracion}  
+		
+	           <td align="center" style="background: #FFFFFF;  font-size:10px;"> 
+			   {assign var=nombre_modelo value=$resumen_modelos[$num_mod].modelo}
+			   {assign var=nombre_material value=$resumen_materiales[$num_material].material}
+			
+			   {if $resumen_despiece[$nombre_material][$nombre_modelo].cantidad_material == null}
+			      &nbsp;
+			  
+			   {else}
+			   {$resumen_despiece[$nombre_material][$nombre_modelo].cantidad_material}
+			   {/if}
+               
+	 		{/section}
+			<td align="center" style="background: #FFFFFF; font-size:10px;">{$resumen_materiales[$num_material].total}</td>
+			{assign var=num_material value=$num_material+1}
+			 <td align="center" style="background: #FFFFFF;  font-size:10px;">&nbsp;&nbsp; </td>
+	</tr>
+	         
+	 {/section}
+	
+	 </table>
+	 </td>
+	
+	 <td valign="top" align="center">
+	  <table  border="1"  cellpadding="3" cellspacing="3"  width="45%" style="height:100%">
+	  {section name=modelo_col loop=$columnas}
+	     
+		  
+	     <tr style="height:{$tamanio}cm;">
+	
+         {assign var=iteracion value=$smarty.section.modelo_col.index_prev}
+		 {assign var=iteracion value=$iteracion+1}
+         {assign var=num_mod value=$num_modelo-$columnas+$iteracion}  
+		
+   	      <td align="center" style="background: #FFFFFF;  font-size:9px; padding-top:0px; height:auto;">   <strong>Prod. {$num_mod}: </strong> <br> {$resumen_modelos[$num_mod].cantidad} - {$resumen_modelos[$num_mod].modelo}</td>
+ </tr>
+	   {/section}
+	  
+	   </table>
+	   </td>
+	   </tr>
+	    {*section name=lineas loop=$numero_lineas_blancas*}
+<!-- <tr>-->	 
+	<!-- <td width="100%"> -->
+
+		</td>			</tr>
+			 {*/section*}
+	   </table>
+	   <br>
+		 {*$total_materiales*} {*--*} {*$total_modelos*}
+		{/section}
+     <br />
+	<div id=idControls class="noprint" style="text-align:center;width:100%; clear:both">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<hr size="1">
+			</td>
+		</tr>
+		</table>
+	</div>
+
+</div>
+
+</body>
+</html>

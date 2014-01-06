@@ -1,0 +1,89 @@
+<div id=cabecera>
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+</div>
+     
+	  <br />
+
+<br />
+<table width="95%" align="center">
+ 		<tr >
+		   <th colspan="4"> Detalle del producto seleccionado </th>
+		 </tr>
+          <tr>
+		      <td class="enunciados">  Producto :  </td> <td class="body-sector">{$cabecera.Modelo} </td>
+			  <td class="enunciados">  Estilo:   </td> <td colspan="2" class="body-sector">{$cabecera.Estilo} </td>
+		  </tr>
+		  <tr>
+		       <td class="enunciados"> Clip:  </td> <td class="body-sector"> {$cabecera.Clip}</td>
+			   <td class="enunciados"> Cuero:   </td> <td class="body-sector"> {$cabecera.Cuero}  </td>
+		   
+			  
+ 		       
+		  </tr>	    
+		 <tr>
+		 
+		            <td class="enunciados"> Color :   </td> <td class="body-sector"> {$cabecera.Color}  </td>
+		        <td class="enunciados"> Sello:   </td> <td class="body-sector"> {$cabecera.Sello}  </td>
+			 
+		 </tr>	
+		  <tr>
+		       
+			   <td class="enunciados"> Etiqueta:  </td> <td class="body-sector"> {$cabecera.Etiqueta}</td>
+ 		   
+		 </tr>	 
+    </table>
+
+ {if $similares !=null}
+		     
+	    
+     <table width="95%"  align="center">
+	 <tr>
+	 <th colspan="7">
+				Seleccione un producto con despiece similar
+	</th>
+	</tr>
+  		<tr>
+    		{foreach name=cabezera key=key item=item from=$similares[0]}
+			{if $key != "codigo"}
+		     <th class="enunciados"><center>{$key}</center></th>
+			 {/if}
+			{/foreach}   	
+				</tr>
+   			{foreach name=contenido item=producto from=$similares}
+    	<tr   class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+			{foreach key=key item=item from=$producto}
+	    		{if $key == "codigo"}
+	   	  			{assign var=detalle_elegido value=$item}
+	    		{else}
+					{if $key == "producto"}
+					        <td align="center"> 	
+							<a href="../../controladores/sistema_de_produccion/ver_detalle_orden_despiece.php?elegido={$detalle_elegido}&funcion=similar&orden_id={$orden_id}&detalle_id={$detalle_id}" name="{$detalles}" id="{$detalles}">{$item}</a> 
+							</td>
+					{else}
+						 	      	
+						     <td nowrap="nowrap" align="center"> {$item} </td>
+						
+					{/if}
+				{/if}
+			{/foreach}	
+			      
+				</tr>
+			{/foreach}
+			</table>
+{/if}
+ 
+<br />
+			<table align="center" width="80%">
+			<tr align="center">
+ <td>
+
+     <a href="../../controladores/sistema_de_produccion/ver_detalle_orden_despiece.php?elegido=ninguno&funcion=similar&orden_id={$orden_id}&detalle_id={$detalle_id}" name="{$detalles}" id="{$detalles}">  Nuevo Despiece </a> 
+  </td>
+
+ <td>
+     <a href="../../controladores/sistema_de_produccion/buscar_despiece_similar.php?orden_id={$orden_id}&detalle_id={$detalle_id}" name="{$detalles}" id="{$detalles}">Búsqueda de despiece </a> 
+  </td>
+
+</tr>
+			
+	  </table><br><br />

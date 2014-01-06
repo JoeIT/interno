@@ -1,0 +1,176 @@
+<div id=cabecera> {include file="../templates/sistema_de_produccion/cabecera.html"} </div>
+
+{literal}
+<style type="text/css">
+	.innerb {height:10em; overflow:auto;}
+	caption {background:#D6DFF7; color:#000; margin:0 auto;}
+		
+	.tableone {
+		width:700px;
+		border-collapse:collapse;
+		margin:0 auto;
+	}
+	.tabletwo {
+		width:680px;
+		border-collapse:collapse;
+	}
+	.th1 {width:170px;}
+	.th2 {width:80px;}
+	.th3 {width:70px;}
+	.th4 {width:80px;}
+	.th5 {width:100px;}
+	.th6 {width:90px;}
+	.th7 {width:110px;}
+	
+	.td1 {width:170px;}
+	.td2 {width:80px;}
+	.td3 {width:70px;}
+	.td4 {width:80x;}
+	.td5 {width:100px;}
+	.td6 {width:90px;}
+	.td7 {width:90px;}
+
+</style>
+{/literal}
+
+<br />
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+<tr>
+  <th colspan="2">Búsqueda de despieces</th>
+</tr>
+
+<tr>
+<td colspan="2"><!-- aqui se detallan los contenidos-->
+    <form action="../../controladores/sistema_de_produccion/buscar_despiece_similar.php?funcion=buscar&orden_id={$orden_id}&detalle_id={$detalle_id}" method="post" name="producto" id="producto">
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        {if $error != null}
+        <tr>
+          <td/>
+          <td style="padding-left:3px;"><div class="error-box">{$error}</div></td>
+        </tr>
+        {/if}
+        <tr>
+          <td width="50%" class="enunciados">Ingrese descripción o estilo del producto:</td>
+          <td class="body-sector" style="padding:3px;">
+		  	<div align="left" class="entrada">
+            <img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+            <input name="detalle_busqueda" type="text" id="detalle_busqueda" value="{$detalle_busqueda}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+			</div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding:10px;text-align:center;"><input name="funcion" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="funcion" type="reset" value="Cancelar B&uacute;squeda" class="boton"/>
+          </td>
+        </tr>
+      </table>
+    </form>
+</td >
+</tr>
+</table>
+
+    <table width="90%" align="center">
+      <tr >
+        <th colspan="4"> Detalle del producto seleccionado </th>
+      </tr>
+      <tr>
+        <td class="enunciados"> Producto : </td>
+        <td class="body-sector">{$cabecera.Modelo} </td>
+        <td class="enunciados"> Estilo: </td>
+        <td colspan="2" class="body-sector">{$cabecera.Estilo} </td>
+      </tr>
+      <tr>
+        <td class="enunciados"> Clip: </td>
+        <td class="body-sector"> {$cabecera.Clip}</td>
+        <td class="enunciados"> Cuero: </td>
+        <td class="body-sector"> {$cabecera.Cuero} </td>
+      </tr>
+      <tr>
+        <td class="enunciados"> Color : </td>
+        <td class="body-sector"> {$cabecera.Color} </td>
+        <td class="enunciados"> Sello: </td>
+        <td class="body-sector"> {$cabecera.Sello} </td>
+      </tr>
+      <tr>
+        <td class="enunciados"> Etiqueta: </td>
+        <td class="body-sector"> {$cabecera.Etiqueta}</td>
+      </tr>
+    </table>
+    <br />
+    {if $similares !=null}
+    <table align="center" class="tableone" summary="This table lists flights arriving at Bristol International Airport.">
+      <caption>Seleccione un producto con despiece similar</caption>
+
+      <thead>
+        <tr>
+          <th class="th1" scope="col">Producto</th> 
+          <th class="th2" scope="col">Estilo</th>
+          <th class="th3" scope="col">Clip</th> 
+          <th class="th4" scope="col">Color</th> 
+          <th class="th5" scope="col">Cuero</th> 
+          <th class="th6" scope="col">Etiqueta</th> 
+          <th class="th7" scope="col">Sello</th> 
+        </tr>
+      </thead>
+
+		<tbody>
+		<tr><td colspan="7">
+		<div class="innerb">
+			<table class="tabletwo" cellspacing="1">
+					
+				{assign var=CSSclass value=0}
+				{assign var=clases value="lista-normal"}
+				
+				{foreach name=contenido item=producto from=$similares}
+				  {assign var="CSSclass" value="`$CSSclass+1`"}
+				  {if ($CSSclass mod 2) eq 0}
+					{assign var=clases value="lista-seleccionada"}
+				  {else}
+					{assign var=clases value="lista-normal"}
+				  {/if}
+				  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+					<td class="td1"><a href="../../controladores/sistema_de_produccion/buscar_despiece_similar.php?elegido={$producto.codigo}&funcion=similar&orden_id={$orden_id}&detalle_id={$detalle_id}" name="{$detalles}" id="{$detalles}">{$producto.producto}</a></td>
+					<td class="td2">{$producto.estilo}</td>
+					<td class="td3">{$producto.clip}</td>
+					<td class="td4">{$producto.cuero}</td>
+					<td class="td5">{$producto.color}</td>
+					<td class="td6">{$producto.etiqueta}</td>
+					<td class="td7">{$producto.sello}</td>
+				  </tr>
+				  {/foreach}
+				
+				
+			</table>
+		</div>
+		</td></tr>
+		</tbody>
+		</table>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	{else}
+	
+	{if $mensaje!= null}
+	  <table width="80%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+	<td>
+		<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>{$mensaje}</div>
+	</td>
+  </tr>
+</table>
+	  {/if}
+    {/if}
+
+<br />
+<br />
+<br />
+<br />

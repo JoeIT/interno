@@ -1,0 +1,107 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th>Orden de Producci&oacute;n</th>
+  </tr>
+  <tr>
+    <td>
+		<!-- aqui se detallan los contenidos-->
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+		<form action="../../controladores/sistema_de_produccion/hoja_ruta_corte.php" method="post" name="buscar" id="buscar">
+		  
+		  {if $errores.err_norden != null}
+		  <tr>
+			<td/>
+			<td style="padding-left:3px;">
+				<div class="error-box">{$errores.err_norden}</div>
+			</td>
+		  </tr>
+		  {/if}			
+
+		  <tr>
+			<td width="50%" class="enunciados">Ingrese N&uacute;mero de Orden: </td>
+			<td class="body-sector" style="padding:3px;">
+				<div align="left" class="entrada">
+					<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+					<input type="text" name="norden" id="norden" value="{$norden}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+				</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td style="padding:10px;text-align:center;">
+				<input name="buscar" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			</td>
+			<td style="padding:10px;text-align:center;">
+				<input name="buscar" type="reset" value="Reestablecer B&uacute;squeda" class="boton"/>
+			</td>
+		  </tr>
+		</form>
+		</table>
+	</td>
+  </tr>
+</table>
+
+<!--Restultados de la busqueda-->
+{if $ordenes != null}
+	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="5">Lista de &Oacute;rdenes de Producci&oacute;n</th>	           
+	</tr>
+	<tr>
+		<td class="enunciados" style="text-align:center;">Orden Prod.</td>
+		<td class="enunciados" style="text-align:center;">Cliente</td>
+		<td class="enunciados" style="text-align:center;">Fecha</td>
+		<td class="enunciados" style="text-align:center;">Entrega</td>
+		<td class="enunciados" style="text-align:center;width:25%;">Observaciones</td>
+	</tr>
+
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=orden from=$ordenes}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+		<td style="text-align:center;">
+			<a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=2&tabu=1&oid={$orden.orden_id}">
+				{$orden.num_orden}
+			</a>
+		</td>
+		<td>{$orden.cliente}</td>
+		<td style="text-align:center;">{$orden.fecha}</td>
+		<td style="text-align:center;">{$orden.fechaentrega}</td>
+		<td>{$orden.observacion}</td>
+	</tr>
+	{/foreach}
+
+	<tr>
+		<td colspan="5">
+			<hr />
+		</td>
+	</tr>
+	</table>
+	<br />
+{else}
+	{if $mensaje != null}
+		<table width="95%" border="0" align="center" cellpadding="0" cellspacing="1">
+		  <tr>
+			<td>
+				<div class="anuncio" align="center">
+					<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}
+				</div>
+			</td>
+		  </tr>
+		</table>
+	{/if}
+{/if}
+
+<br />
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

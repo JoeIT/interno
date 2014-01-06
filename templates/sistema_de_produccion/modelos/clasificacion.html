@@ -1,0 +1,56 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<div align="center">
+<form action="modelos.php?opcion=4" method="post">
+  <table width="50%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+    <tr>
+      <th colspan="2">Clasificaci&oacute;n de productos</th>
+    </tr>
+	{if $errores.err_tipo != null}
+    <tr>
+      <td>&nbsp;</td>
+      <td><div class="error-box">{$errores.err_tipo}</div></td>
+    </tr>
+	{/if}
+    <tr>
+      <td class="enunciados">Tipo:</td>
+      <td><input type="text" name="tipo" value="{$tipo}" size="40" /></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center"><input type="submit" name="insertar_tipo" value="Ingresar nuevo tipo" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/></td>
+    </tr>
+  </table>
+  
+  <br />
+  <br />
+  
+  {if $lista_indicadores_tipo != null}
+  <table width="50%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+    <tr>
+      <th colspan="2">Listado tipo de productos</th>
+    </tr>
+    <tr class="enunciados" style="text-align:center;">
+      <td>Tipo</td>
+      <td>Descripci&oacute;n</td>
+    </tr>
+	
+	{assign var=CSSclass value=0}
+	{assign var=clases value="lista-normal"}
+	
+	{foreach item=item from=$lista_indicadores_tipo}
+    	{assign var="CSSclass" value="`$CSSclass+1`"}
+		{if ($CSSclass mod 2) eq 0}
+			{assign var=clases value="lista-seleccionada"}
+		{else}
+			{assign var=clases value="lista-normal"}
+		{/if}
+	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+      <td align="center">{$item.clase}</td>
+      <td>{$item.nombre}</td>
+    </tr>
+	{/foreach}
+  </table>
+  {/if}
+
+</form>
+</div>

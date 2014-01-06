@@ -1,0 +1,65 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+<form method="get" action="../../controladores/sistema_de_produccion/resumen_calidad_control.php" name="form_lista">
+<table align="center">
+	<tr>
+		<th colspan="3">Busqueda de &oacute;rdenes</th>
+	</tr>
+	<tr>
+		<td class="enunciados">Ingrese el n&uacute;mero de orden:</td>
+		<td><input type="text" name="orden"></td>
+		<td><input type="submit" name="buscar_orden" value="Buscar" ></td>
+	</tr>
+</table>
+<input type="hidden" name="funcion" value="buscar">
+</form>
+
+
+<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+  <tr>
+    <th colspan="9">Lista de &Oacute;rdenes de Producci&oacute;n</th>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:center;">Orden Prod.</td>
+    <td class="enunciados" style="text-align:center;">Cliente</td>
+    <td class="enunciados" style="text-align:center;">Entrega</td>
+    <td class="enunciados" style="text-align:center;">Finalizaci&oacute;n</td>
+    <td class="enunciados" style="text-align:center;">Asignados</td>
+    <td class="enunciados" style="text-align:center;">Dados de baja</td>
+    <td class="enunciados" style="text-align:center;">Pendientes</td>
+	<td class="enunciados" style="text-align:center;">Recep.</td>
+	<td class="enunciados" style="text-align:center;">TOTAL</td>
+  </tr>
+	
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    {foreach name=contenido item=orden from=$ordenes}
+    {assign var="CSSclass" value="`$CSSclass+1`"}
+    {if ($CSSclass mod 2) eq 0}
+    {assign var=clases value="lista-seleccionada"}
+    {else}
+    {assign var=clases value="lista-normal"}
+    {/if}
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+    <td>
+		<a href="../../controladores/sistema_de_produccion/resumen_calidad_control.php?funcion=detalle&orden={$orden.orden_id}">
+			{$orden.num_orden}
+		</a>
+	</td>
+    <td>{$orden.cliente}</td>
+    <td style="text-align:center;">{$orden.fecha}</td>
+    <td style="text-align:center;">{$orden.fechaentrega}</td>
+    <td style="text-align:center; font-weight:bold;color:#156AD2">{$orden.asignados-$orden.entregados}</td>
+    <td style="text-align:center;font-weight:bold;color:#3A8F47">{$orden.entregados}</td>
+    <td style="text-align:center;font-weight:bold;color:#C12E1E">{$orden.pendientes}</td>
+	<td style="text-align:center;font-weight:bold;color: #85B8AC">{if $orden.recepcionados== "" } 0 {else} {$orden.recepcionados} {/if}</td>
+	<td style="text-align:center;font-weight:bold;color: #4B5376">{$orden.asignados+$orden.pendientes}</td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td colspan="9"><hr />
+    </td>
+  </tr>
+</table>
+

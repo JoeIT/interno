@@ -1,0 +1,83 @@
+<head>
+       {include file="../../templates/sistema_de_produccion/cabecera.html"}
+	   <script type="text/javascript" src="../../templates/script/md5.js"></script>
+
+	   {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function comprobar(con,condos)
+				{
+					
+					if (con==condos)
+					{
+						if (con!="")
+						{
+							document.formmodificar.hash.value = hex_md5(con + "contraseña encriptada");		
+							
+							document.formmodificar.submit();
+						}
+						else
+						{
+							alert("Su contraseña no es valida");
+						}
+					}
+					else
+					{
+						alert("Su contraseña no coincide, vuelva a intentar porfavor");
+					}
+				}
+			</SCRIPT>
+		{/literal}
+
+</head>
+<body>
+		<form name="formmodificar" method="post" action="../../controladores/usuarios/lista_usuarios.php">
+		<input type="hidden" name="elegido"  value="{$id}">
+		<input type="hidden" name="funcion" value="modificar_datos">
+		<input type="hidden" name="hash" value="">
+		
+	
+		<table align="center">
+			<th colspan="2">Modificar Usuarios</th>
+			{if $errores.err_confirm != null }<tr> <td class="error-box">{$errores.err_confirm} </td> </tr> {/if}
+			{if $errores.err_nombre != null} <tr> <td class="error-box"> {$errores.err_nombre} </td> </tr> {/if}
+ 			<tr>
+  				<td class="enunciados">  Nombre: </td>
+  				<td>{$nombre}&nbsp;{$apellido} </td>
+ 			</tr>
+		
+			{if $errores.err_categoria != null }<tr> <td class="error-box">{$errores.err_categoria} </td> </tr> {/if}
+ 			<tr>
+ 				<td class="enunciados">Grupo de usuario: </td>
+ 				<td>   {$grupo}</td>
+ 			</tr>
+			
+			
+			{if $errores.err_email != null }<tr> <td class="error-box">{$errores.err_email} </td> </tr> {/if}
+  			<tr>
+  				<td class="enunciados">Correo Electronico: </td>
+  				<td>  {$email} </td>
+ 			</tr>
+			{if $errores.err_nick != null } <tr> <td class="error-box"> { $errores.err_nick}</td> </tr> {/if}
+ 			<tr>
+  				<td class="enunciados">  Nick: </td>
+				<td>
+			      	<input value="{$nick}" name="nick" type="text">
+				</td>
+ 			</tr>
+			{if $errores.err_email != null }<tr> <td class="error-box">{$errores.err_email} </td> </tr> {/if}
+  			<tr>
+									<td class="enunciados">Contraseña:</td>
+									<td><input type="password" name="password"  value="{$password}" onKeyPress="return handleEnter(this, event)"/></td>
+								</tr>
+								<tr>
+									<td class="enunciados">Repita su contraseña:</td>
+									<td><input type="password"  name="passworddos"  value="{$passworddos}" onKeyPress="return handleEnter(this, event)"/></td>
+								</tr>
+		</table>
+
+	   <h1 align="center"> <input class="button1"  type="button" name="modificar" value="Modificar"  onClick=comprobar(password.value,passworddos.value)> &nbsp;
+	      <input class="button1" type="submit" name="volver" value="Volver a la lista" onClick=consultar(name)>
+	   </h1>
+	</form>
+
+</body>

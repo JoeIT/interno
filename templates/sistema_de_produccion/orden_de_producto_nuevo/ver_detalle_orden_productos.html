@@ -1,0 +1,195 @@
+{if $popup != 'yes'}
+	{include file="../templates/sistema_de_produccion/cabecera.html"}
+{else}
+	{literal}
+	<style>
+	body {
+		font-family:Arial, Helvetica, sans-serif;
+	}
+	th {
+		background-color:#CCCCCC;
+	}
+	.enunciados {
+		background-color: #F0F0F0;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:11px;
+		padding:3px;
+		text-align:right;
+		border:0px;
+	}
+	.body-sector {
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: 10px;
+		color: #000000;
+		background-color: #FFF;
+		vertical-align:middle;
+	}
+	</style>
+	{/literal}
+	<table align="center" width="90%" border="1" cellspacing="0" cellpadding="4">
+	  <tr align="center" style="font-weight:bold;font-size:0.8em;">
+		<td rowspan="2"><img src="../../templates/imagenes/logo-macaws2.jpg" align="middle" style="height:1.1cm;width:1.4cm;"/></td>
+		<td>REGISTRO DEL SISTEMA DE CALIDAD</td>
+		<td rowspan="2">CODIGO<br /><strong>RG-16</strong></td>
+		<td rowspan="2">REVISI&Oacute;N 7</td>
+	  </tr>
+	  <tr align="center" style="font-weight:bold;font-size:0.9em;">
+		<td>ORDEN DE DESARROLLO DE PRODUCTOS Y<br />ELABORACI&Oacute; DE MUESTRAS</td>
+		</tr>
+	</table>
+{/if}
+
+<br />
+
+<table align="center" width="90%">
+<tr>
+	<th colspan="4">Generación de orden de desarrollo de Productos</th>
+</tr>
+<tr>
+	<td class="enunciados">Orden de producción No.:</td>
+	<td class="body-sector">{$detalle_orden.num_ordenproducto}</td>
+	<td class="enunciados">Cliente:</td>
+	<td class="body-sector" >{$detalle_orden.clientenombre}</td>
+</tr>
+<tr>
+	<td class="enunciados">Fecha de Solicitud:</td>
+	<td class="body-sector">{$detalle_orden.fechasolicitud}</td>
+	<td class="enunciados">Fecha de Culminación:</td>
+	<td class="body-sector">{$detalle_orden.fechaculminacion}</td>
+</tr>
+<tr>
+	<td class="enunciados">Modelo a Desarrollar:</td>
+	<td class="body-sector">{$detalle_orden.modelo}</td>
+</tr>
+<tr>
+	<td class="enunciados">Codigo:</td>
+	<td class="body-sector">{$detalle_orden.codigo}</td>
+	<td class="enunciados">Numero de Tarjeteros:</td>
+	<td class="body-sector">{$detalle_orden.tarjetero}</td>
+</tr>
+<tr>
+	<td class="enunciados">Cantidad:</td>
+	<td class="body-sector">{$detalle_orden.cantidad}</td>
+</tr>
+<tr>
+	{foreach name=contenido key=tipo item=propiedad from=$propiedades_orden}
+	<td  class="enunciados" >{$tipo}</td>
+	{/foreach}
+</tr>
+<tr>
+	{foreach name=contenido item=propiedad from=$propiedades_orden}
+	<td class="body-sector" >
+		{foreach item=descripcion key=id from=$propiedad}
+			{$descripcion}<br>
+		{/foreach}
+	</td>
+	{/foreach}
+</tr>
+<tr>
+	<td class="enunciados">Tipo de Estuche:</td>
+	<td class="enunciados">Clip:</td>
+	<td class="enunciados">Uso de Mica:</td>
+</tr>
+<tr>
+	<td class="body-sector">{$detalle_orden.estilo}</td>
+	<td class="body-sector">{$detalle_orden.clip}</td>
+	<td class="body-sector">{$detalle_orden.lugar_mica}</td>
+</tr>
+<tr>
+	<td class="enunciados">Detalles Adicionales:</td>
+	<td class="body-sector" colspan="3">{$detalle_orden.detallesadicionales}</td>
+</tr>
+<tr>
+	<th colspan="4" align="center">Descripcion del material</th>
+</tr>
+<tr>
+	<td class="enunciados">Exterior:</td>
+	<td  colspan="3" class="body-sector">{$detalle_orden.caracteristicas_exterior}</td>
+</tr>
+<tr>
+	<td class="enunciados">Interior:</td>
+	<td class="body-sector" colspan="3">{$detalle_orden.caracteristicas_interior}</td>
+</tr>
+<tr>
+	<td class="enunciados">Sellos, Bordados, etc:</td>
+	<td class="body-sector" colspan="3">{$detalle_orden.material_varios}</td>
+</tr>
+</table>
+
+{if $detalle_orden.grafico != null}
+	<center><img src="{$detalle_orden.grafico}"/></center>
+{/if}
+
+<form action="../../controladores/sistema_de_produccion/ver_detalle_orden_productos.php" name="ver_detalle_orden_productos" id="ver_detalle_orden_productos" method="post" >
+	<input type="hidden" name="elegido" id="elegido" value="{$detalle_orden.ordenproducto_id}">
+	{if $opcion=="ver_nuevas"}
+		<input type="hidden" name="funcion" id="funcion" value=ingresar_a_diseño>
+	{else}
+		{if $opcion=="revisar"}
+			<input type="hidden" name="funcion" id="funcion" value=resultados_revision>
+		{else}
+			{if $opcion=="enviar_verificacion"}
+				<input type="hidden" name="funcion" id="funcion" value=enviar_revision>
+			{/if}
+		{/if}
+	{/if}
+	
+	<input type="hidden" name="opcion" id="opcion" value="{$opcion}">
+	
+	<center>
+	{if $opcion=="revisar"}
+	<table align="center" width="80%">
+	<tr>
+		<td class="body-sector">
+			<INPUT type="radio" id="estado" name="estado" value="verificado" CHECKED>Verificar Producto y enviar a fotografía <BR>
+			<input type="radio" id="estado" name="estado"   value="diseño">Enviar a diseño para correcciones <BR>
+			<table>
+			<tr>
+				<td class="enunciados"> Observaciones : </td>
+				<td class="body-sector" colspan="3"><textarea name="observaciones" rows=2 cols=40 style="overflow:auto;overflow-x:hidden;overflow-y:hidden;" wrap="virtual"></textarea></td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+	{/if}
+	
+	{if $opcion=="ver_nuevas"}
+		<input type="hidden" name="estado" id="estado" value=diseño>
+		<table>
+		<tr>
+			<td class="enunciados">Observaciones :</td>
+			<td class="body-sector" colspan="3"><textarea name="observaciones" rows=2 cols=40 style="overflow:auto;overflow-x:hidden;overflow-y:hidden;" wrap="virtual"></textarea></td>
+		</tr>
+		</table>
+		<input type="submit" name="ver_nuevas" value="Ingresar a etapa de diseño" />
+	{else}
+		{if $opcion=="revisar"}
+			<input type="submit" name="revisar" value="Registrar Resultados de Revisión"/>
+		{else}
+			{if $opcion=="enviar_verificacion"}
+				<table>
+				<tr>
+					<td class="enunciados">Observaciones :</td>
+					<td class="body-sector" colspan="3"><textarea name="observaciones" rows=2 cols=40 style="overflow:auto;overflow-x:hidden;overflow-y:hidden;" wrap="virtual"></textarea></td>
+				</tr>
+				</table>
+				<input type="hidden" name="estado" id="estado" value=revision>
+				<input type="submit" name="revisar" value="Enviar a Revisión"/>
+			{else}
+				{if $opcion=="cerrar_orden"}
+					<input type="hidden" name="funcion" id="funcion" value="cerrar_orden">
+					<input type="hidden" name="estado" id="estado" value="concluido">
+					<input type="submit" name="cerrar_orden" value="Cerrar Orden de Producto" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+					<br />
+					<br />
+				{/if}
+			{/if}
+		{/if}
+	{/if}
+	</center>
+</form>
+				
+
+
+

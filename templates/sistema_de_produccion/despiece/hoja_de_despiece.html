@@ -1,0 +1,256 @@
+<html>
+<head>
+<title> Reporte hoja de despiece</title>
+</head>
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = false;
+		factory.printing.leftMargin = 0;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:07cm;
+	margin-top:1.4cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+.n_asignacion{
+	visibility:hidden;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+</style>
+
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:0.3cm;
+	margin-right:0.7cm;
+	margin-top:1.15cm;
+	padding: 0cm;
+	width:27.9cm;
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+
+.noprint {
+	display: none;
+}
+</style>
+
+{/literal}
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+
+<div id="installOK">
+	
+	<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#E9E9E9;height:1.4cm;margin:0cm;width:20.3cm;">
+	  <tr>
+		<td rowspan="2" class="contenido1" style="width:2.7cm;">
+			<img src="../../templates/imagenes/logo-macaws2.JPG" align="middle" style="height:1.1cm;width:1.4cm;"/>	</td>
+		<td class="contenido1" style="font-size:13px;font-weight:bold;width:8.9cm">REGISTRO DEL SISTEMA DE CALIDAD</td>
+		<td rowspan="2" class="contenido1" style="text-align:center;width:3.1cm;">CODIGO<br>
+		<strong>RG-17</strong></td>
+		<td rowspan="2" class="contenido1" style="text-align:center;width:2.9cm;"><strong>Revisi&oacute;n 2 </strong></td>
+		
+	  </tr>
+	  <tr>
+		<td class="contenido1" style="font-size:18px;font-weight:bold;width:8.9cm;">HOJA DE DESPIECE </td>
+	  </tr>
+	  </table>
+	  <br />
+	  <br />
+	  <table border="1" align="center" cellpadding="0" cellspacing="0" style="margin:0cm;width:23.3cm;">
+	  <tr>
+	     <td align="center" style="background: #E9E9E9; width: 3.7cm;height:0.5cm; font-size:11px;"><strong> MODELO  </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 2.8cm;height:0.5cm; font-size:11px;"> <strong>TIPO</strong> </td>
+		 <td align="center" style="background: #E9E9E9; width: 2.8cm;height:0.5cm; font-size:11px;"> <strong>CUERO</strong> </td>
+		 <td align="center" style="background: #E9E9E9; width: 2.8cm;height:0.5cm; font-size:11px;"> <strong>COLOR</strong> </td>
+		  <td align="center" style="background: #E9E9E9; width: 2.8cm;height:0.5cm; font-size:11px;"> <strong>CLIP</strong> </td>
+		 <td align="center" style="background: #E9E9E9; width: 2.9cm;height:0.5cm; font-size:11px;"> <strong>CLIENTE</strong> </td>
+		 <td align="center" style="background: #E9E9E9; width: 1.5cm;height:0.5cm; font-size:11px;"><strong> Cantidad</strong> </td>
+		 <td align="center" style="background: #E9E9E9; width: 1.3cm;height:0.5cm; font-size:11px;"><strong> SELLOS </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 1.0cm;height:0.5cm; font-size:11px;"><strong>O.P.</strong> </td>
+		 <td align="center" style="background: #E9E9E9; width: 1.8cm;height:0.5cm; font-size:11px;"><strong> CUP </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 3cm;height:0.5cm; font-size:11px;"><strong> Fecha </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 3cm;height:0.5cm; font-size:11px;"><strong> Vo. Bo. GERENCIA </strong></td>
+	  </tr>
+	  <tr>
+	     <td align="center" rowspan="2" style="background: #FFFFFF; width: 3.7cm;height:0.5cm; font-size:11px;"> {$cabecera.Modelo} </td>
+		 <td align="center" style="background: #FFFFFF; width: 2.8cm;height:0.5cm; font-size:11px;"> {$cabecera.Estilo} </td>
+		 <td align="center" style="background: #FFFFFF; width: 2.8cm;height:0.5cm; font-size:11px;"> {$cabecera.Cuero} </td>
+		 <td align="center" style="background: #FFFFFF; width: 2.8cm;height:0.5cm; font-size:11px;"> {$cabecera.Color} </td>
+		 <td align="center" style="background: #FFFFFF; width: 2.8cm;height:0.5cm; font-size:11px;"> {$cabecera.Clip} </td>
+		 <td align="center" rowspan="2" style="background: #FFFFFF; width: 2.9cm;height:0.5cm; font-size:11px;"> {$cabecera_orden.cliente} </td>
+		 <td align="center" style="background: #E9E9E9; width: 1.5cm;height:0.5cm; font-size:11px;"> {$cabecera.Cantidad} </td>
+		 <td align="center" rowspan="2" style="background: #FFFFFF; width: 1.3cm;height:0.5cm; font-size:11px;"> {$cabecera.Sello} </td>
+		 <td align="center" style="background: #E9E9E9; width: 1.0cm;height:0.5cm; font-size:11px;"> {$cabecera_orden.numero_orden} </td>
+		 <td align="center" style="background: #FFFFFF; width: 1.8cm;height:0.5cm; font-size:11px;"> {$cabecera_orden.cup_num} </td>
+		 <td align="center" style="background: #FFFFFF; width: 3cm;height:0.5cm; font-size:11px;">{$cabecera_orden.fecha} </td>
+		 <td align="center" style="background: #FFFFFF; width: 3cm;height:0.5cm; font-size:11px;"/>
+	  </tr>
+	</table>
+	<br />
+	<table border="1" align="center" cellpadding="0" cellspacing="0" style="margin:0cm;width:25.7cm;">
+	  <tr>
+	     <td align="center" style="background: #E9E9E9; width: 3cm;height:0.4cm; font-size:11px;"> <strong> Producto </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 3.5cm;height:0.4cm; font-size:11px;"><strong> Observaciones </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 1.0cm;height:0.4cm; font-size:11px;"><strong> Unidad </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 1.5cm;height:0.4cm; font-size:11px;"><strong> x Unidad </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 2.3cm;height:0.4cm; font-size:11px;"><strong> Requerimiento </strong> </td>
+		 <td align="center" style="background: #E9E9E9; width: 1.3cm;height:0.4cm; font-size:11px;"><strong> TOTAL </strong></td>
+		 <td align="center" style="background: #E9E9E9; width: 1.0cm;height:0.4cm; font-size:11px;">&nbsp;  </td>
+		 <td align="center" rowspan="2" style="background: #E9E9E9; width: 2cm;height:0.4cm; font-size:11px;"><strong> Entregado por Almacén </strong></td>
+		 <td align="center" rowspan="2" style="background: #E9E9E9; width: 1.5cm;height:0.4cm; font-size:11px;"><strong> Consumo real </strong></td>
+		 <td align="center" rowspan="2" style="background: #E9E9E9; width: 2.8cm;height:0.4cm; font-size:11px;"><strong> Cantidad devuelta a Almacén </strong></td>
+		 <td align="center" rowspan="2" style="background: #E9E9E9; width: 2.8cm;height:0.4cm; font-size:11px;"><strong> Cantidad de retacería devuelta </strong> </td>
+		 <td align="center" rowspan="2" style="background: #E9E9E9; width: 3cm;height:0.4cm; font-size:11px;"><strong> Vo. Bo. Reingreso Almacén </strong></td>
+	  </tr>
+	  <tr>
+	  <td  colspan="7" bordercolor="#FFFFFF" style="background: #FFFFFF;height:0.4cm; font-size:11px; border:none" />
+	  </tr>
+	  </table>
+	
+	<table border="1" align="center" cellpadding="0" cellspacing="0" style="margin:0cm;width:25.7cm;">
+	 
+	{foreach name=contenido item=detalles from=$lista_resultados_materiales}
+	 <tr>
+	   <td align="center" style="background: #FFFFFF; width: 3cm;height:0.4cm; font-size:11px;"> {$detalles.Producto}</td>
+		 <td align="center" style="background: #FFFFFF; width: 3.5cm;height:0.4cm; font-size:11px;">{$detalles.Observaciones}</td>
+		 <td align="center" style="background: #FFFFFF; width: 1.0cm;height:0.4cm; font-size:11px;"> {$detalles.Unidad} </td>
+		 <td align="center" style="background: #FFFFFF; width: 1.5cm;height:0.4cm; font-size:11px;"> {$detalles.xUnidad} </td>
+		 <td align="center" style="background: #FFFFFF; width: 2.3cm;height:0.4cm; font-size:11px;"> {$detalles.Requerimiento} </td>
+		 <td align="center" style="background: #E9E9E9; width: 1.3cm;height:0.4cm; font-size:11px;"> {$detalles.TOTAL} </td>
+		 <td align="center" style="background: #FFFFFF; width: 1.0cm;height:0.4cm; font-size:11px;"> {$detalles.Unidad} </td>
+		 <td align="center"  style="background: #FFFFFF; width: 2cm;height:0.4cm; font-size:11px;">&nbsp; </td>
+		 <td align="center" style="background: #FFFFFF; width: 1.5cm;height:0.4cm; font-size:11px;">&nbsp;   </td>
+		 <td align="center" style="background: #FFFFFF; width: 2.8cm;height:0.4cm; font-size:11px;">&nbsp;  </td>
+		 <td align="center" style="background: #FFFFFF; width: 2.8cm;height:0.4cm; font-size:11px;">&nbsp;   </td>
+		 <td align="center" style="background: #FFFFFF; width: 3cm;height:0.4cm; font-size:11px;">&nbsp;  </td>
+
+	 </tr>
+	{/foreach}
+	</table>
+     <br />
+	<font style="background:#E9E9E9; font-size:16px; width:4cm;"> OBSERVACIONES:</font>
+    <table  border="1" align="center" cellpadding="0" cellspacing="0">
+	<tr>
+	<td style="background: #FFFFFF; width: 25.7cm;height:3cm; font-size:11px;">  </td>
+	</tr>
+	</table>
+	<div id=idControls class="noprint" style="text-align:center;width:100%;">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				<input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Configurar P&aacute;gina" onClick="factory.printing.PageSetup()" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+				<hr size="1">
+			</td>
+		</tr>
+		</table>
+	</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+{if $id eq 1}
+{include file="header.html" title=$title}
+{else}
+{include file="headerAuxiliar.html" }
+{/if}
+
+{literal}
+<script type="text/javascript">
+// Función sobre aviso 
+function calcular(iva) {
+  tf = form1.total_facturado.value;
+  ice = form1.ice.value;
+  exe = form1.exento.value;
+  if (tf=='' || isNaN(tf)) tf = 0;
+  if (ice=='' || isNaN(ice)) ice = 0;
+  if (exe=='' || isNaN(exe)) exe = 0;
+  if (iva=='' || isNaN(iva)) iva = 0;
+  tf = parseFloat(tf);
+  ice = parseFloat(ice);
+  exe = parseFloat(exe);  
+  iva = parseFloat(iva);  
+  form1.importe.value = (Math.round((tf-ice-exe)*1000000))/1000000;
+  res = (tf-ice-exe)*(iva/100);
+  res = res*1000000;
+  res= Math.round(res);
+  res= res/1000000;
+  form1.credito_fiscal.value = res; 
+}
+
+function confirmActions(message)
+{ 
+	var conf = confirm(message); 
+    if (conf) 		
+       return true;
+	else
+	   return false; 
+} 
+
+function enter_handle (field, event, salto, tipo) {
+	var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+	if (keyCode == 13) {
+		var i;
+		for (i = 0; i < field.form.elements.length; i++)
+			if (field == field.form.elements[i])
+				break;
+		
+		i = (i + salto) % field.form.elements.length;
+		if (field.form.elements[i] != null) {
+			field.form.elements[i].focus();
+			field.form.elements[i].select();
+			return false;
+		}
+	} else
+		if (tipo == 0)//validar numeros
+			if (keyCode < 48 || keyCode > 57)
+				return false;
+			else
+				return true;
+		else
+			return true;
+}
+
+</script>
+{/literal}
+
+{if $errorperiodo eq null}
+<form name="form1" method="post" action="actions/action_editarFactura.php">
+  <table width="1000" border="0" align="center" cellpadding="0" cellspacing="2" class="tableblue">
+    <tr>
+      <td colspan="2" align="left" class="header-table">EDITAR {$tipo|upper} </td>
+    </tr>
+	<tr>
+      <td colspan="2" align="left" >
+	  <h3><font color="#226C91">Periodo Fiscal: {$val.periodo}/{$val.gestion}</font></h3>	  </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="left" nowrap="nowrap">      
+	  {if $reg_ok ne null}
+		<table width="700" border="1" cellpadding="0" cellspacing="0" class="finish">
+		<tr>
+		<td align="center" width="700" >Se actualizo  con exito, Nro. de Factura: {$reg_ok} </td>
+		</tr>
+		</table>
+	  {/if}
+	  {if $error ne null}
+		<table width="700" border="1" cellpadding="0" cellspacing="0" class="error-box">
+		<tr>
+		<td align="center" width="700" >ERROR:<BR/>
+		  No se modifico la factura.<br/>{$error.facturadoble}</td>
+		</tr>
+		</table>
+	  {/if}	  </td>
+    </tr>
+    <tr>
+      <td width="216" align="right" class="styleText">Fecha:</td>
+      <td width="778" align="left">
+	  <select name="fecha" id="fecha" tabindex="4" class="text3" onkeypress="return enter_handle(this, event, 1, 0)">
+	  <option value="0" {if $val.fecha eq 0}selected="selected" {/if}>--</option>
+	  <option value="1" {if $val.fecha eq 1}selected="selected" {/if}>01</option>
+	  <option value="2" {if $val.fecha eq 2}selected="selected" {/if}>02</option>
+	  <option value="3" {if $val.fecha eq 3}selected="selected" {/if}>03</option>
+	  <option value="4" {if $val.fecha eq 4}selected="selected" {/if}>04</option>
+	  <option value="5" {if $val.fecha eq 5}selected="selected" {/if}>05</option>
+	  <option value="6" {if $val.fecha eq 6}selected="selected" {/if}>06</option>
+	  <option value="7" {if $val.fecha eq 7}selected="selected" {/if}>07</option>
+	  <option value="8" {if $val.fecha eq 8}selected="selected" {/if}>08</option>
+	  <option value="9" {if $val.fecha eq 9}selected="selected" {/if}>09</option>
+	  <option value="10" {if $val.fecha eq 10}selected="selected" {/if}>10</option>
+	  <option value="11" {if $val.fecha eq 11}selected="selected" {/if}>11</option>
+	  <option value="12" {if $val.fecha eq 12}selected="selected" {/if}>12</option>
+	  <option value="13" {if $val.fecha eq 13}selected="selected" {/if}>13</option>
+	  <option value="14" {if $val.fecha eq 14}selected="selected" {/if}>14</option>
+	  <option value="15" {if $val.fecha eq 15}selected="selected" {/if}>15</option>
+	  <option value="16" {if $val.fecha eq 16}selected="selected" {/if}>16</option>
+	  <option value="17" {if $val.fecha eq 17}selected="selected" {/if}>17</option>
+	  <option value="18" {if $val.fecha eq 18}selected="selected" {/if}>18</option>
+	  <option value="19" {if $val.fecha eq 19}selected="selected" {/if}>19</option>
+	  <option value="20" {if $val.fecha eq 20}selected="selected" {/if}>20</option>
+	  <option value="21" {if $val.fecha eq 21}selected="selected" {/if}>21</option>
+	  <option value="22" {if $val.fecha eq 22}selected="selected" {/if}>22</option>
+	  <option value="23" {if $val.fecha eq 23}selected="selected" {/if}>23</option>
+	  <option value="24" {if $val.fecha eq 24}selected="selected" {/if}>24</option>
+	  <option value="25" {if $val.fecha eq 25}selected="selected" {/if}>25</option>
+	  <option value="26" {if $val.fecha eq 26}selected="selected" {/if}>26</option>
+	  <option value="27" {if $val.fecha eq 27}selected="selected" {/if}>27</option>
+	  <option value="28" {if $val.fecha eq 28}selected="selected" {/if}>28</option>
+	  <option value="29" {if $val.fecha eq 29}selected="selected" {/if}>29</option>
+	  <option value="30" {if $val.fecha eq 30}selected="selected" {/if}>30</option>
+	  <option value="31" {if $val.fecha eq 31}selected="selected" {/if}>31</option>
+	  </select>/{$val.periodo}
+	<!--  <select name="periodo" id="periodo">
+	  <option value="1" if $val.periodo eq 01} selected="selected"/if}>01</option>
+	  <option value="2" if $val.periodo eq 02} selected="selected"/if}>02</option>
+	  <option value="3" if $val.periodo eq 03} selected="selected"/if}>03</option>
+	  <option value="4" if $val.periodo eq 04} selected="selected"/if}>04</option>
+	  <option value="5" if $val.periodo eq 05} selected="selected"/if}>05</option>
+	  <option value="6" if $val.periodo eq 06} selected="selected"/if}>06</option>
+	  <option value="7" if $val.periodo eq 07} selected="selected"/if}>07</option>
+	  <option value="8" if $val.periodo eq 08} selected="selected"/if}>08</option>
+	  <option value="9" if $val.periodo eq 09} selected="selected"/if}>09</option>
+	  <option value="10" if $val.periodo eq 10} selected="selected"/if}>10</option>
+	  <option value="11" if $val.periodo eq 11} selected="selected"/if}>11</option>
+	  <option value="12" if $val.periodo eq 12} selected="selected"/if}>12</option>
+	  </select>	  
+	  -->
+	  
+	  
+	  /{$val.gestion}
+	  <label id="errorlabel">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$error.diaperiodo} </label></td>
+    </tr>
+    <tr>
+          <td align="right" class="styleText">Sucursal: </td>
+          <!--<td align="left" class="styleText">
+    <select name="sucursal" class="text3">
+    {section name=id loop=$sucursales}
+      <option value="{$sucursales[id].cod_sucursal}" {if $sucursales[id].cod_sucursal} selected="selected"{/if}>{$sucursales[id].sucursal}</option>
+    {/section}
+    </select> 
+          </td>-->
+		  {if $id eq 1}
+          <td align="left" class="styleText">
+    <select name="sucursal" class="text3">
+    {section name=id loop=$sucursales}
+      <option value="{$sucursales[id].cod_sucursal}" {if $sucursales[id].cod_sucursal==$id} selected="selected"{/if}>{$sucursales[id].sucursal}</option>
+    {/section}
+    </select> 
+          </td>
+          {else}
+          <td class="header-table" nowrap="nowrap">{$sucursal_name}</td>
+          {/if}
+    </tr>
+    <tr>
+      <td align="right" class="styleText">NIT proveedor: </td>
+      <td align="left">
+	  <input name="nit" id="nit" type="text" value="{$val.nit}" size="25" maxlength="25"  class="text3"
+	  onblur="{ajax_call function="cargarRazonSocial" params_func="calculate.params" callback="calculate.cb"}" 
+	  onkeypress="return enter_handle(this, event, 1, 0)"/>
+      <label id="errorlabel">{$error.nit} </label>	  </td>
+    </tr>
+	{if $tipo eq Venta}
+	<tr>
+	<td align="right" class="styleText">Tipo de venta:</td>
+	<td>
+	<input name="tipovent" type="radio" value="1" {if $val.tipovent eq 1} checked="checked"{/if} onKeyPress="return enter_handle(this, event, 1, 1)">Manual 
+	<input name="tipovent" type="radio" value="2" {if $val.tipovent eq 2} checked="checked"{/if} onKeyPress="return enter_handle(this, event, 1, 0)">Computarizada
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label id="errorlabel">{$error.tipoventa} </label>	</td>
+	</tr>
+	{/if}
+    <tr>
+      <td align="right" class="styleText">Raz&oacute;n social: </td>
+      <td align="left">	  
+	  <input name="razon_social" id="razon_social" type="text" value="{$val.razon_social}" size="70" maxlength="50" class="text3" 
+	  onkeypress="return enter_handle(this, event, 1, 1)"/>
+      <label id="errorlabel">{$error.rsocial} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">N&uacute;mero de factura: </td>
+      <td align="left"><input name="factura" type="text" class="text3" id="factura" value="{$val.factura}" size="25" maxlength="25" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+      <label id="errorlabel">{$error.factura} {$error.facturadoble} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">N&uacute;mero de autorizacion: </td>
+      <td align="left"><input name="autorizacion" type="text" class="text3" id="autorizacion" value="{$val.autorizacion}" size="25" maxlength="25" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+      <label id="errorlabel">{$error.autorizacion} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">C&oacute;digo de control: </td>
+      <td align="left"><input name="codigo_control" type="text" class="text3" id="codigo_control" value="{$val.codigo_control}" size="25" maxlength="25" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+      <label id="errorlabel">{$error.control} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">TOTAL FACTURA: </td>
+      <td align="left"><input name="total_facturado" type="text" class="text3" id="total_facturado" 
+	  onblur="calcular({$gestionperiodo.iva})" value="{$val.total_facturado}" size="13" maxlength="10" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+      <label id="errorlabel">{$error.totalfact} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">Total ICE:</td>
+      <td align="left"><input name="ice" type="text" class="text3" id="ice" 
+	  onblur="calcular({$gestionperiodo.iva})" value="{$val.ice}" size="13" maxlength="10" onKeyPress="return enter_handle(this, event, 1, 1)"/>
+      <label id="errorlabel">{$error.ice} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">Importe exento: </td>
+      <td align="left"><input name="exento" type="text" class="text3" id="exento" 
+	  onblur="calcular({$gestionperiodo.iva})" value="{$val.exento}" size="13" maxlength="10" onKeyPress="return enter_handle(this, event, 8, 1)"/>
+      <label id="errorlabel">{$error.exento} </label></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">&nbsp;</td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">Importe NETO factura:</td>
+      <td align="left">
+	  <input name="importe" type="text" class="text3" id="importe" value="{$val.importe}" size="13" maxlength="13" readonly="true" /></td>
+    </tr>
+    <tr>
+      <td align="right" class="styleText">Impuesto Cr&eacute;dito Fiscal:</td>
+      <td align="left">
+	  <input name="credito_fiscal" type="text" class="text3" id="credito_fiscal" value="{$val.credito_fiscal}" size="13" maxlength="10" readonly="true" />
+      (IVA de {$gestionperiodo.iva}%)</td>
+    </tr>
+    <tr>
+      <td class="styleText">&nbsp;</td>
+      <td align="left">
+	  <input type="hidden" name="cod_pg" value="{$cod_pg}" />
+	  <input type="hidden" name="periodo" value="{$val.periodo}" />
+	  <input type="hidden" name="gestion" value="{$val.gestion}" />	  
+	  <input type="hidden" name="tipo" value="{$tipo}" />
+	  <input type="hidden" name="codfac" value="{$codfac}" /></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>
+	  <input name="update" type="submit" class="text3" id="update" value="Guardar cambios" onclick="return confirmActions('Cualquier cambio hecho se guardara.¿Desea continuar? ');"/>
+	  <input type="submit" name="eliminar" class="text3" id="eliminar" value="Eliminar" onclick="return confirmActions('¿Esta seguro en ELIMINAR la factura? ');">
+	  <input type="button" name="cancelar" value="Cancelar" onClick="location='/sistema/macaws/reportesLcv.php'" class="text7"/></td>
+    </tr>
+  </table>
+</form>
+{else}
+<br/>
+<br/>
+<table width="700" border="0" cellpadding="2" cellspacing="1" class="error-box">
+	<tr>
+	<td width="700" >ERROR: <br />
+	  {$errorperiodo}</td>
+	</tr>
+    <tr>
+    <td width="700" ><input type="button" name="volver" value="Volver" onClick="location='/sistema/macaws/reportesLcv.php'" class="text3"/></td>
+    </tr>
+</table>
+{/if}
+
+</body>
+</html>

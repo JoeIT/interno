@@ -1,0 +1,58 @@
+<table  width="80%" border="0" align="center" cellpadding="2" cellspacing="1">
+<tr>
+	<th colspan="3">Listado de personas</th>
+</tr>
+
+<tr>
+	<th class="enunciados"><div align="center">Nombre Completo</div></th>
+	<th class="enunciados"><div align="center">Fotograf&iacute;a</div></th>
+	<th class="enunciados"><div align="center">Estado</div></th>
+</tr>
+
+	{assign var=CSSclass value=0}
+	{assign var=clases value="lista-normal"}
+{foreach name=contenido item=orden from=$lista_personal}
+	{assign var="CSSclass" value="`$CSSclass+1`"}
+	{if ($CSSclass mod 2) eq 0}
+		{assign var=clases value="lista-seleccionada"}
+	{else}
+		{assign var=clases value="lista-normal"}
+	{/if}
+<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+
+
+	{foreach key=key item=item from=$orden}
+		{if $key == "personal_id"}
+			{assign var=personal_ci value=$item}
+		{else}
+			{if ($key == "p_nombre_completo")}				
+				<td style="padding:3px;">
+					<a href="../../controladores/sistema_de_produccion/personal.php?opcion=4&pid={$personal_ci}">{$item}</a>
+				</td>
+			{else}
+			{if ($key == "p_estado")}				
+				<td style="padding:3px;">
+					{$item}
+				</td>
+				{else}
+				<td style="padding:3px;text-align:center;">
+					{if $item != null}
+						<a href="../../controladores/sistema_de_produccion/personal.php?opcion=4&pid={$personal_ci}">
+						<img src="personal_resizeImage.php?max=70&imgorig=../../fotografia/{$item}" alt="{$item}" name="imagen_fotografia" border="1" id="imagen_fotografia" align="middle"/>						</a>
+					{else}
+						No tiene fotograf&iacute;a
+					{/if}				</td>
+				
+				{/if}
+			{/if}
+		{/if}
+	{/foreach}
+</tr>
+{/foreach}
+<tr>
+	<td colspan="3">
+		<hr />
+	</td>
+</tr>
+</table>
+<br />

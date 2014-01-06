@@ -1,0 +1,57 @@
+{include file="header.html" title=$title}
+
+{if $periodos ne null}
+<br/>
+<table width="500" border="1" cellspacing="0" cellpadding="0" class="tableblue">
+  <caption class="search-box">
+    Seleccionar Periodo
+  </caption>
+  <tbody>
+	<tr> 
+	{if $tipo == 1} 	
+	{section name=ind loop=$periodos}
+	<td align="center">
+	<form action="compra.php" method="post">
+	Gesti&oacute;n: <span class="text6">{$periodos[ind].gestion}</span>  
+	<br/>
+	 Periodo: <span class="text6">{$periodos[ind].periodo}</span>
+	<br />
+	<input name="cod_pg" type="hidden" value="{$periodos[ind].cod_pg}" />
+	<input name="emplear" type="submit" class="text3" value="Ingresar Compra" />
+	</form>
+	</td>	
+	{/section}
+	{else}
+	{section name=ind loop=$periodos}
+	<td align="center">
+	<form action="venta.php" method="post">
+	Gesti&oacute;n: <span class="text6">{$periodos[ind].gestion}</span>
+	<br/>
+	 Periodo: <span class="text6">{$periodos[ind].periodo}</span> 			
+	<br />
+	<input name="cod_pg" type="hidden" value="{$periodos[ind].cod_pg}" />
+	<input name="emplear" type="submit" class="text3" value="Ingresar Venta" />
+	</form>
+	</td>	
+	{/section}
+	{/if}	
+	</tr> 
+  </tbody>
+</table>
+
+{else}
+<table width="700" border="1" cellpadding="0" cellspacing="0" class="error-box" >
+  <tr>
+    <td align="center" width="700">
+	<p>
+	No existe una Gesti&oacute;n con un Periodo abierto.<br/>
+	Registre o aperture un periodo para continuar.<br/>
+	<input name="Button" type="button" class="text6" onclick="location='/sistema/macaws/lcv.php'" value="Registrar Gesti&oacute;n-Periodo"/> 
+	</p>		
+	</td>
+  </tr>
+</table>
+
+{/if}
+</body>
+</html>

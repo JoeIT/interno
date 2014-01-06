@@ -1,0 +1,44 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+
+<form action="../../controladores/sistema_de_produccion/personal.php" method="post" name="personal" id="personal">
+<table width="80%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th colspan="3">Buscar Personal por CI</th>
+  </tr>
+
+  {if $errores.err_ci_bus != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_ci_bus}</div>
+	</td>
+	<td/>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados" width="25%">Ingrese CI:</td>
+    <td>
+		<div align="left" class="entrada" style="margin:0px;">
+		<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+		<input name="ci" type="text" id="ci" value="{$ci}" onkeypress="return handleEnter(this, event)" style="border:none;">
+		</div>
+	</td>
+    <td width="25%">
+		<input name="buscar" type="submit" value="Buscar Personal" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+	</td>
+  </tr>
+</table>
+</form>
+
+{if $mensaje != null}
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+	<td>
+		<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+	</td>
+  </tr>
+</table>
+{/if}

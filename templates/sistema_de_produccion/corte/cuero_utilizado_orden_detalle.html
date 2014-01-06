@@ -1,0 +1,231 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<script type="text/javascript" src="../../templates/script/jquery.2.0.3.min.js"></script>
+<script type="text/javascript" src="../../templates/script/jquery.validate.min.js"></script>
+
+{literal}
+<script type="text/javascript">
+var $j = jQuery.noConflict();
+
+$j(document).ready(function() {
+	
+	$j.validator.addClassRules({
+		used: {
+				number: true
+			},
+		surplus: {
+				number: true
+			},
+		remnant: {
+				number: true
+			},
+		waste: {
+				number: true
+			},
+		used_area: {
+				number: true
+			}
+	});
+	
+	var noNumberMessage = '"No es un entero o decimal"';
+	
+	$j.validator.addMethod("used", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("surplus", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("remnant", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("waste", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("used_area", $j.validator.methods.number, noNumberMessage);
+	
+	$j("#leather_use_form").validate();
+});
+</script>
+<style>
+.error{
+	color:red;
+}
+</style>
+{/literal}
+
+
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="8">Orden de Producci&oacute;n para imprimir cabecera</th>
+	</tr>
+	<tr>
+		<td class="enunciados">No.:</td>
+		<td class="datos-reporte">{$header.numero_orden}</td>
+		<td class="enunciados">CUP No.:</td>
+		<td class="datos-reporte">{$header.cup_num}</td>
+		<td class="enunciados">Cliente:</td>
+		<td class="datos-reporte">{$header.cliente} </td>
+		<td class="enunciados">No.Ref. Cliente:</td>
+		<td class="datos-reporte">{$header.cliente_id}</td>
+	</tr>
+	<tr>
+		<td class="enunciados">Fecha:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha}</td>
+		<td class="enunciados">Fecha Entrega/Despacho:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha_entrega}</td>
+		<td class="enunciados">Fecha Reprogramación:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha_reprogramacion}</td>
+		<td/>
+		<td/>
+	</tr>
+</table>
+
+<br />
+{if $mensaje != null}
+
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+<form name="leather_use_form" id='leather_use_form' method="post" action="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?function=saveUsedLeatherByOrder"  align="center">
+{if $detail != null}
+	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="11">Detalle de &oacute;rden de producci&oacute;n</th>
+	</tr>
+	<tr>
+		<td class="enunciados" style="text-align:center;">Cuero</td>
+		<td class="enunciados" style="text-align:center;">Color</td>
+  		<td class="enunciados" style="text-align:center;">Cant. productos</td>
+   		<td class="enunciados" style="text-align:center;">Material Utilizado [Kg.]</td>
+		<td class="enunciados" style="text-align:center;">Retaceria [Kg.]</td>
+		<td class="enunciados" style="text-align:center;">Retazos [Kg.]</td>
+		<td class="enunciados" style="text-align:center;">Desperdicio [Kg.]</td>
+		<td class="enunciados" style="text-align:center;">Material Utilizado [Area]</td>
+   		<td class="enunciados" style="text-align:center;">Cortador</td>
+   		<td class="enunciados" style="text-align:center;">Fecha Corte</td>
+
+	</tr>
+	
+	{assign var=counter value=0}
+	
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    
+	{foreach key=cambio item=order from=$detail}
+	
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+		{if ($CSSclass mod 2) eq 0}
+			{assign var=clases value="lista-seleccionada"}
+		{else}
+			{assign var=clases value="lista-normal"}
+		{/if}
+	
+	<label for="{$order.leather}" style="text-align:center;">
+	
+	{if $counter == 0}
+	<input type="hidden" name="order_id" value="{$order.order_id}" />
+    {/if}
+	
+	<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className='lista_terrible';" onmouseout="this.className='{$clases}';">
+		<td style="text-align:center;"><div>{$order.leather}</div>
+			<input type="hidden" name="leather_id_{$counter}" value="{$order.leather_id}" />
+		</td>
+		<td style="text-align:center;">{$order.color}
+			<input type="hidden" name="color_id_{$counter}" value="{$order.color_id}" />
+		</td>
+		<td style="text-align:center;">{$order.quantity}
+			<input type="hidden" name="quantity_{$counter}" value="{$order.quantity}" />
+		</td>		
+		<td style="text-align:center;">
+			<span class="left">
+				<input type="hidden" name="used_id_{$counter}" value="{$order.id}" />
+				<input type="text" name="used_{$counter}" class='used' value="{$order.used_kg}" size="1" style="border:inherit;">
+			</span>
+		</td>
+        <td style="text-align:center;">
+			<span align="left">
+				<!-- Retaceria = Sobras de anteriores ordenes -->
+				<input type="text" name="surplus_{$counter}" class='surplus' value="{$order.surplus}" size="1"  style="border:inherit;">
+			</span>
+		</td>
+        <td style="text-align:center;">
+			<span align="left">
+				<!-- Retazos = Sobras de la orden actual -->
+				<input type="text" name="remnant_{$counter}" class='remnant' value="{$order.remnant}" size="1" style="border:inherit;">
+			</span>
+		</td>
+        <td style="text-align:center;">
+			<span align="left">
+				<input type="text" name="waste_{$counter}" class='waste' value="{$order.waste}" size="1" style="border:inherit;">
+			</span>
+		</td>
+        <td style="text-align:center;">
+			<span align="left">
+				<input type="text" name="used_area_{$counter}" class='used_area' value="{$order.used_area}" size="1" style="border:inherit;">
+				<select name="used_unit_{$counter}" >
+					<option value="foot" {if $order.used_unit == 'foot' }selected{/if}>Pies&sup2;</option>
+					<option value="meters" {if $order.used_unit == 'meters' }selected{/if} >Metros&sup2;</option>
+				</select>
+			</span>
+		</td>
+		<td>
+			<span>
+				<input type="text" name="employee_name_{$counter}" id="employee_name_{$counter}" onkeypress="return handleEnter(this, event)" value="{$order.employee_name}" size="10"/>
+				<img src="../../templates/imagenes/combo.jpg" class="imagenes" alt="Seleccionar Nombre"/>
+			</span>
+			<span id="spinner" style="display:none"></span>
+			<input type="hidden" name="employee_id_{$counter}" id="employee_id_{$counter}" value="{$order.employee_id}" size="1" />
+			<div id="employee_list_{$counter}"  class="autorelleno"></div>
+			{literal}
+			<script>
+				new Ajax.Autocompleter("{/literal}employee_name_{$counter}{literal}", "{/literal}employee_list_{$counter}{literal}", "../../controladores/sistema_de_produccion/hoja_ruta_corte.php?busqueda_ajax=nombres&puesto=5", {method:"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+				function mostrar_categoria(text, li)
+				{
+					cadena = li.id;
+					caracteristicas = cadena.split("-");
+					document.getElementById("{/literal}employee_id_{$counter}{literal}").value = caracteristicas[0];
+					var str = document.getElementById("{/literal}employee_name_{$counter}{literal}").value;
+					document.getElementById("{/literal}employee_name_{$counter}{literal}").value = str.substr(0);
+				}
+			</script>
+			{/literal}
+		</td>
+		<td class="body-sector" style="padding:3px;">
+			<span align="left" class="left" style="vertical-align:top;"><img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+				<input type="text" name="date_{$counter}" id="date_{$counter}" value="{$order.date}" readonly="readonly" style="border:inherit;" size="8" />
+				<input type="button" id="date_button_{$counter}" class="date_button" value="..." class="boton" />
+			</span>
+			{literal}
+			<script type="text/javascript">Calendar.setup({inputField:"{/literal}date_{$counter}{literal}", ifFormat:"%Y-%m-%d",button:"{/literal}date_button_{$counter}{literal}"});
+			</script>
+			{/literal}
+		</td>
+	</tr>
+	</label>
+	{assign var=counter value=$counter+1}
+	{/foreach}
+	<tr>
+		<td colspan="11">
+		<hr />
+		</td>
+		<input type='hidden' name='total_data' value='{$counter}' />
+	</tr>
+</table>
+
+<center>
+	<br>
+	<input type="submit" value="Guardar datos" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+</center>
+</form>
+{else}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+		<tr>
+			<td>
+				<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle;"/>&nbsp;&nbsp;&nbsp;Esta Orden no tiene productos</div>
+			</td>
+		</tr>
+	</table>
+{/if}
+
+<br />
+
+{include file="../templates/contenido/includes/pie.html"}

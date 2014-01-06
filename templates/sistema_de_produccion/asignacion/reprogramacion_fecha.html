@@ -1,0 +1,116 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<SCRIPT LANGUAGE="JavaScript">
+/* Creamos la función */
+function PantallaCompleta(URL) {
+	if (navigator.appName!="Explorer") {
+		abrir=window.open(URL, '', "height="+window.screen.availHeight+", width="+(window.screen.availWidth-10)+", top=0, left=0, toolbar=yes, status=yes, scrollbars=auto, location=no, menubar=yes, directories=no, resizable=yes");
+		abrir.window.innerWidth=window.screen.width-5
+		abrir.window.innerHeight=window.screen.height-50
+		abrir.self.moveTo(0,0)
+	} else
+		window.open(URL, '', 'fullscreen=yes, scrollbars=yes');
+}
+
+function desplegar(cadena) {
+	if (cadena == "Varios"){
+		document.getElementById('mostrarmotivo').style.display = 'block';
+	} else {
+		document.getElementById('mostrarmotivo').style.display = 'none';
+	}
+}
+</script>
+{/literal}
+
+<br />
+
+<form action="../../controladores/sistema_de_produccion/asignacion_reporte.php" method="post" name="buscar" id="buscar">
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="2">
+  <tr>
+    <th colspan="2">Fecha de Reprogramaci&oacute;n</th>
+  <tr>
+  <tr>
+    <td class="enunciados">N&uacute;mero de Asignaci&oacute;n: </td>
+    <td class="lista-normal" style="padding-left:10px;width:55%;">
+		{$lista.asignacion_detalle_id}
+		<input name="maquinista" type="hidden" id="maquinista" value="{$lista.asignacion_detalle_id}"/>
+	</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Nombre: </td>
+    <td class="lista-seleccionada" style="padding-left:10px;">{$lista.completo}</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Fecha de Inicio: </td>
+    <td class="lista-normal" style="padding-left:10px;">{$lista.fecha_inicio}</td>
+  </tr>
+  <tr>
+	<td class="enunciados">Fecha de Finalizaci&oacute;n: </td>
+    <td class="lista-seleccionada" style="padding-left:10px;">{$lista.fecha_finalizacion}</td>
+  </tr>
+
+  {if $errores.err_nffin != null}
+  <tr>
+	<td/>
+	<td><div class="error-box">{$errores.err_nffin}</div></td>
+  </tr>
+  {/if}
+  
+  {if $lista.fecha_reprogramacion != null}
+  	{assign var=nffin value=$lista.fecha_reprogramacion}
+  {/if}
+  
+  <tr>
+	<td class="enunciados">Fecha de Reprogramaci&oacute;n: </td>
+	<td class="lista-normal">
+	<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+		<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+	<input name="nffin" type="text" id="nffin" value="{$nffin}" readonly style="border:none;"/>
+	</span>
+	<input name="bnffin" type="button" id="bnffin" value="..." class="boton"/>
+	{literal}
+	<script type="text/javascript">Calendar.setup({inputField:"nffin", ifFormat:"%Y-%m-%d",button:"bnffin"});</script>
+	{/literal}
+	</td>
+  </tr>
+
+  {if $errores.err_motivodes != null}
+  <tr>
+	<td/>
+	<td><div class="error-box">{$errores.err_motivodes}</div></td>
+  </tr>
+  {/if}
+
+
+  <tr>
+	<td class="enunciados">Motivo de la reprogramaci&oacute;n: </td>
+    <td class="lista-seleccionada" style="padding-left:10px;">	
+		<select name="motivo" onchange="desplegar(this.options[this.selectedIndex].value)">
+		  <option value="Asignacion de otro maquinista">Asignacion de otro maquinista</option>
+		  <option value="Demora en dar de baja la hoja de ruta" {if $motivo=="Demora en dar de baja la hoja de ruta"}selected="selected"{/if}>Demora en dar de baja la hoja de ruta</option>
+		  <option value="Demora en la entrega de material" {if $motivo=="Demora en la entrega de material"}selected="selected"{/if}>Demora en la entrega de material</option>
+		  <option value="Enfermedad" {if $motivo=="Enfermedad"}selected="selected"{/if}>Enfermedad</option>
+		  <option value="Incremento de produccion" {if $motivo=="Incremento de produccion"}selected="selected"{/if}>Incremento de produccion</option>
+		  <option value="Problemas familiares" {if $motivo=="Problemas familiares"}selected="selected"{/if}>Problemas familiares</option>
+		  <option value="Varios" {if $motivo=="Varios"}selected="selected"{/if}>Varios</option>
+		</select>
+		
+		<div id="mostrarmotivo" {if $motivo=="Varios"}style="display:block;"{else}style="display:none;"{/if}>
+			<input type="text" name="motivodes" id="motivodes" value="{$motivodes}" size="35"/>
+		</div>
+	</td>
+  </tr>
+
+  <tr>
+    <td colspan="2" style="padding:10px;text-align:center;">
+		<input name="reprogramar_fecha_asignada" type="submit" value="Reprogramar Fecha" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+		{if $lista.fecha_reprogramacion != null}
+			<input name="funcion_actualizar_rep" type="image" src="../../templates/imagenes/imprimir.jpg" align="absmiddle" class="enviar" onclick="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/asignacion_reporte.php?opcion=4&daid={$lista.asignacion_detalle_id}')" onmouseover="this.className='boton'; this.src='../../templates/imagenes/imprimir2.jpg'" onmouseout="this.className='enviar';this.src='../../templates/imagenes/imprimir.jpg'" style="padding:0px;"/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{/if}
+	</td>
+  </tr>
+</table>
+</form>

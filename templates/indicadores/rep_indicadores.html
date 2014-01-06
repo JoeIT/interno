@@ -1,0 +1,149 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"} <br />
+
+<form name="asignacion_rep" method="post" action="../../controladores/indicadores/indicadores.php"  align="center">
+<p>&nbsp;</p>
+<table width="80%" border="0" align="center" cellpadding="3" cellspacing="3">
+ <tr>
+    <th colspan="13" > Reporte Indicadores </th>
+    </tr>
+  
+   {if $error.fecha != null}
+  
+   <tr>
+	<td colspan="4">
+	  <div class="error-box" style="width:100%;">{$error.fecha}</div>	</td>
+  </tr>
+  {/if}
+  <tr>
+  
+      <td class="enunciados"> Fecha Inicio: </td>
+    <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+            <input type="text" name="fecha_inicio" id="fecha_inicio" value="{$fecha_inicio}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" maxlength="15" />
+        </span>
+          <input type="button" name="b_fecha_inicio" id="b_fecha_inicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_inicio", ifFormat:"%Y-%m-%d",button:"b_fecha_inicio"});</script>
+      {/literal} </td>
+    <td class="enunciados"> Fecha Fin: </td>
+    <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+      <input type="text" name="fecha_fin" id="fecha_fin" value="{$fecha_fin}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)"  maxlength="15"/>
+    </span>
+          <input type="button" name="b_fecha_fin" id="b_fecha_fin" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_fin", ifFormat:"%Y-%m-%d",button:"b_fecha_fin"});</script>
+      {/literal} </td>
+  </tr>
+  <tr>
+    <td class="enunciados">Indicador:</td>
+     <td colspan="4">
+	<div>
+	  <select name="indicadores" >
+	        
+	{foreach item=item from=$indicadores}	 
+	   		
+	    
+	    <option value="{$item.grupo}" >{$item.grupo}</option>
+	    	    	   
+	  
+	{/foreach}	
+	    
+	    </select>
+    </div>  </tr>
+</table>
+<p align="center">
+  <input type="submit" value="Generar" name="repasignacion" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" />
+</p>
+</form>
+
+
+<p>{if $ver6} </p>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <thead>
+  </thead>
+  <tbody>
+    <!-- loop los estilos  -->
+  </tbody>
+  {assign var=CSSclass value=0}
+  {assign var=clases value=&quot;lista-normal&quot;}
+  {section name=ind loop=$reporte_ind}
+  {assign var=&quot;CSSclass&quot; value=&quot;`$CSSclass+1`&quot;}
+  {if ($CSSclass mod 2) eq 0}
+  {assign var=clases value=&quot;lista-seleccionada&quot;}
+  {else}
+  {assign var=clases value=&quot;lista-normal&quot;}
+  {/if}
+  
+  
+  {/section}
+  <tbody>
+  </tbody>
+</table>
+<table width="80%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr class="enunciados">
+    <th class="enunciados" colspan="14" style="text-align:right;"> <div align="left">{$lista}    </div></th>
+	<th class="enunciados" width="47%"><div align="right"><span style="text-align:right;">{if $excel !=  null} <img src="../../templates/imagenes/excel.gif" width="15" height="15" alt="{$item}.xls" border="0" align="middle" /> <a href="../../reportes/indicadores/{$excel}.xls"> OP: {$excel} </a> {/if}</span> </div></th>
+  </tr>
+  
+  
+ 
+</table>
+<p>{/if }	</p>
+<p>{if $ver7} </p>
+<table width="80%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr class="enunciados">
+    <th class="enunciados" colspan="10" style="text-align:right;"><div align="left">{$lista}</div></th>
+	<th class="enunciados" width="48%"><div align="right"><span style="text-align:right;">{if $excel !=  null} <img src="../../templates/imagenes/excel.gif" width="15" height="15" alt="{$item}.xls" border="0" align="middle" /> <a href="../../reportes/indicadores/{$excel}.xls"> OP: {$excel} </a> {/if} </span> </div></th>
+  </tr>
+</table>
+<p>{/if}</p>
+<p>{if $ver8} </p>
+<table width="80%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr class="enunciados">
+    <th class="enunciados" colspan="10" style="text-align:right;"> <div align="left">{$lista}</div></th>
+	<th class="enunciados" width="47%"><div align="right"><span style="text-align:right;">{if $excel !=  null} <img src="../../templates/imagenes/excel.gif" width="15" height="15" alt="{$item}.xls" border="0" align="middle" /> <a href="../../reportes/indicadores/{$excel}.xls"> OP: {$excel} </a> {/if} </span> </div></th>
+  </tr>
+</table>
+<p>{/if}</p>
+<p>{if $ver9}
+<table width="50%" height="20%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <thead>
+    <tr>
+      <th colspan="4" >{$indi}</th>
+    </tr>
+    <tr class="enunciados">
+
+      <th class="enunciados" style="text-align:center">numero</th>
+      <th class="enunciados" style="text-align:center">Numero Asig</th>
+      <th class="enunciados" style="text-align:center">Muestra inicial fecha </th>
+      <th class="enunciados" style="text-align:center" >Medio proceso Fecha </th>
+      <!-- <th class="enunciados" style="text-align:center">obs</th>-->
+    </tr>
+  </thead>
+  <tbody>
+    <!-- loop los estilos  -->
+  </tbody>
+  {assign var=ind value=0}
+  {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$indi5}
+	 {assign var="ind" value="`$ind+1`"}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+  <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';">
+                <!-- hast aqui son estilos-->
+                <td>{$ind}</td>
+                <td><div align="center">{$indi5[ind].asignacion_detalle_id}</div></td>
+                <td><div align="center">{$indi5[ind].muestra_inicial_fecha}</div></td>
+                <td><div align="center">{$indi5[ind].medio_proceso_fecha}</div></td>
+  </tr>
+  {/section}
+  <tbody>
+  </tbody>
+</table>
+<p>{/if}</p>
+<p>&nbsp;</p>
+</body>

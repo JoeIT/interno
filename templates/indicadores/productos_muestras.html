@@ -1,0 +1,113 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+
+{literal}
+<script src="../../templates/indicadores/script.js"></script>
+{/literal}
+
+<div align="right">
+<a href="indicadores.php?opcion=lista_indicadores&area=Producción">Indicadores de Producción</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
+</div>
+
+
+<table align="center" width="90%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+	<th colspan="2">Diseños nuevos y muestras</th>
+  </tr>
+
+  <tr class="lista-normal">
+    <td colspan="2" style="font-size:1.2em;padding:5px;">
+	<strong>Descripci&oacute;n:</strong> Medir la cantidad de diseños nuevos que se realizan en un periodo determinado.
+	<br />
+	<br />
+	</td>
+  </tr>
+  
+  <tr>
+    <td width="50%">
+		{if $lista_indicador_3_general_mes3 != null}
+		<table width="100%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+		  <tr>
+			<th colspan="2">{$mes3|date_format:'%B, %Y'} ({$fecha_ini_mes3} | {$fecha_fin_mes3})</th>
+		  </tr>
+		  {foreach item=item from=$lista_indicador_3_general_mes3}
+		  <tr>
+			<td class="enunciados" width="50%">{$item.tipo}</td>
+			<td class="lista-normal">{$item.cantidad}</td>
+		  </tr>
+		  {/foreach}
+		  <tr>
+			<td colspan="2" align="right" class="lista-seleccionada"><a href="javascript:generar_contenido('{$fecha_ini_mes3}', '{$fecha_fin_mes3}', 'p_m_detalle');">Detalle de ordenes</a></td>
+		  </tr>
+		</table>
+		{else}
+		  <br />
+		  <div align="center">
+			<div class="error-box" style="width:100%;">No existen datos para {$mes3|date_format:'%B, %Y'}</div>
+		  </div>
+		{/if}
+		
+		{if $lista_indicador_3_general_mes2 != null}
+		<br />
+		<table width="100%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+		  <tr>
+			<th colspan="2">{$mes2|date_format:'%B, %Y'} ({$fecha_ini_mes2} | {$fecha_fin_mes2})</th>
+		  </tr>
+		  {foreach item=item from=$lista_indicador_3_general_mes2}
+		  <tr>
+			<td class="enunciados" width="50%">{$item.tipo}</td>
+			<td class="lista-normal">{$item.cantidad}</td>
+		  </tr>
+		  {/foreach}
+		  <tr>
+			<td colspan="2" align="right" class="lista-seleccionada"><a href="javascript:generar_contenido('{$fecha_ini_mes2}', '{$fecha_fin_mes2}', 'p_m_detalle');">Detalle de ordenes</a></td>
+		  </tr>
+		</table>
+		{else}
+		  <br />
+		  <div align="center">
+			<div class="error-box" style="width:100%;">No existen datos para {$mes2|date_format:'%B, %Y'}</div>
+		  </div>
+		{/if}
+		
+		{if $lista_indicador_3_general_mes1 != null}
+		<br />
+		<table width="100%" border="0" cellspacing="2" cellpadding="1" align="center" style="border-collapse:collapse;">
+		  <tr>
+			<th colspan="2">{$mes1|date_format:'%B, %Y'} ({$fecha_ini_mes1} | {$fecha_fin_mes1})</th>
+		  </tr>
+		  {foreach item=item from=$lista_indicador_3_general_mes1}
+		  <tr>
+			<td class="enunciados" width="50%">{$item.tipo}</td>
+			<td class="lista-normal">{$item.cantidad}</td>
+		  </tr>
+		  {/foreach}
+		  <tr>
+			<td colspan="2" align="right" class="lista-seleccionada"><a href="javascript:generar_contenido('{$fecha_ini_mes1}', '{$fecha_fin_mes1}', 'p_m_detalle');">Detalle de ordenes</a></td>
+		  </tr>
+		</table>
+		{else}
+		  <br />
+		  <div align="center">
+			<div class="error-box" style="width:100%;">No existen datos para {$mes1|date_format:'%B, %Y'}</div>
+		  </div>
+		{/if}
+	</td>
+    <td align="right">
+		<img src="../../clases/indicadores/class.graphic.php?{$params}" border="1" alt="Cumplimiento diseño" style="height:200px;margin-top:10px;width:260px;" />
+	</td>
+  </tr>
+</table>
+
+<br />
+<br />
+
+<div id="contenido" style="text-align:center;">
+</div>
+
+<br />
+<br />
+
+<div id="ingresar" style="display:none;text-align:center;">
+</div>

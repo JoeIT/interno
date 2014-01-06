@@ -1,0 +1,86 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<table>
+<tr>
+	<td colspan="2">
+		<h2 align="center" class="text8" > Ingrese las observaciones del nuevo producto </h2>
+	</td>
+</tr>
+<tr>
+	<td class="enunciados">Orden de producción No.:</td>
+	<td class="body-sector">{$detalle_orden.num_ordenproducto}</td>
+	<td class="enunciados">Cliente:</td>
+	<td class="body-sector">{$detalle_orden.clientenombre}</td>
+</tr>
+<tr>
+	<td class="enunciados">Fecha de Solicitud:</td>
+	<td class="body-sector">{$detalle_orden.fechasolicitud}</td>
+	<td class="enunciados">Fecha de Culminación:</td>
+	<td class="body-sector">{$detalle_orden.fechaculminacion}</td>
+</tr>
+<tr>
+	<td class="enunciados">Modelo a Desarrollar:</td>
+	<td class="body-sector">{$detalle_orden.modelo}</td>
+	<td class="enunciados">Cantidad:</td>
+	<td class="body-sector">{$detalle_orden.cantidad}</td>
+</tr>
+<tr>
+	<td class="enunciados">Codigo:</td>
+	<td class="body-sector">{$detalle_orden.codigo}</td>
+</tr>
+</table>
+
+<form action="../../controladores/sistema_de_produccion/modificar_estado_orden_productos.php" name="modificar_estado_orden_productos" id="modificar_estado_orden_productos"  method="post">
+	<input type="hidden" name="elegido" id="elegido" value="{$detalle_orden.ordenproducto_id}">
+	{if $opcion=="ver_nuevas"}
+	<input type="hidden" name="estado" id="estado" value="diseño">
+	{else}
+		{if $opcion=="revisar"}
+		<table align="center">
+		<tr>
+			<td>
+				<INPUT type="radio" id="estado" name="estado" value="verificado" CHECKED><font class="text8">Verificar Producto y enviar a fotografía </font><BR>
+				<input type="radio" id="estado" name="estado"   value="diseño"><font class="text8">Enviar a diseño para correcciones</font> <BR>
+			</td>
+		</tr>
+	   </table>
+	   {else}
+			{if $opcion=="enviar_verificacion"}
+				<input type="hidden" name="estado" id="estado" value=revision>
+			{/if}
+		{/if}
+	{/if}
+						  <table>
+						  <tr>
+						   <td class="header-table"> Observaciones: </td>
+						   <td class="body-sector" colspan="3">  
+						      <textarea name="observaciones" rows=2 cols=40> </textarea>
+						      
+						   </td>
+						 </tr>
+						 </table>
+				  <input type="hidden" name="opcion" id="opcion" value="{$opcion}">
+				  <br />
+  				  <br />
+				  <center>
+					  {if $opcion=="ver_nuevas"}
+					    <input type="submit" name="ver_nuevas" value="Ingresar a diseño" /> 
+					  {else}
+					      {if $opcion=="revisar"}
+						
+						  
+				<input type="submit" name="revisado" value="Registrar Resultados de Revisión"/>               
+						   {else}
+							   {if $opcion=="enviar_verificacion"}
+							       <input type="submit" name="revision" id="revision" value="Enviar a Revisión">
+							   {/if}
+						   	
+						  {/if}
+					  {/if}
+				  </center>
+	                  </form>
+				
+</body>
+
+
+

@@ -1,0 +1,74 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<table align="center">
+<tr>
+	<th colspan="4">Características Orden producto nuevo</th>
+</tr>
+<tr>
+	<td class="enunciados">Orden de producción No.:</td>
+	<td class="body-sector">{$detalle_orden.ordenproducto_id}</td>
+	<td class="enunciados">Cliente:</td>
+	<td class="body-sector">{$detalle_orden.clientenombre}</td>
+</tr>
+<tr>
+	<td class="enunciados">Fecha de Solicitud:</td>
+	<td class="body-sector">{$detalle_orden.fechasolicitud}</td>
+	<td class="enunciados">Fecha de Culminación:</td>
+	<td class="body-sector">{$detalle_orden.fechaculminacion}</td>
+</tr>
+<tr>
+	<td class="enunciados">Modelo a Desarrollar:</td>
+	<td class="body-sector">{$detalle_orden.modelo}</td>
+	<td class="enunciados">Cantidad:</td>
+	<td class="body-sector">{$detalle_orden.cantidad}</td>
+</tr>
+<tr>
+	<td class="enunciados">Codigo:</td>
+	<td class="body-sector">{$detalle_orden.codigo}</td>
+</tr>
+</table>
+
+<form name="modificar_material_orden_productos" method="post" action="../../controladores/sistema_de_produccion/modificar_material_orden_productos.php"  align="center" id="modificar_material_orden_productos">
+	<input type="hidden" name="ordenproducto_id"  value="{$detalle_orden.ordenproducto_id}" id="ordenproducto_id">
+	<input type="hidden" name="funcion"  value="registrar" id="funcion">
+	<input type="hidden" name="opcion" id="opcion" value="{$opcion}">
+	<input type="hidden" name="elegido" id="elegido" value="{$detalle_material.materialesordenprodnuevo_id}">
+	
+	<table width="60%" border="0" align="center">
+	<tr>
+		<th colspan="2">Modificar material de la orden</th>
+	</tr>
+	{if $errores.err_texto_material != null}
+	<tr>
+		<td align="center" class="error-box">{$errores.err_texto_material}</td>
+	</tr>
+	{/if}
+	<tr>
+		<td class="enunciados">Descripcion del material:</td>
+		<td>
+			<input name="texto_material" type="text" id="material" value="{$detalle_material.material}" tabindex="3"/>
+			<span id="spinner" style="display: none"></span>
+			<div id="lista_materiales" class="autorelleno" ></div>
+			{literal}
+			<script>
+				new Ajax.Autocompleter("material", "lista_materiales", "../../contrladores/modificar_material_orden_productos.php?busqueda_ajax=materiales", {method:"post", paramName: "value", minChars: 1, indicator: "spinner",afterUpdateElement : cambiar_casilla});
+			</script>
+			{/literal}
+		</td>
+	</tr>
+	{if $errores.err_texto_cantidad != null}
+	<tr>
+		<td align="center" class="error-box">{$errores.err_texto_cantidad}</td>
+	</tr>
+	{/if}
+	<tr>
+		<td class="enunciados">Cantidad del material:</td>
+		<td>
+			<input name="texto_cantidad" type="text" id="cantidad" value="{$detalle_material.cantidad}" tabindex="4"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="registrar" value="Modificar Material" class="button1"/></td>
+	</tr>
+	</table>
+</form>

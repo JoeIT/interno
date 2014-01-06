@@ -1,0 +1,254 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th>Entregas</th>
+  <tr>
+    <td>
+		<!-- aqui se detallan los contenidos-->
+		<table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+		<form action="../../controladores/sistema_de_produccion/entrega.php" method="post" name="buscar" id="buscar">
+		  {if $errores.num_asignacion != null}
+		  <tr>
+			<td/>
+			<td style="padding-left:3px;">
+				<div class="error-box">
+				{$errores.num_asignacion}
+				</div>
+			</td>
+		  </tr>
+		  {/if}
+		  <tr>
+			<td width="50%" class="enunciados">Ingrese N&uacute;mero de Asignaci&oacute;n:</td>
+			<td class="body-sector" style="padding-left:3px;">
+				<div align="left" class="entrada">
+					<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+					<input type="text" name="num_asignacion" id="num_asignacion" value="{$num_asignacion}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+				</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td style="padding:10px;text-align:center;">
+				<input name="buscar" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			</td>
+			<td style="padding:10px;text-align:center;">
+				<input name="buscar" type="reset" value="Reestablecer B&uacute;squeda" class="boton"/>
+			</td>
+		  </tr>
+		</form>
+		</table>
+	</td>
+  </tr>
+</table>
+
+{if $oid != null && $did != null}
+	<div style="margin-left:20px;">
+		&#8249;&#8249;<a href="asignacion.php?opcion=9&oid={$oid}&did={$did}">Volver</a>
+	</div>
+{/if}
+
+<!--mostramos si existe el mensaje de error-->
+{if $mensaje != null}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center">
+				<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>
+				&nbsp;&nbsp;&nbsp;{$mensaje}
+			</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+
+<!--Restultados de la busqueda-->
+{if $resultado_asignacion != null}
+
+{*para ver instructivo*}
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+	<td>
+		<div class="anuncio" align="center">
+			
+			{if $link != null}
+				<img src="../../templates/imagenes/instructivo.gif" style="vertical-align:middle; width:30; height:30"/>
+			&nbsp;&nbsp;&nbsp;
+				<a href="{$link}" target="_blank">Ver instructivo N&deg; <span style="font-weight:bold;">{$instructivo_id}</span></a>
+			{else}
+				<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>
+			&nbsp;&nbsp;&nbsp;
+				No tiene instructivo
+			{/if}
+		</div>
+	</td>
+  </tr>
+</table>
+{*fin para ver instructivo*}
+
+<form action="../../controladores/sistema_de_produccion/entrega.php" method="post" name="enviar" id="enviar">
+<table width="95%" border="1" align="center" cellpadding="0" cellspacing="0">
+	<tr>
+		<td style="vertical-align:top;">
+			<table width="100%" border="0" cellspacing="1" cellpadding="0">
+				<tr>
+					<th colspan="2">Detalle asignaci&oacute;n</th>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">O.P. # CUP: </td>
+					<td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.cup}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Asignaci&oacute;n: </td>
+					<td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.asignacion}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Maquinista: </td>
+					<td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.completo}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Cantidad: </td>
+					<td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.cantidad}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Fecha Inicio: </td>
+					<td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.fini}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Fecha Finalizaci&oacute;n: </td>
+					<td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.ffin}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Fecha Reprog.: </td>
+					<td class="lista-seleccionada" style="padding-left:3px;text-align:left;">
+						{if $resultado_asignacion.frep != null}
+							{$resultado_asignacion.frep}
+						{else}
+							"No tiene reprogramaci&oacute;n"
+						{/if}
+					</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Modelo: </td>
+					<td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.modelo}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Tipo: </td>
+					<td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.tipo}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Color: </td>
+					<td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.color}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Clip: </td>
+					<td class="lista-seleccionada" style="padding-left:3px;text-align:left;">{$resultado_asignacion.clip}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Cuero: </td>
+					<td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.cuero}</td>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:right;">Observaciones</td>
+					<td class="lista-seleccionada" style="padding:3px;text-align:justify;">{$resultado_asignacion.observaciones}</td>
+				</tr>
+		  </table>
+		</td>
+		<td style="vertical-align:top;">
+			<table width="100%" border="0" align="right" cellpadding="0" cellspacing="1">
+				<tr>
+					<th colspan="5">Lista de Materiales</th>
+				</tr>
+				<tr>
+					<td class="enunciados" style="text-align:center;">Material</td>
+					<td class="enunciados" style="text-align:center;">Posici&oacute;n</td>
+					<td class="enunciados" style="text-align:center;">Cantidad</td>
+					<td class="enunciados" style="text-align:center;">Total</td>
+					{if $ya_se_efectuo == null}
+					<td class="enunciados" style="text-align:center;">&nbsp;</td>
+					{/if}
+				</tr>
+				
+				{assign var=CSSclass value=0}
+				{assign var=clases value="lista-normal"}
+				
+				{foreach key=key item=item from=$resultado_despiece}
+	
+				{assign var="CSSclass" value="`$CSSclass+1`"}
+				{if ($CSSclass mod 2) eq 0}
+					{assign var=clases value="lista-seleccionada"}
+				{else}
+					{assign var=clases value="lista-normal"}
+				{/if}
+				
+				
+				{if $verificar[$item.para_check] eq $item.para_check}
+				<label for="check{$item.para_check}">
+				<tr id="{$item.para_check}" class="lista_terrible">
+					<td style="padding:4px;padding-left:10px;text-align:left;">{$item.nombre}</td>
+					<td style="padding:4px;padding-left:10px;text-align:left;">{$item.posicion}</td>
+					<td style="text-align:center;">{$item.cantidad}</td>
+					<td style="text-align:center;">{$item.total}</td>
+					
+					{if $ya_se_efectuo == null}
+					<td style="text-align:center;">
+						<input type="checkbox" name="verificar[{$item.para_check}]" value="{$item.para_check}"  id="check{$item.para_check}" onclick="colorear(this, this.checked, this.parentNode.parentNode)" style="cursor:pointer;" checked="checked" lang="{$clases}"/>
+					</td>
+					{/if}
+				</tr>
+				</label>
+				{else}
+				<label for="check{$item.para_check}">
+				<tr id="{$item.para_check}" class="{$clases}" style="cursor:pointer;">
+					<td style="padding:4px;padding-left:10px;text-align:left;">{$item.nombre}</td>
+					<td style="padding:4px;padding-left:10px;text-align:left;">{$item.posicion}</td>
+					<td style="text-align:center;">{$item.cantidad}</td>
+					<td style="text-align:center;">{$item.total}</td>
+					{if $ya_se_efectuo == null}
+					<td style="text-align:center;">
+						<input type="checkbox" name="verificar[{$item.para_check}]" value="{$item.para_check}"  id="check{$item.para_check}" onclick="colorear(this, this.checked, this.parentNode.parentNode)" style="cursor:pointer;" lang="{$clases}"/>
+					</td>
+					{/if}
+				</tr>
+				</label>
+				{/if}
+				{/foreach}
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+
+{* las opciones para realizar la entrega *}
+{if $ya_se_efectuo == null}
+<table width="60%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="2">Entregar</th>
+	</tr>
+	{if $errores.pin != null}
+	<tr>
+		<td/>
+		<td>
+			<div class="error-box">
+				{$errores.pin}			</div>		</td>
+	</tr>
+	{/if}	
+	<tr>
+		<td class="enunciados">PIN maquinista: </td>
+		<td>
+			<input name="pin" type="text" id="pin" value="{$pin}" onkeypress="return handleEnter(this, event)"/>
+			<input name="entregar" type="submit" value="Realizar Entrega" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			<input name="num_asignacion" type="hidden" value="{$resultado_asignacion.asignacion}"/>
+			<input name="personal_id" type="hidden" value="{$resultado_asignacion.personal_id}"/>
+			
+			<input type="hidden" name="oid" value="{$oid}" />
+			<input type="hidden" name="did" value="{$did}" />
+		</td>
+	</tr>
+</table>
+{/if}
+</form>
+{/if}
+<!--Fin Restultados de la busqueda-->
+
+<br />

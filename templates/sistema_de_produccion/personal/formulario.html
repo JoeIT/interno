@@ -1,0 +1,366 @@
+{literal}
+<script language="javascript" type="text/javascript">
+function calcular_edad(fecha){
+	hoy = new Date();
+
+    var array_fecha = fecha.split("-")
+    if (array_fecha.length != 3)
+       return false
+
+    var ano;
+    ano = parseInt(array_fecha[0]);
+    if (isNaN(ano))
+       return false
+
+    var mes;
+    mes = parseInt(array_fecha[1]);
+    if (isNaN(mes))
+       return false
+
+    var dia;
+    dia = parseInt(array_fecha[2]);
+    if (isNaN(dia))
+       return false
+
+    if (ano <= 99)
+       ano += 1900;
+	   
+	ages = hoy.getFullYear() - ano - 1;
+
+
+    if (hoy.getMonth() + 1 - mes < 0)
+       return ages;
+    if (hoy.getMonth() + 1 - mes > 0)
+       return ages + 1;
+
+    if (hoy.getUTCDate() - dia >= 0)
+       return ages + 1
+
+    return ages;
+}
+
+function deshabilita(form)
+{
+form.ci.disabled=true;
+}
+</script>
+{/literal}
+
+<form action="../../controladores/sistema_de_produccion/personal.php" method="post" name="personal" id="personal" enctype="multipart/form-data">
+<table width="80%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th colspan="2">Datos del Contrato </th>
+  </tr>
+
+  {if $errores.err_nombresp != null }
+  <tr>
+	<td/>
+	<td><div class="error-box">{$errores.err_nombresp}</div></td>
+  </tr>
+  {/if}
+
+   <tr>
+    <td width="25%" class="enunciados">Nombres:</td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="nombresp" type="text" id="nombresp" value="{$nombresp}" size="50" tabindex="1" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>	</td>
+  </tr>
+
+  {if $errores.err_apellidosp != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_apellidosp}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Apellidos:</td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="apellidosp" type="text" id="apellidosp" value="{$apellidosp}" size="50" tabindex="2" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>	</td>
+  </tr>
+
+  {if $errores.err_ci != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_ci}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Carnet de Identidad: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/ci.jpg" class="imagenes"/>
+			<input name="ci" type="text" id="ci" value="{$ci}" tabindex="3" style="border:none;" onkeypress="return enter_handle(this, event, 2, 1)"   onClick="deshabilita(this.form)"/>
+		</span>	</td>
+  </tr>
+
+  {if $errores.err_ciexpirar != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_ciexpirar}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Expiraci&oacute;n CI:</td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="ciexpirar" type="text" id="ciexpirar" value="{$ciexpirar}" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)"/>
+		</span>
+		<input name="bciexpirar" type="button" id="bciexpirar" value="..." class="boton" onkeypress="return enter_handle(this, event, 2, 1);" />
+
+		{literal}
+		<script type="text/javascript">Calendar.setup({inputField:"ciexpirar", ifFormat:"%Y-%m-%d",button:"bciexpirar"});</script>
+		{/literal}	</td>
+  </tr>
+
+  {if $errores.err_fecnac != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_fecnac}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Fecha de Nacimiento: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="fecnac" type="text" id="fecnac" value="{$fecnac}" onchange =  "document.getElementById('edad').innerHTML = 'Edad: ' + calcular_edad(this.value) + ' a&ntilde;os'" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)"/>
+		</span>
+      <input name="bfecnac" type="button" id="bfecnac" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)">
+		{literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fecnac", ifFormat:"%Y-%m-%d",button:"bfecnac"});</script>
+		{/literal}
+		<em id="edad"></em>	</td>
+  </tr>
+
+  {if $errores.err_tiposangre != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_tiposangre}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Tipo de Sangre: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/sangre.jpg" class="imagenes"/>
+			<input name="tiposangre" type="text" id="tiposangre" value='{$tiposangre}' style="border:none;" onkeypress="return enter_handle(this, event, 4, 1)"/>
+		</span>	</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Telefono: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/util_telefonos.jpg" class="imagenes"/>
+			<input name="telefono" type="text" id="telefono" value="{$telefono}" style="border:none;" onkeypress="return enter_handle(this, event, 4, 1)"/>
+		</span>	</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Autorizado por: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/autorizado.jpg" class="imagenes"/>
+			<input name="autorizado" type="text" id="autorizado" value="{$nombres} {$apellidos}" size="50" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 2, 1)">
+			<input name="usuario_id" type="hidden" value="{$usuario_id}">
+		</span>	</td>
+  </tr>
+
+  {if $errores.err_fecinicio != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_fecinicio}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Fecha de Inicio: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="fecinicio" type="text" id="fecinicio" value="{$fecinicio}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>
+	   	<input name="bfecinicio" type="button" id="bfecinicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 2, 1)">
+		{literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fecinicio", ifFormat:"%Y-%m-%d",button:"bfecinicio"});</script>
+		{/literal}	</td>
+  </tr>
+
+  {if $errores.err_fecfin != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_fecfin}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Fecha de Finalizaci&oacute;n: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="fecfin" type="text" id="fecfin" value="{$fecfin}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>
+      	<input name="bfecfin" type="button" id="bfecfin" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)">
+		{literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fecfin", ifFormat:"%Y-%m-%d",button:"bfecfin"});</script>
+		{/literal}	</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Puesto(s) de Trabajo: </td>
+    <td class="body-sector" style="padding:8px;">
+		{foreach key=key item=item from=$puestos}
+			{if $puesto[$key] eq $item.puesto_trabajo_id}
+			<input name="puesto[{$item.puesto_trabajo_id}]" type="checkbox" value="{$item.puesto_trabajo_id}" id="{$item.puesto_trabajo_id}" checked="checked" onkeypress="return enter_handle(this, event, 1, 1);" onfocus="this.style.background='#FF0000';" onblur="this.style.background='#FFFFFF';"/>
+			<label for="{$item.puesto_trabajo_id}" style="cursor:pointer;">{$item.nombre_puesto_trabajo}</label><br />
+			{else}
+			<input name="puesto[{$item.puesto_trabajo_id}]" type="checkbox" value="{$item.puesto_trabajo_id}" id="{$item.puesto_trabajo_id}" onkeypress="return enter_handle(this, event, 1, 1);" onfocus="this.style.background='#FF0000';" onblur="this.style.background='#FFFFFF';"/>
+			<label for="{$item.puesto_trabajo_id}" style="cursor:pointer;">{$item.nombre_puesto_trabajo}</label><br />
+			{/if}
+		{/foreach}	</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Fecha Actual: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="fecactual" type="text" id="fecactual" value="{$fecha_hoy}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>	</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Habilitado: </td>
+    <td class="body-sector" style="padding:3px;padding-left:8px;">
+		{if $habilitado eq "1"}
+		<input name="habilitado" type="checkbox" id="habilitado" value="1" checked onkeypress="return enter_handle(this, event, 1, 1);" onfocus="this.style.background='#FF0000';" onblur="this.style.background='#FFFFFF';">
+		{else}
+		<input name="habilitado" type="checkbox" id="habilitado" value="1" onkeypress="return enter_handle(this, event, 1, 1);" onfocus="this.style.background='#FF0000';" onblur="this.style.background='#FFFFFF';">
+		{/if}	</td>
+  </tr>
+
+  {if $errores.err_fexpiracionbrevet != null }
+  <tr>
+	<td/>
+	<td><div class="error-box">{$errores.err_fexpiracionbrevet}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Permitir auto: </td>
+    <td class="body-sector" style="padding:3px;padding-left:8px;">
+		{if $auto_permitido eq "1"}
+		{literal}
+		<script>
+			var salto = 2;
+		</script>
+		{/literal}
+		<input name="auto_permitido" type="checkbox" id="auto_permitido" value="1" checked onclick="{literal}javascript:document.getElementById('bfexpiracionbrevet').disabled = !this.checked;if(!this.checked){document.getElementById('fexpiracionbrevet').value='';salto =4;}{/literal}" onkeypress="return enter_handle(this, event, salto, 1);" onfocus="this.style.background='#FF0000';" onblur="this.style.background='#FFFFFF';">
+		<em style="vertical-align:super;">Expiracion Brevet:</em>
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="fexpiracionbrevet" type="text" id="fexpiracionbrevet" value="{$fexpiracionbrevet}" READONLY style="border:none;">
+		</span>
+      	<input name="bfexpiracionbrevet" type="button" id="bfexpiracionbrevet" value="..." class="boton" onkeypress="return enter_handle(this, event, 2, 1)">
+		{else}
+		{literal}
+		<script>
+			var salto = 4;
+		</script>
+		{/literal}
+        <input name="auto_permitido" type="checkbox" id="auto_permitido" value="1" onclick="{literal}javascript:document.getElementById('bfexpiracionbrevet').disabled = !this.checked;if(!this.checked){document.getElementById('fexpiracionbrevet').value='';}else{salto = 2}{/literal}" onkeypress="return enter_handle(this, event, salto, 1);" onfocus="this.style.background='#FF0000';" onblur="this.style.background='#FFFFFF';"/>
+        <em style="vertical-align:super;">Expiracion Brevet:</em>
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="fexpiracionbrevet" type="text" id="fexpiracionbrevet" value="{$fexpiracionbrevet}" READONLY style="border:none;">
+		</span>
+      	<input name="bfexpiracionbrevet" type="button" id="bfexpiracionbrevet" value="..." class="boton" disabled="disabled" onkeypress="return enter_handle(this, event, 2, 1)"/>
+		{/if}
+		{literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fexpiracionbrevet", ifFormat:"%Y-%m-%d",button:"bfexpiracionbrevet"});</script>
+		{/literal}	</td>
+  </tr>
+
+  {if $errores.err_legalizado != null }
+  <tr>
+	<td/>
+	<td>
+		<div class="error-box">{$errores.err_legalizado}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Legalizado: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="legalizado" type="text" id="legalizado" value="{$legalizado}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>
+      	<input name="blegalizado" type="button" id="blegalizado" value="..." class="boton" onkeypress="return enter_handle(this, event, 2, 1)">
+		{literal}
+		<script type="text/javascript">Calendar.setup({inputField:"legalizado", ifFormat:"%Y-%m-%d",button:"blegalizado"});</script>
+		{/literal}	</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Registro Modificado: </td>
+    <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="modificado" type="text" id="modificado" value="{$el_momento}" readonly style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+		</span>	</td>
+  </tr>
+  <tr>
+    <td class="enunciados">Observaciones: </td>
+    <td class="body-sector" style="padding:3px;padding-left:8px;">
+		<textarea name="observaciones" cols="45" rows="5" id="observaciones" tabindex="4" >{$observaciones}</textarea>	</td>
+  </tr>
+
+  <!-- fotografia-->
+  {if $errores.err_fotografia != null }
+  <tr>
+  	<td/>
+	<td>
+		<div class="error-box">{$errores.err_fotografia}</div>	</td>
+  </tr>
+  {/if}
+
+  <tr>
+    <td class="enunciados">Fotograf&iacute;a (JPG) : </td>
+    <td class="body-sector" style="padding:3px;padding-left:8px;">
+		<input type="file" name="fotografia" id="fotografia" tabindex="5" size="30" onkeypress="return enter_handle(this, event, 2, 1)"/>
+		<br />
+		<input name="nombre_fotografia" type="hidden" id="nombre_fotografia" size="50" value="{$nombre_fotografia}">
+		{if $nombre_fotografia != null}
+			<br />
+			<img src="personal_resizeImage.php?max=120&imgorig=../../fotografia/{$nombre_fotografia}" alt="{$nombre_fotografia}" name="imagen_fotografia" border="1" id="imagen_fotografia" />
+		{else}
+			<h5>No tiene fotograf&iacute;a</h5>
+		{/if}	</td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding:10px;text-align:center;">
+	    <input name="guardar" type="submit" value="Guardar Datos" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  	<input name="reset" type="reset" value="Reestablecer Datos" class="boton">
+		{if ($mensaje == null) && ($nombre_fotografia != null)}
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    <input name="credencial" type="submit" value="Ver credencial" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+		{/if}
+	</td>
+  </tr>
+</table>
+</form>
+<br>

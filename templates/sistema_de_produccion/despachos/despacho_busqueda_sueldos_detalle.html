@@ -1,0 +1,180 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script>
+var llave = 0;
+/*
+function pregunta(){
+	if (confirm('¿Esta seguro de despachar?')){
+		llave = 1;
+		return true;
+	} else {
+		return false;
+	}
+}
+*/
+function pregunta(){
+		llave = 1;
+		return true;
+}
+
+function cerrar(){
+	if (llave == 1){
+		opener.location.reload();
+		this.close();
+	}
+}
+
+function ver_cantidades(objeto, falta){
+	valor =  objeto.value;
+	if ( valor > falta){
+		alert('Ingrese cantidad menor o igual a ' + falta);
+		objeto.focus();
+		objeto.select();
+	}
+}
+
+</script>
+{/literal}
+
+<br />
+  {if $mensaje != null}
+  <table align="center">
+		  <tr>
+			<td/>
+			<td style="padding-left:3px;">
+				<div class="error-box">{$mensaje}</div>
+			</td>
+		  </tr>
+		  </table>
+  {/if}	
+  <br />
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="3">
+  <tr>
+	<th colspan="5">Despacho</th>
+  </tr>
+  <tr>
+	<td class="enunciados">
+	  Nombre del despacho:
+	</td>
+	<td class="body-sector">
+	  {$descripcion_despacho.nombre_despacho}
+	</td>
+	<td class="enunciados">
+	  Fecha del despacho:
+	</td>
+	<td class="body-sector">
+	  {$descripcion_despacho.fecha_despacho}
+	</td>
+  </tr>
+</table>
+<br>
+<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<form action="../../controladores/sistema_de_produccion/despacho_sueldos.php?funcion=habilitar" method="post" name="habilitar" id="habilitar">
+	<tr>
+	  <th colspan="10">Listado de asignaciones</th>
+	</tr>
+	<tr>
+	  <td class="enunciados" style="text-align:center;">Num. Asignacion </td>
+  	  <td class="enunciados" style="text-align:center;">Cant desp</td>
+  	  <td class="enunciados" style="text-align:center;">Tot. Recep.</td>
+	  <td class="enunciados" style="text-align:center;">Asig. Limpieza </td>
+	  <td class="enunciados" style="text-align:center;">Pend. Limpieza </td>
+	  <td class="enunciados" style="text-align:center;">Asig. Calidad </td>
+	  <td class="enunciados" style="text-align:center;">Pend. Calidad </td>
+	  <td class="enunciados" style="text-align:center;">Total Rechazos</td>
+	  <td class="enunciados" style="text-align:center;">Total Arreglos</td>
+	  <td class="enunciados" style="text-align:center;">Cerrado</td>
+	</tr>
+	{*inicio totales*}
+		{assign var=Tpara_despacho value=0}
+		{assign var=Trecepcionado value=0}
+		{assign var=Tlimpiezaa value=0}
+		{assign var=Tlimpiezap value=0}
+		{assign var=Tcalidada value=0}
+		{assign var=Tcalidadp value=0}
+		{assign var=Trechazo value=0}
+		{assign var=Ttotala value=0}
+		{assign var=Tdetalle value=0}
+	{*fin totales*}	
+	
+	
+  {assign var=CSSclass value=0}
+  {assign var=clases value="lista-normal"}
+  {assign var=cantidad_hojas value=0}
+  {assign var=cantidad_productos value=0}
+  {foreach name=contenido item=resumen from=$resumen_total}
+  {assign var=cantidad_hojas value=$cantidad_hojas+1}
+  {assign var="CSSclass" value="`$CSSclass+1`"}
+  {if ($CSSclass mod 2) eq 0}
+  {assign var=clases value="lista-seleccionada"}
+  {else}
+  {assign var=clases value="lista-normal"}
+  {/if}
+   
+  <label for="asignacion{$CSSclass}">
+  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">		  
+	<td style="padding:3px;text-align:center;">{$resumen.detalle_asignacion.asignacion}</td>
+	<td style="padding:3px;text-align:center;">{$resumen.para_despacho}</td>
+	<td style="padding:3px;text-align:center;">{$resumen.recepcionado}</td>
+	<td style="padding:3px;text-align:center;" {if $resumen.limpieza.pendientes != 0}class='lista-pendiente'{/if}>{$resumen.limpieza.asignados}</td>
+	<td style="padding:3px;text-align:center;" {if $resumen.limpieza.pendientes != 0}class='lista-pendiente'{/if}>{$resumen.limpieza.pendientes}</td>
+	<td style="padding:3px;text-align:center;" {if $resumen.calidad_falta.pendientes_calidad != 0}class='lista-sin-despiece'{/if}>{$resumen.calidad_falta.asignados_calidad}</td>
+	<td style="padding:3px;text-align:center;" {if $resumen.calidad_falta.pendientes_calidad != 0}class='lista-sin-despiece'{/if}>{$resumen.calidad_falta.pendientes_calidad}</td>
+	<td style="padding:3px;text-align:center;" {if $resumen.rechazo != $resumen.total_arreglado}class='lista-pendiente'{/if}>{$resumen.rechazo}</td>
+	<td style="padding:3px;text-align:center;" {if $resumen.rechazo != $resumen.total_arreglado}class='lista-pendiente'{/if}>{$resumen.total_arreglado}</td>
+	<td style="padding:3px;text-align:center;" {if $resumen.detalle_asignacion.cerrada==0}class='lista-sin-despiece'{/if}>{$resumen.detalle_asignacion.cerrada}</td>
+  </tr>
+  </label>
+  	{assign var=cantidad_productos value=$cantidad_productos+$resumen.recepcionado}
+	{*inicio totales*}
+		{assign var=Tpara_despacho value=$Tpara_despacho+$resumen.para_despacho}
+		{assign var=Trecepcionado value=$Trecepcionado+$resumen.recepcionado}
+		{assign var=Tlimpiezaa value=$Tlimpiezaa+$resumen.limpieza.asignados}
+		{assign var=Tlimpiezap value=$Tlimpiezap+$resumen.limpieza.pendientes}
+		{assign var=Tcalidada value=$Tcalidada+$resumen.calidad_falta.asignados_calidad}
+		{assign var=Tcalidadp value=$Tcalidadp+$resumen.calidad_falta.pendientes_calidad}
+		{assign var=Trechazo value=$Trechazo+$resumen.rechazo}
+		{assign var=Ttotala value=$Ttotala+$resumen.total_arreglado}
+		{assign var=Tdetalle value=$Tdetalle+$resumen.detalle_asignacion.cerrada}
+	{*fin totales*}
+  {/foreach}
+  
+  
+	<tr class="lista-pendiente">  
+		<td class="enunciados" style="text-align:center;">Totales</td>
+		<td style="padding:3px;text-align:center;">{$Tpara_despacho}</td>
+		<td style="padding:3px;text-align:center;">{$Trecepcionado}</td>
+		<td style="padding:3px;text-align:center;">{$Tlimpiezaa}</td>
+		<td style="padding:3px;text-align:center;">{$Tlimpiezap}</td>
+		<td style="padding:3px;text-align:center;">{$Tcalidada}</td>
+		<td style="padding:3px;text-align:center;">{$Tcalidadp}</td>
+		<td style="padding:3px;text-align:center;">{$Trechazo}</td>
+		<td style="padding:3px;text-align:center;">{$Ttotala}</td>
+		<td style="padding:3px;text-align:center;">{$Tdetalle}</td>
+	</tr>
+  
+   <tr>
+		<td class="enunciados" style="text-align:center;">Cantidad Hojas</td>
+		<td class="lista-con-despiece" style="padding:3px;text-align:left;">{$cantidad_hojas}</td>
+		<td class="enunciados" style="text-align:center;">Cantidad Productos</td>
+		<td class="lista-con-despiece" style="padding:3px;text-align:left;">{$Tpara_despacho}</td>
+		
+		<td class="enunciados" style="text-align:center;">Migrar Administracion</td>
+		<td class="lista-con-despiece" style="padding:3px;text-align:left;">{$estado_despacho.migrar_administracion}</td>
+		<td class="enunciados" style="text-align:center;">Migrar Link</td>
+		<td class="lista-con-despiece" style="padding:3px;text-align:left;">{$estado_despacho.migrar_link}</td>
+  </tr>
+	<tr>
+		<td colspan="9" style="padding:10px;text-align:center;">
+		<input type="hidden" value="{$deid}" name="deid">
+		{if $estado_despacho.migrar_administracion == 0 and $estado_despacho.migrar_link== 0 }
+		    <input type="hidden" value="habilitar" name="opcion">
+			<input name="habilitar" type="submit" value=" Habilitar sueldos " class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'"/>
+		{else}
+		     <input type="hidden" value="deshabilitar" name="opcion">
+		    <input name="habilitar" type="submit" value=" Deshabilitar sueldos " class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'"/>
+		{/if}	
+		</td>
+	</tr>
+	</form>
+</table>

@@ -1,0 +1,432 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MultiPowUpload methods</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+<style type="text/css">
+<!--
+body,td,th {
+	font-size: 0.7em;
+}
+-->
+</style></head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+<p><b>MultiPowUpload object methods</b>&nbsp;<hr/></p>
+<br><a href="#setParameter">setParameter method</a><br>
+<br><a href="#browseFiles">browseFiles method</a><br>
+<br><a href="#uploadAll">uploadAll method</a><br>
+<br><a href="#uploadFiles">uploadFiles method</a><br>
+<br><a href="#downloadAll">downloadAll method</a><br>
+<br><a href="#downloadFiles">downloadFiles method</a><br>
+<br><a href="#removeItemAt">removeItemAt method</a><br>
+
+<br><a href="#removeAll">removeAll method</a><br>
+<br><a href="#cancelUploadDownload">cancelUploadDownload method</a><br>
+<br><a href="#sendAndLoadVars">sendAndLoadVars method</a><br>
+<br><a href="#download">download method</a><br>
+<br><a href="#addFileToDownload">addFileToDownload method</a><br>
+<br><a href="#loadImage">loadImage method</a><br>
+<br><a href="#sortFileList">sortFileList method</a><br><br>
+
+<h1><a name="setParameter" id="setParameter">setParameter</a> (Flash.setParameter method)</h1>
+<div class="signature"><p>setParameter(param:String)</p></div>
+<p>Sets parameter while runtime. All parameters possible to modify at runtime. Flash reloads interface immediately.</p>
+<h4>Parameters</h4>
+<p><strong>param</strong><code>:String</code> - The name of <a href="Parameters.html">parameter</a></p>
+<br />
+  
+<h4>Example:</h4>
+<textarea  name="" cols="100" rows="5" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.SetParameter("backgroundColor","#0000FF");
+}
+</textarea>
+
+
+
+<h1><a name="browseFiles" id="browseFiles">browseFiles</a> (Flash.browseFiles method)</h1>
+<div class="signature"><p>browseFiles([fileTypes:Array])</p></div>
+<p>Displays a file-browsing dialog box in which the user can select a local file to upload. The dialog box is native to the user&#39;s operating system. Only one <code>browseFiles()</code>session can be performed at a time (because only one dialog box can be displayed at a time).</p>
+<p>You can pass an array of file types to determine which files the dialog box displays.</p>
+<h4>Parameters</h4>
+<p><strong>fileTypes</strong><code>:Array</code> [optional] - An array of file types used to filter the files displayed in the dialog box. If you omit this parameter, all files are displayed. You can use one of two formats for the array: </p>
+<ul>
+  <li>A list of file type descriptions followed by their  file extensions only.<br />
+    Each element in the array must contain a string that describes the file type and a semicolon-delimited list of  file extensions, with a wildcard character (*) preceding each extension.<br />
+  A list of file type descriptions followed by their  file extensions.
+Each element in the array must contain a string that describes the file type; a semicolon-delimited list of  file extensions, with a wildcard character (*) preceding each extension. The syntax for each element is as follows:
+    <br />
+    [{description: "string describing the first set of file types", extension: "semicolon-delimited list of  file extensions"}]
+<br />
+<h4>Example:</h4>
+[{description: "Image files", extension: "*.jpg;*.gif;*.png"} 
+
+  
+<h4>Example:</h4>
+<textarea  name="" cols="100" rows="10" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	var allTypes = new Array();
+	var imageTypes = new Object();
+	imageTypes.description = "Images (*.JPG;*.JPEG;*.JPE;*.GIF;*.PNG;)";
+	imageTypes.extension = "*.jpg; *.jpeg; *.jpe; *.gif; *.png;";
+	allTypes.push(imageTypes);	
+	Flash.browseFiles(allTypes);
+}
+</textarea>
+  </li>
+  </ul>
+<p>The two formats are not interchangeable in a single <code>browseFiles()</code> call. You must use one or the other.</p>
+<p>The list of extensions is used to filter the files, depending on the file selected by the user. It is not actually displayed in the dialog box. To display the file types for users, you must list the file types in the description string as well as in the extension list. The description string is displayed in the dialog box. </p>
+
+
+<h1><a name="uploadAll" id="uploadAll">uploadAll</a> (Flash.uploadAll method)</h1>
+<div class="signature"><p>uploadAll([URL:String])</p></div>
+
+<p>Starts the upload of a files in list  to a remote server.  </p>
+<p>Listeners receive events to indicate the progress, success, or failure of the upload. Files are uploaded one by one. </p>
+<p>The file is uploaded to the URL passed in the <code>URL</code> parameter. The URL must be a server script configured to accept uploads. Flash Player uploads files using the HTTP <code>POST</code> method. The server script that handles the upload should expect a <code>POST</code> request with the following elements:</p>
+<ul>
+  <li>A <code>Content-Type</code> element of <code>multipart/form-data</code></li>
+  <li>A <code>Content-Disposition</code> element with a <code>name</code> attribute set to <code>&quot;Filedata&quot;</code> and a <code>filename</code> attribute set to the name of the original file</li>
+  <li>The binary contents of the file</li>
+</ul>
+<p>Here is a sample <code>POST</code> request:</p>
+<textarea  name="" cols="100" rows="7" wrap="off">
+ Content-Type: multipart/form-data; boundary=AaB03x
+ --AaB03x 
+ Content-Disposition: form-data; name=&quot;Filedata&quot;; filename=&quot;example.jpg&quot; 
+ Content-Type: application/octet-stream
+ ... contents of example.jpg ... 
+ --AaB03x-- 
+</textarea><p>You can send data to the server with the <code>uploadAll()</code> call by appending parameters to the URL.</p>
+<p><strong>Note</strong>: If your server requires user authentication, only SWF files running in a browser--that is, using the browser plug-in or ActiveX control--can provide a dialog box to prompt the user for a user name and password for authentication, and only for downloads. For uploads that use the plug-in or ActiveX control, and for uploads and downloads that use the stand-alone or external player, the file transfer fails.</p>
+<p>When using this method, consider the Flash Player security model: </p>
+<ul>
+  <li>Not allowed if the calling SWF file is in an untrusted local sandbox.</li>
+  <li>The default is to deny access between sandboxes. A website can enable access to a resource by adding a cross-domain policy file. </li>
+</ul>
+
+<h4>Parameters</h4>
+<p><strong>URL</strong><code>:String</code> [optional] - The URL of the server script configured to handle upload through HTTP <code>POST</code> calls. If you omit this parameter, URL specified by <code>uploadUrl</code> Flash object parameter will be used. For HTTPS (SSL) use format like "http://www.yoursite.com:443/uploadfiles.aspx". </p>
+<p>You can send data to the server with the <code>uploadAll()</code> call by appending parameters to the URL; for example, <code>http://www.myserver.com/upload.cgi?userID=jdoe</code></p>
+<p>On some browsers, URL strings are limited in length. Lengths greater than 256 characters may fail on some browsers or servers.</p>
+<h4>Example:</h4>
+<textarea  name="" cols="100" rows="11" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.browseFiles();
+}
+
+//Upload files to remote server side ASP.NET script after user selected files
+function MultiPowUpload_onSelect()
+{
+	Flash.uploadAll("uploadfiles.aspx");
+}
+</textarea>
+
+<h1><a name="uploadFiles" id="uploadFiles">uploadFiles</a> (Flash.uploadFiles method)</h1>
+<div class="signature"><p>uploadFiles(indeces:Array, [URL:String])</p></div>
+
+<p>The same as <code>uploadAll()</code> method, but uploads only files which indeces specified in <code>indeces</code> parameter.</p>
+<h4>Parameters</h4>
+<p><strong>indeces</strong><code>:Array</code> - An array of indices of the items to upload.</p>
+<h4>Example:</h4>
+<p>The following example demonstates upload first 3 files selected by user:</p>
+<textarea  name="" cols="100" rows="11" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.browseFiles();
+}
+
+function MultiPowUpload_onSelect()
+{
+	var indeces = [0,1,2];
+	Flash.uploadFiles(indeces, "uploadfiles.aspx");
+}
+</textarea>
+
+  <h1><a name="downloadAll" id="downloadAll">downloadAll</a> (Flash.downloadAll method)</h1>
+<div class="signature"><p>downloadAll()</p></div>
+<p>Displays a dialog box in which the user can download  files in <code>fileList</code> from a remote server.  </p>
+<p>This method for each file first opens an operating-system dialog box that asks the user to enter a filename and select a location on the local computer to save the file. When the user selects a location and confirms the download operation (for example, by clicking Save), the download from the remote server begins. Listeners receive events to indicate the progress, success, or failure of the download. To ascertain the status of the dialog box and the download operation after calling <code>download()</code>, your Java Script code must listen for events by using event listeners such as <code>MultiPowUpload_onProgress</code>, <code>MultiPowUpload_onError</code> and <code>MultiPowUpload_onComplete</code>. </p>
+<p>Only one<code> downloadAll()</code> session can be performed at a time (because only one dialog box can be displayed at a time).</p>
+<p>This method supports downloading of any file type, with either HTTP or HTTPS. You can also send data to the server with the <code>downloadAll()</code> call by appending parameters to the URL of the files, for the server script to parse.</p>
+<p><strong>Attention!</strong> <strong>Flash download feature loads downloaded file to memory and don't free it even after saving file to hard disk. Therefore  use Flash download only for small files. For large files we recommend to use native browser download feature (Direct link to file). </strong></p>
+
+<p><strong>Note</strong>: If your server requires user authentication, only SWF files that are running in a browser--that is, using the browser plug-in or ActiveX control--can provide a dialog box to prompt the user for a user name and password for authentication, and only for downloads. For uploads using the plug-in or ActiveX control, and for uploads and downloads using the stand-alone or external player, the file transfer fails. </p>
+<p>When using this method, consider the Flash Player security model: </p>
+<ul>
+  <li>Not allowed if the calling SWF file is in an untrusted local sandbox.</li>
+  <li>The default is to deny access between sandboxes. A website can enable access to a resource by adding a cross-domain policy file. </li>
+</ul>
+<h4>Example:</h4>
+<p>The following example attempts to download a file using the <code>downloadAll()</code> method</p>
+<textarea  name="" cols="100" rows="11" wrap="off">
+//Check that value of downloadMode Flash parameter is "true"
+function MultiPowUpload_onMovieLoad()
+{
+	//Add 2 files
+	Flash.addFileToDownload("landscape.jpg", "landscape.jpg", 48546);
+	Flash.addFileToDownload("frog.jpg", "frog.jpg", 45119);
+	
+	//Download both files
+	Flash.downloadAll();
+}
+</textarea>
+
+  <h1><a name="downloadFiles" id="downloadFiles">downloadFiles</a> (Flash.downloadFiles method)</h1>
+<div class="signature"><p>downloadFiles(indeces:Array)</p></div>
+<p>The same as <code>downloadAll()</code> method, but downloads only files in <code>fileList</code> which indeces specified in <code>indeces</code> parameter.</p>
+<h4>Parameters</h4>
+<p><strong>indeces</strong><code>:Array</code> - An array of indices of the items to download.</p>
+<h4>Example:</h4>
+<p>The following example demonstates download only files selected by user:</p>
+<textarea  name="" cols="100" rows="19" wrap="off">
+<script language="JavaScript">
+//Check that value of downloadMode Flash parameter is "true"
+	function MultiPowUpload_onMovieLoad()
+	{
+		//Add 2 files
+		Flash.addFileToDownload("landscape.jpg", "landscape.jpg", 48546);
+		Flash.addFileToDownload("frog.jpg", "frog.jpg", 45119);
+	}
+	
+	function downloadSelected()
+	{
+		if(Flash.selectedIndices()!=null)
+		{
+			Flash.downloadFiles(Flash.selectedIndices());
+		}
+	}
+</script>
+<input type="Button" value="Download selected" onClick="javascript:downloadSelected();"/>
+</textarea>
+
+  <h1><a name="removeItemAt" id="removeItemAt">removeItemAt</a> (Flash.removeItemAt method)</h1>
+<div class="signature"><p>removeItemAt(index:Integer)</p></div>
+<h4>Description</h4>
+<p>Method; removes the item from <code>fileList</code> at the specified index position. The list indices after the specified index collapse by one.</p>
+<p>Calling this method modifies the data in <code>fileList</code> object.</p>
+<h4>Parameters</h4>
+<p><code><em>index</em></code>&#160;A number that indicates the position of the item. The value must be greater than 0 and less than <code>fileList.length</code>.</p>
+<h4>Example</h4>
+<p>The following code clears the selected items in a list  when a button is clicked:</p>
+<textarea  name="" cols="100" rows="16" wrap="off">
+<script language="JavaScript">
+	function MultiPowUpload_onMovieLoad()
+	{
+		Flash.browseFiles();
+	}
+
+	function deleteSelected()
+	{
+		while(Flash.selectedIndices()!=null)
+		{
+			Flash.removeItemAt(Flash.selectedIndices[0]);
+		}
+	}
+</script>
+<input type="Button" value="Delete selected" onClick="javascript:deleteSelected();"/>
+</textarea>
+
+ <h1><a name="removeAll" id="removeAll">removeAll</a> (Flash.removeAll method)</h1>
+<div class="signature"><p>removeAll()</p></div>
+
+<h4>Description</h4>
+<p>Method; removes all items in the list.</p>
+
+ <h1><a name="cancelUploadDownload" id="cancelUploadDownload">cancelUploadDownload</a> (Flash.cancelUploadDownload method)</h1>
+<div class="signature"><p>cancelUploadDownload()</p></div>
+
+<p>Cancels any ongoing upload or download operation.</p>
+<h4>Example</h4>
+<p>The following example uploads approximately half of the files and then cancels the upload. </p>
+<textarea  name="" cols="100" rows="20" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.browseFiles();
+}
+
+function MultiPowUpload_onSelect()
+{
+	Flash.uploadAll("uploadfiles.aspx");
+}
+
+var isCancelled = false;
+function MultiPowUpload_onProgress(type, index, fileBytesLoaded, fileBytesLength, totalBytesLoaded, totalBytesLength) 
+{
+	if(isCancelled==false && totalBytesLoaded >= (totalBytesLength / 2))
+	{
+		isCancelled = true;
+		Flash.cancelUploadDownload();
+	}
+}
+</textarea>
+
+
+  <h1><a name="sendAndLoadVars" id="sendAndLoadVars">sendAndLoadVars</a> (Flash.sendAndLoadVars method)</h1>
+<div class="signature">
+  <p>sendAndLoadVars(keys:Array, values:Array, URL:String, [method:String])</p>
+</div>
+
+<p>Posts variables to the specified URL. The server response is downloaded, parsed as variable data, and the resulting variables are placed in the <code>response</code> parameter or <code>MultiPowUpload_onLoadVars</code> event. </p>
+<p>When using this method, consider the Flash Player security model:</p>
+<p>For Flash Player 8:</p>
+<ul>
+  <li>Data loading is not allowed if the calling SWF file is in the local-with-file-system sandbox and the target resource is from a network sandbox.</li>
+  <li>Data loading is also not allowed if the calling SWF file is from a network sandbox and the target resource is local.</li>
+</ul>
+<h4>Description</h4>
+<p>Method sends variables as classic FORM fields values.</p>
+<h4>Parameters</h4>
+<p><strong>keys</strong><code>:Array</code> - An array of variables names.</p>
+<p><strong>values</strong><code>:Array</code> - An array of variables values. Length of <code>keys</code> and <code>values</code> arrays should be the same.</p>
+<p><strong>URL</strong><code>:String</code> - A string; the URL to which to upload variables. If the SWF file issuing this call is running in a web browser, <code>url</code> must be in the same domain as the SWF file. For HTTPS (SSL) use format like &quot;http://www.yoursite.com:443/getvars.aspx&quot;</p>
+<p><strong>method</strong><code>:String</code> [optional] - A string; the <code>GET </code>or <code>POST</code> method of the HTTP protocol. The default value is <code>POST</code>.</p>
+
+<h4>Example</h4>
+<p>The following example uploads 2 variables to server side ASP.NET script and shows server response.</p>
+<textarea  name="" cols="100" rows="12" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	var keys=["myname", "myID"]
+	var values=["JDoe", "12345"]
+	Flash.sendAndLoadVars(keys, values, "formproc.aspx", "POST");
+}
+
+function MultiPowUpload_onLoadVars(response)
+{
+	window.alert(response);
+}
+</textarea>
+
+<p>formproc.aspx file code:</p>
+<textarea  name="" cols="100" rows="5" wrap="off">
+<%@ Page language="c#"%>
+<%						
+Response.Write("I got your name " + Request.Form["myname"] + " and your ID " + Request.Form["myID"]);
+%>
+</textarea>
+
+
+  <h1><a name="download" id="download">download</a> (Flash.download method)</h1>
+<div class="signature">
+  <p>download(URL: String, [defaultFileName:String], [size:Integer])</p>
+</div>
+
+<p>Displays a dialog box in which the user can download a file from a remote server. Method is the same as <code>downloadAll()</code> or <code>downloadFiles()</code> methods, but it downloads file specified by <code>URL</code> parameter, not file from list. Method can be called then Flash is in Uploader or Downloader mode.</p>
+<h4>Parameters</h4>
+<p><strong>URL</strong><code>:String</code> - The URL of the file to download to the local computer. You can send data to the server with the <code>download()</code> call by appending parameters to the URL, for the server script to parse. For example: <code>http://www.myserver.com/picture.jpg?userID=jdoe</code></p>
+<p>On some browsers, URL strings are limited in length. Lengths greater than 256 characters may fail on some browsers or servers.</p>
+<p><strong>defaultFileName</strong><code>:String</code> [optional] - The default filename displayed in the dialog box, for the file to be downloaded. This string cannot contain the following characters: / \ : * ? &quot; &lt; &gt; | % </p>
+<p>If you omit this parameter, the filename of the remote URL is parsed out and used as the default. </p>
+<p><strong>size</strong><code>:String</code> [optional] - The size of the file, in bytes.</p>
+<p>If you omit this parameter, Progress Bar willn't show correct info.</p>
+<h4>Example</h4>
+<p>The following example downloads single file.</p>
+<textarea  name="" cols="100" rows="5" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.download("http://www.mysite.com/files/frog.jpg", "frog.jpg", 45119);
+}
+</textarea>
+
+  <h1><a name="addFileToDownload" id="addFileToDownload">addFileToDownload</a> (Flash.addFileToDownload method)</h1>
+<div class="signature">
+  <p>addFileToDownload(URL: String, [name:String], [size:Integer])</p>
+</div>
+
+<p>Adds file to the list to be downloaded. Files in list can be downloaded using <code>downloadAll()</code> or <code>downloadFiles()</code> methods.</p>
+<h4>Parameters</h4>
+<p><strong>URL</strong><code>:String</code> - The URL of the file. You can send data to the server with the <code>download()</code> call by appending parameters to the URL, for the server script to parse. For example: <code>http://www.myserver.com/picture.jpg?userID=jdoe</code></p>
+<p>On some browsers, URL strings are limited in length. Lengths greater than 256 characters may fail on some browsers or servers.</p>
+<p><strong>name</strong><code>:String</code> [optional] - The filename displayed in the list. This string cannot contain the following characters: / \ : * ? &quot; &lt; &gt; | % </p>
+<p>The same filename will be displayed as default in the Save As dialog box, for the file while download.</p>
+<p><strong>size</strong><code>:Integer</code> [optional] - The size of the file, in bytes.</p>
+<p>If you omit this parameter, Progress Bar willn't show correct info while download.</p>
+<h4>Example</h4>
+<p>The following example adds and then downloads single file.</p>
+<textarea  name="" cols="100" rows="7" wrap="off">
+//Check that value of downloadMode Flash parameter is "true"
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.addFileToDownload("http://www.mysite.com/files/frog.jpg", "frog.jpg", 45119);
+	Flash.downloadAll();
+}
+</textarea>
+
+
+  <h1><a name="loadImage" id="loadImage">loadImage</a> (Flash.loadImage method)</h1>
+<div class="signature">
+  <p>loadImage(URL: String, [width:Integer], [height:Integer])</p>
+</div>
+<p>Loads a SWF, JPEG, progressive JPEG, unanimated GIF, or PNG file into Flash body. If you load an animated GIF, only the first frame is displayed.</p>
+<ul>
+  <li>The <code>MultiPowUpload_onLoaderProgress</code> handler is invoked as the loading process progresses.</li>
+  <li>The <code>MultiPowUpload_onError</code> handler is invoked if the image cannot be loaded. </li>
+  <li>The <code>MultiPowUpload_onLoaderComplete</code> handler is invoked when a file completes downloading</li> 
+</ul>
+<p>When using this method, consider the Flash Player security model: </p>
+<ul>
+  <li>Loading is not allowed if the calling movie clip is in the local-with-file-system sandbox and the loaded movie clip is from a network sandbox. </li>
+  <li>Loading is not allowed if the calling SWF file is in a network sandbox and the movie clip to be loaded is local. </li>
+  <li>Network sandbox access from the local-trusted or local-with-networking sandbox requires permission from the website by means of a cross-domain policy file. </li>
+  <li>Movie clips in the local-with-file-system sandbox may not script movie clips in the local-with-networking sandbox (and the reverse is also prevented). </li>
+</ul>
+<h4>Parameters</h4>
+<p><strong>URL</strong><code>:String</code> - The absolute or relative URL of the SWF, JPEG, GIF, or PNG file to be loaded. A relative path must be relative to the SWF file at level 0. Absolute URLs must include the protocol reference, such as http:// or file:///. Filenames cannot include disk drive specifications. For HTTPS (SSL) use format like &quot;http://www.yoursite.com:443/image.jpg&quot;</p>
+<p><strong>width</strong><code>:Integer</code> [optional] - New width of the region, in pixels.</p>
+<p><strong>height</strong><code>:Integer</code> [optional] - New height of the region, in pixels.</p>
+<h4>Example</h4>
+<p>The following example loads new image and resizes region.</p>
+<textarea  name="" cols="100" rows="12" wrap="off">
+<script language="JavaScript">
+	function loadimage()
+	{
+		var image_w = 548;
+		var image_h = 418;
+		Flash.width = image_w;
+		Flash.height = image_h;
+		Flash.loadImage("frog.jpg", image_w, image_h);
+	}
+</script>
+<input type="Button" value="Load image" onClick="javascript:loadimage();"/>
+</textarea>
+
+  <h1><a name="sortFileList" id="sortFileList">sortFileList</a> (Flash.addFileToDownload method)</h1>
+<div class="signature">
+  <p>sortFileList(field: String, option:String)</p>
+</div>
+
+<p>Sorts file list .</p>
+<h4>Parameters</h4>
+<p><strong>field</strong><code>:String</code> - The needed field to sort: NAME, SIZE or DATE <code></code></p>
+<p><strong>option</strong><code>:String</code> - The order to sort: ASC or DESC.</p>
+<p>Example</p>
+<p>
+  <textarea  name="" cols="100" rows="5" wrap="off">
+function MultiPowUpload_onListChange()
+{
+	Flash.sortFileListJS("SIZE", "ASC");
+}
+  </textarea>
+  </p>
+<hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+</body>
+</html>

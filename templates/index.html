@@ -1,0 +1,62 @@
+{include file="../templates/contenido/includes/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<script type="text/javascript" src="../templates/includes/md5.js"></script>
+{/literal}
+
+<div align="center">
+	<br />
+	<form method="post" name="formregistro" action="../controladores/index_logeo.php">
+	<table width="400px" cellpadding="0" cellspacing="3" border="0">
+		{if ($errorlogeo != null) }
+		<tr>
+		  <td colspan="2" style="padding:10px;">
+			<div align="center">
+				<span class="error-box">{$errorlogeo}</span>
+			</div>
+		  </td>
+		</tr>
+		{/if}
+		<tr>
+			<th colspan="2">
+				Formulario de Ingresos
+			</th>
+		</tr>
+		<tr>
+			<td class="enunciados" width="40%">
+				ID Macaws:
+			</td>
+			<td>
+				<div align="left" class="entrada" style="margin:3px;">
+					<img src="../templates/imagenes/login.jpg" class="imagenes"/>
+					<INPUT name="login" type="text" onkeypress="return handleEnter(this, event)" style="border:none;" tabindex="1">
+				</div>
+			</td>
+		</tr>	
+		<tr>
+			<td class="enunciados">
+				Contraseña:
+			</td>
+			<td>
+				<div align="left" class="entrada" style="margin:3px;">
+					<img src="../templates/imagenes/password.jpg" class="imagenes"/>
+					<INPUT name="pass" type="password" onkeypress="return handleEnter(this, event)" style="border:none;" tabindex="2">
+				</div>			
+			</td>
+		</tr>
+		<tr>
+			<td align="right" colspan="2" style="padding:10px;">
+				<div align="center">
+					<INPUT TYPE="submit" VALUE="Ingresar" onclick="capturar(pass.value);" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" tabindex="3">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="reset" value="Cancelar" class="boton" tabindex="4"/>
+					<INPUT TYPE="hidden" NAME="funcion" VALUE="ingresar" >
+					<INPUT TYPE="hidden" NAME="hash">
+				</div>
+			</td>
+		</tr>
+	</table>
+  </form>
+</div>
+
+{include file="../templates/contenido/includes/pie.html"}

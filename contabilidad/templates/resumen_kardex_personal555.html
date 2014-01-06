@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+
+<html>
+<head>
+<title> Resumen de Activod fijos</title>
+</head>
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = true;
+		factory.printing.leftMargin = 0;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:07cm;
+	margin-top:1.4cm;
+	width:27.9cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color: #000000;
+	color:#000000;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+.n_asignacion{
+	visibility:hidden;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+</style>
+
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:2cm;
+	margin-right:0.7cm;
+	margin-top:0.15cm;
+	padding: 0cm;
+	width:27.9cm;
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+
+.noprint {
+	display: none;
+}
+</style>
+
+{/literal}
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+fuera
+<div id="installOK" align="center" style="vertical-align:top;" >
+dentro
+  <p></p>
+  <p>{*$num_paginas*}
+             
+        
+         
+</p>
+
+	  {if $num_paginas==$pagina}
+	  	     <table align="center" >
+	  {else}
+	     <table align="center"  style="page-break-after:always;">
+	  {/if}
+	   
+	 	 
+  <tr>
+	  <td valign="top"><div align="center"><strong>Resumen activos </strong><br>
+	     </div>
+	    <table  width="100%" border="1" cellpadding="0" cellspacing="0" 1border="0">
+        <tr>
+          <td colspan="2">Responsable / Asignado </td>
+        </tr>
+        <tr>
+          <td align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Responsable Primario</strong></td>
+          <td align="left" style="background: #FFFFFF;  font-size:12px;">{$responsable}</td>
+        </tr>
+        <tr>
+          <td align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Nombre</strong></td>
+          <td align="left" style="background: #FFFFFF;  font-size:12px;">{$asignado}</td>
+        </tr>
+        <tr>
+          <td align="left" style="background: #FFFFFF;  font-size:12px;"><strong>Cargo</strong></td>
+          <td align="left" style="background: #FFFFFF;  font-size:12px;">{$respo.cargo}</td>
+        </tr>
+      </table>
+
+  </br>
+  <br>
+
+     <table  border="1" align="center" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td colspan="9"><div align="center">Activos fijos</div></td>
+  </tr>
+  <td align="center" style="background: #FFFFFF;  font-size:12px;"><strong> Numero </strong></td>
+      <td align="center" style="background: #FFFFFF;  font-size:12px;"><strong>Descripcion</strong></td>
+    <td align="center" style="background: #FFFFFF;  font-size:12px;"><strong> Unidad </strong> </td>
+    <td align="center" style="background: #FFFFFF;  font-size:12px;" nowrap="nowrap"><strong>Serie</strong></td>
+    
+    
+  </tr>
+  
+  {foreach key=grupo item=valores from=$res_kardex}
+  <th colspan="28"><div align="left" style="font-size:12px">{$grupo}</div>
+          <div align="left"> </div></th>
+    {foreach key=acti item=kardex from=$valores } 
+  <tr>
+      <td  width="10%" align="center" style="background: #FFFFFF;  font-size:12px;">{$kardex.numero}</td>
+    <td width="50%" align="left" style="background: #FFFFFF;  font-size:12px;">{$kardex.descripcion}</td>
+    <td width="10%" align="center" style="background: #FFFFFF;  font-size:12px;">{$kardex.unidad}</td>
+    <td width="10%" align="center" style="background: #FFFFFF;  font-size:12px;">{if $kardex.serie==''}----{else}{$kardex.serie}{/if}</td>
+  </tr>
+  {/foreach}  
+  {/foreach}
+</table>
+ 
+    </tr>
+	  <tr>
+	    <td valign="top">      
+	    </tr>
+</table>
+
+</div>
+	   <div id=idControls class="noprint" style="text-align:center; clear:both">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				<input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Configurar P&aacute;gina" onClick="factory.printing.PageSetup()" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+				<hr size="1">			</td>
+		</tr>
+		</table>
+		
+	</div>
+
+
+</body>
+</html>

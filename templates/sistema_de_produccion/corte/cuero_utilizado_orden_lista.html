@@ -1,0 +1,128 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="8">Orden de Producci&oacute;n para imprimir cabecera</th>  
+	</tr>
+	<tr>
+		<td class="enunciados">No.:</td>
+		<td class="datos-reporte">{$header.numero_orden}</td>
+		<td class="enunciados">CUP No.:</td>
+		<td class="datos-reporte">{$header.cup_num}</td>
+		<td class="enunciados">Cliente:</td>
+		<td class="datos-reporte">{$header.cliente} </td>
+		<td class="enunciados">No.Ref. Cliente:</td>
+		<td class="datos-reporte">{$header.cliente_id}</td>
+	</tr>
+	<tr>
+		<td class="enunciados">Fecha:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha}</td>
+		<td class="enunciados">Fecha Entrega/Despacho:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha_entrega}</td>
+		<td class="enunciados">Fecha Reprogramación:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha_reprogramacion}</td>
+		<td/>
+		<td/>
+	</tr>
+</table>
+
+<br />
+{if $mensaje != null}
+
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+<form name="orden" method="post" action="../../controladores/sistema_de_produccion/hoja_ruta_corte.php"  align="center">
+<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="16">Detalle de &oacute;rden de producci&oacute;n</th>	           
+	</tr>
+	
+	<tr>
+  		<td class="enunciados" style="text-align:center;">Hoja ID</td>
+		<td class="enunciados" style="text-align:center;">Pedido</td>
+		<td class="enunciados" style="text-align:center;">Fecha Corte</td>
+		<td class="enunciados" style="text-align:center;">Cortador</td>
+		<td class="enunciados" style="text-align:center;">Modelo</td>
+		<td class="enunciados" style="text-align:center;">Tipo</td>
+		<td class="enunciados" style="text-align:center;">Cantidad</td>
+		<td class="enunciados" style="text-align:center;">Tipo de Cuero</td>
+		<td class="enunciados" style="text-align:center;">Color</td>
+   		<td class="enunciados" style="text-align:center;">Material Utilizado [Kg.]</td>
+		<td class="enunciados" style="text-align:center;">Retaceria [Kg.]</td>
+		<td class="enunciados" style="text-align:center;">Retazos [Kg.]</td>
+		<td class="enunciados" style="text-align:center;">Desperdicio [Kg.]</td>
+		<td class="enunciados" style="text-align:center;">Material Utilizado</td>
+	</tr>
+	
+	{assign var=flag value=""}
+	{assign var=CSSclass value=0}
+	{assign var=clases value="lista-normal"}
+	
+	{foreach key=cambio item=orden from=$detail}
+		
+		{if $orden.iguales != $flag}
+			{assign var="CSSclass" value="`$CSSclass+1`"}
+			{if ($CSSclass mod 2) eq 0}
+				{assign var=clases value="lista-seleccionada"}
+			{else}
+				{assign var=clases value="lista-normal"}
+			{/if}
+		{/if}
+	<label for="{$orden.hoja_id}">
+    
+	<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className='lista_terrible';" onmouseout="this.className='{$clases}';">
+		<td ><div>{$orden.hoja_id}</div></td>
+		<td style="text-align:center;"  width="10%">{$orden.pedido}</td>
+	<!--fecha de corte-->
+		<td style="text-align:center;" width="10%">{$orden.fecha_corte}</td>
+	<!--personal de corte-->
+		<td style="text-align:center;"  width="15%">{$orden.cortador}</td>
+    
+		<td width="20%">&nbsp;{$orden.nombre_familia}</td>
+		<td style="text-align:center;" width="10%">{$orden.nombre_estilo}</td>
+		<td style="text-align:center;">{$orden.cantidad}</td>
+		<td style="text-align:center;">{$orden.cuero}</td>
+		<td style="text-align:center;">{$orden.color}</td>
+        <td style="text-align:center;">{$orden.cuero_utilizado} </td> 
+        <td style="text-align:center;">{$orden.retaceria}</td>
+        <td style="text-align:center;">{$orden.retazos} </td>
+        <td style="text-align:center;">{$orden.desperdicio}</td>
+        <td style="text-align:center;">{$orden.cuero_utilizado_pies} [{$orden.unidad}]</td>
+		
+	</tr>
+	</label>
+	{/foreach}
+	
+	<tr>
+		<td colspan="16">
+			<hr />
+		</td>
+	</tr>
+</table>
+    
+    <center>
+  <br>
+  {if $band!=1}
+<a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=11&oid={$orden.orden_id}">(COMPLETAR)</a>
+{else}
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle;"/>&nbsp;&nbsp;&nbsp;<br> Esta Orden no tiene productos que completar!<br></div>
+		</td>
+	  </tr>
+	</table>
+  {/if}
+</center>
+</form>
+
+<br />
+
+{include file="../templates/contenido/includes/pie.html"}

@@ -1,0 +1,263 @@
+<html>
+<head>
+<title>Nota de entrega y Producción</title>
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = true;
+		factory.printing.leftMargin = 0;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:07cm;
+	margin-top:1.4cm;
+}
+
+.gris{
+	
+	font-size:13px;
+	padding:0px;
+
+	border:0px;
+	color: #000000;
+}
+
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+.titulos{
+
+	font-size:13px;
+	padding:3px;
+	border:0px;
+	color: #000000;
+
+}
+</style>
+<style type="text/css" media="print">
+
+body * {
+	font-family:"Courier New", Courier, monospace;
+	font-size:12px;
+}
+
+.noprint {
+	display: none;
+}
+</style>
+{/literal}
+</head>
+<body scroll="auto" onLoad="viewinit();print();" bgcolor="#FFFFFF">
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+<div id="installOK"> 
+  <p><!-- <form name="imprimir_orden" method="post" action="../../controladores/sistema_de_produccion/almacen.php"  align="center">
+-->
+    {if $materiales!= ""}
+  
+  {assign var=cont value=0}
+  {foreach name=contenido item=estilos from=$materiales}
+  
+  
+  {if $cont == 0}							
+  {foreach key=key item=item from=$estilos}
+  {if $key == "Orden"}
+  {assign var=orden1 value=$item}
+  {/if}
+  {if $key == "Asignacion"}
+  {assign var=num_asig value=$item}
+  {/if}
+  {if $key == "Personal"}
+  {assign var=persona value=$item}
+  {/if}
+  {if $key == "Cantidad"}
+  {assign var=cantidades value=$item}
+  {/if}
+  {if $key == "Producto"}
+  {assign var=prod value=$item}
+  {/if}
+  {/foreach}
+  {assign var=cont value=1}
+  {/if}
+  
+  
+  {/foreach}</p>
+  <table align="center" cellpadding="0" cellspacing="2" >
+    <tr>
+      <td colspan="2"><table align="center"   >
+          <tr>
+            <td >Asignacion: {$num_asig}</td>
+            <td colspan="8" align="right" > {$fecha} </td>
+          </tr>
+          <tr>
+            <td colspan="8" ><center>
+              Nota de Entrega y Producci&oacute;n
+            </center>
+                <br>
+            </td>
+          </tr>
+          <tr>
+            <td> Orden de producci&oacute;n: {$orden1}</td>
+          </tr>
+          <tr>
+            <td> Producto: {$prod}</td>
+          </tr>
+          <tr>
+            <td>Entregado A: {$persona}</td>
+            <td>Cantidad: {$cantidades}</td>
+          </tr>
+        </table>
+         
+      </td>
+    </tr>
+  </table>
+  <table width="119%" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+      <td  valign="top">
+	  <table align="center" bordercolor="#000000" border="0" cellpaddin="1" cellspacing="1" style="border-collapse:collapse;">
+            <tr>
+              <td colspan="3" ><center>
+                Materiales - ALMACEN
+                </center></td>
+            </tr>
+            <tr >
+              <td ><center>
+                Cant
+                </center></td>
+              <td ><center>
+                Material
+                </center></td>
+            </tr>
+            {foreach name=contenido item=estilos from=$materiales}
+            <tr> {foreach key=key item=item from=$estilos}
+              
+              {if $key == "Cant_mat"}
+              {assign var=c value=$item*$cantidades}
+              <td ><center>
+                {$c}
+                </center></td>
+    {/if}
+    {if $key ==   "Material"}
+              <td >{$item}</td>
+    {/if}
+    
+    {/foreach}   </tr>
+            {/foreach}
+        </table>
+          <br>
+          <br>
+          <center>
+            -----------------------------------
+        </center>
+          <center>
+            Recibi Conforme
+        </center>
+          <center>
+            <p>{$persona} </p>
+      </center></td><td >
+	  <table align="center" >
+  <td colspan="3"> <div align="center">Materiales - CORTE </div></td>
+  <tr >
+    <td class="enunciados"><center>
+      Cant
+    </center></td>
+    <td class="enunciados"><center>
+      Material
+    </center></td>
+  </tr>
+        {foreach name=contenido item=estilos from=$materiales2}
+  <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+    <td><center>
+      {$estilos.total}
+    </center></td>
+    <td>{$estilos.nombre} - {$estilos.posicion}</td>
+  </tr>
+        {/foreach}
+      </table>
+	  <br>
+      <br>
+
+        <center>
+          -----------------------------------
+        </center>
+        <center>
+          Recibi Conforme
+        </center>
+        <center>
+          <p>{$persona} </p>
+      </center></td>
+    </tr>
+  </table>
+  <center>
+  </center>
+
+  <div id=idControls class="noprint" style="text-align:center;width:100%;">
+    <table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+      <tr>
+        <td style="text-align:center;"><hr size="1">
+          <input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input disabled type="button" value="Configurar P&aacute;gina" onClick="factory.printing.PageSetup()" class="boton">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+          <hr size="1">
+        </td>
+      </tr>
+    </table>
+  </div>
+  {/if}
+</div>
+</body>

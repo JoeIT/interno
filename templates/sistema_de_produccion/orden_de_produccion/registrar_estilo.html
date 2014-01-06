@@ -1,0 +1,77 @@
+<head>
+	{include file="../templates/sistema_de_produccion/cabecera.html"} 
+		  {if $clip=="false" and $errores.err_confirm != null}
+		 {literal}
+			<script language="JavaScript"> 
+				 window.close();
+			</script>
+		 {/literal}
+	
+	  {else}
+
+</head>
+<body>
+
+<br>
+
+<table width="100%" align="center">
+	<tr align="center">
+		<td>
+			{if $errores != null}
+			<table align="center" bgcolor="#99CCFF" class="error-box">
+				{if $errores.err_descripcion != null}
+				<tr>
+					<td><font color="black">{$errores.err_descripcion}</font></td> 
+				</tr>
+				{/if}
+				{if $errores.err_estilo != null}
+				<tr>
+					<td><font color="black">{$errores.err_estilo}</font></td>
+				</tr>
+				{/if}
+			</table>
+			{/if}
+			
+			<form name="form_registrar" method="post" action="../../controladores/sistema_de_produccion/registrar_estilo.php">
+			{if $estilo=="false"}
+				<input type="hidden" name="popup" value="false">
+			{else}
+				<input type="hidden" name="popup" value="true">
+			{/if}	
+			<table border="0" align="center" width="55%">
+			<th colspan="2">Registrar un nuevo estilo</th>
+				<tr>
+					<td class="enunciados">Nombre:</td>
+					<td>
+						<input type="text" id="estilo" name="descripcion" value="{$descripcion}"/>
+						<span id="spinner" style="display: none"></span>
+						<div id="lista_estilos" class="autorelleno"></div>
+						{literal}
+						<script>
+							new Ajax.Autocompleter("estilo", "lista_estilos", "../../controladores/sistema_de_produccion/modelos.php?busqueda_ajax=estilo&tipex=1", {method: "post", paramName: "value", minChars: 1, indicator: "spinner"});
+						</script>
+						{/literal}
+					</td>
+				</tr>
+				<tr>
+					<td class="enunciados">Tipo:</td>
+					<td class="body-sector">
+						<input type="radio" style="border:none;" name="tipo" value="1" {if $tipo == ''} checked="checked" {else} {if $tipo == '1'}checked="checked"{/if} {/if}> PDA/Celulares
+						<br>
+						<input type="radio" style="border:none;" name="tipo" value="2" {if $tipo == '2'}checked="checked"{/if}> GIF/Portabiblias
+						<br>
+						<input type="radio" style="border:none;" name="tipo" value="3" {if $tipo == '3'}checked="checked"{/if}> Maletines/Bolsos
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="submit" value="Registrar" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+					</td>
+				</tr>
+			</table>
+			</form>
+		</td>
+	</tr>
+</table> 
+</body>
+{/if}

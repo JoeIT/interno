@@ -1,0 +1,118 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="8">Orden de Producci&oacute;n para imprimir cabecera</th>  
+	</tr>
+	<tr>
+		<td class="enunciados">No.:</td>
+		<td class="datos-reporte">{$cabecera.numero_orden}</td>
+		<td class="enunciados">CUP No.:</td>
+		<td class="datos-reporte">{$cabecera.cup_num}</td>
+		<td class="enunciados">Cliente:</td>
+		<td class="datos-reporte">{$cabecera.cliente} </td>
+		<td class="enunciados">No.Ref. Cliente:</td>
+		<td class="datos-reporte">{$cabecera.cliente_id}</td>
+	</tr>
+	<tr>
+		<td class="enunciados">Fecha:</td>
+		<td class="datos-reporte" style="text-align:center;">{$cabecera.fecha}</td>
+		<td class="enunciados">Fecha Entrega/Despacho:</td>
+		<td class="datos-reporte" style="text-align:center;">{$cabecera.fecha_entrega}</td>
+		<td class="enunciados">Fecha Reprogramación:</td>
+		<td class="datos-reporte" style="text-align:center;">{$cabecera.fecha_reprogramacion}</td>
+		<td/>
+		<td/>
+	</tr>
+</table>
+
+<br />
+{if $mensaje != null}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+
+{if $detalle != null}
+	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="9">Detalle de &oacute;rden de producci&oacute;n</th>	           
+	</tr>
+	
+	<tr>
+		<td class="enunciados" style="text-align:center;">Pedido</td>
+		<td class="enunciados" style="text-align:center;">H id</td>
+		<td class="enunciados" style="text-align:center;">Producto</td>
+		<td class="enunciados" style="text-align:center;">Estado pedido</td>
+		<td class="enunciados" style="text-align:center;">Tipo</td>
+		<td class="enunciados" style="text-align:center;">Clip</td>
+		<td class="enunciados" style="text-align:center;">Color</td>
+		<td class="enunciados" style="text-align:center;">Cant.</td>
+		<td class="enunciados" style="text-align:center;">Imprimir</td>
+	</tr>
+	
+	{assign var=flag value=""}
+	{assign var=CSSclass value=0}
+	{assign var=clases value="lista-normal"}
+	
+	{foreach key=cambio item=orden from=$detalle}
+		
+		{if $orden.iguales != $flag}
+			{assign var="CSSclass" value="`$CSSclass+1`"}
+			{if ($CSSclass mod 2) eq 0}
+				{assign var=clases value="lista-seleccionada"}
+			{else}
+				{assign var=clases value="lista-normal"}
+			{/if}
+		{/if}
+	<label for="{$orden.hoja_id}">
+	<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className='lista_terrible';" onmouseout="this.className='{$clases}';">
+        <td style="text-align:center;">{$orden.pedido}</td>
+        <td style="text-align:center;">{$orden.hoja_id}</td>
+		<td width="50%">&nbsp;{$orden.nombre_familia}</td>
+		<td >{if $orden.bloqueado== 1}
+		  <div style="background:#CC3300">Cancelado</div>{else}Activo{/if}</td>
+		<td style="text-align:center;">{$orden.nombre_estilo}</td>
+		<td style="text-align:center;">{$orden.clip}</td>
+		<td style="text-align:center;">{$orden.color}</td>
+		<td style="text-align:center;">{$orden.cantidad}</td>
+		<td style="text-align:center;" style="padding:0px;">
+		{if $orden.marcador == 'mal'}
+			<span style=" background-color:#FF0000;color:#FFFFFF;">&nbsp;Error !!</span>
+		{else}
+			{if $orden.impresion == 0}
+			  <a onclick="javascript:PantallaCompleta1('../../controladores/sistema_de_produccion/hoja_ruta_corte_cabecera.php?opcion=3&hid={$orden.hoja_id}')" href="../../controladores/sistema_de_produccion/hoja_ruta_corte_cabecera.php?opcion=4&oid={$op_id}&hid={$orden.hoja_id}">Imprimir</a>
+			{else}
+			  <span style="color:#FF0000;">Ya se imprimi&oacute;</span>
+			{/if}
+		{/if}
+		</td>
+	</tr>
+	</label>
+	{/foreach}
+
+	  <tr>
+		<td colspan="9">
+			<hr />
+		</td>
+	  </tr>
+
+	</table>
+{else}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle;"/>&nbsp;&nbsp;&nbsp;Esta Orden no tiene productos</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+
+<br />
+
+{include file="../templates/contenido/includes/pie.html"}

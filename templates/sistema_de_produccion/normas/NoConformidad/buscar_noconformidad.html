@@ -1,0 +1,369 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}<br />
+{literal}
+<style>
+body { 
+   overflow:scroll;  
+}
+</style>
+<script>
+
+function actualizar (paginaservidor, combo, lista, clave){
+	new Ajax.Updater(lista, paginaservidor+'?'+clave+'='+$F(combo), { 
+	  method: 'get'	});
+}
+
+function correlativo (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { cuenta: $F(combo)} 
+});
+}
+</script>
+
+{/literal}
+<form name="buscar" method="post" action="../sistema_de_produccion/buscar_noconformidad.php"  align="center">
+
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="3">
+  <tr>
+    <th colspan="13" > Busqueda - No Conformidades</th>
+  </tr>
+  {if $error.fecha != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.fecha}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="enunciados"> Fecha Inicio: </td>
+    <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"><img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+<input type="text" name="fecha_inicio" id="fecha_inicio" value="{$fecha_inicio}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" /></span>
+<input type="button" name="b_fecha_inicio" id="b_fecha_inicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_inicio", ifFormat:"%Y-%m-%d",button:"b_fecha_inicio"});</script>
+      {/literal} </td>
+    <td class="enunciados"> Fecha Fin: </td>
+    <td class="body-sector"><span align="left" class="entrada" style="margin:5px;vertical-align:top;"> <img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+          <input type="text" name="fecha_fin" id="fecha_fin" value="{$fecha_fin}" readonly="READONLY" style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)" />
+      </span>
+        <input type="button" name="b_fecha_fin" id="b_fecha_fin" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)" />
+      {literal}
+      <script type="text/javascript">Calendar.setup({inputField:"fecha_fin", ifFormat:"%Y-%m-%d",button:"b_fecha_fin"});</script>
+      {/literal} </td>
+  </tr>
+   {if $error.fecha_inter != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.fecha_inter}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="enunciados">Estado RG-40:</td>
+      <td><select name="estado" id="select" >
+      <option value="1">Apertura</option>
+      <option value="2">Analisis</option>
+      <option value="3">Revision</option>      
+      <option value="0">Cierre</option>
+    </select></td>
+<td class="enunciados">Accion:</td>
+      <td><select name="accion" id="select" >
+      <option value="Correctiva">Correctiva</option>
+      <option value="Preventiva">Preventiva</option>
+    </select></td>
+  </tr>
+</table>
+<div align="center">
+<fieldset style="width:70%;">
+<legend style="color:#6699CC">Reporte Por</legend><br />
+<table width="70%" border="0" align="left" cellpadding="2" cellspacing="2">
+   {if $error.todo != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.todo}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td>&nbsp;</td>
+    <td class="body-sector"><input name="tipreporte" type="radio"  id="1" value="1" checked="checked" >
+      Todo</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="body-sector"><input name="tipreporte" type="radio" id="1" value="2" checked="checked" >
+      Especifico </td>
+    <td >&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="enunciados">Tipo de No Conformidad:</td>
+    <td><div id="primaria">
+    <select name="tipo" id="select" >
+      <option value="No Conformidad">No Conformidad</option>
+      <option value="Observacion">Observacion</option>
+      <option value="Oportunidad de Mejora">Oportunidad de Mejora</option>
+    </select>
+    </div></td>
+    <td>&nbsp;</td>
+  </tr>
+  {if $error.err_gru != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.err_gru}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td>&nbsp;</td>
+    <td class="enunciados">Cierre:</td>
+    <td><select name="cierre" id="cierre">
+      <option value="Todos">Todos</option>
+      <option value="1 dia">1 dia</option>
+      <option value="1 semana">1 semana</option>
+      <option value="1 mes">1 mes</option>
+      <option value="1/2 a&#241;o" id="a">1/2 a&#241;o</option>
+    </select>
+    </td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</fieldset>
+</div>
+<p>&nbsp;</p>
+<p align="center">
+  <input type="submit" value="Buscar" name="buscar2"  class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" id="buscar"/>
+  <!--el valor q prima para realizar la funcion del boto es el name-->
+</p>
+</form>
+</body>
+
+
+
+
+{if $resultado != null}
+<p>&nbsp;</p>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+  <td colspan="10" style="text-align:right;">
+<!--		{if $excel !=  null}-->
+<img src="../../templates/imagenes/excel.gif" width="15" height="15" alt="{$item}.xls" border="0" align="middle">
+		<a href="../../reportes/noconformidad/{$excel}.xls">
+			OP: {$excel}
+		</a>
+<!--		{/if}-->
+	</td>
+  </tr>
+</table>
+  {if $estado == 1}
+  <table align="center"   cellpadding="3" width="91%">
+    {if $error.ingreso!= null}
+  <tr>
+    <td colspan="7"><div class="error-box" style="width:100%;">{$error.ingreso}</div></td>
+  </tr>
+  {/if}
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <th colspan="9"><a href="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=2" title="Lista de aperturadas">APERTURADAS</a></th>
+    </tr>
+    <tr>
+      <th  class="enunciados" style="text-align:center">Nro Registro</th>
+      <th  class="enunciados" style="text-align:center">Tipo - No Conformidad</th>
+      <th  class="enunciados" style="text-align:center">Accion</th>
+      <th  class="enunciados" style="text-align:center">Area(s) Observada(s)</th>
+      <th  class="enunciados" style="text-align:center">Area(s) Informada(s)</th>
+      <th  class="enunciados" style="text-align:center">Motivo</th>
+      <th  class="enunciados" style="text-align:center">Cierre Planeado</th>
+      <th  class="enunciados" style="text-align:center">Fecha Apertura</th>
+     <!-- <td  class="enunciados" style="text-align:center">Analisis</td>-->
+    </tr>
+{assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$resultado}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+{/if}
+		
+   
+        
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+      <td align="center">#{$resultado[ind].nro_registro}<td>{$resultado[ind].tipo}</td>
+	  <td>{$resultado[ind].accion}</td>
+	  <td width="60">{$resultado[ind].area_observada}</td>
+      <td width="60">{$resultado[ind].area_informada}</td>
+      <td>{$resultado[ind].motivo}</td>
+      <td>{$resultado[ind].cierre}</td>
+     <td nowrap="nowrap">{$resultado[ind].fec_apertura}</td>
+   <!--  <td>{if $resultado[ind].estado eq 1}<a href="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=analisis&elegido={$aperturadas[ind].nro_registro} " name="{$aperturadas[ind].nro_registro}" id="{$aperturadas[ind].nro_registro}"><img src="../../templates/imagenes/lists.gif" class="imagenes" title="Registrar Analisis"/></a>{else} <div style="color: #FF0000">Tiene Analisis y accion{/if}</div></td>-->            
+    </tr>
+    {/section}
+<!-- <tr>
+    <td class="enunciados">N&deg; Total:</td>
+    <td class="body-sector" style="border:ridge;background:#FFC" colspan="8"><strong>{$totalesA.total}</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  </tr>-->
+  <tr>
+    <td colspan="8">&nbsp;</td>
+  </tr>
+
+</table>
+{/if}
+ <br />
+  {if $estado ==2}
+<table align="center"   cellpadding="3" width="91%">
+<tr>
+      <th colspan="8"><a href="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=3" title="Lista de analisis y accion">ANALISIS Y ACCION</a></th>
+    </tr>
+    <tr>
+      <th  class="enunciados" style="text-align:center">Nro Registro</th>
+      <th  class="enunciados" style="text-align:center">Disposicion</th>
+      <th  class="enunciados" style="text-align:center">Causa</th>
+      <th  class="enunciados" style="text-align:center">Accion Correctiva Inmediata</th>
+      <th  class="enunciados" style="text-align:center">Accion Correctiva Otras</th>
+      <th  class="enunciados" style="text-align:center">Fecha Accion</th>
+     <!-- <td  class="enunciados" style="text-align:center">Revision</td>-->
+    </tr>
+    
+{assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$resultado}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+{/if}
+
+<!--<tr> 
+<td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<th class="enunciados" style="text-align:center">Inmediata</th>
+<th class="enunciados" style="text-align:center">Otras</th>
+<td width="60">&nbsp;</td>
+<td>&nbsp;</td>
+                 
+    </tr>-->
+        <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+     
+	  
+      <td align="center">
+		#{$resultado[ind].nro_registro}
+      <td>{$resultado[ind].disposicion}</td>
+	  <td>{$resultado[ind].analisis_causa}</td>
+	  <td>{$resultado[ind].accion_inmediata}</td>
+	  <td>{$resultado[ind].accion_otras}</td>
+      <td nowrap="nowrap">{$resultado[ind].fec_analisis}</td>
+   <!--  <td>{if $resultado[ind].estado eq 2}<a href="../../controladores/sistema_de_produccion/listar_analisis.php?funcion=revision&elegido={$analisis[ind].nro_registro} " name="{$analisis[ind].nro_registro}" id="{$analisis[ind].nro_registro}"><img src="../../templates/imagenes/lists.gif" class="imagenes" title="Registrar Revision"/></a>{else} <div style="color: #FF0000">Tiene Revision{/if}</div></td>-->
+    </tr>
+	{/section}
+  <tr>
+    <td colspan="8">&nbsp;</td>
+  </tr>
+</table>
+{/if}
+  {if $estado ==3}
+<table align="center"   cellpadding="3" width="91%">
+    <tr>
+      <th colspan="9"><a href="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=4" title="Lista de revisiones">REVISIONES</a></th>
+    </tr>
+    <tr>
+      <th  class="enunciados" style="text-align:center">Nro Registro</th>
+      <th  class="enunciados" style="text-align:center">Responsable Cumplimiento</th>
+      <th  class="enunciados" style="text-align:center">Fecha Cumplimiento</th>
+      <th  class="enunciados" style="text-align:center">Fecha Extensi&oacute;n</th>
+      <th  class="enunciados" style="text-align:center">Efectividad Cumplimiento</th>
+      <th  class="enunciados" style="text-align:center">Efectividad Extensi&oacute;n</th>
+      <th  class="enunciados" style="text-align:center">Fecha Verificar Cumplimiento</th>
+      <th  class="enunciados" style="text-align:center">Fecha Verificar Extensi&oacute;n</th>
+  <!--    <td  class="enunciados" style="text-align:center">Cierre</td>-->
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$resultado}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+		{if $mensaje == null}
+		
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+     
+	  
+<td align="center">#{$resultado[ind].nro_registro}<td>{$resultado[ind].responsable_cumplimiento}</td>
+<td nowrap="nowrap">{if $resultado[ind].fec_cumplimiento eq '0000-00-00'}--{else}{$resultado[ind].fec_cumplimiento}{/if}</td>
+<td nowrap="nowrap">{if $revisiones[ind].fec_extension eq '0000-00-00'}--{else}{$resultado[ind].fec_extension}{/if}</td>
+<td>{$resultado[ind].efectividad}</td>
+<td>{$resultado[ind].efectividad_ext}</td>
+<td nowrap="nowrap">{if $resultado[ind].fec_ver_cumplimiento eq '0000-00-00'}--{else}{$resultado[ind].fec_ver_cumplimiento}{/if}</td>      
+<td nowrap="nowrap">{if $resultado[ind].fec_ver_extension eq '0000-00-00'}--{else}{$resultado[ind].fec_ver_extension}{/if}</td>
+<!--<td>{if $resultado[ind].estado eq 3}<a href="../../controladores/sistema_de_produccion/listar_revisiones.php?funcion=cierre&elegido={$revisiones[ind].nro_registro} " name="{$revisiones[ind].nro_registro}" id="{$revisiones[ind].nro_registro}"><img src="../../templates/imagenes/lists.gif" class="imagenes" title="Registrar Cierre"/></a>{else} <div style="color: #FF0000">Tiene Cierre{/if}</div></td>-->
+    </tr>
+	{/if}
+    {/section}
+  <tr>
+    <td colspan="9">&nbsp;</td>
+  </tr>
+</table>
+{/if}
+{if $estado ==0}
+<table align="center"   cellpadding="3" width="91%">
+    <tr>
+<!--      <th colspan="7">CIERRES</th>-->
+      <th colspan="7"><a href="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=5" title="Lista de RG-40 cerradas">CIERRES</a></th>
+    </tr>
+    <tr>
+      <th  class="enunciados" style="text-align:center">Nro Registro</th>
+      <th  class="enunciados" style="text-align:center">Resultados Accion</th>
+      <th  class="enunciados" style="text-align:center">Comunicacion Cliente</th>
+      <th  class="enunciados" style="text-align:center">Fecha Contacto</th>
+      <th  class="enunciados" style="text-align:center">Responsable del Contacto</th>
+      <th  class="enunciados" style="text-align:center">Fecha Cierre</th>
+    <!--  <td  class="enunciados" style="text-align:center">Alertas</td>-->
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$resultado}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+		{if $mensaje == null}
+		
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center">   
+    <td align="center">
+	#{$resultado[ind].nro_registro}
+    <td>{$resultado[ind].accion_resultado}</td>
+	<td>{$resultado[ind].comunicacion_cliente}
+    </td>
+    <td nowrap="nowrap">{if $resultado[ind].fec_contacto eq '0000-00-00'}--{else}{$resultado[ind].fec_contacto}{/if}</td>
+    <td>{$resultado[ind].responsable_contacto}</td>
+    <td nowrap="nowrap">{$resultado[ind].fec_cierre}</td>  
+  <!--  <td>{if $cierres[ind].imprimir_acc eq 0}<a href="../../controladores/sistema_de_produccion/listar_doc_accion_imprimir.php?funcion=detalle&elegido={$aperturadas.id_doc} " name="{$aperturadas.id_doc}" id="{$aperturadas.id_doc}">Imprimir</a>{else} 
+    <div style="color: #FF0000">                 
+    Ya se imprimio{/if}</div></td>-->
+    </tr>
+	{/if}
+    {/section}
+  <tr>
+    <td colspan="7">&nbsp;</td>
+  </tr>
+</table>
+{/if}
+<br>
+{else}
+	{if $mensaje != null}
+	<br />
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+	{/if}
+{/if}

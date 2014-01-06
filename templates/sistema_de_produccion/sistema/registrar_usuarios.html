@@ -1,0 +1,109 @@
+{include file="include_cabecera_registrar_usuario.html"}
+<body>
+
+<table width="100%" border="0">
+			 	<tr >
+					<td colspan="2">
+						  {include file="include_menu_usuario.html"}
+					</td>
+				</tr>
+				{if $errores.err_confirm != null }<tr> <td class="error-box"> {$errores.err_confirm} </td> </tr> {/if}
+				<tr>
+					<td width="30%">				  
+						  <h2> Formulario de Registro </h2>				
+						  <form name="formregistro" method="post" action="../controladores/registrar_usuarios.php">
+						  <input type="hidden" name="hash" value="">
+						  <input type="hidden" name="funcion" value="validar">
+						  <table width="40%" border="0">
+							  {if $errores.err_nombre != null} 
+									<tr>
+										<td colspan="2" class="error-box">{$errores.err_nombre}</td> 
+									</tr> 
+							  {/if}
+								<tr>
+									<td width="53%" class="header-table">Nombre:</td>
+									<td width="47%"><input name="nombre" type="text" class="all-border-purple" onKeyPress="return handleEnter(this, event)"  value="{$nombre}" >
+								  </td>
+								</tr>
+							   {if $errores.err_categoria != null }
+							   <tr><td colspan="2" class="error-box">{$errores.err_categoria}</td></tr>
+							   {/if}
+								<tr>
+									<td class="header-table">Categoria:</td>
+									<td><input class="all-border-purple" type="text" name="categoria"  value="{$categoria}" onKeyPress="return handleEnter(this, event)"/></td>
+								</tr>
+							   {if $errores.err_email != null }
+									<tr><td colspan="2" class="error-box">{$errores.err_email}</td></tr>
+							   {/if}
+								<tr>
+									<td class="header-table">Email:</td>
+									<td ><input class="all-border-purple" type="text" name="email"  value="{$email}" onKeyPress="return handleEnter(this, event)"/></td>
+								</tr>
+								{if $errores.err_nick != null } 
+							   <tr> 
+									<td colspan="2" class="error-box">{$errores.err_nick}</td> 
+							   </tr>
+							   {/if}
+							   <tr>
+									<td class="header-table">Usuario:</td>
+									<td><input type="text" class="all-border-purple" name="nick"  value="{$nick}" onKeyPress="return handleEnter(this, event)"/>
+									</td>
+							   </tr>
+			
+								<tr>
+									<td class="header-table">Contraseña:</td>
+									<td><input type="password" class="all-border-purple" name="contraseña"  value="{$contraseña}" onKeyPress="return handleEnter(this, event)"/></td>
+								</tr>
+								<tr>
+									<td class="header-table">Repita su contraseña:</td>
+									<td><input type="password" class="all-border-purple" name="contraseñados"  value="{$contraseñados}" onKeyPress="return handleEnter(this, event)"/></td>
+								</tr>
+								
+						</table>
+					</td>
+					<td>
+						<table>
+							
+								<h2>Asignacion de tareas</h2>
+							
+							<tr>
+								<td>
+									<table>
+											<tr>
+											{foreach name=contenido key=key item=area from=$areas}
+													 <td class="header-table">{$key} </td>
+											{/foreach}
+											</tr> 
+											<tr>
+											{foreach name=contenido key=key item=area from=$areas}
+											
+											<td class="body-sector">
+												{foreach item=item  from=$area}
+	
+														<input type="checkbox" name="{$item.tarea|replace:" ":""}" value="{$item.tarea}" checked="checked" >{$item.tarea} <br>
+				      
+													
+
+													{/foreach}
+														</td>
+										
+											{/foreach}	
+												</tr>												
+
+
+
+							
+									</table>
+								</td>
+							</tr>	
+						</table>
+					</td>
+				</tr>
+				<tr>
+									<td colspan="2" align="center">
+										<input class="button1" type="button" value="  Registrar  " onClick=comprobar(contraseña.value,contraseñados.value)>
+									</td>
+								</tr>
+			</tabla>
+</form>
+</body>

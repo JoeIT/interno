@@ -1,0 +1,54 @@
+{include file="../templates/sistema_de_produccion/cabecera_popup.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{if $cerrar != null && $cerrar == 'yes'}
+	{literal}
+	<script>
+		opener.location.reload();
+		this.close();
+	</script>
+	{/literal}
+{/if}
+
+<body>
+
+<br>
+
+<form action="indicadores.php?opcion=valores" method="post">
+<table width="90%" border="0" cellspacing="2" cellpadding="1" align="center">
+  <tr>
+    <th colspan="2">{$titulo}</th>
+  </tr>
+  <tr>
+    <td class="enunciados" width="30%">Fecha:</td>
+    <td class="lista-normal">
+	  <input type="hidden" name="indicador_valor_id" value="{$indicador_valor_id}" />
+	  <input type="hidden" name="fecha" value="{$fecha}" />{$fecha|date_format:'%B, %Y'}
+	  <input type="hidden" name="indicador_lista_id" value="{$indicador_lista_id}" />
+	</td>
+  </tr>
+  {if $errores.err_valor != null}
+  <tr>
+    <td>&nbsp;</td>
+    <td><div class="error-box">{$errores.err_valor}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="enunciados">Valor:</td>
+    <td><input type="text" name="valor" value="{$valor}" /></td>
+  </tr>
+  <tr>
+    <td class="enunciados">Observaciones:</td>
+    <td><textarea name="observaciones" style="width:100%;">{$observaciones}</textarea></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+	  <input type="submit" name="grabar" value="Guardar" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'"/>
+	  &nbsp;&nbsp;
+	  <input type="button" class="enviar" onClick="window.close();" value="Cerrar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+	</td>
+  </tr>
+</table>
+</form>
+
+</body>
+</html>

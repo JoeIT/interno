@@ -1,0 +1,120 @@
+{include file="cabecera.html"} <br />
+
+<body>
+<div align="center">
+<fieldset style="width:75%;">
+<table border="0" align="center" cellpadding="0" cellspacing="3" width="97%">
+    <tr>
+      <th>Reporte de Responsables </th>
+    </tr>
+  </table>
+<legend style="color:#6699CC"></legend><br />
+<form action="../controladores/kardex.php" method="get">
+<table width="75%" border="0" align="center" cellpadding="3" cellspacing="2">
+  <tr>
+   {if $error.err != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.err}</div></td>
+  </tr>
+  {/if}
+   {if $error.err_kardex != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.err_kardex}</div></td>
+  </tr>
+  {/if}
+   {if $error.err_resp != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.err_resp}</div></td>
+  </tr>
+  {/if}
+   <td width="20%"  class="enunciados"><div align="left">Responsable:</div></td>
+    <td colspan="2" class="body-sector"  >
+	<div align="left" class="entrada" style="margin:5px; border:none">
+	        <div align="left"><span class="entrada" style="margin:5px; border:none">
+	          <span class="entrada" style="margin:5px;">
+	            
+              <input type="text" name="nombre_asis2" id="nombre_asis2" style="border:none;"  onkeypress="return handleEnter(this, event)" value="{$nombre_asis2}" size="40"/>
+              </span> </span>
+	          <input type="hidden" name="resp_id2" id="resp_id2"  value="{$resp_id2}" />
+	          <img src="../../templates/imagenes/combo.jpg" class="imagenes" onClick="{literal}document.getElementById('nombre_asis2').focus();document.getElementById('nombre_asis2').select();{/literal}" style="cursor:pointer;" alt="Seleccionar Nombre"/></div>
+	</div>
+        <span id="spinner" style="display:none"> </span>
+        <div id="lista_nombres_asis" class="autorelleno">
+          <div align="left"></div>
+        </div>
+      {literal}
+      <script>
+			new Ajax.Autocompleter("nombre_asis2", "lista_nombres_asis", "../controladores/activo.php?opcion=busqueda_ajax1", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+			function mostrar_categoria(text,li) {
+				cadena = li.id;
+				//caracteristicas = cadena.split("-");
+				//var str = document.getElementById("nombre_asis").value;
+				document.getElementById("resp_id2").value = cadena;
+				document.getElementById("nombre_asis2").value = str.substr(0)
+			}
+		</script>
+      {/literal}</td>
+  </tr>
+   {if $error.err_asig != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.err_asig}</div></td>
+  </tr>
+  {/if}
+  <tr>
+   {if $error.err_kar != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.err_kar}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="enunciados" ><div align="left">Asignado:</div></td>
+     <td width="65%"  class="body-sector" >
+	<div align="left" class="entrada" style="margin:5px; border:none" > 
+	<span class="entrada" style="margin:5px; border:none">
+	<span class="entrada" style="margin:5px;">
+     
+			 <input type="text" name="nombre_asis" id="nombre_asis" style="border:none;"  onkeypress="return handleEnter(this, event)" value="{$nombre_asis}" size="40"/>
+        </span></span>
+            <input type="hidden" name="resp_id" id="resp_id"  value="{$resp_id}" />
+			
+            <img src="../../templates/imagenes/combo.jpg" class="imagenes" onClick="{literal}document.getElementById('nombre_asis').focus();document.getElementById('nombre_asis').select();{/literal}" style="cursor:pointer;" alt="Seleccionar Nombre"/></div>
+        <span id="spinner" style="display:none"> </span>
+        <div id="lista_nombres_asis" class="autorelleno"></div>
+      {literal}
+      <script>
+			new Ajax.Autocompleter("nombre_asis", "lista_nombres_asis", "../controladores/activo.php?opcion=busqueda_ajax1", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+			function mostrar_categoria(text,li) {
+				cadena = li.id;
+				//caracteristicas = cadena.split("-");
+				//var str = document.getElementById("nombre_asis").value;
+				document.getElementById("resp_id").value = cadena;
+				document.getElementById("nombre_asis").value = str.substr(0)
+			}
+		</script>
+      {/literal} </td>
+  </tr>
+   {if $error.radio != null}
+  <tr>
+    <td colspan="4"><div class="error-box" style="width:100%;">{$error.radio}</div></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="enunciados">Resumen:</td>
+    <td colspan="2"><input name="radio" type="radio" value="1"  {if $radio==1} checked="checked" {/if}></td>
+  </tr>
+  <tr>
+    <td class="enunciados">Kardex:</td>
+    <td><input name="radio" type="radio" value="2" {if $radio==2} checked="checked" {/if}></td>
+    <td width="15%"><input type="submit" value="Aceptar" name="kardex" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'" ></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</form>
+</fieldset>
+</div>
+</body>
+</html>

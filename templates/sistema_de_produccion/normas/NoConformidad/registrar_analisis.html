@@ -1,0 +1,119 @@
+<body>
+{include file="../templates/sistema_de_produccion/cabecera.html"} <br />
+{literal}
+<script language="JavaScript">
+   function noVacio() {
+    var bError = false;
+     bError = bError || (eval("document.analisis.analisis_causa.value == ''")) || (eval("document.analisis.accion_inmediata.value == ''"));
+     if (bError){
+      alert("(*) Campos obligatorios");
+	  eval("document.analisis.analisis_causa.focus()");
+      eval("document.analisis.accion_inmediata.focus()");  
+    }
+    if (!bError) alert("Se ingreso correctamente los valores de analisis RG-40.");
+   }
+  </script>
+  {/literal}
+<form name="orden"   align="center">
+  <table  align="center" cellpadding="0" cellspacing="0" width="95%" rules="rows" BORDERCOLOR="#666666" border=1>
+    <tr>
+      <td colspan="6"  bgcolor="#A8A8A8">Apertura de {$aperturada.tipo} [Codigo <strong>RG-40</strong>]</td>
+    </tr>
+    <tr>
+      <td width="22%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">N&deg;. Registro:</td>
+      <td width="13%" class="body-sector"><strong>{$aperturada.nro_registro}</strong></td>
+      <td width="13%" bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Revision #:</td>
+      <td width="18%" class="body-sector"><strong>{$aperturada.nro_revision}</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">No Conformidad:</td>
+      <td class="body-sector"><strong>{$aperturada.tipo}</strong></td>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accion:</td>
+      <td class="body-sector"><strong>{$aperturada.accion}</strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Aperturado por:</td>
+      <td class="body-sector"><strong>{$aperturada.area_observada}</strong></td>
+      <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px"> Fecha Informe (Gerencia): </td>
+      <td class="body-sector"><strong>{$aperturada.fec_apertura}</strong></td>
+  <tr>
+    <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Area(s) Informada(s):</td>
+    <td width="13%" class="body-sector"><strong>{$aperturada.area_informada}</strong></td>
+    <td bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Tiempo Cierre:</td>
+    <td class="body-sector"><strong>{$aperturada.cierre}</strong></td>
+  </tr>
+  <tr >
+<td  bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Documento que origino la No Conformidad/oportunidad de mejora:</td>
+<td  class="body-sector"><strong>{$aperturada.motivo}</strong></td>
+<td  bgcolor="#E6E6E6" style="text-align:right;font-family:Verdana, Geneva, sans-serif;font-size:12px">Descripcion del hallazgo:</td>
+<td class="body-sector" ><strong>{$aperturada.descripcion}</strong></td>
+</tr>
+
+  </table>
+  
+  </form>
+  
+  <form name="analisis" id="analisis" method="POST" action="../../controladores/sistema_de_produccion/noconformidad_apertura.php?opcion=2&funcion=validar&elegido={$aperturada.nro_registro}"  align="center">
+  <table border="0" align="center" cellpadding="0" cellspacing="3" width="95%">
+    <tr><!--bgcolor="#20B2AA"-->
+      <th colspan="6" >Registro Analisis y Accion [Codigo <strong>RG-40</strong>]</th>
+    </tr>
+
+    <tr>
+      <td class="enunciados">Disposicion:</td>
+      <td><select name="disposicion" id="select" >
+      <option value="Desechar">Desechar</option>
+      <option value="Devolver">Devolver</option>
+      <option value="Reclasificar">Reclasificar</option>
+      <option value="Reprocesar">Reprocesar</option>
+      <option value="Usar con autorizaci&oacute;n">Usar con autorizaci&oacute;n</option>
+      <option value="Otros">Otros</option>                  
+    </select></td>
+    </tr>  
+<tr >
+      
+       <th colspan="6" class="enunciados" style="text-align:left"><span style="color:#F00">(*)</span>Analisis de la causa raiz de {$aperturada.tipo}</th>
+</tr>
+  <tr>
+ 
+  <td class="body-sector" colspan="6" rowspan="2"><p>
+    <textarea name="analisis_causa" cols="100" rows="4" wrap="virtual" id="analisis_causa" style="overflow-x:hidden;overflow:auto">{$analisis_causa}</textarea>
+    
+  </p>
+  </td>
+  </tr>
+<tr>
+</tr>
+<tr> 
+      <th colspan="6" class="enunciados" style="text-align:left">Accion {$aperturada.accion}
+      {if $aperturada.accion==Correctiva}
+      (A.C.)
+      {else}
+      (A.P.)
+      {/if}
+      </th>  
+</tr>
+<tr>
+  <td width="15%" class="enunciados"><span style="color:#F00">(*)</span>Inmediata:</td>
+  <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+			<input name="accion_inmediata" type="text" id="accion_inmediata" value="{$accion_inmediata}" size="50" tabindex="1" style="border:none;" onKeyPress="return enter_handle(this, event, 1, 1)">
+		</span>	</td>
+</tr>
+<tr>
+  <td width="19%" class="enunciados">Otras:</td>
+  <td class="body-sector" style="padding:3px;">
+		<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+			<img src="../../templates/imagenes/nombre.jpg" class="imagenes"/>
+<input name="accion_otras" type="text" id="accion_otras" value="{$accion_otras}" size="50" tabindex="1" style="border:none;" onKeyPress="return enter_handle(this, event, 1, 1)">
+		</span>	</td>
+</tr>
+
+  </table>
+  <center>
+  <br>
+  <input type="submit" value="Guardar Datos" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'" onclick="noVacio()">
+</center>
+</form>
+</body>

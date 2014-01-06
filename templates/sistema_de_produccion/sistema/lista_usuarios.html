@@ -1,0 +1,99 @@
+{* Lista de clientes registrados *}
+<head>
+      
+      {include file="include_cabecera.html"} 
+      <LINK REL="stylesheet" TYPE="text/css" HREF="css/estilo.css">
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar el registro del usuario: " + nombre ))
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+						
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+		{/literal}
+</head>
+<body>
+   <table>
+			<tr>
+				<td>
+						        {include file="include_menu_usuario.html"} 
+								
+				</td>
+			</tr>
+			<tr>	
+			<td>			    
+			<hr width="70%">
+     <p align="center" class="text2"><b>Búsqueda de usuarios </b></p>
+     <form  name="form_lista" method="post" action="../controladores/lista_usuarios.php">
+       <!--<table align="center"  >
+				<tr>
+				    <td><center><input class="search-box" type="text" id="parametro" name="parametro" /></center></td>  
+			        <td><INPUT type="radio" id="opcion" name="opcion" value="nombre" CHECKED><font class="text8">Nombre</font><BR>
+			     	</td>
+					<td> <input class="button1" type="submit" id="buscar" name=buscar value="buscar" 	
+					onclick=consultar(name,value)> </td>
+				</td>
+	   </table>-->
+	              <input type="hidden" name="elegido" value="">
+	              <input type="hidden" name="funcion" value="">
+       <hr width="70%">
+	   
+	            <p>&nbsp;</p>
+				<p align="center" class="text2"><b> Lista de Usuarios </b> </p>
+	            <table align="center" >
+  		<tr>
+    		{foreach name=cabezera key=key item=item from=$usuarios[0]}
+			
+		     <td class="header-table"><center> {$key|upper} </center></td>
+			{/foreach}
+		  	 <td class="header-table"><center> MODIFICAR  </center></td>
+		     <td class="header-table"><center> ELIMINAR  </center></td>
+   		</tr>
+   			{foreach name=contenido item=prueba from=$usuarios}
+			<tr>
+				{foreach key=key item=item from=$prueba}
+		    		{if $key == "codigo"}
+		   	  			{assign var=usuario value=$item}
+		    		{/if}
+				<td class="body-sector"> {$item} </td>
+				{/foreach}
+					<td class="body-sector"><center>
+					{$hola}
+                   <INPUT TYPE="image" SRC="../templates/imagenes/modificar.gif"  width=15 height=15 border=0  name={$usuario} value=modificar onclick=consultar(name,value) >
+
+				</center>
+				</td>
+				<td class="body-sector"><center>
+					<INPUT TYPE="image" SRC="../templates/imagenes/eliminar.gif" width=15 height=15 border=0  name={$usuario} value=eliminar onclick=consultar(name,value)>
+					</center>
+				</td>
+	   </tr>  
+			{/foreach}
+
+	</table>
+	<br>
+    <center>
+</form>  
+				</td>
+			</tr>
+		</table> 
+</body>

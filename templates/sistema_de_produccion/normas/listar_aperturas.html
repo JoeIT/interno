@@ -1,0 +1,152 @@
+{* Lista de ordenes registradas *}
+ {include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<script>
+function tabuladores(nombre, tab, tit){
+	document.getElementById("pdacon").style.display = "none";
+	document.getElementById("pbicon").style.display = "none";
+
+	document.getElementById("pda").className = "noseleccionado";
+	document.getElementById("pbi").className = "noseleccionado";
+	
+	document.getElementById("tpda").className = "titulo_no";
+	document.getElementById("tpbi").className = "titulo_no";
+	
+	document.getElementById(nombre).style.display = "block";
+	document.getElementById(tab).className = "seleccionado";
+	document.getElementById(tit).className = "titulo";
+}
+</script>
+{/literal} <br />
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td width="50%"><div id="pda"><a href="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=cambio_tab&tabu=1" id="tpda">Numero de RG-40</a></div></td>
+    <td><div id="pbi"><a href="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=cambio_tab&tabu=2" id="tpbi">Tipo RG-40</a></div></td>
+  <tr>
+    <td colspan="2">
+      <div id="pdacon" style="display:none;">
+        <form action="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=buscar" method="post" name="producto" id="producto">
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="50%" class="enunciados">Ingrese datos </td>
+              <td class="body-sector" style="padding:3px;"><div align="left" class="entrada"> <img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+                  <input name="doc" type="text" id="doc" value="" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+                </div></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="padding:10px;text-align:center;"><input name="funcion" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="funcion" type="reset" value="Cancelar B&uacute;squeda" class="boton"/>
+              </td>
+            </tr>
+          </table>
+          <input name="tipo" type="hidden" id="tipo" value="num_doc" />
+          <input name="tabu" type="hidden" id="tab" value="1" />
+        </form>
+      </div>
+      <div id="pbicon" style="display:none;">
+        <form action="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=buscar" method="post" name="producto" id="producto">
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="50%" class="enunciados">Ingrese datos</td>
+              <td class="body-sector" style="padding:3px;"><div align="left" class="entrada"> <img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+                  <input name="doc" type="text" id="doc" value="" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+                </div></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="padding:10px;text-align:center;"><input name="funcion" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="funcion" type="reset" value="Cancelar B&uacute;squeda" class="boton"/>
+              </td>
+            </tr>
+          </table>
+          <input name="tipo" type="hidden" id="tipo" value="obser" />
+          <input name="tabu" type="hidden" id="tab" value="2" />
+        </form>
+      </div></td>
+  </tr>
+</table>
+{if $mensaje != null}
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td><div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div></td>
+  </tr>
+</table>
+{/if}
+<br />
+{if $tabu eq "2"}
+	{literal}
+	<script>
+		tabuladores("pbicon", "pbi", "tpbi");
+	</script>
+	{/literal}
+{else}
+	{literal}
+	<script>
+		tabuladores("pdacon", "pda", "tpda");
+	</script>
+	{/literal}
+{/if}
+<table align="center"   cellpadding="3" width="91%">
+    <tr>
+      <th colspan="13"> Lista de Documentos Aperturados RG-40</th>
+    </tr>
+    <tr>
+      <td  class="enunciados" style="text-align:center">Nro Registro</td>
+      <td  class="enunciados" style="text-align:center">Tipo</td>
+      <td  class="enunciados" style="text-align:center">Area(s) Observada(s)</td>
+      <td  class="enunciados" style="text-align:center">Area(s) Informada(s)</td>
+      <td  class="enunciados" style="text-align:center">Fecha Cierre</td>
+      <td  class="enunciados" style="text-align:center">Accion</td>
+      <td  class="enunciados" style="text-align:center">Motivo</td>
+      <td  class="enunciados" style="text-align:center">Fecha Apertura</td>
+      <td  class="enunciados" style="text-align:center">Cierre</td>
+      <td  class="enunciados" style="text-align:center">Modif.</td>
+<!--      <td  class="enunciados" style="text-align:center"><center>
+        Elim.
+      </center></td>-->
+      <td  class="enunciados" style="text-align:center">Impr.</td>
+      <td  class="enunciados" style="text-align:center">Analisis</td>
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$aperturada}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+		{if $mensaje == null}
+    <tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+    <td align="center">#{$aperturada[ind].nro_registro}</td>
+      			   <td>{$aperturada[ind].tipo}</td>
+			       <td>{$aperturada[ind].area_observada}</td>
+			       <td>{$aperturada[ind].area_informada}</td>
+                   <td>{$aperturada[ind].fec_plan_cierre}</td>
+                   <td>{$aperturada[ind].accion}</td>
+                   <td>{$aperturada[ind].motivo}</td>
+                   <td>{$aperturada[ind].fec_apertura}</td>
+                   <td>{$aperturada[ind].cierre}</td>                  
+{if $aperturada[ind].estado eq 1}
+                   <td><a href="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=modificar&elegido={$aperturada[ind].nro_registro} " name="{$aperturada[ind].nro_registro}" id="{$aperturada[ind].nro_registro}"><img src="../../templates/imagenes/modificar.gif" class="imagenes" title="Editar"/></a></td>
+                   {/if}
+<!--                   <td>
+<a href="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=eliminar_apertura&elegido={$aperturada[ind].nro_registro}" onclick="{literal}if(confirm('¿Esta seguro de eliminar el registro (RG-40)?') == false){return false;}{/literal}" name="{$aperturada[ind].nro_registro}" id="{$aperturada[ind].nro_registro}">
+				<img src="../../templates/imagenes/eliminar.gif" class="imagenes" title="Eliminar"/>
+				</a></td> -->
+                {if $aperturada[ind].estado eq 1}
+                   <td>{if $aperturada[ind].imprimir_ap eq 0}<a href="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=detalle&elegido={$aperturada[ind].nro_registro} " name="{$aperturada[ind].nro_registro}" id="{$aperturada[ind].nro_registro}"><img src="../../templates/imagenes/fileprint.gif" class="imagenes" title="Imprimir"/></a>{else} <div style="color: #FF0000">Ya se imprimio{/if}</div></td>
+                   {/if}
+                   {if $aperturada[ind].estado eq 1}
+                   <td>{if $aperturada[ind].estado eq 1 and $aperturada[ind].imprimir_ap eq 1}<a href="../../controladores/sistema_de_produccion/listar_aperturas.php?funcion=analisis&elegido={$aperturada[ind].nro_registro} " name="{$aperturada[ind].nro_registro}" id="{$aperturada[ind].nro_registro}"><img src="../../templates/imagenes/lists.gif" class="imagenes" title="Analisis"/></a>{else} <div style="color: #FF0000">Falta imprimir{/if}</div></td>{/if}
+    </tr>
+	{/if}
+    {/section}
+  <tr>
+    <td colspan="13"><hr>    </td>
+  </tr>
+</table>
+<br>
+</form>

@@ -1,0 +1,111 @@
+<head>
+      {include file="../../templates/sistema_de_produccion/cabecera.html"}
+
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+		
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar la pagina del grupo: " + nombre ))
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+						
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+	 {/literal}
+</head>
+<body>
+<form name="form_lista" method="post" action="../../controladores/usuarios/grupos.php">
+<input type="hidden" name="elegido">
+<input type="hidden" name="funcion">	
+<input type="hidden" name="gId" value="{$grupoId}">
+
+<table width="100%">
+<tr><td valign="top">
+<table width="60%" align="center" >
+	<tr>
+		<td valign="top">
+		{if $errores != null}
+		     <table align="center">
+                 	{if $errores.err_descripcion != null} 
+					<tr> 
+						<td class="error-box">{$errores.err_descripcion} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_pagina != null} 
+					<tr> 
+						<td class="error-box">{$errores.err_pagina} </td> 
+					</tr>
+					{/if}
+		 	 </table>
+		 {/if}
+		 {$nombre}
+			<table align="center" >
+				<th colspan="3">Nuevo Grupo</th>
+			  	<tr>
+					<td class="enunciados">Nombre del grupo:</td>
+					<td class="body-sector" ><input type="text" name="nombre" value="{$grupo}"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="button" name="{$grupoId}" value="modificar grupo" onclick=consultar(name,value)>
+					</td>
+				</tr>
+				<th colspan="3">Lista de paginas</th>
+		<tr>
+			{foreach name=cabezera key=key item=item from=$paginas[0]}
+				<td class="enunciados"><center> {$key|upper} </center></td>
+			{/foreach}
+				 <td class="enunciados" colspan="2"><center> ELIMINAR  </center></td>
+		</tr>
+		{foreach name=contenido item=clips from=$paginas}
+		<tr>
+			{foreach key=key item=item from=$clips}
+				{if $key == "codigo"}						
+					{assign var=usuario value=$item}
+				{/if}
+				<td class="body-sector"><center>{$item}</center></td>
+				{/foreach}
+				
+				<td class="body-sector"><center>
+					<INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif" width=15 height=15 border=0  name={$usuario} value=eliminar onclick=consultar(name,value)>
+					</center>
+				</td>
+			</tr>  
+		{/foreach}
+				
+				
+			</table>
+		</td>
+	</tr>
+</table>
+</td><td valign="top" align="left">
+ <table >
+		<th colspan="2">Ingresar paginas</th>
+				<tr>
+				    <td  class="body-sector" width="100%" > 
+				    {foreach name=contenido1 key=tipo item=pagina from=$pag}
+					  {html_checkboxes name="seleccionados" options=$pagina selected=$seleccionados separator="<br>"}
+					 {/foreach}
+				  </td>
+				</tr>	
+</table>
+</td></tr></table>
+</form>  
+</body>

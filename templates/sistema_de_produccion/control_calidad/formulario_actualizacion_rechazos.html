@@ -1,0 +1,146 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>Control de Calidad</th>
+  <tr>
+    <td>
+		<!-- aqui se detallan los contenidos-->
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="3">
+		<form action="../../controladores/sistema_de_produccion/registrar_actualizacion_rechazos.php" method="get" name="buscar" id="buscar">
+		<input type="hidden"  name="funcion" id="funcion" value="buscar" />
+		  {if $errores.num_asignacion != null}
+		  <tr>
+			<td/>
+			<td style="padding-left:3px;">
+				<div class="error-box">
+				{$errores.num_asignacion}
+				</div>
+			</td>
+		  </tr>
+		  {/if}
+		  <tr>
+			<td class="enunciados">Ingrese N&uacute;mero de Asignaci&oacute;n:</td>
+			<td class="body-sector" style="padding:3px;">
+				<div align="left" class="entrada">
+					<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+					<input type="text" name="num_asignacion" id="num_asignacion" value="{$num_asignacion}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+				</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td colspan="2" style="padding:10px;text-align:center;">
+				<input name="buscar" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			
+			</td>
+		  </tr>
+		</form>
+		</table>
+	</td>
+  </tr>
+</table>
+
+<!--mostramos si existe el mensaje de error-->
+{if $mensaje != null}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center">
+				<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>
+				&nbsp;&nbsp;&nbsp;{$mensaje}
+			</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+
+
+
+
+<!--Restultados de la busqueda-->
+{if $resultado_asignacion != null}
+
+{if $resultado_asignacion.cerrada == 1}
+
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center">
+				<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>
+				&nbsp;&nbsp;&nbsp;La asignación se cerró el: '{$fecha_cerrado} ', en hora : '{$hora_cerrado}  ', por el usuario: ' { $usuario_cerrado.usuario}' 
+			</div>
+		</td>
+	  </tr>
+	</table>
+	
+
+{/if}
+
+			{assign var=detalle_asignacion value=$resultado_asignacion}
+  
+  {include file="../templates/sistema_de_produccion/control_calidad/resumen_asignacion.html"}
+
+			 
+{if $resumen_rechazos!=null}
+<br />
+<table width="80%" border="0" cellspacing="1" cellpadding="0" align="center">
+				<tr>
+					<th colspan="6">Detalle rechazos </th>
+				</tr>
+				  <tr>
+					<td class="enunciados" style="text-align:center;">Cantidad</td>
+					<td class="enunciados" style="text-align:center;">Fecha</td>
+					<td class="enunciados" style="text-align:center;">Responsable Fallo</td>
+					<td class="enunciados" style="text-align:center;">Falla</td>
+					<td class="enunciados" style="text-align:center;">Responsable Arreglo</td>
+				{if $resultado_asignacion.cerrada == 0}	<td class="enunciados" style="text-align:center;">Actualizar</td> {/if}
+				 </tr>
+                 {foreach key=key item=rechazos from=$resumen_rechazos}
+				
+					<td class="lista-seleccionada" style="padding:3px;" align="center">{$rechazos.cantidad}</td>
+					
+					<td class="lista-normal" style="padding:3px;text-align:justify;" align="center"><center>{$rechazos.fecha}</center></td>
+					{if $rechazos.responsable_fallo !=""}
+	 				   <td class="lista-seleccionada" style="padding:3px;"  align="center">{$rechazos.responsable_fallo}</td>
+					{else}
+						<td class="lista-seleccionada" style="padding:3px;"  align="center"><font color="#FF0000"> Por asignar </font> </td>	 
+					{/if}
+					
+					<td class="lista-normal" style="padding:3px;text-align:justify;" align="center"> <center>{$rechazos.area_responsable}</center></td>
+					{if $rechazos.responsable_arreglo !=""}
+	 				   <td class="lista-seleccionada" style="padding:3px;"  align="center">{$rechazos.responsable_arreglo}</td>
+					{else}
+						<td class="lista-seleccionada" style="padding:3px; color:#FF0000"  align="center"> Por asignar </font> </td>	 
+					{/if}
+									{if $resultado_asignacion.cerrada == 0}<td class="lista-normal" style="padding:3px;"  align="center"> 
+					   <a href="../../controladores/sistema_de_produccion/registrar_actualizacion_rechazos.php?funcion=detalle_seleccionado&rechazo_id={$rechazos.rechazo_id}&num_asignacion={$resultado_asignacion.asignacion}">
+				<img src="../../templates/imagenes/modificar.gif" class="imagenes"/>{/if}
+				</a>
+				</td>
+						 
+				</tr>
+				{/foreach}
+               	
+				<tr>
+				     <td class="enunciados" style="text-align:center;">Total :  {$total_rechazado} </td>
+					
+				</tr>
+			
+		  </table>
+		  
+    {else}
+	         <table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center">
+				<img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>
+				&nbsp;&nbsp;&nbsp;No existen rechazos registrados
+			</div>
+		</td>
+	  </tr>
+	</table>
+	
+	{/if}	
+	
+{/if}
+<br />

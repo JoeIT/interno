@@ -1,0 +1,297 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<SCRIPT LANGUAGE="JavaScript">
+/* Creamos la función */
+function PantallaCompleta(URL) {
+	if (navigator.appName!="Explorer") {
+		abrir=window.open(URL, '', "height="+window.screen.availHeight+", width="+(window.screen.availWidth-10)+", top=0, left=0, toolbar=yes, status=yes, scrollbars=auto, location=no, menubar=yes, directories=no, resizable=yes");
+		abrir.window.innerWidth=window.screen.width-5
+		abrir.window.innerHeight=window.screen.height-50
+		abrir.self.moveTo(0,0)
+	} else
+		window.open(URL, '', 'fullscreen=yes, scrollbars=yes');
+}
+
+</script>
+{/literal}
+
+<br />
+<table width="95%" border="1" align="center" cellpadding="0" cellspacing="0" style="border-style:ridge;padding:5px;">
+	<tr>
+		<td class="datos-reporte">
+			<a href="../../controladores/sistema_de_produccion/asignacion.php?opcion=2&oid={$cabecera.codigo}">Volver a la Orden de Producci&oacute;n: {$cabecera.numero_orden}</a>
+		</td>
+		<td class="enunciados">CUP No.:</td>
+		<td class="datos-reporte">{$cabecera.cup_num}</td>
+		<td class="enunciados">Cliente:</td>
+		<td class="datos-reporte">{$cabecera.cliente} </td>
+	</tr>
+</table>
+<br />
+<table  width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+<tr>
+	<td class="enunciados" style="text-align:center;">Cantidad</td>
+	<td class="enunciados" style="text-align:center;">Unidad</td>
+	<td class="enunciados" style="text-align:center;">Producto</td>
+	<td class="enunciados" style="text-align:center;">Tipo</td>
+	<td class="enunciados" style="text-align:center;">Origen Cuero</td>
+	<td class="enunciados" style="text-align:center;">Color</td>
+	<td class="enunciados" style="text-align:center;">CLIP</td>
+	<td class="enunciados" style="text-align:center;">Sello</td>
+	<td class="enunciados" style="text-align:center;">Etiqueta</td>
+</tr>
+<tr>
+{foreach key=key item=item from=$detalle_asig}
+	{if ($key != "detalle_id") && ($key != "Asignados") && ($key != "Entregados") && ($key != "Pendientes") && ($key != "Observaciones") && ($key != "lugar")}
+		<td class="datos-reporte">{$item}</td>
+	{/if}
+{/foreach}
+</tr>
+<tr>
+	<td colspan="5" class="enunciados" style="text-align:center;">Observaciones</td>
+	<td colspan="4" class="enunciados" style="text-align:center;">Lugar Sellado</td>
+</tr>
+<tr>
+	<td colspan="5" class="datos-reporte">{$detalle_asig.Observaciones}</td>
+	<td colspan="4" class="datos-reporte">{$detalle_asig.lugar}</td>
+</tr>
+</table>
+<br />
+<table  width="70%" border="1" align="center" cellpadding="0" cellspacing="0" style="border-style:ridge;">
+<tr>
+	<td class="enunciados">Asignados: </td>
+	<td class="datos-reporte">{$detalle_asig.Asignados-$detalle_asig.Entregados}</td>
+	<td class="enunciados">Entregados: </td>
+	<td class="datos-reporte">{$detalle_asig.Entregados}</td>
+	<td class="enunciados">Pendientes: </td>
+	<td class="datos-reporte">{$detalle_asig.Pendientes}</td>
+</tr>
+</table>
+
+{*codigo para cuando se realiza una asignacion*}
+	{if $aviso_asignacion != null}
+	<br />
+	<div align="center">
+		<span class="anuncio2" style="width:70%">{$aviso_asignacion} <a href="#detalle">Ver listado de Asignaciones</a></span>
+	</div>
+	{/if}
+{*fin de codigo*}
+
+{if $mensaje == null}
+	<form action="../../controladores/sistema_de_produccion/asignacion.php" method="post" name="asignacion" id="asignacion">
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<th colspan="4">Maquinista</th>
+	  </tr>
+
+	  <tr>
+		<td colspan="4">
+		
+			<table width="100%" border="0" align="center" cellpadding="1" cellspacing="3">
+			  {if ($errores.err_nombre != null) || ($errores.err_categoria != null)}
+			  <tr>
+				<td />
+				<td style="padding-left:5px;"><div class="error-box">{$errores.err_nombre}</div></td>
+				<td />
+				<td />
+				<td />
+				<td />
+			  </tr>
+			  {/if}
+			  <tr>
+				<td class="enunciados">Nombre:</td>
+				<td>
+					<span align="left" class="entrada" style="margin:5px;">
+						<input name="nombre" type="text" id="nombre" style="border:none;" onkeypress="return handleEnter(this, event)" value="{$nombre}" size="35"/>
+						<img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.forms[0].nombre.focus();document.forms[0].nombre.select();" style="cursor:pointer;" alt="Seleccionar Nombre"/>
+					</span>
+					
+					<span id="spinner" style="display:none"></span>
+					
+					<div id="lista_nombres" class="autorelleno"></div>
+					{literal}
+					<script>
+						new Ajax.Autocompleter("nombre", "lista_nombres", "../../controladores/sistema_de_produccion/asignacion.php?busqueda_ajax=nombres&puesto=3", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+						
+						
+					function mostrar_categoria(text,li){ 
+					  cadena = li.id;
+					  caracteristicas = cadena.split("-");
+					  document.getElementById("categoria").value = caracteristicas[1];
+					  document.getElementById("maquinista_id").value = caracteristicas[0];    
+					  document.getElementById("cantidad").focus();
+					  var str = document.getElementById("nombre").value;
+					  document.getElementById("nombre").value = str.substr(5)
+					}
+					</script>
+					{/literal}
+				</td>
+				<td class="enunciados" rowspan="2">Asignaci&oacute;n:</td>
+				<td rowspan="2">
+					<select name="cantidad" size="3" id="cantidad" style="margin:5px;width:70px;" onkeypress="return handleEnter(this, event)">
+						{html_options values=$vector_pendientes output=$vector_pendientes selected=$cantidad}
+					</select>
+				</td>
+				<td class="enunciados" rowspan="2">Muestra:</td>
+				<td rowspan="2">
+					<select name="muestra" size="3" id="muestra" style="margin:5px;width:70px;" onkeypress="return handleEnter(this, event)">
+						{html_options values=$vector_muestras output=$vector_muestras selected=$muestra}
+					</select>
+				</td>
+			  </tr>
+			  
+			  <tr>
+				<td class="enunciados">Categor&iacute;a:</td>
+				<td>
+					<span align="left" class="entrada" style="margin:5px;">
+						<img src="../../templates/imagenes/categoria.jpg" class="imagenes"/>
+						<input name="categoria" type="text" id="categoria" style="border:none;" onkeypress="return handleEnter(this, event)" value="{$categoria}" size="1" maxlength="1" readonly="readonly"/>
+					</span>
+					<input name="maquinista_id" type="hidden" id="maquinista_id" value="{$personal_id}" size="1" />
+					<input name="detalle_id" type="hidden" id="detalle_id" value="{$detalle_asig.detalle_id}" size="1" />
+					<input name="pendientes_nu" type="hidden" id="pendientes_nu" value="{$detalle_asig.Pendientes}" size="1" />
+				</td>
+			  </tr>
+			</table>
+		
+		</td>
+	  </tr>
+	  <tr>
+		<th colspan="4">Fechas</th>
+	  </tr>
+	  
+	  {if ($errores.err_finicio != null) || ($errores.err_ffin != null)}
+	  <tr>
+	  	{if $errores.err_finicio != null}
+			<td/><td style="padding-left:7px;"><div class="error-box">{$errores.err_finicio}</div></td>
+		{else}
+			<td/><td/>
+		{/if}
+		
+		{if $errores.err_ffin != null}
+			<td/><td style="padding-left:7px;"><div class="error-box">{$errores.err_ffin}</div></td>
+		{else}
+			<td/><td/>
+		{/if}
+	  </tr>
+	  {/if}
+
+	  <tr>
+		<td class="enunciados">Inicio:</td>
+		<td class="body-sector" style="padding:3px;">
+			<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+				<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="finicio" type="text" id="finicio" value="{$finicio}" readonly style="border:none;"/>
+			</span>
+			<input name="bfinicio" type="button" id="bfinicio" value="..." class="boton"/>
+			{literal}
+			<script type="text/javascript">Calendar.setup({inputField:"finicio", ifFormat:"%Y-%m-%d",button:"bfinicio"});</script>
+			{/literal}		</td>
+		<td class="enunciados">Fin:</td>
+		<td class="body-sector" style="padding:3px;">
+			<span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+				<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+			<input name="ffin" type="text" id="ffin" value="{$ffin}" readonly style="border:none;"/>
+			</span>
+			<input name="bffin" type="button" id="bffin" value="..." class="boton" />
+			{literal}
+			<script type="text/javascript">Calendar.setup({inputField:"ffin", ifFormat:"%Y-%m-%d",button:"bffin"});</script>
+			{/literal}		</td>
+	  </tr>
+	  
+	  <tr>
+		<th colspan="4">Observaciones</th>
+	  </tr>
+	  <tr>
+		<td colspan="4" class="body-sector" style="padding:3px;text-align:center">
+			<textarea name="observaciones" rows="2" style="width:95%">{$observaciones}</textarea>
+		</td>
+	  </tr>
+	  
+	  <tr>
+		<td colspan="4" style="padding:10px;text-align:center;">
+			<input name="Asignar" type="submit" value="Realizar Asignaci&oacute;n" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input name="Cancelar" type="reset" value="Reestablecer Asignaci&oacute;n" class="boton"/>
+		</td>
+	  </tr>
+	</table>
+	</form>
+{else}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+<br />
+{/if}
+
+{if $lista_detalle_resultados != null}
+<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+<tr>
+	<th colspan="7"><a name="detalle">Detalle de Asignaci&oacute;n</a></th>	           
+</tr>
+<tr>
+	<td class="enunciados" style="text-align:center;">Nro. Asignaci&oacute;n</td>
+	<td class="enunciados" style="text-align:center;">Nombre</td>
+	<td class="enunciados" style="text-align:center;">Cant. Asignada</td>
+	<td class="enunciados" style="text-align:center;">Fecha Inicio</td>
+	<td class="enunciados" style="text-align:center;">Fecha Fin</td>
+	<td class="enunciados" style="text-align:center;">Impresi&oacute;n</td>
+	<td class="enunciados" style="text-align:center;">Producci&oacute;n</td>
+</tr>
+
+	{assign var=CSSclass value=0}
+	{assign var=clases value="lista-normal"}
+
+{foreach name=contenido item=orden from=$lista_detalle_resultados}
+	{assign var="CSSclass" value="`$CSSclass+1`"}
+	{if ($CSSclass mod 2) eq 0}
+		{assign var=clases value="lista-seleccionada"}
+	{else}
+		{assign var=clases value="lista-normal"}
+	{/if}
+	
+<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+	<td style="text-align:center;font-weight:bold;">{$orden.asignacion_detalle_id}</td>
+	<td>
+
+		{$orden.completo}
+	
+	</td>
+	<td style="text-align:center;">
+		{$orden.catidad_asignada}
+	</td>
+	<td style="text-align:center;">
+		{$orden.fecha_inicio}
+	</td>
+	<td style="text-align:center;">
+		{$orden.fecha_finalizacion}
+	</td>
+	<td style="text-align:center;">
+	{if $orden.impresion_num < $orden.impresion_max}
+			<a onclick="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/asignacion_reporte.php?opcion=1&daid={$orden.asignacion_detalle_id}')" href="../../controladores/sistema_de_produccion/asignacion.php?opcion=5&daid={$orden.asignacion_detalle_id}">Imprimir</a>
+	{else}
+			Ya se Imprimi&oacute;
+	{/if}
+	</td>
+	<td style="text-align:center;">
+	{if $orden.usuario_entrega != 0}
+		<span style="color:blue;">Entregada</span>
+	{else}
+		<span style="color:red;">Pendiente</span>
+	{/if}
+	</td>
+</tr>
+{/foreach}
+<tr>
+	<td colspan="7">
+		<hr />
+	</td>
+</tr>
+</table>
+{/if}
+<br />

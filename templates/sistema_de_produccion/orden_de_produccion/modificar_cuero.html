@@ -1,0 +1,48 @@
+<head> 
+		{include file="../templates/sistema_de_produccion/cabecera.html"}
+			  
+</head>
+<body>
+<table width="100%">
+	<tr>
+		<td width="80%">
+		
+			{if $error != null}
+				 <table align="center" class="error-box">
+						{if $error.err_descripcion != null} 
+						<tr> 
+							<td> <font color=black> {$error.err_descripcion} </td> 
+						</tr>
+						{/if}
+						{if $error.err_fuente != null} 
+						<tr> 
+							<td> <font color=black> {$error.err_fuente} </td> 
+						</tr>
+						{/if}
+				 </table>
+			 {/if}
+		
+			<form name="form_modificar" method="post" action="../../controladores/sistema_de_produccion/lista_cuero.php">
+				<input type="hidden" name="elegido"  value="{$id}">
+				<input type="hidden" name="funcion" value="modificar_datos">
+				<table align="center" >
+					<th colspan="2"> Modificar cuero</th>
+		 			<tr>
+  						<td class="enunciados">  Nombre: </td>
+  						<td class="body_sector">  <input type="text" name="descripcion" value="{$descripcion}" > </td>
+		 			</tr>
+				</table>
+
+		   		<table align="center"> 
+				<tr><td><input class="button1" type="submit" name="modificar" value="Modificar" ></td>
+				</form>
+				<form name="form_modificar" method="post" action="../../controladores/sistema_de_produccion/lista_cuero.php">
+				<td><input class="button1" type="submit" name="volver" value="Volver a la lista" ></td>
+				</tr>
+				</form>
+			   </table>
+			
+		</td>
+	</tr>
+</table>
+</body>

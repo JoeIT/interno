@@ -1,0 +1,38 @@
+
+<head>
+<link rel="stylesheet" type="text/css" href="../../templates/css/macaws-css.css">
+</head>
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#0C5791" >
+		<tr>
+			<td>
+				<div align="right"><img src="../../templates/imagenes/cabecera.jpg" alt="Macaws S.R.L." width="1053" /></div>
+			</td>
+		</tr>
+</table>
+			  			
+<form name="formregistro" method="post" action="../../controladores/sistema_de_produccion/registrar_posicion.php">
+<input type="hidden" name="funcion" id="funcion" value="validar">
+
+<table width="40%" border="0">
+	<th colspan="2">Formulario  de registro</th>
+	{if $errores.err_confirm != null}<tr><td colspan="2" class="error-box">{$errores.err_confirm}</td></tr>{/if}
+	{if $errores.err_descripcion != null} 
+					<tr><td colspan="2" class="error-box">{$errores.err_descripcion}</td></tr> 
+				  {/if}
+					<tr>
+						<td width="53%" class="enunciados">Descripción:</td>
+						<td width="47%"><input name="descripcion" type="text" onKeyPress="return handleEnter(this, event)"  value="{$descripcion}" ></td>
+					</tr>
+	<tr>
+		<td colspan="2" align="center">
+	<input class="button1" type="submit" value="  Registrar  " >
+		</td>
+	</tr>
+							
+							</table>
+
+	</form>
+
+
+</body>

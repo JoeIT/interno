@@ -1,0 +1,98 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+<br />
+
+<div align="center">
+	<div style="border:1px #ABBEEF solid;width:95%;">
+		<div style="background-color:#ABBEEF;color:#000;font-weight:bold;">
+			{$autodesc}
+		</div>
+		<div style="background-color:#D6DFF7;color:#000;">
+			Reporte de: <b>{$fecha1}</b> HASTA <b>{$fecha2}
+		</div>
+		
+		<br>
+        <font color="#0000FF"><b>Haga click en &quot;&gt;&gt;&quot; para seleccionar una fecha</b></font> 
+		<form name="form1" method="post" action="porteria.php?opcion=planta_auto&idauto={$idauto}">
+		<div>
+			<div style="background-color:#D6DFF7;font-size:10px;padding:10px 0 10px 0;width:20%;float:left;">VER DATOS DESDE :</div>
+			<div style="width:30%;float:left;">
+				<input type="text" name="fecha1" id="fecha1" value="{$fecha1}" size="12" readonly="readonly">
+				<input name="bfecha1" type="button" id="bfecha1" value=">>" class="boton" onkeypress="return enter_handle(this, event, 2, 1);" />
+				{literal}
+				<script type="text/javascript">Calendar.setup({inputField:"fecha1", ifFormat:"%Y-%m-%d",button:"bfecha1"});</script>
+				{/literal}
+			</div>
+			<div style="background-color:#D6DFF7;font-size:10px;padding:10px 0 10px 0;width:20%;float:left;">HASTA :</div>
+			<div style="width:28%;float:left;">
+				<input type="text" name="fecha2" id="fecha2" value="{$fecha2}" size="12" readonly="readonly">
+				<input name="bfecha2" type="button" id="bfecha2" value=">>" class="boton" onkeypress="return enter_handle(this, event, 1, 1);" />
+				{literal}
+				<script type="text/javascript">Calendar.setup({inputField:"fecha2", ifFormat:"%Y-%m-%d",button:"bfecha2"});</script>
+				{/literal}
+			</div>
+		</div>
+		<div style="border-top:1px #ABBEEF solid;border-bottom:1px #ABBEEF solid;clear:both;padding:10px 0 10px 0;">
+			<input type="submit" name="Submit" value="Enviar Consulta" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+		</div>
+		</form>
+		<br />	
+		
+		<table width="48%" border="0" cellspacing="0" cellpadding="3" style="margin: 10px;">
+          <tr> 
+            <td bgcolor="#CCCCCC" width="29%"><b>PLACA</b></td>
+            <td>{$autoplaca}</td>
+            <td bgcolor="#CCCCCC" width="29%"><b>KILOMETRAJE </b></td>
+            <td>{$kilometraje}</td>
+          </tr>
+        </table>
+		
+		<table width="100%" border="1" cellspacing="0" cellpadding="0">
+          <tr bgcolor="#CCCCCC"> 
+            <th>Salida</th>
+            <th>Llegada</th>
+            <th>Responsable</th>
+            <th>Destino</th>
+            <th>Km. Salida</th>
+            <th>Km. Llegada</th>
+            <th>Obs.</th>
+          </tr>
+		  
+		  {assign var=CSSclass value=0}
+		  {assign var=clases value="lista-normal"}
+		  {section name=i loop=$resultado}
+		  {assign var="CSSclass" value="`$CSSclass+1`"}
+		  {if ($CSSclass mod 2) eq 0}
+		  	{assign var=clases value="lista-seleccionada"}
+		  {else}
+		  	{assign var=clases value="lista-normal"}
+		  {/if}
+		  <tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+            <td>{$resultado[i].fechaout} {$resultado[i].horaout}</td>
+            <td>{$resultado[i].fechain} {$resultado[i].horain}</td>
+            <td>
+              <div align="center"><font size="2">{$resultado[i].nombre_completo}</font></div>
+            </td>
+            <td>
+              <div align="center"><font size="2">{$resultado[i].destino}</font></div>
+            </td>
+            <td>
+              <div align="center"><font size="2">{$resultado[i].kmout}</font></div>
+            </td>
+            <td>
+              <div align="center"><font size="2">{$resultado[i].kmin}</font></div>
+            </td>
+            <td>
+              <div align="center"><font size="2">{$resultado[i].observaciones}</font></div>
+            </td>
+          </tr>{/section}
+        </table>
+	</div>
+</div>
+
+<br />
+<br />
+
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

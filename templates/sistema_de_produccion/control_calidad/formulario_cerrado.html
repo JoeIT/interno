@@ -1,0 +1,85 @@
+{literal}
+<script language="javascript">
+function confirmar(){
+	if (confirm('Esta seguro de cerrar la asignación?'))
+		return true;
+	else
+		return false;
+}
+</script>
+{/literal}
+<br />
+<table width="40%" border="0" align="center" cellpadding="3" cellspacing="1" class="anuncio2">
+	<tr>
+		<td>Recepcionados: </td>
+		<td style="text-align:left;">{$recepcion} de {$detalle_asignacion.cantidad}
+		{if $recepcion==$detalle_asignacion.cantidad}
+			<img src="../../templates/imagenes/existe.gif" width="25" height="25" />
+		{else}
+			<img src="../../templates/imagenes/advertencia.gif" width="25" height="25"/>
+		{/if}
+		</td>
+	</tr>
+	<tr>
+		<td >Limpiados: </td>
+		<td  style="text-align:left;">{$limpieza.asignados} de {$detalle_asignacion.cantidad}
+		{if $limpieza.asignados==$detalle_asignacion.cantidad}
+			<img src="../../templates/imagenes/existe.gif" width="25" height="25" />
+		{else}
+			<img src="../../templates/imagenes/advertencia.gif" width="25" height="25"/>
+		{/if}
+
+		</td>
+	</tr>
+	<tr>
+		<td >Control de Calidad: </td>
+		<td  style="text-align:left;">{$cal.asignados_calidad} de {$detalle_asignacion.cantidad}
+		{if $cal.asignados_calidad==$detalle_asignacion.cantidad}
+			<img src="../../templates/imagenes/existe.gif" width="25" height="25" />
+		{else}
+			<img src="../../templates/imagenes/advertencia.gif" width="25" height="25"/>
+		{/if}
+
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" >Se han arreglado {$arreglo} de {$rechazo} 
+		 rechazos
+				
+		{if $rechazo==$arreglo}
+			<img src="../../templates/imagenes/existe.gif" width="25" height="25" />
+		{else}
+			<img src="../../templates/imagenes/advertencia.gif" width="25" height="25"/>
+		{/if}
+		</td>
+	</tr>
+	
+	<!--<tr>
+		<td >Arreglados </td>
+		<td  style="text-align:left;">{$arreglo} de {$detalle_asignacion.cantidad}
+		{if $arreglo==$rechazo}
+			<img src="../../templates/imagenes/existe.gif" width="25" height="25" />
+		{else}
+			<img src="../../templates/imagenes/advertencia.gif" width="25" height="25"/>
+		{/if}
+		</td>
+	</tr>
+-->
+	{if ($recepcion!=$detalle_asignacion.cantidad) || ($cal.asignados_calidad!=$detalle_asignacion.cantidad) || ($rechazo!=$arreglo) || ($limpieza.asignados!=$detalle_asignacion.cantidad)}
+		<tr>
+			<td colspan="2"> <h2> {$msg} </h2></td>
+		</tr>
+	{/if}
+</table>
+	{if ($recepcion==$detalle_asignacion.cantidad) && ($cal.asignados_calidad==$detalle_asignacion.cantidad) && ($rechazo==$arreglo) && ($limpieza.asignados==$detalle_asignacion.cantidad)}
+	<form name="cerrar" method="get" action="../../controladores/sistema_de_produccion/cerrado.php" onsubmit="return confirmar();">
+	<input class="enviar" type="hidden" value="cerrar" name="funcion" />
+	<table align="center" >
+		<tr>
+			<td>
+				<input type="submit" value="Cerrar Asignaci&oacute;n" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+			</td>
+		</tr>
+	</table>
+	</form>
+{/if}

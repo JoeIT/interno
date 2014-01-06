@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>MultiPowUpload properties</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+</head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.6 control documentation</div>
+<div id="nstext">
+<p><b>MultiPowUpload object properties</b>&nbsp;<hr/></p>
+
+<br><a href="#fileList">fileList property</a><br>
+<br><a href="#FileReference">FileReference object</a><br>
+<br><a href="#selectedIndices">selectedIndices property</a><br>
+<br><a href="#selectedItems">selectedItems property</a><br><br>
+
+<h1><a name="fileList" id="fileList">fileList</a> (Flash.fileList property)</h1>
+<div class="signature"><p>fileList : Array [read-only]</p></div><p>An array of FileReference objects.</p>
+
+<p>When the <code>browseFiles()</code> method has been called and the user has selected one or more files from the dialog box opened by <code>browseFiles()</code>, this property is populated with an array of FileReference objects, each of which represents a file the user selected.</p>
+
+<p>The properties of FileReference objects are described in the <a href="#FileReference">FileReference</a> class documentation.</p>
+
+<h4>Example</h4>
+<p>The following example demonstrates the <code>fileList</code> property. </p>
+<textarea  name="" cols="100" rows="15" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.browseFiles();
+}
+
+function MultiPowUpload_onSelect()
+{
+	//Show selected files info	
+	var list = Flash.fileList();
+	for(var i=0; i<list.length; i++)
+	{
+		window.alert("File " + list[i].name + " was selected");
+	}
+}
+</textarea>
+
+<br>
+<h1><a name="FileReference" id="FileReference">FileReference</a> (Flash.fileList[index] property)</h1>
+<div class="signature"><p>class FileReference</p></div>
+
+<h4>Property summary</h4>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>
+      <p>Property</p>
+    </th>
+    <th>
+      <p>Description</p>
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <p><strong><a name="creationDate" id="creationDate">creationDate</a></strong><code>:Date</code> [read-only]</p>
+    </td>
+    <td>
+      <p>The creation date of the file on the local disk.</p>
+    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <p><strong><a name="creator" id="creator">creator</a></strong><code>:String</code> [read-only]</p>
+    </td>
+    <td>
+      <p>The Macintosh creator type of the file. In Windows, this property is <code>null</code>.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p><strong><a name="modificationDate" id="modificationDate">modificationDate</a></strong><code>:Date</code> [read-only]</p>
+    </td>
+    <td>
+      <p>The date that the file on the local disk was last modified.</p>
+    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <p><strong><a name="name" id="name">name</a></strong><code>:String</code> [read-only]</p>
+    </td>
+    <td>
+      <p>The name of the file on the local disk.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p><strong><a name="size" id="size">size</a></strong><code>:Number</code> [read-only]</p>
+    </td>
+    <td>
+      <p>The size of the file on the local disk, in bytes.</p>
+    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <p><strong><a name="type" id="type">type</a></strong><code>:String</code> [read-only]</p>
+    </td>
+    <td>
+      <p>The file type. In Windows, this property is the file extension. On the Macintosh, this property is the four-character file type.</p>
+    </td>
+  </tr>
+</table>
+<h4>Example</h4>
+<p>The following example retrieves some info of a files selected by the user</p>
+<textarea  name="" cols="100" rows="16" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.browseFiles();
+}
+
+function MultiPowUpload_onSelect()
+{
+	//Show selected files info	
+	var list = Flash.fileList();
+	for(var i=0; i<list.length; i++)
+	{
+		dastr = (new Date(list[i].creationDate)).toString();
+		window.alert("File " + list[i].name + " (" + list[i].size + " bytes) created: " + 
+			dastr + " is in list");
+	}
+}
+</textarea>
+
+<br>
+<h1><a name="selectedIndices" id="selectedIndices">selectedIndices</a> (Flash.selectedIndices property)</h1>
+<div class="signature"><p>selectedIndices : Array [read-only]</p></div><p>An array of Integer values.</p>
+
+<h4>Description</h4>
+<p>Property (read-only); an array of indices of the selected items. 
+<p>The <code>selectedIndices</code> property reflects the order in which the items were selected. If you click the second item, then the third item, and then the first item, <code>selectedIndices</code> returns <code>[1,2,0]</code>. The value is <code>null</code> if nothing is selected.</p>
+<h4>Example</h4>
+<p>The following example retrieves the selected indices and names of a files selected:</p>
+<textarea  name="" cols="100" rows="12" wrap="off">
+function MultiPowUpload_onListChange()
+{
+	var selIndices = Flash.selectedIndices();
+	if(selIndices!=null)
+	{
+		for(var i=0; i<selIndices.length; i++)
+		{
+			window.alert("File " + Flash.fileList()[selIndices[i]].name + " is selected in list");
+		}
+	}
+}
+</textarea>
+
+<br>
+<h1><a name="selectedItems" id="selectedItems">selectedItems</a> (Flash.selectedItems property)</h1>
+<div class="signature"><p>selectedItems : Array [read-only]</p></div><p>An array of FileReference objects.</p>
+
+<h4>Description</h4>
+<p>Property (read-only); an array of the selected item objects. In a multiple-selection list, <code>selectedItems</code> lets you access the set of items selected as item objects. The value is <code>null</code> if nothing is selected.</p>
+
+<h4>Example</h4>
+<p>The following example counts total size of the selected files:</p>
+<textarea  name="" cols="100" rows="14" wrap="off">
+function MultiPowUpload_onListChange()
+{
+	var selItems = Flash.selectedItems();
+	if(selItems!=null)
+	{
+		var totalSize = 0;
+		for(var i=0; i<selItems.length; i++)
+		{
+			totalSize += selItems[i].size;	
+		}
+		window.alert("Total size of a files selected is " + totalSize + " bytes.");
+	}
+}
+</textarea>
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+</body>
+</html>

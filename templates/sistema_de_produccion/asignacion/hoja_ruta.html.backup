@@ -1,0 +1,314 @@
+<html>
+<head>
+<title> Reporte de asignaci&oacute;n</title>
+</head>
+{literal}
+<script defer>
+function setInstallStyles(fOK) {
+	document.getElementById("installOK").runtimeStyle.display = fOK ? "block" : "none";
+}
+function okInstall() {
+	setInstallStyles(true);
+}
+function noInstall() {
+	setInstallStyles(false);
+}
+function viewinit() {
+	if (!factory.object) {
+		noInstall();
+		return
+	} else {
+		okInstall();
+		factory.printing.header = "";
+		factory.printing.footer = "";
+		factory.printing.portrait = true;
+		factory.printing.leftMargin = 0;
+		factory.printing.topMargin = 0;
+		factory.printing.rightMargin = 0;
+		factory.printing.bottomMargin = 0;
+
+
+		// enable control buttons
+		var templateSupported = factory.printing.IsTemplateSupported();
+		var controls = idControls.all.tags("input");
+		for ( i = 0; i < controls.length; i++ ) {
+			controls[i].disabled = false;
+			if ( templateSupported && controls[i].className == "ie55" )
+				controls[i].style.display = "inline";
+			}
+		}
+}
+</script>
+
+<style type="text/css">
+body{
+	margin-bottom:1cm;
+	margin-left:0.7cm;
+	margin-right:0.7cm;
+	margin-top:1.4cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+}
+
+.contenido1{
+	border-color:#330099;
+	color:#330099;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.dato{
+	background-color:#FFFFCC;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+.n_asignacion{
+	visibility:hidden;
+}
+
+.n_pedido{
+	left:22cm;
+	position:absolute;
+	top:3.5cm;
+	visibility:visible;
+}
+
+.boton {
+	background-color: #F6F6F2;
+	border-color:#95BAD5;
+	border-width:2px;
+	color: #000000;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 2px;
+}
+
+.enviar {
+	background-color:#175C93;
+	border-color:#95BAD5;
+	border-width:2px;
+	color:#FCFFFF;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding:2px;
+}
+</style>
+
+<style type="text/css" media="print">
+body{
+	margin-bottom:1cm;
+	margin-left:0.9cm;
+	margin-right:0.7cm;
+	margin-top:0.4cm;
+	padding: 0cm;
+	width:21.15cm;
+}
+
+.titulo{
+	background-color:#330099;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:0.4cm;
+	text-align:center;
+	visibility:hidden;
+}
+
+.oculto{
+	visibility:hidden;
+}
+
+.dato{
+	background-color:#FFFFFF;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	vertical-align:middle;
+}
+
+.n_asignacion{
+	font-size:24px;
+	font-weight:bolder;
+	left:18.5cm;
+	position:absolute;
+	top:1cm;
+	visibility:visible;
+}
+
+.n_pedido{
+	left:18cm;
+	position:absolute;
+	top:2.5cm;
+	visibility:visible;
+}
+
+.noprint {
+	display: none;
+}
+</style>
+
+{/literal}
+</head>
+
+<body scroll="auto" onLoad="viewinit()">
+
+<!-- MeadCo ScriptX Control -->
+<object id="factory" style="display:none" viewastext classid="clsid:1663ED61-23EB-11D2-B92F-008048FDD814" codebase="smsx.cab#Version=6,3,435,20">
+</object>
+
+<div id="installOK">
+	<div class="oculto">
+	<table border="1" align="center" cellpadding="0" cellspacing="0" style="border-color:#330099;height:1.4cm;margin:0cm;width:20.3cm;">
+	  <tr>
+		<td rowspan="2" class="contenido1" style="width:2.7cm;">
+			<img src="../../templates/imagenes/logo-macaws2.jpg" align="middle" style="height:1.1cm;width:1.4cm;"/>	</td>
+		<td class="contenido1" style="font-size:13px;font-weight:bold;width:8.9cm">REGISTRO DEL SISTEMA DE CALIDAD</td>
+		<td rowspan="2" class="contenido1" style="text-align:center;width:3.1cm;">CODIGO<br><strong>RG-23</strong></td>
+		<td rowspan="2" class="contenido1" style="text-align:center;width:2.9cm;"><strong>Revisi&oacute;n 10</strong></td>
+		<td rowspan="2" class="contenido1" style="font-size:10px;text-align:center;width:2.7cm;">N&uacute;mero de<br>asignaci&oacute;n<br><span style="font-size:13px;font-weight:bold;">{$lista.asignacion_detalle_id}</span></td>
+	  </tr>
+	  <tr>
+		<td class="contenido1" style="font-size:18px;font-weight:bold;width:8.9cm;">HOJA DE RUTA DE PRODUCCI&Oacute;N</td>
+	  </tr>
+	</table>
+	</div>
+	
+	<br>
+	
+	<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.6cm;width:20.3cm;">
+	  <tr>
+		<td valign="top" style="width:4.7cm;">
+			<table border="0" cellspacing="0" cellpadding="0" style="width:4.3cm;">
+			  <tr>
+				<td>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					  <tr>
+						<td class="titulo" style="width:2.5cm;">O.P. # CUP:</td>
+						<td class="dato">{$lista.num_orden}</td>
+					  </tr>
+					</table>
+			  <td>		  </tr>
+			  <tr>
+				<td style="height:0.45cm;">&nbsp;</td>
+			  </tr>
+			  <tr>
+				<td><div class="titulo" style="width:85%">Maquinista:</div></td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="height:0.95cm;text-align:justify;">{$lista.completo}</td>
+			  </tr>
+			  <tr>
+				<td>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					  <tr>
+						<td class="titulo" style="width:2.1cm;">Cantidad:</td>
+						<td class="dato" style="text-align:justify;">&nbsp;&nbsp;{$lista.cantidad_asignada}</td>
+					  </tr>
+					</table>			</td>
+			  </tr>
+			  <tr>
+				<td style="height:0.7cm;" class="dato"> <span style=" font-family:'Comic Sans MS', cursive; font-size:14px">{if strcmp($lista.pedido, "0")!= 0 and $frep==''}Cod:{$lista.pedido}{/if}</span></td>
+			  </tr>
+			  <tr>
+				<td class="titulo">Modelo:</td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="height:0.85cm;">{$lista.nombre_familia}</td>
+			  </tr>
+			  <tr>
+				<td class="titulo">Tipo:</td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="height:0.85cm;">{$lista.nombre_estilo}</td>
+			  </tr>
+			  <tr>
+				<td class="titulo">Color:</td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="height:0.85cm;">{$lista.color}</td>
+			  </tr>
+			  <tr>
+				<td class="titulo">Clip:</td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="height:0.85cm;">{$lista.clip}</td>
+			  </tr>
+			  <tr>
+				<td class="titulo">Cuero:</td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="height:0.85cm;text-align:justify;vertical-align:top;">{$lista.cuero}</td>
+			  </tr>
+			  <tr>
+				<td class="titulo">Observaciones:</td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="font-size:10px;height:1cm;text-align:left;vertical-align:top;">{$lista.observacion}</td>
+			  </tr>
+			</table>
+		</td>
+		<td valign="top" style="width:6.9cm;">
+			<table border="0" cellspacing="0" cellpadding="0" style="width:6.7cm;">
+			  <tr>
+				<td style="width:3.7cm;"><div class="titulo" style="width:1.9cm;">Asignaci&oacute;n</div></td>
+				<td class="titulo">Reprogramaci&oacute;n</td>
+			  </tr>
+			  <tr>
+				<td>&nbsp;</td>
+				<td rowspan="5" class="dato" style="text-align:center;vertical-align:middle;">
+					<span style="font-size:50px;font-weight:bolder;">{$r}</span><br>{$frep}
+				</td>
+			  </tr>
+			  <tr>
+				<td><div class="titulo" style="width:1.9cm;">Inicio</div></td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="height:0.9cm;text-align:justify;"><br>
+{$lista.fecha_inicio}</td>
+			  </tr>
+			  <tr>
+				<td><div class="titulo" style="width:1.9cm;">Final</div></td>
+			  </tr>
+			  <tr>
+				<td class="dato" style="height:0.7cm;text-align:justify;"><br>
+{$lista.fecha_finalizacion}</td>
+			  </tr>
+			</table>	</td>
+		<td valign="top" style="width:8.7cm;">&nbsp;</td>
+	  </tr>
+	</table>
+	
+	<div class="n_asignacion">{$lista.asignacion_detalle_id}</div>
+	<div id=idControls class="noprint" style="text-align:center;width:100%;">
+		<table border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:0.1cm;width:20.3cm;">
+		<tr>
+			<td style="text-align:center;">
+				<hr size="1">
+				<input disabled type="button" value="Configurar Impresora" onClick="factory.printing.Print(true)" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Configurar P&aacute;gina" onClick="factory.printing.PageSetup()" class="boton">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input disabled type="button" value="Vista preliminar" onClick="factory.printing.Preview()" class="enviar" onMouseOver="this.className='boton'" onMouseOut="this.className='enviar'">
+				<hr size="1">
+			</td>
+		</tr>
+		</table>
+	</div>
+
+</div>
+</body>
+</html>

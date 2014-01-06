@@ -1,0 +1,9 @@
+{include file="../templates/contenido/includes/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{include file="../templates/contenido/includes/usuario.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+		{php}
+			include_once('../clases/gallery.php');
+			$nombrearchivo= $_SESSION['nombrearchivo'];
+			$mygallery = new gallery();
+			$mygallery->loadFolder('../galley_images/'.$nombrearchivo);
+			$mygallery->show();
+		{/php}

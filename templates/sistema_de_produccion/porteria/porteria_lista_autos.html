@@ -1,0 +1,22 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<br />
+<br />
+
+<div align="center">
+	<div style="border:1px #ABBEEF solid;width:70%;">
+		<div style="background-color:#ABBEEF;color:#000;font-weight:bold;">
+			Seleccione el Veh&iacute;culo
+		</div>
+		{section name=i loop=$resultado}
+		<div class="row" style="border-color:#AACCFF;">
+			<span class="label" style="width:64%;text-align:center;">{html_link page="porteria" opcion=porteria_movauto idauto=$resultado[i].idauto text=$resultado[i].autodesc}</span>
+			<span class="formw" style="width:35%;text-align:center;">[<a href="porteria.php?opcion=planta_auto&idauto={$resultado[i].idauto}">Ver Detalle</a>]</span>
+		</div>
+
+		{/section}
+	</div>
+</div>
+
+<!--Fin Restultados de la busqueda-->
+{include file="../templates/contenido/includes/pie.html"}

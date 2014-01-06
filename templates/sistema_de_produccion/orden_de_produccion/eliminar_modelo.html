@@ -1,0 +1,43 @@
+<head> 
+      {include file="include_cabecera.html"} 
+</head>
+<body>
+<table width="100%">
+	<tr>
+		<td width="20%" valign="top">
+	    	{include file="include_menu_izq.html"}
+		</td>
+		<td width="80%">
+			{include file="include_menu_modelo.html"} 
+		    <h2 align="center" class="text8">{$title}</h2>
+
+			<form name="form_eliminar" method="post" action="../controladores/lista_modelo.php">
+				<input type="hidden" name="elegido" value="{$id}">
+				<input type="hidden" name="funcion" value="eliminar_datos">
+
+				<table align="center">
+		 			<tr>
+  						<td class="header-table">  Modelo: </td>
+  						<td class="body-table">  {$descripcion}</td>
+		 			</tr>
+					<tr>
+  						<td class="header-table">  Pertenece a la familia: </td>
+  						<td class="body-table"> {$familia}</td>
+		 			</tr>
+				</table>
+
+		   		<p align="center"> 
+				<table class="error-uno">
+					<tr>
+						<td > <img src="../templates/imagenes/alert.gif" width="50" height="50" ></img></td>
+						<td > Esta seguro que desea eliminar el modelo: {$descripcion}, <br><br> que pertenece a la familia: {$familia} <br><br></td>
+					</tr>
+				</table>
+				<input class="button1" type="submit" name="eliminar" value="eliminar"  onClick=consultar(name)> &nbsp;
+	       		<input class="button1" type="submit" name="volver" value="Volver a la lista" onClick=consultar(name)>
+			    </p>
+			</form>
+		</td>
+	</tr>
+</table>
+</body>

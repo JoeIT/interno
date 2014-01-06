@@ -1,0 +1,366 @@
+{* Lista de ordenes registradas *}
+ {include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+<table align="center"   cellpadding="3" width="91%" >
+<tr>
+    <th colspan="14"> DOCUMENTOS RG-40 VIGENTES</th>
+</tr>
+ <tr>
+      <td  class="enunciados" style="text-align:center">Nro Registro</td>
+      <td  class="enunciados" style="text-align:center">Tipo - No Conformidad</td>
+      <td  class="enunciados" style="text-align:center">Accion</td>
+      <td  class="enunciados" style="text-align:center">Areas que Aperturo</td>
+      <td  class="enunciados" style="text-align:center">Area Informada</td>
+      <td  class="enunciados" style="text-align:center">Motivo</td>
+      <td  class="enunciados" style="text-align:center">Cierre Planeado</td>
+      <td  class="enunciados" style="text-align:center">Fecha Apertura</td>
+      <td  class="enunciados" style="text-align:center">Fecha Accion</td>
+      <td  class="enunciados" style="text-align:center">Fecha Revisi&oacute;n</td>  
+	  <td  class="enunciados" style="text-align:center">Fecha Cierre</td>
+	  <td  class="enunciados" style="text-align:center">Estado</td>
+      <td  class="enunciados" style="text-align:center">D&iacuteas</td>
+    </tr>
+ {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$revisiones}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+		{if $mensaje == null}
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+<td align="center">
+{if $revisiones[ind].estado != 4 && $revisiones[ind].estado != 5}
+<a href="../../controladores/sistema_de_produccion/listarnoconformidad.php?opcion=ver&elegido={$revisiones[ind].nro_registro}&estado={$revisiones[ind].estado}" name="{$revisiones[ind].nro_registro}" id="{$revisiones[ind].nro_registro}">#{$revisiones[ind].nro_registro}</a>
+{else}
+#{$revisiones[ind].nro_registro}
+{/if}
+</td>
+
+{if $revisiones[ind].estado != 0}
+{if $revisiones[ind].dias == 7 or $revisiones[ind].dias == 6 or $revisiones[ind].dias == 5}
+<td style="border-bottom:3px solid green;">{$revisiones[ind].tipo}</td>
+<td style="border-bottom:3px solid green;">{$revisiones[ind].accion}</td>
+<td style="border-bottom:3px solid green;">{$revisiones[ind].area_observada}</td>
+<td style="border-bottom:3px solid green;">{$revisiones[ind].area_informada}</td>
+<td style="border-bottom:3px solid green;">{$revisiones[ind].motivo}</td>
+<td style="background-color:green;color:#FFF;border-bottom:3px solid green;" nowrap="nowrap">{$revisiones[ind].fec_plan_cierre}<br>[FALTA]</td>
+<td style="border-bottom:3px solid green;">{$revisiones[ind].fec_apertura}</td>
+<td style="border-bottom:3px solid green;">{$revisiones[ind].fec_analisis}</td>
+<td style="border-bottom:3px solid green;">{$revisiones[ind].fec_revision}</td>
+<td style="border-bottom:3px solid green;">{$revisiones[ind].fec_cierre}</td>
+{if $revisiones[ind].estado eq 1}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Aperturada</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 2}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Analisis</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 3}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Revision</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 0}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Cierre</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 4}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 5}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{/if}
+{if $revisiones[ind].dias == 4 or $revisiones[ind].dias == 3}
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].tipo}</td>
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].accion}</td>
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].area_observada}</td>
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].area_informada}</td>
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].motivo}</td>
+<td style="background-color:#FF0 ; border-bottom:3px solid yellow;" nowrap="nowrap">{$revisiones[ind].fec_plan_cierre}<br>[FALTA]</td>
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].fec_apertura}</td>
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].fec_analisis}</td>
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].fec_revision}</td>
+<td style="border-bottom:3px solid yellow;">{$revisiones[ind].fec_cierre}</td>
+{if $revisiones[ind].estado eq 1}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Aperturada</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 2}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Analisis</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 3}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Revision</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 0}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Cierre</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 4}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 5}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{/if}
+{if $revisiones[ind].dias == 2 or $revisiones[ind].dias == 1 }
+<td style="border-bottom:3px solid red;">{$revisiones[ind].tipo}</td>
+<td style="border-bottom:3px solid red;">{$revisiones[ind].accion}</td>
+<td style="border-bottom:3px solid red;">{$revisiones[ind].area_observada}</td>
+<td style="border-bottom:3px solid red;">{$revisiones[ind].area_informada}</td>
+<td style="border-bottom:3px solid red;">{$revisiones[ind].motivo}</td>
+<td style="background-color:#F30;color:white;border-bottom:3px solid red;" nowrap="nowrap">{$revisiones[ind].fec_plan_cierre}<br>[FALTA]</td>
+<td style="border-bottom:3px solid red;">{$revisiones[ind].fec_apertura}</td>
+<td style="border-bottom:3px solid red;">{$revisiones[ind].fec_analisis}</td>
+<td style="border-bottom:3px solid red;">{$revisiones[ind].fec_revision}</td>
+<td style="border-bottom:3px solid red;">{$revisiones[ind].fec_cierre}</td>
+{if $revisiones[ind].estado eq 1}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Aperturada</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 2}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Analisis</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 3}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Revision</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 0}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Cierre</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 4}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 5}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{/if}
+{if $revisiones[ind].dias == 0}
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].tipo}</td>
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].accion}</td>
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].area_observada}</td>
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].area_informada}</td>
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].motivo}</td>
+<td style="background-color:#F30;color:white;border-bottom:3px solid red;" nowrap="nowrap"><span id="txt">{$revisiones[ind].fec_plan_cierre}<br>[HOY]</span></td>
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].fec_apertura}</td>
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].fec_analisis}</td>
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].fec_revision}</td>
+<td style="border-bottom:3px solid red;background-color:#F99;">{$revisiones[ind].fec_cierre}</td>
+{if $revisiones[ind].estado eq 1}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Aperturada</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 2}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Analisis</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 3}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Revision</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 0}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Cierre</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 4}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 5}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{/if}
+{if $revisiones[ind].dias<0}
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].tipo}</td>
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].accion}</td>
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].area_observada}</td>
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].area_informada}</td>
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].motivo}</td>
+<td style="background-color:#5F04B4;color:white;border-bottom:3px solid #5F04B4;" nowrap="nowrap">{$revisiones[ind].fec_plan_cierre}<br>[RETRASO]</td>
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].fec_apertura}</td>
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].fec_analisis}</td>
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].fec_revision}</td>
+<td style="border-bottom:3px solid #5F04B4;">{$revisiones[ind].fec_cierre}</td>
+{if $revisiones[ind].estado eq 1}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Aperturada</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 2}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Analisis</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 3}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Revision</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 0}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Cierre</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 4}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 5}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{/if}
+{if $revisiones[ind].dias >7}
+<td >{$revisiones[ind].tipo}</td>
+<td >{$revisiones[ind].accion}</td>
+<td >{$revisiones[ind].area_observada}</td>
+<td >{$revisiones[ind].area_informada}</td>
+<td >{$revisiones[ind].motivo}</td>
+<td nowrap="nowrap">{$revisiones[ind].fec_plan_cierre}<br>[Falta:{$revisiones[ind].dias} dias]</td>
+<td >{$revisiones[ind].fec_apertura}</td>
+<td >{$revisiones[ind].fec_analisis}</td>
+<td >{$revisiones[ind].fec_revision}</td>
+<td >{$revisiones[ind].fec_cierre}</td>
+{if $revisiones[ind].estado eq 1}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Aperturada</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 2}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Analisis</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 3}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Revision</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 0}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>Cierre</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 4}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{if $revisiones[ind].estado eq 5}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>PENDIENTE</b>
+</td>
+{/if}
+{/if}
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap">
+<b>{$revisiones[ind].dias} dias</b> 
+</td>                
+    </tr>
+	{/if}
+    {/if}
+    {/section}
+<tr>
+    <th colspan="14"> DOCUMENTOS RG-40 CERRADOS</th>
+</tr>
+<tr>
+      <td  class="enunciados" style="text-align:center">Nro Registro</td>
+      <td  class="enunciados" style="text-align:center">Tipo - No Conformidad</td>
+      <td  class="enunciados" style="text-align:center">Accion</td>
+      <td  class="enunciados" style="text-align:center">Areas que Aperturo</td>
+      <td  class="enunciados" style="text-align:center">Area Informada</td>
+      <td  class="enunciados" style="text-align:center">Motivo</td>
+      <td  class="enunciados" style="text-align:center">Cierre Planeado</td>
+      <td  class="enunciados" style="text-align:center">Fecha Apertura</td>
+      <td  class="enunciados" style="text-align:center">Fecha Accion</td>
+      <td  class="enunciados" style="text-align:center">Fecha Revisi&oacute;n</td>  
+	  <td  class="enunciados" style="text-align:center">Fecha Cierre</td>
+	  <td  class="enunciados" style="text-align:center">Estado</td>
+      <td  class="enunciados" style="text-align:center">D&iacuteas</td>
+    </tr>
+     {assign var=CSSclass value=0}
+	 {assign var=clases value="lista-normal"}
+     {section name=ind loop=$cierres}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+	    {if ($CSSclass mod 2) eq 0}
+		    {assign var=clases value="lista-seleccionada"}
+	    {else}
+		    {assign var=clases value="lista-normal"}
+	    {/if}
+		{if $mensaje == null}  
+<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onmouseout="this.className = '{$clases}';" align="center"> 
+<td style="background-color:#000;color:#FFF;" nowrap="nowrap" align="center"><a href="../../controladores/sistema_de_produccion/listarnoconformidad.php?opcion=ver&elegido={$cierres[ind].nro_registro}&estado={$cierres[ind].estado}" name="{$cierres[ind].nro_registro}" id="{$cierres[ind].nro_registro}">#{$cierres[ind].nro_registro}</a></td>
+<td style="background-color:#CCC;color:#000;" nowrap="nowrap">{$cierres[ind].tipo}</td>
+<td  style="background-color:#CCC;color:#000;" nowrap="nowrap">{$cierres[ind].accion}</td>
+<td  style="background-color:#CCC;color:#000;" nowrap="nowrap">{$cierres[ind].area_observada}</td>
+<td  style="background-color:#CCC;color:#000;" nowrap="nowrap">{$cierres[ind].area_informada}</td>
+<td  style="background-color:#CCC;color:#000;" nowrap="nowrap">{$cierres[ind].motivo}</td>
+<td nowrap="nowrap">{$cierres[ind].fec_plan_cierre}</td>
+<td  style="background-color:#CCC;color:#000;" nowrap="nowrap">{$cierres[ind].fec_apertura}</td>
+<td  style="background-color:#CCC;color:#000;" nowrap="nowrap">{$cierres[ind].fec_analisis}</td>
+<td  style="background-color:#CCC;color:#000;" nowrap="nowrap">{$cierres[ind].fec_revision}</td>
+<td  nowrap="nowrap">{$cierres[ind].fec_cierre}</td>
+<td  style="background-color:#87CEEB;color:white;" nowrap="nowrap">
+<b>Cierre</b>
+</td>
+<td  style="background-color:#87CEEB;color:white;border-bottom:3px solid #87CEEB;" nowrap="nowrap"><b>{$cierres[ind].dias} dias</b> </td>     
+</tr>
+  {/if}
+  {/section}
+  <tr>
+    <td colspan="15"><hr></td>
+  </tr>
+</table>
+<div align="center">
+		<fieldset style="border: 1px solid #66CCFF;font-size:0.9em;padding:0 10px;text-align:justify;width:80%;" >
+			<legend> Descripci&oacute;n de colores: </legend>
+			<br />
+			<ul>
+            <li><img src="../../templates/imagenes/lila.png" width="15" height="15" alt="La fecha de cierre planeada ya paso!"> Fecha del cierre planeado ya se cumplio pero aun no se cierra RG-40</li>
+				<li><img src="../../templates/imagenes/rojo.png" width="15" height="15" alt="Faltan 2 dias o es Hoy el plazo de cierre">  Fecha del cierre planeado se cumple dentro de 2 dias o es el dia de HOY</li>
+				<li><img src="../../templates/imagenes/amarillo.png" width="15" height="15" alt="Faltan 4 dias para el plazo de cierre"> Fecha del cierre planeado se cumple dentro de 4 dias</li>
+				<li><img src="../../templates/imagenes/verde.png" width="15" height="15" alt="Falta 1 semana para el plazo de cierre"> Fecha del cierre planeado se cumple dentro de 1 semana</li>
+			</ul>
+		</fieldset>
+	</div>
+<br>
+</form>

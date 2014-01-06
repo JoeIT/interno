@@ -1,0 +1,170 @@
+<div id=cabecera>
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+{literal}
+<SCRIPT LANGUAGE="JavaScript">
+/* Creamos la función */
+function PantallaCompleta(URL) {
+	if (navigator.appName!="Explorer") {
+		abrir=window.open(URL, '', "height="+window.screen.availHeight+", width="+(window.screen.availWidth-10)+", top=0, left=0, toolbar=yes, status=yes, scrollbars=auto, location=no, menubar=yes, directories=no, resizable=yes");
+		abrir.window.innerWidth=window.screen.width-5
+		abrir.window.innerHeight=window.screen.height-50
+		abrir.self.moveTo(0,0)
+	} else
+		window.open(URL, '', 'fullscreen=yes, scrollbars=yes');
+}
+function redirect(url)
+{
+location.href=url;
+} 
+</script>
+{/literal}
+</div>
+     
+	  <br />
+<table align="center" width="95%">
+	          <tr >
+			      <td class="enunciados">  Orden de Prod. No.   </td>
+				  <td   class="body-sector" align="center" >{$cabecera.numero_orden} </td>
+				  <td class="enunciados"> CUP No.  </td> <td  class="body-sector" align="center"> {$cabecera.cup_num}</td>
+				  
+				  <td class="enunciados" >  Cliente   </td>
+				  <td  class="body-sector" >{$cabecera.cliente} </td>
+				    <td class="enunciados" colspan="3"> No.Ref. Cliente    </td>
+				   <td  class="body-sector" colspan="2"> {$cabecera.cliente_id}  </td>
+				  
+				  
+			  </tr>
+			  <tr>
+			  <td class="enunciados"> Fecha    </td> <td  class="body-sector"  align="center"> {$cabecera.fecha}  </td>
+			       <td class="enunciados"> Fecha Entrega/Despacho </td>
+				   <td  class="body-sector" align="center" nowrap="nowrap"> {$cabecera.fecha_entrega}</td>
+				  <td class="enunciados"> Fecha Reprogramación </td>
+	 		     <td  class="body-sector" align="center"> {$cabecera.fecha_reprogramacion}</td>  
+			  </tr>
+			
+	     </table>
+<br />
+
+	
+ {if $detalle !=null}
+
+ 			     
+	    {assign var=contador value=0}
+     <table width="95%"  align="center">
+	   <th colspan="14">
+				  Detalle de Orden de Producción</th>
+  		<tr>
+    		
+		     <td class="enunciados"><center>Producto</center></td>
+			 <td class="enunciados"><center>Estilo</center></td>
+			 <td class="enunciados"><center>Origen Cuero</center></td>
+			 <td class="enunciados"><center>Color</center></td>
+			 <td class="enunciados"><center>Clip</center></td>
+			 <td class="enunciados"><center>Sello / Herraje</center></td>
+			 <td class="enunciados"><center>Etiqueta</center></td>
+			 <td class="enunciados"><center>Obs.</center></td>
+			 <td class="enunciados"><center>Lugar Sellado</center></td>
+			 <td class="enunciados"><center>Unidad</center></td>
+			 <td class="enunciados"><center>Cant.</center></td>
+			 <td class="enunciados"><center>Despiece</center></td>
+				
+				</tr>
+				
+   			{foreach name=contenido item=detalles from=$detalle}
+			{if $detalles.Despiece == 0}
+    	<tr class="lista-sin-despiece" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-sin-despiece';">
+			    {assign var=contador value=1}
+		     {else}
+			      {if $detalles.Despiece == 1}
+			    <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+				    {else}
+					     <tr class="lista-pendiente" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-pendiente';">
+  	 			       {assign var=contador value=1}
+				   {/if}
+		     {/if}
+			{foreach key=key item=item from=$detalles}
+	    		{if $key == "codigo"}
+	   	  			{assign var=detalles value=$item}
+	    		{else}
+				  {if $key == "modificar_despiece"}
+				     {assign var=mod value=$item}
+				  {else}
+					{if $key == "Producto"}
+					        <td >						
+					
+							{if $mod eq 0 && $id neq 7} <a href="../../controladores/sistema_de_produccion/ver_detalle_orden_despiece.php?elegido={$detalles}&funcion=sindespiece&orden_id={$orden_id}" name="{$detalles}" id="{$detalles}">{$item}</a>{$detalle[$key].modificar_despiece} {else}{$item}{/if}
+							</td>
+					{else}
+						{if $key == "Despiece"}
+						     {if $item == 0}
+				     	      	<td align="center"> <img src="../../templates/imagenes/eliminar.gif" class="imagenes" /> </td>
+							  {else}
+							       {if $item==1}
+								       <td align="center"> <img src="../../templates/imagenes/existe.gif" class="imagenes" /> </td>
+								   {else}
+							    		<td align="center"> <img src="../../templates/imagenes/pendiente1.jpg" class="imagenes" /> </td>
+								    {/if}
+							  {/if}
+						 {else}
+						      {if $key == "Observaciones"}
+							      <td><center>
+			
+			<img src="../../templates/imagenes/information.gif" class="imagenes" onMouseOver="ajax_showTooltip('../../controladores/sistema_de_produccion/ver_tool_tip.php?funcion=ordenprod&elegido={$detalles}&orden_id={$cabecera.codigo}',this);return false" onMouseOut="ajax_hideTooltip()"  onKeyPress="ajax_hideTooltip()" style="border:none;" />
+				
+                  
+
+				</center>
+				</td>
+							  {else}
+						     <td> {$item} </td>
+							 {/if}
+						 {/if}
+					{/if}
+					{/if}
+				{/if}
+			{/foreach}	
+			      
+				</tr>
+			{/foreach}
+	  </table><br>
+      <table align="center">
+	     <tr>
+		  <td class="lista-sin-despiece"> Sin despiece </td>
+		  <td align="center"> <img src="../../templates/imagenes/eliminar.gif" class="imagenes" /> </td>
+		 </tr>
+		  <tr>
+		  <td class="lista-normal"> Con despiece </td>
+		  <td align="center"> <img src="../../templates/imagenes/existe.gif" class="imagenes" /> </td>
+		 </tr>
+		 <tr>
+		  <td class="lista-pendiente"> Despiece similar asignado(sin modificar) </td>
+		  <td align="center"> <img src="../../templates/imagenes/pendiente1.jpg" class="imagenes" /> 
+		 </tr>
+	  </table>
+	   <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font class="enunciados"> Observaciones: </font> <font style="font-size:10px" > {$cabecera.observaciones} </font>
+<br/>
+<br/>
+{if $contador==0}
+<center> 
+		<button name="boton_impresion" value="Resumen_despiece" title="Ver resumen" class="button1" onclick="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/modificar_despiece.php?orden_id={$orden_id}&funcion=ver_despiece&fecha=si')">
+		Ver Resumen
+		</button>
+</center>
+
+	<center> 
+		<button name="boton_impresion" value="Resumen_despiece" title="Resumen_despiece" class="button1" onclick="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/modificar_despiece.php?orden_id={$orden_id}&funcion=resumen_despiece&fecha=si');redirect('../../controladores/sistema_de_produccion/ver_ordenes_despiece.php?elegido={$orden_id}&funcion=detalle')">
+		Resumen Despiece
+		</button><img src="../../templates/imagenes/fileprint.gif" width="30" height="30" />
+	</center>
+{else}
+	<center>
+		<button name="boton_impresion" value="parcial_despiece" title="Resumen_despiece" class="button1" onclick="javascript:PantallaCompleta('../../controladores/sistema_de_produccion/modificar_despiece.php?orden_id={$orden_id}&funcion=parcial_despiece')">
+		Despiece Parcial
+		</button><img src="../../templates/imagenes/fileprint.gif" width="30" height="30" />
+	</center>
+{/if}
+<br />
+<br />
+
+{/if}

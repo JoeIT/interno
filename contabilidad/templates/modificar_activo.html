@@ -1,0 +1,387 @@
+{include file="cabecera.html"} <br/>
+{literal}
+
+<script language="javascript">
+/*function actualizar (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor+'?'+clave+'='+$F(combo), { 
+	  method: 'get', 
+	   
+	});
+
+//alert (paginaservidor+'?'+clave+'='+$F(combo)+' - ' + secundaria.innerHTML);
+}
+*/
+function actualizar (paginaservidor, combo, lista, clave){
+	new Ajax.Updater(lista, paginaservidor+'?'+clave+'='+$F(combo), { 
+	  method: 'get'	});
+}
+
+function correlativo (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { cuenta: $F(combo)} 
+});
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}
+/*function actualizar (paginaservidor,combo,lista,clave){
+
+new Ajax.Updater(lista, paginaservidor, { 
+  method: 'get', 
+  parameters: { primaria: $F(combo)} 
+});
+
+//alert (paginaservidor+" "+combo+" "+lista+" "+$(combo).value);
+}*/
+</script>
+{/literal}
+<form name="orden" method="get" action="../controladores/modificar_activo.php"  align="center">
+ 
+ <div align="center">Modificar  activos </div> 
+ 
+ <div align="center">
+<fieldset style="width:95%;">
+<legend style="color:#6699CC">Localizacion y Responsable </legend><br />
+
+<table width="100%" border="0" cellspacing="3" cellpadding="0">
+
+	 {if $errores.err_confirm != null }
+  
+    <tr>
+		<td></td>
+		
+		
+      <td class="error-box" colspan="2"> {$errores.err_confirm} </td>
+    </tr>
+  {/if}
+  
+  
+  
+
+	{if $errores.err_nombre != null &&  $errores.err_pri != null}
+	<tr>	
+		<td colspan="2" class="error-box" >{$errores.err_pri}</td>
+		<td class="error-box" colspan="2">{$errores.err_nombre}</td>
+		
+	</tr>
+	
+	{elseif $errores.err_nombre != null} 
+ 	<tr>	
+		<td colspan="2" ></td>
+		<td class="error-box" colspan="2">{$errores.err_nombre}</td>
+		
+	</tr>
+  	
+  {elseif $errores.err_pri != null} 
+ 	<tr>	
+		<td colspan="2" class="error-box" >{$errores.err_pri}</td>
+		<td colspan="2"></td>
+		
+	</tr>
+  	{/if}
+    <td width="12%" class="enunciados" ><div align="left" >Primaria:</div></td>
+    <td width="25%"><div id="primaria">
+      <select name="pri" id="pri2" onchange="actualizar ('combo1.php','pri2','secundaria','primaria')" >
+     {if $si}
+	   <option value="{$detalle.primaria_id}">{$detalle.despri}</option>
+        
+	   {/if}      	    	  		
+  {foreach item=item from=$primaria}	 
+	       
+      <option value="{$item.primaria_id}">{$item.descripcion}</option>
+          	    	
+	  
+	{/foreach}	
+    
+    </select>
+
+    </div></td>
+     <td width="13%" class="enunciados"><div align="left">Responsable:</div></td>
+    <td width="50%" class="body-sector"  >
+	<div align="left" class="entrada" style="margin:5px; border:none">
+	 <span class="entrada" style="margin:5px; border:none">
+	 	<span class="entrada" style="margin:5px;">
+
+		 <input type="text" name="nombre_asis2" id="nombre_asis2" style="border:none;"  onkeypress="return handleEnter(this, event)" value="{$nombre_asis2}" size="40"/>
+        </span>
+	</span>
+            <input type="hidden" name="resp_id2" id="resp_id2"  value="{$resp_id}" />
+            <img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="{literal}document.getElementById('nombre_asis2').focus();document.getElementById('nombre_asis2').select();{/literal}" style="cursor:pointer;" alt="Seleccionar Nombre"/></div>
+        <span id="spinner" style="display:none"> </span>
+        <div id="lista_nombres_asis" class="autorelleno"></div>
+      {literal}
+      <script>
+			new Ajax.Autocompleter("nombre_asis2", "lista_nombres_asis", "../controladores/activo.php?opcion=busqueda_ajax1", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+			function mostrar_categoria(text,li) {
+				cadena = li.id;
+				//caracteristicas = cadena.split("-");
+				//var str = document.getElementById("nombre_asis").value;
+				document.getElementById("resp_id2").value = cadena;
+				document.getElementById("nombre_asis2").value = str.substr(0)
+			}
+		</script>
+      {/literal}</td>  </tr>
+	  
+  
+  {if $errores.err_sec != null && $errores.err_nombre1!= null}
+  <tr>
+  	<td class="error-box" colspan="2">{$errores.err_sec} </td>	
+	<td class="error-box" colspan="2">{$errores.err_nombre1}  </td>
+  </tr>
+ 
+ {elseif $errores.err_sec != null} 
+ 	<tr>	
+		<td class="error-box" colspan="2">{$errores.err_sec}</td>
+		<td colspan="2" ></td>
+				
+	</tr>
+  	
+  {elseif $errores.err_nombre1!= null} 
+ 	<tr>	
+		<td colspan="2"></td>
+		<td colspan="2" class="error-box" >{$errores.err_nombre1}</td>
+	</tr>
+  	{/if}
+ 
+ 
+  <tr>
+    <td class="enunciados" ><div align="left">Secundaria:</div></td>
+    <td> <div id="secundaria" ><select name="secun" id="select"  >
+        <option value="{$detalle.secundaria_id}">{$detalle.dessec}</option>
+		{foreach item=item from=$secundaria}	 
+	   		      
+            
+      <option value="{$item.secundaria_id}">{$item.descripcion}</option>
+                      	    	   
+	  
+	{/foreach}	
+  
+				
+      </select>
+</div></td>
+   <td class="enunciados" ><div align="left">Asignado:</div></td>
+    <td  class="body-sector" >
+	<div align="left" class="entrada" style="margin:5px; border:none" > 
+	<span class="entrada" style="margin:5px; border:none">
+	<span class="entrada" style="margin:5px;">
+     	
+			 <input type="text" name="nombre_asis" id="nombre_asis" style="border:none;"  onkeypress="return handleEnter(this, event)" value="{$nombre_asis}" size="40"/>
+        </span></span>
+            <input type="hidden" name="resp_id" id="resp_id"  value="{$resp_id}" />
+			
+            <img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="{literal}document.getElementById('nombre_asis').focus();document.getElementById('nombre_asis').select();{/literal}" style="cursor:pointer;" alt="Seleccionar Nombre"/></div>
+        <span id="spinner" style="display:none"> </span>
+        <div id="lista_nombres_asis" class="autorelleno"></div>
+      {literal}
+      <script>
+			new Ajax.Autocompleter("nombre_asis", "lista_nombres_asis", "../controladores/activo.php?opcion=busqueda_ajax1", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria});
+			function mostrar_categoria(text,li) {
+				cadena = li.id;
+				//caracteristicas = cadena.split("-");
+				//var str = document.getElementById("nombre_asis").value;
+				document.getElementById("resp_id").value = cadena;
+				document.getElementById("nombre_asis").value = str.substr(0)
+			}
+		</script>
+      {/literal} </td>
+  </tr>
+  {if $errores.err_gru != null }
+   <tr>
+    <td colspan="2" class="error-box">{$errores.err_gru} </td>
+	
+	<td colspan="2"> </td>
+  </tr>
+  {/if}
+  <tr>
+    <td height="42" class="enunciados"><div align="left">Cuenta:</div></td>
+    <td>
+     <select name="gru" id="sec"  >
+      <option value="{$detalle.grupo_id}">{$detalle.desgru}</option>
+      
+      
+  {foreach item=item from=$grupo}	 
+	   
+      		
+        
+      
+      
+      <option value="{$item.grupo_id}">{$item.descripcion}</option>
+      
+      
+      
+        
+         	    	   
+	  
+	{/foreach}	
+  
+      
+    
+    
+    </select>
+    </td>
+    <td><div align="left"></div></td>
+    <td class="body-sector" ><div id="mainContent"> <a  href="javascript:ventanaSecundaria ('responsable.php?popup=true')"> registrar responsable </a> </div></td>
+  </tr>
+</table>
+<br />
+
+</fieldset>
+</div>
+
+<br />
+
+<div align="center">
+<fieldset style="width:95%">
+<legend style="color:#6699CC">Activo</legend>
+<input type="hidden" name="funcion" value="validar" />
+<input type="hidden" name="act_id" value="{$detalle.act_id}" />
+<table width="100%" border="0" cellspacing="3" cellpadding="0">
+  <tr>
+    <td class="enunciados"><div align="left">N Correlativo</div></td>
+    <td>
+	 
+	   <input type="text" name="num_corr" value="{$detalle.num_act}" />	</td>
+    <td class="enunciados"><div align="left">Fecha</div></td>
+	
+    <td><input type="text" name="fecha"  value="{$detalle.fecha}"/></td>
+    <td class="enunciados"><div align="left">Dolar $</div></td>
+    <td class="body-sector">
+	  
+      <input type="text" name="tipo" size="12" value="{$detalle.tipo_cambio}"/></td>
+  </tr>
+  <tr>
+    <td class="enunciados"><div align="left">Cantidad</div></td>
+    <td><input type="text" name="cantidad"  value="1" size="12"/></td>
+    <td class="enunciados"><div align="left">Unidad</div></td>
+    <td><select name="unidad" id="select" >
+      <option value="">seleccionar</option>
+      <option value="Pza">Pza</option>
+      <option value="GLB">GLB</option>
+      <option value="Juego">Juego</option>
+    </select></td>
+    <td class="enunciados"><div align="left">UFV</div></td>
+	
+    <td class="body-sector" >
+	
+	  <input type="text" name="ufv"  size="12" value="{$detalle.ufv}"/></td>
+  </tr>
+  <tr>
+  <td height="19"></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td align="left" class="body-sector"><div align="left"><a href="javascript:ventanaSecundaria ('tipo_cambio.php?popup=true')">Ingresar T/C </a></div></td>
+  </tr>
+   {if $errores.err_adqui != null && $errores.err_vida != null }
+  <tr>
+  	<td class="error-box" colspan="2">{$errores.err_adqui} </td>	
+	<td colspan="2"> </td>
+	<td class="error-box" colspan="2"><div align="left">{$errores.err_vida}</div></td>
+  </tr>
+  
+   {elseif $errores.err_adqui != null }
+  <tr>
+  	<td class="error-box" colspan="2">{$errores.err_adqui} </td>	
+	<td colspan="2"> </td>
+	<td colspan="2"><div align="left"></div></td>
+  </tr>
+   {elseif $errores.err_vida != null }
+  <tr>
+  	
+	<td height="23" colspan="2"> </td>
+	<td colspan="2"></td>
+	<td class="error-box" colspan="2"><div align="left">{$errores.err_vida} </div></td>	
+  </tr>
+  {/if}
+  
+  
+  <tr>
+    <td class="enunciados"><div align="left">Adquisicion</div></td>
+    <td><select name="adqui" id="ad" >
+		 
+		<option value="selc">Seleccionar</option>  
+			
+	
+  {foreach item=item from=$adqui}	       
+        
+     
+      <option value="{$item.ad_id}" {if $ad.ad_id==$item.ad_id}selected="selected"{/if} >{$item.nombre}</option>
+ 
+	  
+	{/foreach}	 
+  
+    </select> </td>
+    <td class="enunciados"><div align="left">Serie</div></td>
+    <td ><input type="text" name="serie"  size="12" value="{$detalle.serie}"/></td>
+    <td class="enunciados"><div align="left">Vida Util (meses) </div></td>
+    <td><input type="text" name="vida_util"  size="12" value="{$detalle.vida_util}"/></td>
+  </tr>
+    
+  {if $errores.descripcion != null && $errores.err_valor != null}
+  <tr>
+  	<td class="error-box" colspan="2">{$errores.descripcion} </td>	
+	<td></td>
+	<td></td>
+	<td colspan="2" class="error-box" ><div align="left">{$errores.err_valor }</div></td>
+  </tr>
+ 
+ {elseif $errores.descripcion != null } 
+ 	<tr>
+	    <td class="error-box" colspan="2">{$errores.descripcion} </td>
+	    <td ></td>	
+	    <td ></td>
+		<td ><div align="left"></div></td>
+	</tr>
+	
+  	{elseif $errores.err_valor != null}
+	<tr>	
+		<td ></td>
+	    <td ></td>	
+	    <td ></td>
+		<td ></td>
+		
+		<td colspan="2" class="error-box" ><div align="left">{$errores.err_valor}</div></td>
+	</tr>
+	
+  	{/if}
+ 
+  <tr>
+    <td rowspan="3" class="enunciados"><div align="left">Descripcion</div></td>
+    <td colspan="3" rowspan="3"><textarea name="descripcion" cols="35" rows="4">{$detalle.desact}</textarea></td>
+    <td class="enunciados" ><div align="left">Valor Compra(Bs)</div></td>
+    <td><input type="text" name="valor"  size="12" value="{$detalle.valor_compra}"/></td>
+  </tr>
+  {if $errores.err_residual != null}
+    <tr>
+      <td colspan="2" class="error-box" ><div align="left">{$errores.err_residual}</div></td>
+      </tr>
+	
+	{/if}
+	<tr>
+      <td class="enunciados"><div lign="left">
+        <div align="left">Valor Residual(Bs)</div>
+      </div></td>
+      <td><input type="text" name="residual"  size="12" value="{$detalle.valor_residual}"/></td>
+      </tr>
+  <tr>  </tr>
+</table>
+
+</fieldset>
+</div>
+
+<center>
+  <table width="95%" border="0" cellspacing="2" cellpadding="0">
+    <tr>{foreach item=item from=$foto}
+      <td width="6%"><img src="personal_resizeImage.php?max=150&amp;imgorig=../controladores/UploadedFiles/{$item.fotografia}" alt="{$item.fotografia}" name="imagen_fotografia" border="1" align="middle" id="imagen_fotografia"/>
+            <input type="hidden" name="foto" value="{$item.fotografia}" /></td>
+      {/foreach}
+      <td width="94%">&nbsp;</td>
+    </tr>
+  </table>
+  <br>
+  <input type="submit" value="Modificar Activo" name="modificar_activo" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'" />
+</center>
+</form>
+</body>

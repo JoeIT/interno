@@ -1,0 +1,158 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}	 
+<br  />
+ <table align="center" width="95%">
+         <tr >
+		   <th colspan="4"> Detalle del producto seleccionado </th>
+		 </tr>
+          <tr>
+		      <td class="enunciados">  Producto :  </td> <td class="body-sector">{$cabecera.Modelo} </td>
+			  <td class="enunciados">  Estilo:   </td> <td colspan="2" class="body-sector">{$cabecera.Estilo} </td>
+		  </tr>
+		  <tr>
+		       <td class="enunciados"> Color :   </td> <td class="body-sector"> {$cabecera.Color}  </td>
+			  
+ 		       <td class="enunciados"> Clip:  </td> <td class="body-sector"> {$cabecera.Clip}</td>
+		  </tr>	    
+		 <tr>
+		        <td class="enunciados"> Sello:   </td> <td class="body-sector"> {$cabecera.Sello}  </td>
+			  
+ 		       <td class="enunciados"> Etiqueta:  </td> <td class="body-sector"> {$cabecera.Etiqueta}</td>
+		 </tr>	
+		 <tr>
+		        <th colspan="4"> Datos material seleccionado </th>
+		 </tr>
+		 <tr>
+		          <td class="enunciados"> Descripcion:  </td> <td class="body-sector">{$datos_materiales.nombre}-{$datos_materiales.descripcion} </td>
+		</tr>
+				  <td class="enunciados"> Dimensiones:  </td> <td class="body-sector">{$datos_materiales.largo}x{$datos_materiales.ancho} </td>
+				  <td class="enunciados"> Unidad:  </td> <td class="body-sector">{$datos_materiales.unidad} </td>
+		 </tr>
+    </table>
+ </p>
+ 	
+	<form name="volver" id="volver" action="../../controladores/sistema_de_produccion/modificar_despiece.php" method="get">
+		    <input type="hidden" name="orden_id" id="orden_id" value="{$orden_id}">
+  			 <input type="hidden" name="detalle_id" id="detalle_id" value="{$detalle_id}">
+			 <input type="hidden" name="material_id"  value="{$material_id}">
+  			 <input type="hidden" name="funcion" id="funcion" value="volver">
+		<center>	<input name="volver" type="submit" value="Volver a materiales" class="button1" />  </center>
+		</form> 
+
+<form name="agregar_pieza_material" method="get" action="../../controladores/sistema_de_produccion/modificar_despiece.php"  align="center" id="agregar_pieza_material">
+	 <input type="hidden" name="orden_id"  value="{$orden_id}">
+     <input type="hidden" name="detalle_id"  value="{$detalle_id}">
+	 <input type="hidden" name="material_id"  value="{$material_id}">
+	 <input type="hidden" name="funcion"  value="registrar_pieza_material" id="funcion">
+    <table width="95%" border="0" align="center">
+	<tr>
+	<th colspan="3">
+		Agregar Pieza
+</th>
+</tr>
+	 {if $errores.err_texto_posicion != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_posicion} </td>
+	  </tr>
+     {/if}
+	  <tr>
+	    <td class="enunciados" >Pieza :</td>
+	    <td colspan="2"><input name="texto_posicion" type="text" id="posicion" value="{$posicion}" tabindex="1" size="50" /><a  href="javascript:ventanaSecundaria ('registrar_posicion.php')"> registrar posicion</a>
+        <span id="spinner" style="display: none"> <img src="../../templates/imagenes/spinner.gif" alt="Consultando…" /> </span>
+        <div id="lista_posiciones" class="autorelleno"> </div>
+      {literal}
+      <script>
+					new Ajax.Autocompleter("posicion", "lista_posiciones", "../../controladores/sistema_de_produccion/modificar_despiece.php?busqueda_ajax=posiciones", {method:"post", paramName: "value", minChars: 1, indicator: "spinner", afterUpdateElement : cambiar_casilla_pieza});
+								
+		</script>
+      {/literal} </td>
+	 
+  </tr>
+  {if $errores.err_texto_largo != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_largo} </td>
+	  </tr>
+     {/if}
+      <tr>
+		      <td class="enunciados">  Largo :  </td> <td class="body-sector"> <input type="text" name="texto_largo" id="texto_largo" tabindex="2" value="{$largo}" onkeypress="return handleEnter(this, event)"/> </td>
+	 </tr>
+	  {if $errores.err_texto_ancho != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_ancho} </td>
+	  </tr>
+     {/if}
+	 <tr>
+			  <td class="enunciados">  Ancho:   </td> <td class="body-sector"> <input type="text" name="texto_ancho" id="texto_ancho" tabindex="3" value="{$ancho}" onkeypress="return handleEnter(this, event)"/> </td>
+		  </tr>
+	<tr>
+	 {if $errores.err_texto_cantidad != null }
+	  <tr> 
+    	<td colspan="2" align="center" class="error-box"> {$errores.err_texto_cantidad} </td>
+	  </tr>
+     {/if}
+	<tr>
+			  <td class="enunciados">  Cantidad:   </td> <td class="body-sector"> <input type="text" name="texto_cantidad" id="texto_cantidad" tabindex="4"value="{$cantidad}" onkeypress="return handleEnter(this, event)"/> </td>
+		  </tr>
+	<tr>
+    <td  colspan="2" align="center"><input name="submit" type="submit" value="Registrar Pieza" class="enviar"  tabindex="5"/>    </td>
+  </tr>
+    </table>
+</form>	
+
+ 
+ {if $lista_piezas !=null}
+   <form name="modificar_despiece_piezas_material" method="get" action="../../controladores/sistema_de_produccion/modificar_despiece.php"  align="center" id="modificar_despiece_piezas_material">
+   <input type="hidden" name="orden_id"  value="{$orden_id}">
+   <input type="hidden" name="detalle_id"  value="{$detalle_id}">
+   <input type="hidden" name="material_id"  value="{$material_id}">
+   <input type="hidden" name="funcion" id="funcion">
+   <input type="hidden" name="elegido" id="elegido">
+   <table align="center" width="95%">
+  		<tr>
+    		{foreach name=cabezera key=key item=item from=$lista_piezas[0]}
+			 {if $key!="componente_id" and $key!="pieza_id"}
+		     <th class="cabeceralista"><center>{$key|upper}</center></th>
+			 {/if}
+			{/foreach} 
+			<th class="cabeceralista"><center>MODIFICAR</center></th>
+			<th class="cabeceralista"><center>ELIMINAR</center></th>
+			<th class="cabeceralista"><center>MODIFICAR MATERIAL</center></th>
+	  		</tr>
+   			{foreach name=contenido item=detalles from=$lista_piezas}
+    	   <tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+			{foreach key=key item=item from=$detalles}
+	    		{if $key == "componente_id"}
+	   	  			{assign var=componente_id value=$item}
+	    		
+				{else}
+				  {if $key != "pieza_id" }
+				    	<td><center> {$item} </center> </td>
+				   {/if}
+				{/if}
+			{/foreach}	
+			 <td><center>
+			 <a href="../../controladores/sistema_de_produccion/modificar_despiece.php?funcion=modificar_datos_pieza&elegido={$componente_id}&orden_id={$orden_id}&detalle_id={$detalle_id}&material_id={$material_id}" name="{$material_id}" id="{$material_id}"> <img src="../../templates/imagenes/modificar.gif" class="imagenes" /> </a> 
+			 
+                 
+
+				</center>
+				</td>
+				<td><center>
+				<a href="../../controladores/sistema_de_produccion/modificar_despiece.php?funcion=eliminar_pieza_material&elegido={$componente_id}&orden_id={$orden_id}&detalle_id={$detalle_id}&material_id={$material_id}" name="{$material_id}" id="{$material_id}"> <img src="../../templates/imagenes/eliminar.gif" class="imagenes" /> </a> 
+                   
+
+				</center>
+				</td>
+			    <td><center>
+				<a href="../../controladores/sistema_de_produccion/modificar_despiece.php?funcion=modificar_material_pieza&elegido={$componente_id}&orden_id={$orden_id}&detalle_id={$detalle_id}&material_id={$material_id}" name="{$material_id}" id="{$material_id}"> <img src="../../templates/imagenes/cambiomateriales.gif" class="imagenes" /> </a> 
+                   
+
+				</center>
+				</td>
+			</tr>
+			
+			{/foreach}
+		</table><br>
+		</form>
+ 
+
+	{/if}

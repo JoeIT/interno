@@ -1,0 +1,41 @@
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="1" style="empty-cells:show;">
+  <tr>
+    <th colspan="6">Detalle de asignaci&oacute;n</th>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">N&deg;. de Asignaci&oacute;n:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;font-weight:bold;">{$detalle_asignacion.asignacion}</td>
+    <td class="enunciados" style="text-align:right;">Maquinista:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.completo}</td>
+    <td class="enunciados" style="text-align:right;">O.P. # CUP:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.cup}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Cantidad:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.cantidad}</td>
+    <td class="enunciados" style="text-align:right;">Tipo:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.tipo}</td>
+    <td class="enunciados" style="text-align:right;">Modelo:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.modelo}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Color:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.color}</td>
+    <td class="enunciados" style="text-align:right;">Clip:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.clip}</td>
+    <td class="enunciados" style="text-align:right;">Cuero:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.cuero}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Fecha Inicio:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.fini}</td>
+    <td class="enunciados" style="text-align:right;">Fecha Finalizaci&oacute;n:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$detalle_asignacion.ffin}</td>
+    <td class="enunciados" style="text-align:right;">Fecha Reprog.:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">
+	{if $detalle_asignacion.frep != "0000:00:00"}
+		{$detalle_asignacion.frep}
+	{/if}
+	</td>
+  </tr>
+</table>

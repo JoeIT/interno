@@ -1,0 +1,160 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+<script language="javascript">
+function comprobar_envio(){
+	if (confirm('Esta seguro de realizar la recepcion de producción?'))
+		return true;
+	else
+		return false;
+}
+</script>
+<script>
+function tabuladores(nombre, tab, tit){
+	document.getElementById("plimpieza").style.display = "none";
+	document.getElementById("pcalidad").style.display = "none";
+	document.getElementById("prechazos").style.display = "none";
+	document.getElementById("parreglos").style.display = "none";
+	document.getElementById("pcerrado").style.display = "none";
+
+	document.getElementById("limpieza").className = "noseleccionado";
+	document.getElementById("calidad").className = "noseleccionado";
+	document.getElementById("rechazos").className = "noseleccionado";
+	document.getElementById("arreglos").className = "noseleccionado";
+	document.getElementById("cerrado").className = "noseleccionado";
+
+	document.getElementById("tlimpieza").className = "titulo_no";
+	document.getElementById("tcalidad").className = "titulo_no";
+	document.getElementById("trechazos").className = "titulo_no";
+	document.getElementById("tarreglos").className = "titulo_no";
+	document.getElementById("tcerrado").className = "titulo_no";
+
+	document.getElementById(nombre).style.display = "block";
+	document.getElementById(tab).className = "seleccionado";
+	document.getElementById(tit).className = "titulo";
+}
+
+</script>
+{/literal} <br />
+<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <th>Asignaciones para el control de calidad</th>
+  </tr>
+  <tr>
+    <td>
+	<!-- aqui se detallan los contenidos-->
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <form action="../../controladores/sistema_de_produccion/calidad_control.php" method="post" name="buscar" id="buscar">
+          {if $errores.num_asignacion != null}
+          <tr>
+            <td/>
+            <td style="padding-left:3px;"><div class="error-box">{$errores.num_asignacion}</div></td>
+          </tr>
+          {/if}
+          <tr>
+            <td width="50%" class="enunciados">Ingrese N&uacute;mero de Asignaci&oacute;n:</td>
+            <td class="body-sector" style="padding:3px;">
+				<div align="left" class="entrada">
+					<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+					<input type="text" name="num_asignacion" id="num_asignacion" value="{$num_asignacion}" onkeypress="return handleEnter(this, event)" style="border:none;"/>
+				</div>
+			</td>
+          </tr>
+          <tr>
+            <td style="padding:10px;text-align:center;"><input name="buscar" type="submit" value="Realizar B&uacute;squeda" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+            </td>
+            <td style="padding:10px;text-align:center;"><input name="buscar" type="reset" value="Reestablecer B&uacute;squeda" class="boton"/>
+            </td>
+          </tr>
+        </form>
+      </table>
+	</td>
+  </tr>
+</table>
+<!--mostramos si existe el mensaje de error-->
+{if $mensaje != null}
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td><div class="anuncio" align="center"> <img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/> &nbsp;&nbsp;&nbsp;{$mensaje} </div></td>
+  </tr>
+</table>
+{else}
+	{*--Restultados de la busqueda--*}
+	{if $detalle_asignacion != null}
+		{include file="../templates/sistema_de_produccion/control_calidad/resumen_asignacion.html"}
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+  <tr>
+    <td><div id="limpieza"> <a href="../../controladores/sistema_de_produccion/calidad_control.php?opcion=2&tabu=1" id="tlimpieza" >Limpieza</a> </div></td>
+    <td><div id="calidad"> <a href="../../controladores/sistema_de_produccion/calidad_control.php?opcion=2&tabu=2" id="tcalidad" >Calidad</a> </div></td>
+    <td><div id="rechazos"> <a href="../../controladores/sistema_de_produccion/registrar_rechazo.php?funcion=detalle&num_asignacion={$detalle_asignacion.asignacion}" id="trechazos" >Rechazos</a> </div></td>
+    <td><div id="arreglos"> <a href="../../controladores/sistema_de_produccion/registrar_confirmacion_arreglo.php?funcion=detalle&num_asignacion={$detalle_asignacion.asignacion}" id="tarreglos" >Arreglos</a> </div></td>
+    <td><div id="cerrado"> <a href="../../controladores/sistema_de_produccion/cerrado.php?tabu=6" id="tcerrado" >Cerrado</a> </div></td>
+  </tr>
+  <tr>
+    <td colspan="5"><!-- aqui se detallan los contenidos-->
+      <div id="plimpieza" style="display:none;">
+        <div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/limpieza.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Limpieza</div>
+        <br />
+        {include file="../templates/sistema_de_produccion/control_calidad/formulario_limpieza.html"} </div>
+      <div id="pcalidad" style="display:none;">
+        <div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/calidad.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Control de Calidad</div>
+        <br />
+        {include file="../templates/sistema_de_produccion/control_calidad/formulario_calidad.html"} </div>
+      <div id="prechazos" style="display:none;">
+        <div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/rechazos.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Rechazos</div>
+        {include file="../templates/sistema_de_produccion/control_calidad/formulario_rechazos.html"} </div>
+      <div id="parreglos" style="display:none;">
+        <div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/arreglos.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Asignaciones para Arreglos</div>
+        {include file="../templates/sistema_de_produccion/control_calidad/formulario_arreglos.html"} </div>
+      <div id="pcerrado" style="display:none;">
+        <div class="anuncio" align="center" style="font-size:18px;font-weight:bold;"><img src="../../templates/imagenes/cerrar.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;Cerrado de la Asignaci&oacute;n</div>
+		{include file="../templates/sistema_de_produccion/control_calidad/formulario_cerrado.html"}
+      </div>
+	</td>
+  </tr>
+</table>
+		{*--Inicio de Javascript--*}
+		<br />
+		{if $tabu eq "6"}
+			{literal}
+			<script>
+				tabuladores("pcerrado", "cerrado", "tcerrado");
+			</script>
+			{/literal}
+		{else}
+			{if $tabu eq "4"}
+				{literal}
+				<script>
+					tabuladores("parreglos", "arreglos", "tarreglos");
+				</script>
+				{/literal}
+			{else}
+				{if $tabu eq "3"}
+					{literal}
+					<script>
+						tabuladores("prechazos", "rechazos", "trechazos");
+					</script>
+					{/literal}
+				{else}
+					{if $tabu eq "2"}
+						{literal}
+						<script>
+							tabuladores("pcalidad", "calidad", "tcalidad");
+						</script>
+						{/literal}
+					{else}
+						{if $tabu eq "1"}
+							{literal}
+							<script>
+								tabuladores("plimpieza", "limpieza", "tlimpieza");
+							</script>
+							{/literal}
+						{/if}
+					{/if}
+				{/if}
+			{/if}
+		{/if}
+		{*--Fin de Javascript--*}
+	{/if}
+	{*--Fin Restultados de la busqueda--*}
+{/if} 

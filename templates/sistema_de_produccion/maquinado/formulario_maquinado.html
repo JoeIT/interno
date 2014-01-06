@@ -1,0 +1,94 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+
+<table width="90%" border="0" align="center" cellpadding="3" cellspacing="3">
+<form action="../../controladores/sistema_de_produccion/maquinado.php" method="post" name="maquinado" id="maquinado">
+  <tr>
+	<th colspan="4">
+		Generar reporte maquinado
+	</th>
+  </tr>
+
+  {if $error.fecha != null}
+  <tr>
+	<td colspan="4">
+	  <div class="error-box" style="width:100%;">{$error.fecha}</div>
+	</td>
+  </tr>
+  {/if}
+
+  <tr>
+	<td class="enunciados">
+	  Fecha Inicio:
+	</td>
+	<td class="body-sector">
+	  <span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+		<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+		<input type="text" name="fecha_inicio" id="fecha_inicio" value="{$fecha_inicio}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+	  </span>
+	  <input type="button" name="b_fecha_inicio" id="b_fecha_inicio" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)">
+	  {literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fecha_inicio", ifFormat:"%Y-%m-%d",button:"b_fecha_inicio"});</script>
+	  {/literal}
+	</td>
+	<td class="enunciados">
+	  Fecha Fin:
+	</td>
+	<td class="body-sector">
+	  <span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+		<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+		<input type="text" name="fecha_fin" id="fecha_fin" value="{$fecha_fin}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+	  </span>
+	  <input type="button" name="b_fecha_fin" id="b_fecha_fin" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)">
+	  {literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fecha_fin", ifFormat:"%Y-%m-%d",button:"b_fecha_fin"});</script>
+	  {/literal}
+	</td>
+  </tr>
+  <tr>
+	<td colspan="4" style="padding:10px;text-align:center;">
+		<input type="submit" name="generar" value="Generar Reportes" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+	</td>
+  </tr>
+</form>
+</table>
+
+<table width="60%" border="0" align="center" cellpadding="3" cellspacing="3">
+{if $corte != null}
+	<tr>
+		<td class="enunciados">Corte</td>
+		<td class="lista-seleccionada"><a href="../../reportes/maquinado/{$corte}.xls">{$corte}</a></td>
+	</tr>
+{/if}
+
+{if $dividido != null}
+	<tr>
+		<td class="enunciados">Dividido</td>
+		<td class="lista-normal"><a href="../../reportes/maquinado/{$dividido}.xls">{$dividido}</a></td>
+	</tr>
+{/if}
+
+{if $desbaste != null}
+	<tr>
+		<td class="enunciados">Desbaste</td>
+		<td class="lista-seleccionada"><a href="../../reportes/maquinado/{$desbaste}.xls">{$desbaste}</a></td>
+	</tr>
+{/if}
+
+{if $sellado != null}
+	<tr>
+		<td class="enunciados">Sellado</td>
+		<td class="lista-normal"><a href="../../reportes/maquinado/{$sellado}.xls">{$sellado}</a></td>
+	</tr>
+{/if}
+
+{if $planchado != null}
+	<tr>
+		<td class="enunciados">Planchado</td>
+		<td class="lista-seleccionada"><a href="../../reportes/maquinado/{$planchado}.xls">{$planchado}</a></td>
+	</tr>
+{/if}
+</table>
+
+<br />
+<br />

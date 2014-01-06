@@ -1,0 +1,94 @@
+<head>
+      
+      {include file="../templates/sistema_de_produccion/cabecera.html"} 
+   
+	  {literal}
+			<SCRIPT LANGUAGE="JavaScript">
+			function consultar(nombre,opcion)
+			{
+				if(opcion=="eliminar")
+				{
+					if(confirm("Esta seguro que desea eliminar el clip: " + nombre ))
+					{
+						document.form_lista.elegido.value=nombre;
+						document.form_lista.funcion.value=opcion;
+						document.form_lista.submit();
+					}
+					else
+					{
+						document.form_lista.funcion.value="index";
+						
+					} 
+				}
+				else
+				{
+					document.form_lista.elegido.value=nombre;
+					document.form_lista.funcion.value=opcion;
+					document.form_lista.submit();
+				}
+			}
+			</SCRIPT>
+	 {/literal}
+</head>
+<body>
+<p align="center"><a class="link-menu" href="../../controladores/sistema_de_produccion/registrar_clip.php?popup=false"><img src="../../templates/imagenes/clip.gif" class="imagen-menu"><br>Nuevo</a></p>				 
+
+		<form  name="form_lista" method="post" action="../../controladores/sistema_de_produccion/lista_clip.php">
+		<input type="hidden" name="elegido">
+        <input type="hidden" name="funcion">	     
+   <table width="100%">
+   		
+		<tr>
+			<td width="80%">
+	             
+	             <table align="center" >
+					<th colspan="5">
+						Lista de Clips
+					</th>
+  					<tr>
+				 		<td class="enunciados" style="width:70px;"><center> CODIGO  </center></td>
+						<td class="enunciados" style="width:200px;"><center> DESCRIPCION  </center></td>
+				     	 <td class="enunciados" style="width:70px;"><center> MODIFICAR  </center></td>
+						 <td class="enunciados" style="width:70px;"><center> ELIMINAR  </center></td>
+						 <td class="enunciados" style="width:10px;"></td>
+			   		</tr>
+				</table>
+				</td>
+				</tr>
+				<tr><td>
+				<div style="height:20em; overflow:auto; position:absolute; left: 154px; top: 241px; width: 463px;">
+				<table align="center">
+   					{foreach name=contenido item=clips from=$clip}
+						<tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+							{foreach key=key item=item from=$clips}
+								{if $key == "codigo"}
+									{assign var=usuario value=$item}
+									<td style="width:70px;">{$item}</td>
+								{else}
+									{if $key == "descripcion"}
+										<td style="width:200px;">{$item}</td>
+									{else}
+										<td style="width:70px;">{$item}</td>
+									{/if}
+								{/if}
+							{/foreach}
+							<td style="width:70px;"><center>
+								<INPUT TYPE="image" SRC="../../templates/imagenes/modificar.gif"  width=15 height=15 border=0  name={$usuario} value=modificar onclick=consultar(name,value) >
+								</center>
+							</td>
+							<td style="width:70px;"><center>
+								<INPUT TYPE="image" SRC="../../templates/imagenes/eliminar.gif" width=15 height=15 border=0  name={$usuario} value=eliminar onclick=consultar(name,value)>
+								</center>
+							</td>
+	   					</tr>  
+					{/foreach}
+				</table>
+				</div>
+				<br>
+			    <center>
+	 
+				</td>
+			</tr>
+		</table> 
+			</form> 
+</body>

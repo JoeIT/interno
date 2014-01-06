@@ -1,0 +1,307 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+{literal}
+
+<script>
+function mostrar_categoria_limpieza(objeto)
+{             
+      switch (objeto.id)
+	  {
+	  
+	    case "responsable_maquinista" : {   
+						  var str = document.getElementById("responsable_maquinista").value;
+						  document.getElementById("responsable_maquinista").value = str.substr(5);		
+						  break;
+						  
+		}
+	  
+	  
+	
+       case "responsable_limpieza":
+					  {
+					       var str = document.getElementById("responsable_limpieza").value;
+					 	   document.getElementById("responsable_limpieza").value = str.substr(5);
+						    break;	  
+					  }
+	   case "responsable_diseño":
+					{			  
+					   
+						     	var str = document.getElementById("responsable_diseño").value;
+					  			document.getElementById("responsable_diseño").value = str.substr(5); 
+								break; 
+					}
+		 case "responsable_corte":
+					{				    
+							    
+					       	var str = document.getElementById("responsable_corte").value;
+							document.getElementById("responsable_corte").value = str.substr(5);
+							break;
+							    
+					  }
+						  					  
+}}
+
+</script>
+
+
+
+<script language="javascript">
+function cambiar_listas_responsable()
+{
+    if($F('fallos')== "Corte")
+	{
+	    document.getElementById('div_corte').style.display= 'block';
+		document.getElementById('div_limpieza').style.display= 'none';
+		document.getElementById('div_diseño').style.display= 'none';
+		document.getElementById('div_maquinista').style.display= 'none';
+	}
+	else
+	{
+	      if($F('fallos')== "Maquinista")
+			{
+			    document.getElementById('div_corte').style.display= 'none';
+				document.getElementById('div_limpieza').style.display= 'none';
+				document.getElementById('div_diseño').style.display= 'none';
+				document.getElementById('div_maquinista').style.display= 'block';
+			}
+			else
+			{
+				if($F('fallos')== "Diseño")
+				{
+				    document.getElementById('div_corte').style.display= 'none';
+					document.getElementById('div_limpieza').style.display= 'none';
+					document.getElementById('div_diseño').style.display= 'block';
+					document.getElementById('div_maquinista').style.display= 'none';
+				}	
+				else
+				{
+				   if($F('fallos')== "Limpieza")
+					{
+					    document.getElementById('div_corte').style.display= 'none';
+						document.getElementById('div_limpieza').style.display= 'block';
+						document.getElementById('div_diseño').style.display= 'none';
+						document.getElementById('div_maquinista').style.display= 'none';
+					}	
+				
+				}		    
+			
+			
+			}
+	
+	}
+
+}
+</script>
+{/literal}
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="1" style="empty-cells:show;">
+  <tr>
+    <th colspan="6">Detalle de asignaci&oacute;n</th>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">O.P. # CUP:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.cup}</td>
+    <td class="enunciados" style="text-align:right;">Maquinista:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.completo}</td>
+    <td class="enunciados" style="text-align:right;">Asignaci&oacute;n:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.asignacion}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Modelo:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.modelo}</td>
+    <td class="enunciados" style="text-align:right;">Tipo:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.tipo}</td>
+    <td class="enunciados" style="text-align:right;">Cantidad:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.cantidad}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Color:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.color}</td>
+    <td class="enunciados" style="text-align:right;">Clip:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.clip}</td>
+    <td class="enunciados" style="text-align:right;">Cuero:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.cuero}</td>
+  </tr>
+  <tr>
+    <td class="enunciados" style="text-align:right;">Fecha Inicio:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.fini}</td>
+    <td class="enunciados" style="text-align:right;">Fecha Finalizaci&oacute;n:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">{$resultado_asignacion.ffin}</td>
+    <td class="enunciados" style="text-align:right;">Fecha Reprog.:</td>
+    <td class="lista-normal" style="padding-left:3px;text-align:left;">
+	{if $resultado_asignacion.frep != "0000:00:00"}
+		{$resultado_asignacion.frep}
+	{/if}
+	</td>
+  </tr>
+</table>
+
+<br />
+
+<!--Restultados de la busqueda-->
+{if $resumen_rechazo!= null}
+<form action="../../controladores/sistema_de_produccion/registrar_actualizacion_rechazos.php" method="get" name="actualizacion_rechazo" id="actualizacion_rechazo">
+
+			<table width="70%" border="0" cellspacing="1" cellpadding="3" align="center">
+				<tr>
+					<th colspan="2"> Actualización de rechazo y arreglo </th>
+				</tr>
+				{if $errores.cantidad != null }
+				   <tr>
+				      <td></td>
+				      <td>
+						<div class="error-box">
+							{$errores.cantidad}		</div>		</td>
+				   </tr>
+				{/if}
+				<tr>
+					<td class="enunciados" style="text-align:right;">Cantidad : </td>
+					<td class="lista-seleccionada" style="padding-left:3px;text-align:left;"> 
+					
+					<input name="cantidad" type="text" id="cantidad" value="{$resumen_rechazo.cantidad}" onkeypress="return handleEnter(this, event)"/>					 </td>
+				</tr>
+				<tr>
+				 <td class="enunciados"> Falla en : </td> 
+				 <td class="lista-seleccionada">   
+		 		<SELECT NAME="fallos" SIZE="1" id="fallos" onchange="cambiar_listas_responsable();">
+			 		   <OPTION VALUE="Maquinista" {if $resumen_rechazo.area_responsable == "Maquinista"} Selected {/if}>Maquinista</OPTION>
+					   <OPTION VALUE="Diseño" {if $resumen_rechazo.area_responsable == "Diseño"} Selected {/if}>Diseño</OPTION>
+					   <OPTION VALUE="Corte" {if $resumen_rechazo.area_responsable == "Corte"} Selected {/if}>Corte</OPTION>
+					   <OPTION VALUE="Limpieza" {if $resumen_rechazo.area_responsable == "Limpieza"} Selected {/if}>Limpieza</OPTION>
+				</SELECT>			 </td>
+			 </tr>
+			 {if $errores.responsable_fallo != null }
+				   <tr>
+				      <td></td>
+				      <td>
+						<div class="error-box">
+							{$errores.responsable_fallo}		</div>		</td>
+				   </tr>
+				{/if}
+				<tr>
+					<td class="enunciados" style="text-align:right;">Responsable fallo: </td>
+					<td class="lista-normal" style="padding-left:3px;text-align:left;">
+					<div align="left" class="entrada" style="margin:5px;margin-left:0px; {if $resumen_rechazo.area_responsable == "Maquinista"}  display:block {else} display:none {/if};" id="div_maquinista">
+					<input name="responsable_maquinista" type="text" id="responsable_maquinista" value="{$resumen_rechazo.responsable_fallo}" style="border:none; width:90%" onkeypress="return handleEnter(this, event)"/>
+					<img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.actualizacion_rechazo.responsable_maquinista.focus(); document.actualizacion_rechazo.responsable_maquinista.select();"/>
+					<span id="spinner" style="display: none"></span>
+	        <div id="lista_maquinistas" class="autorelleno"> </div>
+    	  {literal}
+	      <script language="javascript">
+				new Ajax.Autocompleter("responsable_maquinista", "lista_maquinistas", "../../controladores/sistema_de_produccion/registrar_actualizacion_rechazos.php?busqueda_ajax=maquinista&num_asignacion={/literal}{$num_asignacion}{literal}", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner" , afterUpdateElement : mostrar_categoria_limpieza});
+		 </script>
+      {/literal}			</div>
+				<div align="left" class="entrada" style="margin:5px;margin-left:0px;  {if $resumen_rechazo.area_responsable == "Corte"}  display:block{else} display:none{/if};" id="div_corte">
+					<input name="responsable_corte" type="text" id="responsable_corte" value="{$resumen_rechazo.responsable_fallo}" style="border:none; width:90%" onkeypress="return handleEnter(this, event)"/>
+					<img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.actualizacion_rechazo.responsable_corte.focus(); document.actualizacion_rechazo.responsable_corte.select();"/>
+					<span id="spinner" style="display: none"></span>
+	        <div id="lista_cortadores" class="autorelleno"> </div>
+    	  {literal}
+	      <script language="javascript">
+				new Ajax.Autocompleter("responsable_corte", "lista_cortadores", "../../controladores/sistema_de_produccion/registrar_actualizacion_rechazos.php?busqueda_ajax=corte&num_asignacion={/literal}{$num_asignacion}{literal}", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner", afterUpdateElement : mostrar_categoria_limpieza});
+		 </script>
+      {/literal}			</div>	
+			<div align="left" class="entrada" style="margin:5px;margin-left:0px;  {if $resumen_rechazo.area_responsable == "Diseño"}  display:block{else} display:none{/if};" id="div_diseño">
+			
+			  <input name="responsable_dise&ntilde;o" type="text" id="responsable_dise&ntilde;o" value="{$resumen_rechazo.responsable_fallo}" style="border:none; width:90%" onkeypress="return handleEnter(this, event)"/>
+			</span><img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.actualizacion_rechazo.responsable_diseño.focus(); document.actualizacion_rechazo.responsable_diseño.select();"/>
+					<span id="spinner1" style="display: none"></span>
+	        <div id="lista_diseñadores" class="autorelleno"> </div>
+    	  {literal}
+	      <script language="javascript">
+				new Ajax.Autocompleter("responsable_diseño", "lista_diseñadores", "../../controladores/sistema_de_produccion/registrar_actualizacion_rechazos.php?busqueda_ajax=disenio&num_asignacion={$num_asignacion}", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner1" , afterUpdateElement : mostrar_categoria_limpieza});
+		 </script>
+      {/literal}			</div>	
+			<div align="left" class="entrada" style="margin:5px;margin-left:0px;  {if $resumen_rechazo.area_responsable == "Limpieza"}  display:block{else} display:none{/if};" id="div_limpieza">
+					<input name="responsable_limpieza" type="text" id="responsable_limpieza" value="{$resumen_rechazo.responsable_fallo}" style="border:none; width:90%" onkeypress="return handleEnter(this, event)"/>
+					<img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.actualizacion_rechazo.responsable_limpieza.focus(); document.actualizacion_rechazo.responsable_limpieza.select();"/>
+					<span id="spinner" style="display: none"></span>
+	        <div id="lista_limpiadores" class="autorelleno"> </div>
+    	  {literal}
+	      <script language="javascript">
+				new Ajax.Autocompleter("responsable_limpieza", "lista_limpiadores", "../../controladores/sistema_de_produccion/registrar_actualizacion_rechazos.php?busqueda_ajax=limpieza&num_asignacion={/literal}{$num_asignacion}{literal}", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner" , afterUpdateElement : mostrar_categoria_limpieza});
+				
+		 </script>
+      {/literal}			</div>					</td>
+				</tr>
+				{if $errores.descripcion_fallo != null }
+				   <tr>
+				      <td></td>
+				      <td>
+						<div class="error-box">
+							{$errores.descripcion_fallo}		</div>		</td>
+				   </tr>
+				{/if}
+			 <tr>
+	   <td class="enunciados"> Descripcion de fallo: </td> 
+	   <td><textarea name="descripcion_fallo" id="descripcion_fallo"  cols="45" rows="3" tabindex="14" onkeypress="return handleEnter(this, event)" style="overflow-x:hidden;overflow:auto" wrap="virtual">{$resumen_rechazo.descripcion_fallo}</textarea>    </td>
+		</tr>
+		<tr>
+				 <td class="enunciados"> Categoria fallo: </td> 
+				 <td class="lista-seleccionada">   
+		 		<SELECT NAME="categorias" SIZE="1" id="categorias" onchange="document.getElementById('descripcion_categoria').innerHTML= document.actualizacion_rechazo.categorias.options[this.selectedIndex ].lang">
+				        {foreach key=key item=categoria_fallo from=$categoria_fallos}   
+			 		   <OPTION lang="{$categoria_fallo.descripcion_fallo}" VALUE="{$categoria_fallo.clasificacion_fallo_id}" {if $resumen_rechazo.clasificacion_fallo_id == $categoria_fallo.clasificacion_fallo_id} SELECTED {assign var=posicion value=$key} {/if} >{$categoria_fallo.nombre_fallo}</OPTION>
+					     {/foreach}
+				</SELECT> 
+				<div id="descripcion_categoria" style="color:#FF0000"> {$categoria_fallos[$posicion].descripcion_fallo} </div>			 </td>
+			 </tr>
+			 {if $errores.responsable_arreglo != null }
+				   <tr>
+				      <td></td>
+				      <td>
+						<div class="error-box">
+							{$errores.responsable_arreglo}		</div>		</td>
+				   </tr>
+				{/if}
+				<tr>
+					<td class="enunciados" style="text-align:right;">Responsable arreglo: </td>
+					<td class="lista-normal" style="padding-left:3px;text-align:left;">
+					<div align="left" class="entrada" style="margin:5px;margin-left:0px;">
+					
+					<input name="responsable_arreglo" type="text" id="responsable_arreglo" value="{$resumen_rechazo.responsable_arreglo}" style="border:none; width:90%" onkeypress="return handleEnter(this, event)"/>
+					<img src="../../templates/imagenes/combo.jpg" class="imagenes" onclick="document.actualizacion_rechazo.responsable_arreglo.focus();document.actualizacion_rechazo.responsable_arreglo.select();"/>
+					
+			<span id="spinner" style="display: none"></span>
+	        <div id="lista_total_maquinistas" class="autorelleno"> </div>
+    	  {literal}
+	      <script>
+				new Ajax.Autocompleter("responsable_arreglo", "lista_total_maquinistas", "../../controladores/sistema_de_produccion/registrar_actualizacion_rechazos.php?busqueda_ajax=maquinistas_total", {method:"post", paramName: "nombre", minChars: 1, indicator: "spinner" , afterUpdateElement : mostrar_categoria});
+				function mostrar_categoria()
+				{ 
+					 
+					  var str = document.getElementById("responsable_arreglo").value;
+					  document.getElementById("responsable_arreglo").value = str.substr(5);
+				}
+				
+		 </script>
+      {/literal}			</div>					</td>
+				</tr>
+	
+			 	
+	<tr>
+		<td align="center" colspan="2">
+
+		  <input name="" type="submit" value="Actualizar" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+		  
+				<input name="num_asignacion" type="hidden" value="{$num_asignacion}"/>
+				<input name="rechazo_id" type="hidden" value="{$rechazo_id}"/>
+				<input type="hidden"  name="funcion" id="funcion" value="registrar_actualizacion" />		  </td>
+	</tr>
+</table>
+<div align="center">
+		<fieldset style="border: 1px solid #66CCFF;font-size:1em;padding:0 10px;text-align:justify;width:80%;" >
+			<legend> Descripci&oacute;n de Tipos de Fallo: </legend>
+			<br />
+			<ul>
+            <li><b>Tipo de Falla A,</b> Su arreglo es rapido</li>
+            <li><b>Tipo de Falla B,</b> Su arreglo requiere cambio de pieza</li>
+            <li><b>Tipo de Falla C,</b> Su arreglo requiere desarmar el producto</li>
+            <li><b>Tipo de Falla D,</b> La falla es por material defectuoso (las cuales no pueden ser detectadas previa entrega a Control de Calidad)</li>
+			</ul>
+		</fieldset>
+</div>
+</form>
+{/if}
+
+<br />
+<br />

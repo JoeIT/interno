@@ -1,0 +1,71 @@
+{if $etiqueta=="true"}
+	{include file="../templates/sistema_de_produccion/cabecera.html"} 
+{else}
+	{include file="../templates/sistema_de_produccion/cabecera_popup.html"} 
+{/if}
+
+		  {if $etiqueta=="false" and $errores.err_confirm != null}
+		 {literal}
+			<script language="JavaScript"> 
+				 window.close();
+			</script>
+		 {/literal}
+	
+	  {else}
+<br>
+ <table width="100%">
+	<tr>
+
+	
+	
+		{if $errores != null}
+		     <table align="center" bgcolor="#99CCFF" class="error-box">
+                 	{if $errores.err_descripcion != null} 
+					<tr> 
+						<td> <font color=black> {$errores.err_descripcion} </td> 
+					</tr>
+					{/if}
+					{if $errores.err_etiqueta != null} 
+					<tr> 
+						<td> <font color=black> {$errores.err_etiqueta} </td> 
+					</tr>
+					{/if}
+		 	 </table>
+		 {/if}
+
+			<form name="form_registrar" method="post" action="../../controladores/sistema_de_produccion/registrar_etiqueta.php">
+				{if $etiqueta=="false"}
+				    <input type="hidden" name="popup" value="false">
+				{else}
+					<input type="hidden" name="popup" value="true">
+				{/if}	
+
+			<table border="0" align="center" >
+				<th colspan="2"> {$title}</th>
+			  	<tr>
+					<td class="enunciados">Nombre:</td>
+					<td><input type="text" name="descripcion" class="edit" value="{$descripcion}" id="etiqueta" />
+						<span id="spinner" style="display: none">
+									<img src="../../templates/imagenes/spinner.gif" alt="Consultando…" />
+								</span>
+								<div id="lista_etiquetas" class="autorelleno">
+								</div>
+								{literal}
+								<script>
+										new Ajax.Autocompleter("etiqueta", "lista_etiquetas", "../../controladores/sistema_de_produccion/registrar_etiqueta.php?busqueda_ajax=etiquetas", {method:"post", paramName: "value", minChars: 1, indicator: "spinner"});
+								</script>
+								{/literal}
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input class="button1" type="submit" value="Registrar">
+					</td>
+				</tr>
+			</table>
+			</form>
+		</td>
+	</tr>
+</table> 
+</body>
+  {/if}

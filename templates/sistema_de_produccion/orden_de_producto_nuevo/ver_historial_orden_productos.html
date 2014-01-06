@@ -1,0 +1,57 @@
+{include file="../templates/sistema_de_produccion/cabecera.html"}
+
+<br />
+
+<table width="80%" align="center">
+<tr>
+	<th colspan="4">Datos Generales de orden de desarrollo de Producto</th>
+</tr>
+<tr>
+	<td class="enunciados">Orden de producción No.:</td>
+	<td class="body-sector">{$detalle_orden.ordenproducto_id}</td>
+	<td class="enunciados">Cliente:</td>
+	<td class="body-sector">{$detalle_orden.clientenombre}</td>
+</tr>
+<tr>
+	<td  class="enunciados">Fecha de Solicitud:</td>
+	<td  class="body-sector">{$detalle_orden.fechasolicitud}</td>
+	<td  class="enunciados">Fecha de Culminación:</td>
+	<td  class="body-sector">{$detalle_orden.fechaculminacion}</td>
+</tr>
+<tr>
+	<td  class="enunciados">Modelo a Desarrollar:</td>
+	<td class="body-sector">{$detalle_orden.modelo}</td>
+</tr>
+<tr>
+	<td  class="enunciados">Codigo:</td>
+	<td class="body-sector">{$detalle_orden.codigo}</td>
+</tr>
+<tr>
+	<td  class="enunciados">Cantidad:</td>
+	<td class="body-sector">{$detalle_orden.cantidad}</td>
+</tr>
+<tr>
+	<th colspan="4">Historial de orden de desarrollo de Producto</th>
+</tr>
+<tr>
+	{foreach name=cabezera key=key item=item from=$estados_orden[0]}
+		{if $key!="estadoproducto_id" and $key!="ordenproducto_id"}
+			{if $key == "observaciones"}
+				<td colspan="2" class="enunciados"><center>{$key|upper}</center></td>
+			{else}
+				<td class="enunciados"><center>{$key|upper}</center></td>
+			{/if}
+		{/if}
+	{/foreach}
+</tr>
+
+{foreach name=contenido item=estado from=$estados_orden}
+<tr>
+	{foreach key=key item=item from=$estado}
+		{if $key != "estadoproducto_id" and $key!= "ordenproducto_id"}
+			<td class="body-sector">{$item}</td>
+		{/if}
+	{/foreach}
+</tr>
+{/foreach}
+</table>

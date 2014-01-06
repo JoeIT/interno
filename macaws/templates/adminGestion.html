@@ -1,0 +1,90 @@
+{include file="header.html" title=$title}
+
+{literal}
+<script type="text/javascript">
+// Función sobre aviso 
+function confirmActions(message)
+{ 
+	var conf = confirm(message); 
+    if (conf) 		
+       return true;
+	else
+	   return false; 
+} 
+</script>
+{/literal}
+<br/>
+  <table width="700" border="1" cellpadding="2" cellspacing="1" class="tableblue">
+    <caption class="search-box" >
+      Abrir - Cerrar gestiones.
+    </caption>
+	<tr>
+	<td colspan="7">
+	{if $reg_ok ne null}
+	<table width="250" border="0" cellpadding="0" cellspacing="0" class="finish">
+	  <tr>
+		<td>{$reg_ok}</td>
+	  </tr>
+	</table>
+	{/if}
+	</td>
+	</tr>
+	
+	<tr>
+	<td colspan="7" class="error-box">
+	{$error.abrir}
+	</td>
+	</tr>
+	    
+	{if $gestiones ne null}	
+	<tr>
+	<td class="header-table">Gesti&oacute;n</td>
+	<td class="header-table">Estado</td>
+	<td class="header-table">Observaci&oacute;n</td>
+	<td class="header-table">&nbsp;</td>
+	</tr>	
+	
+    {section name=ind loop=$gestiones}
+    <tr bgcolor="{cycle values="#FFFFFF,#f0f0f0"}">
+      <td align="center" width="150"> {$gestiones[ind].gestion}  </td>
+	  {if $gestiones[ind].estado eq 1 }
+	  <td width="150">Abierta</td>
+ 	  <td>{$gestiones[ind].obs}&nbsp;</td>
+	  <form method="post" name="form1"  action="actions/action_adminGestion.php">	  
+  	  <td width="150"> 
+	  <input name="gestion" type="hidden" value="{$gestiones[ind].gestion}" />
+	  <input name="cerrar" type="submit" class="text3" id="cerrar"  value="Cerrar gestión" onclick="return confirmActions('Al CERRAR la gestión cerrara todos sus peridos abierto. \n ¿Desea continuar?');" />
+	  </td>
+  	  </form>
+	  {else}
+  	  <td width="150">Cerrada</td>
+ 	  <td>{$gestiones[ind].obs}&nbsp;</td>
+  	  <form method="post" name="form2" action="actions/action_adminGestion.php">
+	  <td width="150">	  
+	  <input name="gestion" type="hidden" value="{$gestiones[ind].gestion}" />
+	  <input name="abrir" type="submit" class="text3" id="abrir"  value="Abrir gestión" onclick="return confirmActions('¿Esta seguro de ABRIR esta gestión?');" />
+	  </td>
+  	  </form>
+	  {/if}
+    </tr>	
+	{/section}	
+	
+    {else}
+	<tr>
+	<td colspan="7" class="text6">
+    No disponible.	</td>
+	</tr>
+    {/if}	
+	
+	<tr>
+	<td colspan="7" align="center">
+	<br/>
+	<input name="volver" type="button" class="text3" onclick="location='/sistema/macaws/abrirGestion.php'" value="Registrar nueva gestión" />
+	<br />
+	<input name="salir" type="button" class="text7" onclick="location='/sistema/macaws/lcv.php'" value="Salir" />
+	</td>
+	</tr>	
+</table>
+
+</body>
+</html>

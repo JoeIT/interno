@@ -1,0 +1,61 @@
+{* Lista de clientes registrados *}
+      
+     {include file="../templates/sistema_de_produccion/cabecera.html"}
+ 
+
+  <table width="80%" align="center">
+ <th>
+		Busqueda de clientes
+</th>
+</table>
+     <form  name="form_lista" method="get" action="../../controladores/sistema_de_produccion/lista_clientes.php" id="form_lista">
+       <table align="center"  >
+				<tr>
+				    <td class="body-sector"><center><input type="text" id="parametro" name="parametro"/></center></td>  
+			        <td class="body-sector"><INPUT type="radio" id="opcion" name="opcion" value="nombre" CHECKED>
+					Nombre<BR>
+			          <input type="radio" id="radio" name="opcion"   value="pais">País <BR>
+						<INPUT type="radio" id="opcion" name="opcion"  value="ciudad">Ciudad 
+					</td>
+					<td> <input class="button1" type="submit" id="buscar" name=buscar value="buscar" 	
+					onclick=consultar(name,value)> </td>
+				</td>
+	   </table>
+	 	     
+
+	              <input type="hidden" name="elegido" id="elegido">
+	              <input type="hidden" name="funcion" id="funcion">
+       <hr width="70%">
+	    <table width="80%" align="center">
+		<tr>
+ <th colspan="9">
+		Lista de clientes
+</th>
+
+	     </tr>  
+  		<tr>
+    		{foreach name=cabezera key=key item=item from=$clientes[0]}
+			
+		     <td class="enunciados"<center> {$key|upper} </center></td>
+			{/foreach}
+		  	 <td class="enunciados"><center> MODIFICAR  </center></td>
+		     <td class="enunciados"><center> ELIMINAR  </center></td>
+   		</tr>
+   			{foreach name=contenido item=cliente from=$clientes}
+			<tr class="lista-normal" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista-seleccionada';" onMouseOut="this.className = 'lista-normal';">
+				{foreach key=key item=item from=$cliente}
+		    		{if $key == "codigo"}
+		   	  			{assign var=cliente value=$item}
+		    		{/if}
+				<td> {$item} </td>
+				{/foreach}
+				<td align="center"> <a href="../../controladores/sistema_de_produccion/lista_clientes.php?elegido={$cliente}&funcion=modificar" name="{$cliente}" id="{$cliente}"><img src="../../templates/imagenes/modificar.gif" class="imagenes"/></a>  </td>
+				
+				<td  align="center"> <a href="../../controladores/sistema_de_produccion/lista_clientes.php?elegido={$cliente}&funcion=eliminar" name="{$cliente}" id="{$cliente}"><img src="../../templates/imagenes/eliminar.gif" class="imagenes"/></a>  </td>
+	   </tr>  
+			{/foreach}
+
+	</table>
+	<br>
+
+</form>  

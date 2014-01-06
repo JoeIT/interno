@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>{$title}</title>
+</head>
+<body>
+
+
+  <table width="700" border="1" cellspacing="1" cellpadding="2">
+    <caption >
+      Abrir- Cerrar periodos - Gestion {$gestion}.
+    </caption>
+	<tr>
+	<td colspan="7">
+	{if $reg_ok ne null}
+	<table width="250" border="0" cellspacing="0" cellpadding="0">
+	  <tr>
+		<td>Operacion realizada.</td>
+	  </tr>
+	</table>
+	{/if}
+	</td>
+	</tr>    
+	{if $periodos ne null}	
+	<tr>
+	<td>Periodo</td>
+	<td>Estado</td>
+	<td>Observacion</td>
+	<td>Accion</td>
+	</tr>	
+	
+    {section name=ind loop=$periodos}
+    <tr>
+      <td align="center" width="150"> {$periodos[ind].periodo}  </td>
+	  {if $periodos[ind].estado eq 1 }
+	  <td width="150">Abierto</td>
+ 	  <td>{$periodos[ind].obs}</td>
+	  <form method="post" name="form1"  action="../actions/Action_adminGestion.php">	  
+  	  <td width="150"> 
+	  <input name="gestion" type="text" value="{$periodos[ind].cod_pg}" />
+	  <input name="cerrar" type="submit" id="cerrar" onclick="location='/macaws/src/.php'" value="Cerrar periodo" />
+	  </td>
+  	  </form>
+	  {else}
+  	  <td width="150">Cerrado</td>
+ 	  <td>{$periodos[ind].obs}</td>
+  	  <form method="post" name="form2" action="../actions/Action_adminGestion.php">
+	  <td width="150">	  
+	  <input name="gestion" type="text" value="{$periodos[ind].cod_pg}" />
+	  <input name="abrir" type="submit" id="abrir" onclick="location='/macaws/src/.php'" value="Abrir periodo" />
+	  </td>
+  	  </form>
+	  {/if}
+    </tr>	
+	{/section}	
+	
+    {else}
+	<tr>
+	<td colspan="7">
+    No disponible.
+	</td>
+	</tr>
+    {/if}	
+	<tr>
+	<td colspan="7">
+	{$error.abrir}
+	</td>
+	</tr>
+  </table>
+
+</body>
+</html>

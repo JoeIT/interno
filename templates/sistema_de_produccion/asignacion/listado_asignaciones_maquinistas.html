@@ -1,0 +1,137 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+{literal}
+<SCRIPT LANGUAGE="JavaScript">
+/* Creamos la función */
+function PantallaCompleta(URL) {
+	if (navigator.appName!="Explorer") {
+		abrir=window.open(URL, '', "height="+window.screen.availHeight+", width="+(window.screen.availWidth-10)+", top=0, left=0, toolbar=yes, status=yes, scrollbars=auto, location=no, menubar=yes, directories=no, resizable=yes");
+		abrir.window.innerWidth=window.screen.width-5
+		abrir.window.innerHeight=window.screen.height-50
+		abrir.self.moveTo(0,0)
+	} else
+		window.open(URL, '', 'fullscreen=yes, scrollbars=yes');
+}
+
+</script>
+{/literal}
+
+<br />
+<table width="95%" border="1" align="center" cellpadding="0" cellspacing="0" style="border-style:ridge;padding:5px;">
+	<tr>
+		<td class="datos-reporte">
+			<a href="../../controladores/sistema_de_produccion/asignacion.php?opcion=8&oid={$cabecera.codigo}">Volver a la Orden de Producci&oacute;n: {$cabecera.numero_orden}</a>
+		</td>
+		<td class="enunciados">CUP No.:</td>
+		<td class="datos-reporte">{$cabecera.cup_num}</td>
+		<td class="enunciados">Cliente:</td>
+		<td class="datos-reporte">{$cabecera.cliente} </td>
+	</tr>
+</table>
+<br />
+<table  width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+<tr>
+	<td class="enunciados" style="text-align:center;">Cantidad</td>
+	<td class="enunciados" style="text-align:center;">Unidad</td>
+	<td class="enunciados" style="text-align:center;">Producto</td>
+	<td class="enunciados" style="text-align:center;">Tipo</td>
+	<td class="enunciados" style="text-align:center;">Origen Cuero</td>
+	<td class="enunciados" style="text-align:center;">Color</td>
+	<td class="enunciados" style="text-align:center;">CLIP</td>
+	<td class="enunciados" style="text-align:center;">Sello</td>
+	<td class="enunciados" style="text-align:center;">Etiqueta</td>
+</tr>
+<tr>
+{foreach key=key item=item from=$detalle_asig}
+	{if ($key != "detalle_id") && ($key != "Asignados") && ($key != "Entregados") && ($key != "Pendientes") && ($key != "Observaciones") && ($key != "lugar")}
+		<td class="datos-reporte">{$item}</td>
+	{/if}
+{/foreach}
+</tr>
+<tr>
+	<td colspan="5" class="enunciados" style="text-align:center;">Observaciones</td>
+	<td colspan="4" class="enunciados" style="text-align:center;">Lugar Sellado</td>
+</tr>
+<tr>
+	<td colspan="5" class="datos-reporte">{$detalle_asig.Observaciones}</td>
+	<td colspan="4" class="datos-reporte">{$detalle_asig.lugar}</td>
+</tr>
+</table>
+<br />
+<table  width="70%" border="1" align="center" cellpadding="0" cellspacing="0" style="border-style:ridge;">
+<tr>
+	<td class="enunciados">Asignados: </td>
+	<td class="datos-reporte">{$detalle_asig.Asignados-$detalle_asig.Entregados}</td>
+	<td class="enunciados">Entregados: </td>
+	<td class="datos-reporte">{$detalle_asig.Entregados}</td>
+	<td class="enunciados">Pendientes: </td>
+	<td class="datos-reporte">{$detalle_asig.Pendientes}</td>
+</tr>
+</table>
+
+<br />
+{if $lista_detalle_resultados == null}
+	<table width="70%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+<br />
+{else}
+	<table  width="80%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="6"><a name="detalle">Detalle de asignaci&oacute;n de maquinistas</a></th>	           
+	</tr>
+	<tr>
+		<td class="enunciados" style="text-align:center;">Nro.Asignaci&oacute;n</td>
+		<td class="enunciados" style="text-align:center;">Nombre</td>
+		<td class="enunciados" style="text-align:center;">Cant. Asignada</td>
+		<td class="enunciados" style="text-align:center;">Fecha Inicio</td>
+		<td class="enunciados" style="text-align:center;">Fecha Fin</td>
+		<td class="enunciados" style="text-align:center;">Entrega Corte</td>
+	</tr>
+	
+		{assign var=CSSclass value=0}
+		{assign var=clases value="lista-normal"}
+	
+	{foreach name=contenido item=orden from=$lista_detalle_resultados}
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+		{if ($CSSclass mod 2) eq 0}
+			{assign var=clases value="lista-seleccionada"}
+		{else}
+			{assign var=clases value="lista-normal"}
+		{/if}
+	<form action="../../controladores/sistema_de_produccion/entrega.php" method="post" name="buscar" id="buscar">
+	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
+		<td style="font-weight:bolder;text-align:center;">
+			<input type="hidden" name="num_asignacion" id="num_asignacion" value="{$orden.asignacion_detalle_id}" />
+			<input type="hidden" name="oid" value="{$oid}" />
+			<input type="hidden" name="did" value="{$did}" />
+			<input name="buscar" type="submit" value="{$orden.asignacion_detalle_id}" class="boton" onmouseover="this.className='enviar'" onmouseout="this.className='boton'" style="font-size:12px;font-weight:bold;padding:0px;margin:0px;"/>
+		</td>
+
+		<td style="text-align:left;">{$orden.completo}</td>
+		<td style="text-align:center;">{$orden.catidad_asignada}</td>
+		<td style="text-align:center;">{$orden.fecha_inicio}</td>
+		<td style="text-align:center;">{$orden.fecha_finalizacion}</td>
+		<td style="text-align:center;">
+			{if $orden.usuario_entrega_corte != 0}
+				SI
+			{else}
+				NO
+			{/if}
+		</td>
+	</tr>
+	</form>
+	{/foreach}
+	<tr>
+		<td colspan="6">
+			<hr />
+		</td>
+	</tr>
+	</table>
+{/if}
+<br />
+<br />

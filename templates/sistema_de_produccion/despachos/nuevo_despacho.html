@@ -1,0 +1,70 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+<br />
+
+<table width="70%" border="0" align="center" cellpadding="3" cellspacing="3">
+<form action="../../controladores/sistema_de_produccion/despacho.php" method="post" name="nuevo_despacho" id="nuevo_despacho">
+  <tr>
+	<th colspan="2">
+	{if $modificar != null}
+		Modificar despacho
+	{else}
+		Generar nuevo despacho
+	{/if}
+	</th>
+  </tr>
+
+  {if $error.nombre_despacho != null }
+  <tr>
+	<td/>
+	<td>
+	  <div class="error-box">{$error.nombre_despacho}</div>
+	</td>
+  </tr>
+  {/if}
+  <tr>
+	<td class="enunciados">
+	  Nombre del despacho:
+	</td>
+	<td class="body-sector">
+	  <span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+		<img src="../../templates/imagenes/buscar.jpg" class="imagenes"/>
+		<input type="text" name="nombre_despacho" id="nombre_despacho" value="{$nombre_despacho}" onkeypress="return enter_handle(this, event, 2, 1)" style="border:none;"/>
+	  </span>
+	</td>
+  </tr>
+  
+  {if $error.fecha_despacho != null }
+  <tr>
+	<td/>
+	<td>
+	  <div class="error-box">{$error.fecha_despacho}</div>
+	</td>
+  </tr>
+  {/if}
+  <tr>
+	<td class="enunciados">
+	  Fecha del despacho:
+	</td>
+	<td class="body-sector">
+	  <span align="left" class="entrada" style="margin:5px;vertical-align:top;">
+		<img src="../../templates/imagenes/fecha.jpg" class="imagenes"/>
+		<input name="fecha_despacho" type="text" id="fecha_despacho" value="{$fecha_despacho}" READONLY style="border:none;" onkeypress="return enter_handle(this, event, 1, 1)">
+	  </span>
+	  <input name="b_fecha_despacho" type="button" id="b_fecha_despacho" value="..." class="boton" onkeypress="return enter_handle(this, event, 1, 1)">
+	  {literal}
+		<script type="text/javascript">Calendar.setup({inputField:"fecha_despacho", ifFormat:"%Y-%m-%d",button:"b_fecha_despacho"});</script>
+	  {/literal}
+	</td>
+  </tr>
+  <tr>
+	<td colspan="2" style="padding:10px;text-align:center;">
+	{if $modificar != null}
+		<input name="nuevo" type="submit" value="Modificar Despacho" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+		<input type="hidden" name="deid" value="{$deid}">
+	{else}
+		<input name="nuevo" type="submit" value="Generar Despacho" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'"/>
+	{/if}
+	</td>
+  </tr>
+</form>
+</table>

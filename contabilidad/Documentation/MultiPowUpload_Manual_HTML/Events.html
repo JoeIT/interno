@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MultiPowUpload events</title>
+<link rel=stylesheet href="help_pc.css" TYPE="text/css" media="screen">
+<style type="text/css">
+<!--
+body,td,th {
+	font-size: 0.7em;
+}
+-->
+</style></head>
+
+<body>
+<div id="nsbanner">&nbsp;MultiPowUpload 1.7 control documentation</div>
+<div id="nstext">
+<p><b>MultiPowUpload object events</b>&nbsp;<hr/></p>
+
+<br><a href="#MultiPowUpload_onSelect">MultiPowUpload_onSelect event</a><br>
+<br><a href="#MultiPowUpload_onListChange">MultiPowUpload_onListChange event</a><br>
+<br><a href="#MultiPowUpload_onBeforeStart">MultiPowUpload_onBeforeStart event</a><br>
+<br><a href="#MultiPowUpload_onStart">MultiPowUpload_onStart event</a><br>
+<br><a href="#MultiPowUpload_onComplete">MultiPowUpload_onComplete event</a><br>
+<br><a href="#MultiPowUpload_onError">MultiPowUpload_onError event</a><br>
+<br><a href="#MultiPowUpload_onCompleteAbsolute">MultiPowUpload_onCompleteAbsolute event</a><br>
+
+<br><a href="#MultiPowUpload_onProgress">MultiPowUpload_onProgress event</a><br>
+<br><a href="#MultiPowUpload_onMovieLoad">MultiPowUpload_onMovieLoad event</a><br>
+<br><a href="#MultiPowUpload_onLoadVars">MultiPowUpload_onLoadVars event</a><br>
+<br><a href="#MultiPowUpload_onLoaderProgress">MultiPowUpload_onLoaderProgress event</a><br><br>
+
+<h1><a name="MultiPowUpload_onSelect" id="MultiPowUpload_onSelect">MultiPowUpload_onSelect</a> (MultiPowUpload_onSelect event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onSelect() {}</p></div>
+<p>Invoked when the user selects a file to upload from the file-browsing dialog box. (This dialog box is displayed when you call <code>browseFiles()</code>) When the user selects a file and confirms the operation (for example, by clicking OK), the properties of the <code>fileList</code> array are populated. </p>
+<p>When <code>MultiPowUpload_onSelect</code> is invoked after a <code>browseFiles()</code> call, Java Script can read all of the FileReference object&#39;s properties in <code>fileList</code> array.</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="10" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	Flash.browseFiles();
+}
+
+function MultiPowUpload_onSelect()
+{
+	window.alert("Now total files in list is " + Flash.fileList().length);
+}
+</textarea>
+
+<h1><a name="MultiPowUpload_onListChange" id="MultiPowUpload_onListChange">MultiPowUpload_onListChange</a> (MultiPowUpload_onListChange event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onListChange() {}</p></div>
+<p>Invoked when list with files for upload or download changes as a result if user adds new files, removes existing or selects items.</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="8" wrap="off">
+function MultiPowUpload_onListChange()
+{
+	var selitems = 0;
+	if(Flash.selectedItems()!=null)
+		selitems = Flash.selectedItems().length;	 
+	window.alert("Now total files in list is " + Flash.fileList().length + ". Selected of them is " + selitems);
+}
+</textarea>
+
+<h1><a name="MultiPowUpload_onBeforeStart" id="MultiPowUpload_onBeforeStart">MultiPowUpload_onBeforeStart</a> (MultiPowUpload_onBeforeStart event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onBeforeStart() {}</p></div>
+<p>Invoked before start of upload or download operation.</p>
+
+
+<h1><a name="MultiPowUpload_onStart" id="MultiPowUpload_onStart">MultiPowUpload_onStart</a> (MultiPowUpload_onStart event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onStart(type:String, fileIndex:Integer) {}</p></div>
+<p>Invoked for each file right away after start of upload or download operation.</p>
+<h4>Parameters</h4>
+<p><strong>type</strong><code>:String</code> - The string represents type of process. Possible values: "upload" or "download"</p>
+<p><strong>fileIndex</strong><code>:Integer</code> - An index of uploaded file in <code>fileList</code> array.</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="5" wrap="off">
+function MultiPowUpload_onStart(type, fileIndex)
+{
+	window.alert(type + " of file " + Flash.fileList()[fileIndex].name + " started.");
+}
+</textarea>
+
+<h1><a name="MultiPowUpload_onComplete" id="MultiPowUpload_onComplete">MultiPowUpload_onComplete</a> (MultiPowUpload_onComplete event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onComplete(type:String, fileIndex:Integer) {}</p></div>
+<p>Invoked for each file when the upload or download operation has successfully completed. Successful completion means that the entire file has been uploaded or downloaded.</p>
+<h4>Parameters</h4>
+<p><strong>type</strong><code>:String</code> - The string represents type of process. Possible values: "upload" or "download"</p>
+<p><strong>fileIndex</strong><code>:Integer</code> - An index of uploaded file in <code>fileList</code> array.</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="5" wrap="off">
+function MultiPowUpload_onComplete(type, fileIndex)
+{
+	window.alert(type + " of file " + Flash.fileList()[fileIndex].name + " completed successfully.");
+}
+</textarea>
+
+<h1><a name="MultiPowUpload_onError" id="MultiPowUpload_onError">MultiPowUpload_onError</a> (MultiPowUpload_onError event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onError(error:String) {}</p></div>
+<p>Invoked when an upload fails because of an HTTP or security error or when an input/output error occurs.</p>
+<h4>Parameters</h4>
+<p><strong>error</strong><code>:String</code> - The error that caused this upload to fail. For example, an httpError of 404 indicates that a page is not found. HTTP error values can be found in sections 10.4 and 10.5 of the HTTP specification at ftp://ftp.isi.edu/in-notes/rfc2616.txt</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="5" wrap="off">
+function MultiPowUpload_onError(error)
+{
+	window.alert(error);
+}
+</textarea>
+
+
+<h1><a name="MultiPowUpload_onCompleteAbsolute" id="MultiPowUpload_onCompleteAbsolute">MultiPowUpload_onCompleteAbsolute</a> (MultiPowUpload_onCompleteAbsolute event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onCompleteAbsolute(type:String, uploadedBytes:Integer) {}</p></div>
+<p>Invoked when the upload or download operation of all files has successfully completed. Successful completion means that the entire files list has been uploaded or downloaded.</p>
+<h4>Parameters</h4>
+<p><strong>type</strong><code>:String</code> - The string represents type of process. Possible values: "upload" or "download"</p>
+<p><strong>uploadedBytes</strong><code>:Integer</code> - The number of bytes transmitted</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="5" wrap="off">
+function MultiPowUpload_onCompleteAbsolute(type, uploadedBytes)
+{
+	window.alert(type + " process is complete. Total bytes transmitted " + uploadedBytes);
+}
+</textarea>
+
+<h1><a name="MultiPowUpload_onProgress" id="MultiPowUpload_onProgress">MultiPowUpload_onProgress</a>(MultiPowUpload_onProgress event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onProgress(type:String, fileIndex:Integer, fileBytesLoaded:Integer, fileBytesLength:Integer, totalBytesLoaded:Integer, totalBytesLength:Integer) {}</p></div>
+<p>Invoked periodically during the file upload or download operation. The <code>MultiPowUpload_onProgress</code> listener is invoked while the Flash transmits bytes to a server, and it is periodically invoked during the transmission, even if the transmission is ultimately not successful. To determine if and when the file transmission is successful and complete, use <code>MultiPowUpload_onComplete</code>. </p>
+<p>In some cases, <code>MultiPowUpload_onProgress</code> listeners are not invoked; for example, if the file being transmitted is very small, or if the upload or download happens very quickly.</p>
+<p>File upload progress cannot be determined on Macintosh platforms earlier than OS X 10.3. The <code>MultiPowUpload_onProgress</code> event is called during the upload operation, but the value of the <code>fileBytesLoaded</code> parameter is -1, indicating that the progress cannot be determined.</p>
+
+<h4>Parameters</h4>
+<p><strong>type</strong><code>:String</code> - The string represents type of process. Possible values: "upload" or "download"</p>
+<p><strong>fileIndex</strong><code>:Integer</code> - An index of uploaded file in <code>fileList</code> array.</p>
+<p><strong>fileBytesLoaded</strong><code>:Number</code> - The number of bytes transmitted so far of single file.</p>
+<p><strong>fileBytesLength</strong><code>:Number</code> - The total size of the file to be transmitted, in bytes.</p>
+<p><strong>totalBytesLoaded</strong><code>:Number</code> - The number of bytes transmitted so far.</p>
+<p><strong>totalBytesLength</strong><code>:Number</code> - The total size of the files in <code>fileList</code> to be transmitted, in bytes.</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="31" wrap="off">
+<script language="JavaScript">
+function updateProgressBar(percentDone)
+{
+	var rowProgress = document.getElementById("rowProgress");
+	if(percentDone>=1)
+   		rowProgress.width = percentDone + "%";
+	else
+		rowProgress.width = "1";
+}
+
+function MultiPowUpload_onProgress(type, fileIndex, fileBytesLoaded, fileBytesLength, totalBytesLoaded, totalBytesLength)
+{
+	var PercentDone = new Number((totalBytesLoaded/totalBytesLength)*100).toFixed(1);
+	document.getElementById("lable").innerHTML = PercentDone + "% uploaded";
+	updateProgressBar(PercentDone);
+}
+</script>
+
+<table style="border:solid 1px #000033;" width="300" height="25" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>
+			<table id="rowProgress" bgcolor="#0033ff" width="1" height="25" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>&amp;nbsp;</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<div id="lable">&amp;nbsp;</div>
+</textarea>
+
+<h1><a name="MultiPowUpload_onMovieLoad" id="MultiPowUpload_onMovieLoad">MultiPowUpload_onMovieLoad</a> (MultiPowUpload_onMovieLoad event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onMovieLoad() {}</p></div>
+<p>Invokes when Flash Movie loaded and if browser supports ExternalInterface.</p>
+ <p>Using this event you can check if it is possible to use Flash functions from
+JavaScript code and when Flash is ready for this.</p>
+<p>The ExternalInterface class is an application programming interface that enables straightforward communication between Flash and the Java Script. 
+From JavaScript on the HTML page, you can call Flash functions or Flash can rise events in Java Script code.</p>
+<p>ExternalInterface is supported in the following combinations of browser and operating system:</p>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>
+      <p>Browser</p>
+    </th>
+    <th colspan="2" rowspan="1">
+      <p>Operating System</p>
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <p>Internet Explorer 5.0 and higher</p>
+    </td>
+    <td>
+      <p>&#160;Windows&#160;</p>
+    </td>
+    <td>
+      <p>&#160;</p>
+    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <p>Netscape 8.0 and higher</p>
+    </td>
+    <td>
+      <p>&#160;Windows&#160;</p>
+    </td>
+    <td>
+      <p>&#160;Macintosh&#160;</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Mozilla 1.7.5 and higher</p>
+    </td>
+    <td>
+      <p>&#160;Windows&#160;</p>
+    </td>
+    <td>
+      <p>&#160;Macintosh&#160;</p>
+    </td>
+  </tr>
+  <tr bgcolor="#F8F8F8">
+    <td>
+      <p>Firefox 1.0 and higher</p>
+    </td>
+    <td>
+      <p>&#160;Windows&#160;</p>
+    </td>
+    <td>
+      <p>&#160;Macintosh&#160;</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Safari 1.3 and higher</p>
+    </td>
+    <td>
+      <p>&#160;</p>
+    </td>
+    <td>
+      <p>&#160;Macintosh&#160;</p>
+    </td>
+  </tr>
+</table>
+
+<p>ExternalInterface requires the user&#39;s web browser to support either ActiveX or the NPRuntime API that is exposed by some browsers for plugin scripting. See http://www.mozilla.org/projects/plugins/npruntime.html.</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="5" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	window.alert("Flash is loaded and your browser supports ExternalInterface!");
+}
+</textarea>
+
+<h1><a name="MultiPowUpload_onLoadVars" id="MultiPowUpload_onLoadVars">MultiPowUpload_onLoadVars</a> (MultiPowUpload_onLoadVars event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onLoadVars(response:String) {}</p></div>
+<p>Invoked after <code>sendAndLoadVars</code> method call and return information from the server.</p>
+<h4>Parameters</h4>
+<p><strong>response</strong><code>:String</code> - The string containing the downloaded variables.</p>
+
+<h4>Example</h4>
+<p>The following example uploads 2 variables to server side ASP.NET script and shows server response.</p>
+<textarea  name="" cols="100" rows="12" wrap="off">
+function MultiPowUpload_onMovieLoad()
+{
+	var keys=["myname", "myID"]
+	var values=["JDoe", "12345"]
+	Flash.sendAndLoadVars(keys, values, "formproc.aspx", "POST");
+}
+	
+function MultiPowUpload_onLoadVars(response)
+{
+   window.alert(response);
+}
+</textarea>
+
+<p>formproc.aspx file code:</p>
+<textarea  name="" cols="100" rows="5" wrap="off">
+<%@ Page language="c#"%>
+<%						
+Response.Write("I got your name " + Request.Form["myname"] + " and your ID " + Request.Form["myID"]);
+%>
+</textarea>
+
+<h1><a name="MultiPowUpload_onLoaderProgress" id="MultiPowUpload_onLoaderProgress">MultiPowUpload_onLoaderProgress</a>(MultiPowUpload_onLoaderProgress event listener)</h1>
+<div class="signature"><p>function MultiPowUpload_onLoaderProgress(bytesLoaded:Integer, bytesTotal:Integer) {}</p></div>
+<p>Invoked periodically during the image download operation then Flash is in ImageLoader mode.</p>
+<p>In some cases, <code>MultiPowUpload_onLoaderProgress</code> listeners are not invoked; for example, if the file being transmitted is very small, or if download happens very quickly.</p>
+<p>File upload progress cannot be determined on Macintosh platforms earlier than OS X 10.3. The <code>MultiPowUpload_onLoaderProgress</code> event is called during the upload operation, but the value of the <code>bytesLoaded</code> parameter is -1, indicating that the progress cannot be determined.</p>
+
+<h4>Parameters</h4>
+<p><strong>bytesLoaded</strong><code>:Number</code> - The number of bytes transmitted so far.</p>
+<p><strong>bytesTotal</strong><code>:Number</code> - The total size to be transmitted, in bytes.</p>
+
+<h4>Example</h4>
+<textarea  name="" cols="100" rows="7" wrap="off">
+<script language="JavaScript">
+	function MultiPowUpload_onLoaderProgress(bytesLoaded, bytesTotal)
+	{
+
+	}
+</script>
+</textarea>
+
+    <hr />
+      <div id="footer">
+        <p>
+          <a href="mailto:support@element-it.com?subject=MultiPowUpload%20control%20documentation%20feedback">Send comments on this topic.</a>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+      </div>
+</div>
+</body>
+</html>
