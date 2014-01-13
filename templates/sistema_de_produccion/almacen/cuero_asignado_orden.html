@@ -42,6 +42,7 @@ function showMessage()
 	}
 }
 </script>
+
 {/literal}
 
 <div align="center" >
@@ -51,7 +52,7 @@ function showMessage()
 </div>
 
 <br/>
-<h3>Cuero utilizado por orden de producci&oacute;n:</h3>
+<h3>Asignaci&oacute;n de cuero por orden de producci&oacute;n:</h3>
 <table id="tabla_data"  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
 	<tr>
 		<th colspan="4">Lista de &Oacute;rdenes de Producci&oacute;n</th>
@@ -75,7 +76,7 @@ function showMessage()
 		{/if}
 			
 	<tr class="{$clases}" onMouseOver="this.style.cursor = 'pointer';this.className = 'lista_terrible';" onMouseOut="this.className = '{$clases}';">
-		<td width="5%"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=15&oid={$orden.orden_id}">{$orden.num_orden}</a></td>
+		<td width="5%"><a href="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?opcion=13&oid={$orden.orden_id}">{$orden.num_orden}</a></td>
 		<td width="15%">{$orden.cliente}</td>
 		<td width="8%">{$orden.fecha}</td>
 		<td width="8%">{$orden.fechaentrega}</td>

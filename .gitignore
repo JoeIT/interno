@@ -16,6 +16,7 @@ local.properties
 .settings/
 .loadpath
 instructivos/
+templates_c/
 
 # External tool builders
 .externalToolBuilders/

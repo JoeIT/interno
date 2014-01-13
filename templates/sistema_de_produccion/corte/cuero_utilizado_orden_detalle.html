@@ -11,29 +11,40 @@ $j(document).ready(function() {
 	
 	$j.validator.addClassRules({
 		used: {
-				number: true
+				number: true,
+				required: true
 			},
 		surplus: {
-				number: true
+				number: true,
+				required: true
 			},
 		remnant: {
-				number: true
+				number: true,
+				required: true
 			},
 		waste: {
-				number: true
+				number: true,
+				required: true
 			},
 		used_area: {
-				number: true
+				number: true,
+				required: true
 			}
 	});
 	
-	var noNumberMessage = '"No es un entero o decimal"';
+	var noNumberMessage = '"No es numero entero o decimal"';
+	var requiredMessage = '"Campo vacio"';
 	
 	$j.validator.addMethod("used", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("used", $j.validator.methods.required, requiredMessage);
 	$j.validator.addMethod("surplus", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("surplus", $j.validator.methods.required, requiredMessage);
 	$j.validator.addMethod("remnant", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("remnant", $j.validator.methods.required, requiredMessage);
 	$j.validator.addMethod("waste", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("waste", $j.validator.methods.required, requiredMessage);
 	$j.validator.addMethod("used_area", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("used_area", $j.validator.methods.required, requiredMessage);
 	
 	$j("#leather_use_form").validate();
 });
@@ -49,7 +60,7 @@ $j(document).ready(function() {
 <br />
 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
 	<tr>
-		<th colspan="8">Orden de Producci&oacute;n para imprimir cabecera</th>
+		<th colspan="8">Orden de Producci&oacute;n</th>
 	</tr>
 	<tr>
 		<td class="enunciados">No.:</td>
@@ -88,7 +99,7 @@ $j(document).ready(function() {
 {if $detail != null}
 	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
 	<tr>
-		<th colspan="11">Detalle de &oacute;rden de producci&oacute;n</th>
+		<th colspan="11">Detalle de uso de cuero</th>
 	</tr>
 	<tr>
 		<td class="enunciados" style="text-align:center;">Cuero</td>
@@ -135,6 +146,7 @@ $j(document).ready(function() {
 		<td style="text-align:center;">{$order.quantity}
 			<input type="hidden" name="quantity_{$counter}" value="{$order.quantity}" />
 		</td>		
+	{if $order.assignation_closed == 0 }
 		<td style="text-align:center;">
 			<span class="left">
 				<input type="hidden" name="used_id_{$counter}" value="{$order.id}" />
@@ -161,10 +173,10 @@ $j(document).ready(function() {
         <td style="text-align:center;">
 			<span align="left">
 				<input type="text" name="used_area_{$counter}" class='used_area' value="{$order.used_area}" size="1" style="border:inherit;">
-				<select name="used_unit_{$counter}" >
-					<option value="foot" {if $order.used_unit == 'foot' }selected{/if}>Pies&sup2;</option>
-					<option value="meters" {if $order.used_unit == 'meters' }selected{/if} >Metros&sup2;</option>
-				</select>
+				 [				 
+				 {if $order.area_unit == 'foot' }Pies&sup2;{/if}
+				 {if $order.area_unit == 'meters' }Metros&sup2;{/if}
+				 ]
 			</span>
 		</td>
 		<td>
@@ -199,6 +211,18 @@ $j(document).ready(function() {
 			</script>
 			{/literal}
 		</td>
+	{else}
+		<td style="text-align:center;">{$order.used_kg}</td>
+		<td style="text-align:center;">{$order.surplus}</td>
+		<td style="text-align:center;">{$order.remnant}</td>
+		<td style="text-align:center;">{$order.waste}</td>
+		<td style="text-align:center;">{$order.used_area} 
+				{if $order.area_unit == 'foot' }[Pies&sup2;]{/if}
+				{if $order.area_unit == 'meters' }[Metros&sup2;]{/if}
+		</td>
+		<td style="text-align:center;">{$order.employee_name}</td>
+		<td style="text-align:center;">{$order.date}</td>
+	{/if}
 	</tr>
 	</label>
 	{assign var=counter value=$counter+1}
@@ -220,7 +244,7 @@ $j(document).ready(function() {
 	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
 		<tr>
 			<td>
-				<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle;"/>&nbsp;&nbsp;&nbsp;Esta Orden no tiene productos</div>
+				<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle;"/>&nbsp;&nbsp;&nbsp;No se asign&oacute; material para esta orden de producci&oacute;n.</div>
 			</td>
 		</tr>
 	</table>

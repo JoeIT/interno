@@ -1,0 +1,214 @@
+{include file="../templates/sistema_de_produccion/cabecera.html" title=".:: Macaws S.R.L. - Sistema Interno ::."}
+
+<script type="text/javascript" src="../../templates/script/jquery.2.0.3.min.js"></script>
+<script type="text/javascript" src="../../templates/script/jquery.validate.min.js"></script>
+
+{literal}
+<script type="text/javascript">
+var $j = jQuery.noConflict();
+
+$j(document).ready(function() {
+	
+	$j('#close_all').change(function(){
+		if( $j('#close_all').prop('checked') )
+			$j('.closed').prop('checked', true);
+		else
+			$j('.closed').prop('checked', false);
+			
+	});
+	
+	$j.validator.addClassRules({
+		assigned_kg: {
+				number: true,
+				required: true
+			},
+		returned_kg: {
+				number: true
+			},
+		assigned_area: {
+				number: true,
+				required: true
+			},
+		returned_area: {
+				number: true
+			}
+	});
+	
+	var noNumberMessage = '"No es numero entero o decimal"';
+	var requiredMessage = '"Campo vacio"';
+	
+	$j.validator.addMethod("assigned_kg", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("assigned_kg", $j.validator.methods.required, requiredMessage);
+	$j.validator.addMethod("returned_kg", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("assigned_area", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("assigned_area", $j.validator.methods.required, requiredMessage);
+	$j.validator.addMethod("returned_area", $j.validator.methods.number, noNumberMessage);
+	
+	$j("#leather_assign_form").validate();
+});
+</script>
+<style>
+.error{
+	color:red;
+}
+</style>
+{/literal}
+
+
+<br />
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	<tr>
+		<th colspan="8">Orden de Producci&oacute;n</th>
+	</tr>
+	<tr>
+		<td class="enunciados">No.:</td>
+		<td class="datos-reporte">{$header.numero_orden}</td>
+		<td class="enunciados">CUP No.:</td>
+		<td class="datos-reporte">{$header.cup_num}</td>
+		<td class="enunciados">Cliente:</td>
+		<td class="datos-reporte">{$header.cliente} </td>
+		<td class="enunciados">No.Ref. Cliente:</td>
+		<td class="datos-reporte">{$header.cliente_id}</td>
+	</tr>
+	<tr>
+		<td class="enunciados">Fecha:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha}</td>
+		<td class="enunciados">Fecha Entrega/Despacho:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha_entrega}</td>
+		<td class="enunciados">Fecha Reprogramación:</td>
+		<td class="datos-reporte" style="text-align:center;">{$header.fecha_reprogramacion}</td>
+		<td/>
+		<td/>
+	</tr>
+</table>
+
+<br />
+{if $mensaje != null}
+
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+	  <tr>
+		<td>
+			<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle"/>&nbsp;&nbsp;&nbsp;{$mensaje}</div>
+		</td>
+	  </tr>
+	</table>
+{/if}
+<form name="leather_assign_form" id='leather_assign_form' method="post" action="../../controladores/sistema_de_produccion/hoja_ruta_corte.php?function=saveAssignedLeatherByOrder"  align="center">
+{if $detail != null}
+	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+	<tr>
+		<th colspan="11">Detalle de asignaci&oacuten de cuero</th>
+	</tr>
+	<tr>
+		<td class="enunciados" style="text-align:center;" rowspan='2'>Cuero</td>
+		<td class="enunciados" style="text-align:center;" rowspan='2'>Color</td>
+  		<td class="enunciados" style="text-align:center;" rowspan='2'>Cant. productos</td>
+  		<td class="enunciados" style="text-align:center;" colspan='3'>[KG.]</td>
+  		<td class="enunciados" style="text-align:center;" colspan='3'>[AREA]</td>
+  		<td class="enunciados" style="text-align:center;" rowspan='2'>Cerrar asig.
+			<input type='checkbox' id='close_all' />
+		</td>
+	</tr>
+	<tr>
+		
+   		<td class="enunciados" style="text-align:center;">Asignado(*)</td>
+   		<td class="enunciados" style="text-align:center;">Utilizado</td>
+   		<td class="enunciados" style="text-align:center;">Devuelto</td>
+		<td class="enunciados" style="text-align:center;">Asignado(*)</td>
+		<td class="enunciados" style="text-align:center;">Utilizado</td>
+		<td class="enunciados" style="text-align:center;">Devuelto</td>
+	</tr>
+	
+	{assign var=counter value=0}
+	
+	{assign var=CSSclass value=0}
+    {assign var=clases value="lista-normal"}
+    
+    
+	{foreach key=cambio item=order from=$detail}
+	
+		{assign var="CSSclass" value="`$CSSclass+1`"}
+		{if ($CSSclass mod 2) eq 0}
+			{assign var=clases value="lista-seleccionada"}
+		{else}
+			{assign var=clases value="lista-normal"}
+		{/if}
+	
+	<label for="{$order.leather}" style="text-align:center;">
+	
+	{if $counter == 0}
+	<input type="hidden" name="order_id" value="{$order.order_id}" />
+    {/if}
+	
+	<tr class="{$clases}" onmouseover="this.style.cursor = 'pointer';this.className='lista_terrible';" onmouseout="this.className='{$clases}';">
+		<td style="text-align:center;"><div>{$order.leather}</div>
+			<input type="hidden" name="leather_id_{$counter}" value="{$order.leather_id}" />
+		</td>
+		<td style="text-align:center;">{$order.color}
+			<input type="hidden" name="color_id_{$counter}" value="{$order.color_id}" />
+		</td>
+		<td style="text-align:center;">{$order.quantity}
+			<input type="hidden" name="quantity_{$counter}" value="{$order.quantity}" />
+		</td>		
+		<td style="text-align:center;">
+			<span class="left">
+				<input type="hidden" name="assigned_id_{$counter}" value="{$order.id}" />
+				<input type="text" name="assigned_kg_{$counter}" class='assigned_kg' value="{$order.assigned_kg}" size="1" style="border:inherit;">
+			</span>
+		</td>
+		<td style="text-align:center;">{$order.total_used_kg}
+		</td>
+		<td style="text-align:center;">
+			<span class="left">
+				<input type="text" name="returned_kg_{$counter}" class='returned_kg' value="{$order.returned_kg}" size="1" style="border:inherit;">
+			</span>
+		</td>
+        <td style="text-align:center;">
+			<span align="left">
+				<input type="text" name="assigned_area_{$counter}" class='assigned_area' value="{$order.assigned_area}" size="1" style="border:inherit;">
+				<select name="assigned_unit_{$counter}" >
+					<option value="foot" {if $order.area_unit == 'foot' }selected{/if}>Pies&sup2;</option>
+					<option value="meters" {if $order.area_unit == 'meters' }selected{/if} >Metros&sup2;</option>
+				</select>
+			</span>
+		</td>
+		<td style="text-align:center;">{$order.total_used_area}
+		</td>
+		<td style="text-align:center;">
+			<span align="left">
+				<input type="text" name="returned_area_{$counter}" class='returned_area' value="{$order.returned_area}" size="1" style="border:inherit;">
+			</span>
+		</td>
+		<td style="text-align:center;">
+			<input type='checkbox' name='closed_{$counter}' {if $order.assignation_closed == '1' }checked{/if} class='closed' />
+		</td>
+	</tr>
+	</label>
+	{assign var=counter value=$counter+1}
+	{/foreach}
+	<tr>
+		<td colspan="11">
+		<hr />
+		</td>
+		<input type='hidden' name='total_data' value='{$counter}' />
+	</tr>
+</table>
+
+<center>
+	<br>
+	<input type="submit" value="Guardar datos" class="enviar" onmouseover="this.className='boton'" onmouseout="this.className='enviar'">
+</center>
+</form>
+{else}
+	<table width="95%" border="0" align="center" cellpadding="0" cellspacing="3">
+		<tr>
+			<td>
+				<div class="anuncio" align="center"><img src="../../templates/imagenes/advertencia.gif" style="vertical-align:middle;"/>&nbsp;&nbsp;&nbsp;Esta Orden no tiene productos</div>
+			</td>
+		</tr>
+	</table>
+{/if}
+
+<br />
+
+{include file="../templates/contenido/includes/pie.html"}

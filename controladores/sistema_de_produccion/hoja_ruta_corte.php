@@ -609,13 +609,41 @@ if(!isset($_SESSION['logeo'])){
                 }
                 break;
 			}
+			// Asignacion de cuero por orden
 			case 12:{
 				
 				$messageType = '';
 				if(isset($_GET['saved']))
 					$messageType = $_GET['saved'];
 				
-				$lista = $hoja_ruta_corte->consulta_lista_ordenes_anual(date("Y"));
+				$lista = $hoja_ruta_corte->consulta_lista_ordenes();
+				$smarty->assign('ordenes', $lista);
+				$smarty->assign('messageType', $messageType);
+				$smarty->display('sistema_de_produccion/almacen/cuero_asignado_orden.html');
+				
+				break;
+			}
+			// Cuero asignado por materia prima
+			case 13:{
+				set_time_limit(100);
+				$orderId = $_GET['oid'];
+				
+				$data = $hoja_ruta_corte->get_order_assigned_leather($orderId);
+				
+				$smarty->assign('header', $ordenes->obtener_cabecera_orden($orderId));
+				$smarty->assign('detail', $data);
+				$smarty->display('sistema_de_produccion/almacen/cuero_asignado_orden_detalle.html');
+				
+                break;
+			}
+			// Cuero utilizado por orden
+			case 14:{
+				
+				$messageType = '';
+				if(isset($_GET['saved']))
+					$messageType = $_GET['saved'];
+				
+				$lista = $hoja_ruta_corte->consulta_lista_ordenes();
 				$smarty->assign('ordenes', $lista);
 				$smarty->assign('messageType', $messageType);
 				$smarty->display('sistema_de_produccion/corte/cuero_utilizado_orden.html');
@@ -623,7 +651,7 @@ if(!isset($_SESSION['logeo'])){
 				break;
 			}
 			// Cuero utilizado por materia prima
-			case 13:{
+			case 15:{
 				set_time_limit(100);
 				$orderId = $_GET['oid'];
 				
@@ -643,7 +671,7 @@ if(!isset($_SESSION['logeo'])){
 		// Save the used leather by order
 		if(isset($_GET['function']))
 		{
-			if($_GET['function'] == "saveUsedLeatherByOrder")
+			if($_GET['function'] == "saveAssignedLeatherByOrder")
 			{
 				$totalData = $_POST['total_data'];
 				$orderId = $_POST['order_id'];
@@ -651,38 +679,39 @@ if(!isset($_SESSION['logeo'])){
 				for($index = 0; $index < $totalData; $index++)
 				{
 					// If a row of fields are not empty, the row is going to be saved
-					if(	($_POST['used_' . $index]) != '' 
-						&& ($_POST['surplus_' . $index]) != '' 
-						&& ($_POST['remnant_' . $index]) != '' 
-						&& ($_POST['waste_' . $index]) != '' 
-						&& ($_POST['used_area_' . $index]) != '' 
-						&& ($_POST['used_unit_' . $index]) != '' 
-						&& ($_POST['employee_name_' . $index]) != '' 
-						&& ($_POST['employee_id_' . $index]) != '' 
-						&& ($_POST['date_' . $index]) != '')
+					if(	($_POST['assigned_kg_' . $index]) != '' 
+						&& ($_POST['assigned_area_' . $index]) != '')
 					{
+						$returned_kg = $returned_area = 0;
+						
+						if(!empty($_POST['returned_kg_' . $index]))
+							$returned_kg = $_POST['returned_kg_' . $index];
+						if(!empty($_POST['returned_area_' . $index]))
+							$returned_area = $_POST['returned_area_' . $index];
+						
 						// Number validation
-						if(	is_numeric($_POST['used_' . $index]) && 
-							is_numeric($_POST['surplus_' . $index]) && 
-							is_numeric($_POST['remnant_' . $index]) && 
-							is_numeric($_POST['waste_' . $index]) && 
-							is_numeric($_POST['waste_' . $index]) && 
-							is_numeric($_POST['used_area_' . $index]))
+						if(	is_numeric($_POST['assigned_kg_' . $index]) && 
+							is_numeric($returned_kg) && 
+							is_numeric($_POST['assigned_area_' . $index]) && 
+							is_numeric($returned_area))
 						{
-							if($hoja_ruta_corte->save_used_leather_by_order(
+							$closed = 0;
+							if(isset($_POST['closed_' . $index]))
+								$closed = 1;
+							
+							if($hoja_ruta_corte->save_assigned_leather_by_order(
 								$orderId, 
 								$_POST['leather_id_' . $index], 
 								$_POST['color_id_' . $index], 
-								$_POST['employee_id_' . $index], 
+								$_SESSION['usuario_id'], 
 								$_POST['quantity_' . $index], 
-								$_POST['used_id_' . $index], 
-								$_POST['used_' . $index], 
-								$_POST['surplus_' . $index], 
-								$_POST['remnant_' . $index], 
-								$_POST['waste_' . $index], 
-								$_POST['used_area_' . $index], 
-								$_POST['used_unit_' . $index], 
-								$_POST['date_' . $index]))
+								$_POST['assigned_id_' . $index], 
+								$_POST['assigned_kg_' . $index], 
+								$returned_kg, 
+								$_POST['assigned_area_' . $index], 
+								$returned_area, 
+								$_POST['assigned_unit_' . $index], 
+								$closed))
 							{
 								if(!isset($messageSaved))
 									$messageSaved = 1;
@@ -697,6 +726,53 @@ if(!isset($_SESSION['logeo'])){
 					header("location: hoja_ruta_corte.php?opcion=12&saved=$messageSaved");
 				else
 					header("location: hoja_ruta_corte.php?opcion=12");
+			}
+			else if($_GET['function'] == "saveUsedLeatherByOrder")
+			{
+				$totalData = $_POST['total_data'];
+				
+				for($index = 0; $index < $totalData; $index++)
+				{
+					// If a row of fields are not empty, the row is going to be saved
+					if(	($_POST['used_' . $index]) != '' 
+						&& ($_POST['surplus_' . $index]) != '' 
+						&& ($_POST['remnant_' . $index]) != '' 
+						&& ($_POST['waste_' . $index]) != '' 
+						&& ($_POST['used_area_' . $index]) != '' 
+						&& ($_POST['employee_name_' . $index]) != '' 
+						&& ($_POST['employee_id_' . $index]) != '' 
+						&& ($_POST['date_' . $index]) != '')
+					{
+						// Number validation
+						if(	is_numeric($_POST['used_' . $index]) && 
+							is_numeric($_POST['surplus_' . $index]) && 
+							is_numeric($_POST['remnant_' . $index]) && 
+							is_numeric($_POST['waste_' . $index]) && 
+							is_numeric($_POST['used_area_' . $index]))
+						{
+							if($hoja_ruta_corte->save_used_leather_by_order(
+								$_POST['employee_id_' . $index], 
+								$_POST['used_id_' . $index], 
+								$_POST['used_' . $index], 
+								$_POST['surplus_' . $index], 
+								$_POST['remnant_' . $index], 
+								$_POST['waste_' . $index], 
+								$_POST['used_area_' . $index], 
+								$_POST['date_' . $index]))
+							{
+								if(!isset($messageSaved))
+									$messageSaved = 1;
+							}
+							else
+								$messageSaved = 0;
+						}
+					}
+				}
+				
+				if(isset($messageSaved))
+					header("location: hoja_ruta_corte.php?opcion=14&saved=$messageSaved");
+				else
+					header("location: hoja_ruta_corte.php?opcion=14");
 			}
 		}
 		

@@ -1407,6 +1407,54 @@ function despiece_completo($hid)
  //*******************************************
     //METODOS CREADO PARA EL REPORTE DE RETACERIA 
     //*******************************************
+	//consulta la lista de ordenes anual
+	function consulta_lista_ordenes(){
+		//echo $año;
+		$con = new DBmanejador();
+		if($con->conectar() == true){
+			$consulta = "
+			SELECT	o.orden_id, o.num_orden, c.nombre AS cliente,c.cliente_id
+            , o.fecha, o.fechaentrega, o.fecharepro, o.observacion
+            , count(tdop.cantidad) AS cantidad 
+            FROM	tordenesproduccion o , tclientes c, `tdetalleordenesproduccion` tdop 
+            WHERE	c.cliente_id = o.cliente_id
+			AND o.orden_id = tdop.orden_id
+            AND tdop.estado<>0
+            GROUP BY o.orden_id
+            ORDER BY o.fecha DESC, o.cup_num DESC
+		    LIMIT 0 ,50
+			";
+			
+			//	LIMIT 0 ,30
+			$resultado = mysql_query($consulta) or die ('La consulta -consulta lista ordenes anual- fall&oacute;: ' . mysql_error());
+			
+			if (!$resultado)
+				return false;
+			else{
+				$contador = 0;
+				while($row = mysql_fetch_array($resultado)){
+					$respuesta[$contador]["orden_id"] = $row['orden_id'];
+					$respuesta[$contador]["num_orden"] = $row['num_orden'];
+					$respuesta[$contador]["cliente"] = $row['cliente'];
+                    $respuesta[$contador]["cliente_id"] = $row['cliente_id'];
+					$respuesta[$contador]["fecha"] = $row['fecha'];
+					
+					$fecharepro = $row['fecharepro'];
+					if (($fecharepro != null) && ($fecharepro != '0000-00-00'))
+						$respuesta[$contador]["fechaentrega"] = $fecharepro;
+					else
+						$respuesta[$contador]["fechaentrega"] = $row['fechaentrega'];
+						
+					$respuesta[$contador]["observacion"] = $row['observacion'];
+					$respuesta[$contador]["cantidad"] = $row['cantidad'];	
+
+					$contador = $contador + 1;
+				}
+			}
+            return $respuesta;
+		}
+	}
+	
     //consulta la lista de ordenes anual
 	function consulta_lista_ordenes_anual($año){
 		//echo $año;
@@ -1425,7 +1473,8 @@ function despiece_completo($hid)
             ORDER BY o.fecha DESC, o.cup_num DESC
 		    LIMIT 0 ,150
 			";
-				//	LIMIT 0 ,30
+			
+			//	LIMIT 0 ,30
 			$resultado = mysql_query($consulta) or die ('La consulta -consulta lista ordenes anual- fall&oacute;: ' . mysql_error());
 			
 			if (!$resultado)
@@ -1509,45 +1558,124 @@ function despiece_completo($hid)
 	}
 	
 	// Save the leather used in a order, return true if the data was saved successfully
-    function save_used_leather_by_order($order_id, $leather_id, $color_id, $employee_id, 
-										$quantity, $used_id, $used_kg, $surplus, $remnant, 
-										$waste, $used_area, $used_unit, $date)
+    function save_assigned_leather_by_order($order_id, $leather_id, $color_id, $employee_id, $quantity, 
+											$used_id, $assigned_kg, $returned_kg, $assigned_area, 
+											$returned_area, $area_unit, $assignation_closed)
 	{
 		$con = new DBmanejador;
         if(!$con->conectar())
 			return false;
 		
 		if(empty($used_id))
+		{
+			$query = 
+				"INSERT INTO cuero_asignado_orden (
+						`order_id`, 
+						`leather_id`, 
+						`color_id`, 
+						`employee_id`, 
+						`quantity`, 
+						`assigned_kg`, 
+						`returned_kg`, 
+						`assigned_area`, 
+						`returned_area`, 
+						`area_unit`, 
+						`date`, 
+						`date_modify`, 
+						`assignation_closed`)
+				VALUES
+				(	$order_id, 
+					$leather_id, 
+					$color_id, 
+					$employee_id, 
+					$quantity, 
+					$assigned_kg, 
+					$returned_kg, 
+					$assigned_area, 
+					$returned_area, 
+					'$area_unit', 
+					'". date('Y-m-d H:m:s') ."', 
+					'". date('Y-m-d H:m:s') ."',
+					$assignation_closed)
+				";
+			
+			if(!$this->pre_save_used_leather_by_order($order_id, $leather_id, $color_id))
+				return false;
+		}
+		else
+			$query = 
+			"UPDATE cuero_asignado_orden
+			SET 
+				employee_id = $employee_id, 
+				assigned_kg = $assigned_kg, 
+				returned_kg = $returned_kg, 
+				assigned_area = $assigned_area, 
+				returned_area = $returned_area, 
+				area_unit = '$area_unit', 
+				date_modify = '". date('Y-m-d H:m:s') ."', 
+				assignation_closed = $assignation_closed 
+			WHERE id = $used_id";
+		
+		return mysql_query($query);
+	}
+	
+	// Save the leather used in a order, return true if the data was saved successfully
+    function pre_save_used_leather_by_order($order_id, $leather_id, $color_id)
+	{
+		$con = new DBmanejador;
+        if(!$con->conectar())
+			return false;
+		
+		$query = 
+			"INSERT INTO cuero_utilizado_orden (
+					`order_id`,
+					`leather_id`,
+					`color_id`,
+					`date`)
+			VALUES
+			(	$order_id, 
+				$leather_id, 
+				$color_id,  
+				'". date('Y-m-d H:m:s') ."')
+			";
+			
+		return mysql_query($query);
+	}
+	
+	// Save the leather used in a order, return true if the data was saved successfully
+    function save_used_leather_by_order($employee_id, $used_id, $used_kg, $surplus, $remnant, $waste, $used_area, $date)
+	{
+		$con = new DBmanejador;
+        if(!$con->conectar())
+			return false;
+		
+		/*if(empty($used_id))
 		$query = 
 			"INSERT INTO cuero_utilizado_orden (
 					`order_id`,
 					`leather_id`,
 					`color_id`,
 					`employee_id`,
-					`quantity`,
 					`used_kg`,
 					`surplus`,
 					`remnant`,
 					`waste`,
 					`used_area`,
-					`used_unit`,
 					`date`)
 			VALUES
 			(	$order_id, 
 				$leather_id, 
 				$color_id, 
 				$employee_id, 
-				$quantity, 
 				$used_kg, 
 				$surplus, 
 				$remnant, 
 				$waste, 
 				$used_area, 
-				'$used_unit', 
 				'$date')
 			";
 		
-		else
+		else*/
 			$query = 
 			"UPDATE cuero_utilizado_orden
 			SET 
@@ -1557,11 +1685,10 @@ function despiece_completo($hid)
 				remnant = $remnant, 
 				waste = $waste, 
 				used_area = $used_area, 
-				used_unit = '$used_unit', 
 				date = '$date', 
-				date_modify = '". date('Y-m-d h:m:s') ."' 
+				date_modify = '". date('Y-m-d H:m:s') ."' 
 			WHERE id = $used_id";
-		
+		echo $query;
 		return mysql_query($query);
 		//mysql_query($query) or die ('La consulta -save_used_leather_by_order- fall&oacute;: ' . mysql_error());
 	}
@@ -1652,14 +1779,114 @@ function despiece_completo($hid)
 		}
 	}
 	
-	
-	function get_order_detail_leather($orderId)
+	function get_order_assigned_leather($orderId)
 	{
 		$con = new DBmanejador;
 		if(!$con->conectar())
 			return null;
 		
 		$query = "
+            SELECT tdop.detalle_id AS detalle_id, 
+				top.orden_id AS order_id, 
+				tcuero.cuero_id AS leather_id, 
+				tco.color_id AS color_id, 
+				tcuero.descripcion AS leather, 
+				tco.descripcion AS color, 
+				SUM(h.cantidad) AS quantity 
+			FROM tordenesproduccion top, 
+				tdetalleordenesproduccion tdop, 
+				tpropiedades tp, 
+				tcueros tcuero, 
+				hoja h LEFT JOIN detalle_corte dc ON h.hoja_id = dc.hoja_id AND dc.personal_id != 0, 
+				tcolores tco 
+			WHERE top.orden_id = tdop.orden_id 
+				AND tdop.detalle_id = h.detalle_id 
+				AND tdop.propiedad_id = tp.prop_id 
+				AND tp.cuero_id = tcuero.cuero_id 
+				AND tp.color_id = tco.color_id 
+				AND top.orden_id = $orderId 
+				AND tdop.estado != 0 
+				AND tdop.bloqueado = 0 
+			GROUP BY tcuero.cuero_id,  tco.color_id 
+			ORDER BY tco.descripcion, h.cantidad DESC
+			";
+		
+		$result = mysql_query($query) or die('La consulta -get_order_assigned_leather- first select fall&oacute;: ' . mysql_error());
+		$data = array();
+		
+		while($row = mysql_fetch_array($result))
+		{
+			$query = "
+			SELECT * 
+			FROM cuero_asignado_orden 
+			WHERE order_id = $orderId 
+				AND leather_id = ". $row['leather_id'] .
+				" AND color_id = ". $row['color_id'];
+				
+			$savedAssignedLeather = mysql_query($query) or die('La consulta -get_order_assigned_leather- second select fall&oacute;: ' . mysql_error());
+			
+			$assignedData = mysql_fetch_array($savedAssignedLeather);
+			
+			if(!empty($assignedData))
+				$row = $row + $assignedData;
+			
+			// Getting the used leather if exist
+			$query = "
+			SELECT (ifnull(used_kg, 0) + ifnull(remnant, 0) + ifnull(waste, 0)) AS total_used_kg,
+				ifnull(used_area, 0) AS total_used_area
+			FROM cuero_utilizado_orden 
+			WHERE order_id = $orderId 
+				AND leather_id = ". $row['leather_id'] .
+				" AND color_id = ". $row['color_id'];
+				
+			$savedUsedLeather = mysql_query($query) or die('La consulta -get_order_assigned_leather- second select fall&oacute;: ' . mysql_error());
+			
+			$usedData = mysql_fetch_array($savedUsedLeather);
+			
+			if(!empty($usedData))
+				$row = $row + $usedData;
+			
+			$data[] = $row;
+		}
+		
+		return $data;
+	}
+	
+	function get_order_detail_leather($orderId)
+	{
+		$con = new DBmanejador;
+		if(!$con->conectar())
+			return null;
+			
+		$query = "SELECT cuo.* ,
+					cao.quantity, 
+					cao.area_unit, 
+					cao.assignation_closed, 
+					tcuero.descripcion AS leather, 
+					tco.descripcion AS color,
+					(SELECT CONCAT(p.clase, ' - ', p.apellidos, ' ',p.nombres) 
+							FROM personal p 
+							WHERE cuo.employee_id = p.personal_id 
+							AND cuo.employee_id != '') AS employee_name 
+				FROM cuero_asignado_orden cao, 
+					cuero_utilizado_orden cuo, 
+					tcueros tcuero, 
+					tcolores tco 					
+				WHERE cao.order_id = $orderId 
+					AND cao.order_id = cuo.order_id 
+					AND cao.leather_id = cuo.leather_id 
+					AND cao.color_id = cuo.color_id 
+					AND cao.leather_id = tcuero.cuero_id 
+					AND cao.color_id = tco.color_id ";
+		
+		$result = mysql_query($query) or die('La consulta -get_order_detail_leather- second select fall&oacute;: ' . mysql_error());
+		$data = array();
+		while($row = mysql_fetch_array($result))
+		{
+			$data[] = $row;
+		}
+		
+		/*$query = "
             SELECT tdop.detalle_id AS detalle_id, 
 				top.orden_id AS order_id, 
 				tcuero.cuero_id AS leather_id, 
@@ -1708,7 +1935,7 @@ function despiece_completo($hid)
 				$row = $row + $usedData;
 			
 			$data[] = $row;
-		}
+		}*/
 		
 		return $data;
 	}
