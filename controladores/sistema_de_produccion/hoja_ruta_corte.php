@@ -678,6 +678,18 @@ if(!isset($_SESSION['logeo'])){
 				
 				for($index = 0; $index < $totalData; $index++)
 				{
+					echo "<br/>Assi: ". $_POST['assigned_kg_' . $index];
+					echo "<br/>". $_POST['used_' . $index];
+					echo "<br/>". $_POST['surplus_' . $index];
+					echo "<br/>". $_POST['remnant_' . $index];
+					echo "<br/>". $_POST['waste_' . $index];
+					echo "<br/>". $_POST['returned_kg_' . $index];
+					echo "<br/>". $_POST['assigned_area_' . $index];
+					echo "<br/>". $_POST['used_area_' . $index];
+					echo "<br/>Ret: ". $_POST['returned_area_' . $index];
+					
+					
+					
 					// If a row of fields are not empty, the row is going to be saved
 					if(	($_POST['assigned_kg_' . $index]) != '' 
 						&& ($_POST['used_' . $index]) != ''
@@ -689,19 +701,19 @@ if(!isset($_SESSION['logeo'])){
 						&& ($_POST['used_area_' . $index]) != ''
 						&& ($_POST['returned_area_' . $index]) != '')
 					{
-						$returned_kg = $returned_area = 0;
-						
-						if(!empty($_POST['returned_kg_' . $index]))
-							$returned_kg = $_POST['returned_kg_' . $index];
-						if(!empty($_POST['returned_area_' . $index]))
-							$returned_area = $_POST['returned_area_' . $index];
-						
+						echo "<br/>No empty";
 						// Number validation
 						if(	is_numeric($_POST['assigned_kg_' . $index]) && 
-							is_numeric($returned_kg) && 
+							is_numeric($_POST['used_' . $index]) && 
+							is_numeric($_POST['surplus_' . $index]) && 
+							is_numeric($_POST['remnant_' . $index]) && 
+							is_numeric($_POST['waste_' . $index]) && 
+							is_numeric($_POST['returned_kg_' . $index]) && 
 							is_numeric($_POST['assigned_area_' . $index]) && 
-							is_numeric($returned_area))
+							is_numeric($_POST['used_area_' . $index]) && 
+							is_numeric($_POST['returned_area_' . $index]) )
 						{
+							echo "<br/>numeric";
 							$closed = 0;
 							if(isset($_POST['closed_' . $index]))
 								$closed = 1;
@@ -711,14 +723,19 @@ if(!isset($_SESSION['logeo'])){
 								$_POST['leather_id_' . $index], 
 								$_POST['color_id_' . $index], 
 								$_SESSION['usuario_id'], 
-								$_POST['quantity_' . $index], 
-								$_POST['assigned_id_' . $index], 
-								$_POST['assigned_kg_' . $index], 
-								$returned_kg, 
-								$_POST['assigned_area_' . $index], 
-								$returned_area, 
-								$_POST['assigned_unit_' . $index], 
-								$closed))
+																
+								$_POST['saved_id_' . $index], 
+								$_POST['assigned_kg_' . $index],//assigned_kg` double default '0',
+								$_POST['used_' . $index],//used_kg` double default '0',
+								$_POST['surplus_' . $index],//surplus_kg` double default '0',
+								$_POST['remnant_' . $index],//remnant_kg` double default '0',
+								$_POST['waste_' . $index],//waste_kg` double default '0',
+								$_POST['returned_kg_' . $index],//returned_kg` double default '0',
+								$_POST['assigned_area_' . $index],//assigned_area` double default '0',
+								$_POST['used_area_' . $index],//used_area` double default '0',
+								$_POST['returned_area_' . $index],//returned_area` double default '0',
+								$closed//assignation_closed` int(1) default '0',
+								))
 							{
 								if(!isset($messageSaved))
 									$messageSaved = 1;
@@ -726,6 +743,8 @@ if(!isset($_SESSION['logeo'])){
 							else
 								$messageSaved = 0;
 						}
+						else
+							$messageSaved = 0;
 					}
 				}
 				

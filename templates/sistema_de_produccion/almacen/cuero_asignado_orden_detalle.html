@@ -9,6 +9,59 @@ var $j = jQuery.noConflict();
 
 $j(document).ready(function() {
 	
+	$j('.assigned_kg').each(function(){
+		updateUsedTotal( $j(this).attr('row') );
+		updateUsedArea( $j(this).attr('row') );
+	});
+	
+	$j.validator.addClassRules({
+		assigned_kg: {
+				required: true,
+				number: true
+			},
+		used: {
+				number: true
+			},
+		surplus: {
+				number: true
+			},
+		remnant: {
+				number: true
+			},
+		waste: {
+				number: true
+			},
+		returned_kg: {
+				number: true
+			},
+		assigned_area: {
+				required: true,
+				number: true
+			},
+		returned_area: {
+				number: true
+			}
+	});
+	
+	var noNumberMessage = "No es un numero";
+	var requiredMessage = "Campo vacio";
+	
+	$j.validator.addMethod("assigned_kg",	$j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("assigned_kg",	$j.validator.methods.required, requiredMessage);
+	
+	$j.validator.addMethod("used",			$j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("surplus",		$j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("remnant",		$j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("waste",			$j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("returned_kg",	$j.validator.methods.number, noNumberMessage);
+	
+	$j.validator.addMethod("assigned_area",	$j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("assigned_area",	$j.validator.methods.required, requiredMessage);
+	
+	$j.validator.addMethod("returned_area",	$j.validator.methods.number, noNumberMessage);
+	
+	$j("#leather_assign_form").validate();
+	
 	$j('#close_all').change(function(){
 		if( $j('#close_all').prop('checked') )
 			$j('.closed').prop('checked', true);
@@ -17,80 +70,37 @@ $j(document).ready(function() {
 	});
 	
 	$j('.assigned_kg, .used, .surplus, .remnant, .waste').change(function(){
-		var row = $j(this).attr('row');
-		var assignedKg = Number($j("#assigned_kg_" + row).val());
-		
-		var total = assignedKg - (
-					Number($j('#used_' + row).val()) 
-					+ Number($j('#surplus_' + row).val()) 
-					+ Number($j('#remnant_' + row).val()) 
-					+ Number($j('#waste_' + row).val()));
-		
-		$j('#used_total_' + row).html(total);
+		updateUsedTotal( $j(this).attr('row') );
 	});
 	
 	$j('.assigned_kg, .returned_kg, .assigned_area').change(function(){
-		var row = $j(this).attr('row');
-		var returned = conversionFactor($j('#returned_kg_' + row).val(), $j('#assigned_kg_' + row).val(), $j('#assigned_area_' + row).val());
-		
-		$j('#returned_area_' + row).val( returned );
-		
-		$j('#used_area_' + row).html(Number($j('#assigned_area_' + row).val()) - returned);
+		updateUsedArea( $j(this).attr('row') );
 	});
-	
-	$j.validator.addClassRules({
-		assigned_kg: {
-				number: true,
-				required: true
-			},
-		used: {
-				number: true,
-				required: true
-			},
-		surplus: {
-				number: true,
-				required: true
-			},
-		remnant: {
-				number: true,
-				required: true
-			},
-		waste: {
-				number: true,
-				required: true
-			},
-		returned_kg: {
-				number: true
-			},
-		assigned_area: {
-				number: true,
-				required: true
-			},
-		returned_area: {
-				number: true
-			}
-	});
-	
-	var noNumberMessage = 'No es numero entero o decimal';
-	var requiredMessage = 'Campo vacio';
-	
-	$j.validator.addMethod("assigned_kg", $j.validator.methods.number, noNumberMessage);
-	$j.validator.addMethod("assigned_kg", $j.validator.methods.required, requiredMessage);
-	$j.validator.addMethod("used", $j.validator.methods.number, noNumberMessage);
-	$j.validator.addMethod("used", $j.validator.methods.required, requiredMessage);
-	$j.validator.addMethod("surplus", $j.validator.methods.number, noNumberMessage);
-	$j.validator.addMethod("surplus", $j.validator.methods.required, requiredMessage);
-	$j.validator.addMethod("remnant", $j.validator.methods.number, noNumberMessage);
-	$j.validator.addMethod("remnant", $j.validator.methods.required, requiredMessage);
-	$j.validator.addMethod("waste", $j.validator.methods.number, noNumberMessage);
-	$j.validator.addMethod("waste", $j.validator.methods.required, requiredMessage);
-	$j.validator.addMethod("returned_kg", $j.validator.methods.number, noNumberMessage);
-	$j.validator.addMethod("assigned_area", $j.validator.methods.number, noNumberMessage);
-	$j.validator.addMethod("assigned_area", $j.validator.methods.required, requiredMessage);
-	$j.validator.addMethod("returned_area", $j.validator.methods.number, noNumberMessage);
-	
-	$j("#leather_assign_form").validate();
 });
+
+function updateUsedTotal(row)
+{
+	var assignedKg = Number($j("#assigned_kg_" + row).val());
+	
+	var total = assignedKg - (
+				Number($j('#used_' + row).val()) 
+				+ Number($j('#surplus_' + row).val()) 
+				+ Number($j('#remnant_' + row).val()) 
+				+ Number($j('#waste_' + row).val()));
+	
+	$j('#used_total_' + row).html(total);
+}
+
+function updateUsedArea(row)
+{
+	var returned = conversionFactor($j('#returned_kg_' + row).val(), $j('#assigned_kg_' + row).val(), $j('#assigned_area_' + row).val());
+	
+	$j('#returned_area_' + row).val( returned );
+	
+	var usedArea = Number($j('#assigned_area_' + row).val()) - returned;
+	$j('#used_area_' + row).val(usedArea);
+	$j('#label_used_area_' + row).html(usedArea);
+}
 
 function conversionFactor(value, kg, area)
 {
@@ -216,58 +226,58 @@ function conversionFactor(value, kg, area)
 		</td>		
 		<td style="text-align:center;">
 			<span class="left">
-				<input type="hidden" name="assigned_id_{$counter}" value="{$order.id}" />
-				<input type="text" id="assigned_kg_{$counter}" name="assigned_kg_{$counter}" class='assigned_kg' value="{$order.assigned_kg}" row="{$counter}" size="1" style="border:inherit;">
+				<input type="hidden" name="saved_id_{$counter}" value="{$order.id}"/>
+				<input type="text" id="assigned_kg_{$counter}" name="assigned_kg_{$counter}" class="assigned_kg" value="{$order.assigned_kg}" row="{$counter}" size="1" style="border:inherit;">
 			</span>
 		</td>
 		<td style="text-align:center;">
 			<span class="left">
-				<input type="hidden" name="used_id_{$counter}" value="{$order.id}" />
-				<input type="text" id="used_{$counter}" name="used_{$counter}" class='used' value="{$order.used_kg}" row="{$counter}" size="1" style="border:inherit;">
+				<input type="text" id="used_{$counter}" name="used_{$counter}" class="used" value="{$order.used_kg}" row="{$counter}" size="1" style="border:inherit;">
 			</span>
 		</td>
         <td style="text-align:center;">
 			<span align="left">
 				<!-- Retaceria = Sobras de anteriores ordenes -->
-				<input type="text" id="surplus_{$counter}" name="surplus_{$counter}" class='surplus' value="{$order.surplus_kg}" row="{$counter}" size="1"  style="border:inherit;">
+				<input type="text" id="surplus_{$counter}" name="surplus_{$counter}" class="surplus" value="{$order.surplus_kg}" row="{$counter}" size="1"  style="border:inherit;">
 			</span>
 		</td>
         <td style="text-align:center;">
 			<span align="left">
 				<!-- Retazos = Sobras de la orden actual -->
-				<input type="text" id="remnant_{$counter}" name="remnant_{$counter}" class='remnant' value="{$order.remnant_kg}" row="{$counter}" size="1" style="border:inherit;">
+				<input type="text" id="remnant_{$counter}" name="remnant_{$counter}" class="remnant" value="{$order.remnant_kg}" row="{$counter}" size="1" style="border:inherit;">
 			</span>
 		</td>
         <td style="text-align:center;">
 			<span align="left">
-				<input type="text" id="waste_{$counter}" name="waste_{$counter}" class='waste' value="{$order.waste_kg}" row="{$counter}" size="1" style="border:inherit;">
+				<input type="text" id="waste_{$counter}" name="waste_{$counter}" class="waste" value="{$order.waste_kg}" row="{$counter}" size="1" style="border:inherit;">
 			</span>
 		</td>
 		<td style="text-align:center;" id="used_total_{$counter}">
 		</td>
 		<td style="text-align:center;">
 			<span class="left">
-				<input type="text" id="returned_kg_{$counter}" name="returned_kg_{$counter}" class='returned_kg' value="{$order.returned_kg}" row="{$counter}" size="1" style="border:inherit;">
+				<input type="text" id="returned_kg_{$counter}" name="returned_kg_{$counter}" class="returned_kg" value="{$order.returned_kg}" row="{$counter}" size="1" style="border:inherit;">
 			</span>
 		</td>
         <td style="text-align:center;">
 			<span align="left">
-				<input type="text" id="assigned_area_{$counter}" name="assigned_area_{$counter}" class='assigned_area' value="{$order.assigned_area}" row="{$counter}" size="1" style="border:inherit;">
+				<input type="text" id="assigned_area_{$counter}" name="assigned_area_{$counter}" class="assigned_area" value="{$order.assigned_area}" row="{$counter}" size="1" style="border:inherit;">
 				
-				{if $order.area_unit == 'Pie2'}Pies&sup2;{/if}
-				{if $order.area_unit == 'Metro'}Metros{/if}
+				{if $order.area_unit == 'Pie2'} [Pies&sup2;]{/if}
+				{if $order.area_unit == 'Metro'} [Metros]{/if}
 				
 			</span>
 		</td>
-		<td style="text-align:center;" id="used_area_{$counter}">{$order.total_used_area}
+		<td style="text-align:center;" id="label_used_area_{$counter}" >{$order.used_area}
 		</td>
+			<input type="hidden" id="used_area_{$counter}" name="used_area_{$counter}" value="{$order.used_area}" />
 		<td style="text-align:center;">
 			<span align="left">
-				<input type="text" id="returned_area_{$counter}" name="returned_area_{$counter}" class='returned_area' value="{$order.returned_area}" size="1" style="border:inherit;">
+				<input type="text" id="returned_area_{$counter}" name="returned_area_{$counter}" class="returned_area" value="{$order.returned_area}" size="1" style="border:inherit;">
 			</span>
 		</td>
 		<td style="text-align:center;">
-			<input type='checkbox' name='closed_{$counter}' {if $order.assignation_closed == '1' }checked{/if} class='closed' />
+			<input type='checkbox' name='closed_{$counter}' {if $order.assignation_closed == '1' }checked{/if} class="closed" />
 		</td>
 	</tr>
 	</label>

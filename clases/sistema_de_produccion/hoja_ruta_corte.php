@@ -1558,63 +1558,74 @@ function despiece_completo($hid)
 	}
 	
 	// Save the leather used in a order, return true if the data was saved successfully
-    function save_assigned_leather_by_order($order_id, $leather_id, $color_id, $employee_id, $quantity, 
-											$used_id, $assigned_kg, $returned_kg, $assigned_area, 
-											$returned_area, $area_unit, $assignation_closed)
+    function save_assigned_leather_by_order($order_id, $leather_id, $color_id, $employee_id, $saved_id, 
+											$assigned_kg, $used_kg, $surplus_kg, $remnant_kg, $waste_kg, 
+											$returned_kg, $assigned_area, $used_area, $returned_area, 
+											$assignation_closed)
 	{
 		$con = new DBmanejador;
         if(!$con->conectar())
 			return false;
 		
-		if(empty($used_id))
+		if(empty($saved_id))
 		{
 			$query = 
-				"INSERT INTO cuero_asignado_orden (
+				"INSERT INTO cuero_asignacion_orden (
 						`order_id`, 
 						`leather_id`, 
 						`color_id`, 
 						`employee_id`, 
-						`quantity`, 
 						`assigned_kg`, 
+						`used_kg`, 
+						`surplus_kg`, 
+						`remnant_kg`, 
+						`waste_kg`, 
 						`returned_kg`, 
 						`assigned_area`, 
+						`used_area`, 
 						`returned_area`, 
-						`area_unit`, 
 						`date`, 
-						`date_modify`, 
 						`assignation_closed`)
 				VALUES
 				(	$order_id, 
 					$leather_id, 
 					$color_id, 
 					$employee_id, 
-					$quantity, 
 					$assigned_kg, 
+					$used_kg, 
+					$surplus_kg, 
+					$remnant_kg, 
+					$waste_kg, 
 					$returned_kg, 
 					$assigned_area, 
+					$used_area, 
 					$returned_area, 
-					'$area_unit', 
-					'". date('Y-m-d H:m:s') ."', 
-					'". date('Y-m-d H:m:s') ."',
+					'" . date('Y-m-d') . "', 
 					$assignation_closed)
 				";
 			
-			if(!$this->pre_save_used_leather_by_order($order_id, $leather_id, $color_id))
-				return false;
+			/*if(!$this->pre_save_used_leather_by_order($order_id, $leather_id, $color_id))
+				return false;*/
 		}
 		else
 			$query = 
-			"UPDATE cuero_asignado_orden
+			"UPDATE cuero_asignacion_orden
 			SET 
 				employee_id = $employee_id, 
 				assigned_kg = $assigned_kg, 
+				used_kg = $used_kg, 
+				surplus_kg = $surplus_kg, 
+				remnant_kg = $remnant_kg, 
+				waste_kg = $waste_kg, 
 				returned_kg = $returned_kg, 
 				assigned_area = $assigned_area, 
+				used_area = $used_area, 
 				returned_area = $returned_area, 
-				area_unit = '$area_unit', 
-				date_modify = '". date('Y-m-d H:m:s') ."', 
+				date_modify = '" . date('Y-m-d H:m:s') . "', 
 				assignation_closed = $assignation_closed 
-			WHERE id = $used_id";
+			WHERE id = $saved_id";
+		
+		echo $query;
 		
 		return mysql_query($query);
 	}
@@ -1787,6 +1798,7 @@ function despiece_completo($hid)
 		
 		$query = "
 				SELECT
+					d.orden_id AS order_id, 
 					o.cuero_id AS leather_id, 
 					c.color_id AS color_id, 
 					o.descripcion AS leather, 
