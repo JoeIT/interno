@@ -7,9 +7,14 @@ class Coneccion {
 	var $database="macaws";*/
 
 
-   	var $home="localhost";
+   	/*var $home="localhost";
 	var $user="root";
 	var $pass="Da98-AA";
+	var $database="macaws"*/
+	
+	var $home="localhost";
+	var $user="sistemas";
+	var $pass="dato0";
 	var $database="macaws";
 
     function conectiondb()

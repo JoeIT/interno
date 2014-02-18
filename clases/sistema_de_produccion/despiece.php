@@ -1068,26 +1068,49 @@ LEFT JOIN tdimensiones d ON m.dimension_id = d.dimension_id*/
 	       $con = new DBmanejador;
          	if($con->conectar()==true)
          	{
-			
-			  $consulta= 'SELECT e.nombre_estilo as ESTILO , o.descripcion AS CUERO, 
-			  			  c.descripcion AS COLOR , l.descripcion AS CLIP , s.descripcion 
- 						  AS SELLO, t.descripcion AS ETIQUETA, m.nombre_familia AS 
-						  PRODUCTO, d.cantidad AS Cantidad_producto, d.unidad AS 
-						  Unidad_producto, d.detalle_id, materiales.nombre AS 
-						  Nombre_material, materiales.descripcion AS Descripcion_material ,
-						  materiales.unidad as Unidad_material,						
-						  despiece.total_piezas_material as TOTAL 
-						  FROM  tdetalleordenesproduccion d, estilo e, tcueros o, tcolores 
-						  c, tclips l, tchapas s, tetiquetas t, tpropiedades p, familia m, 
-						  tdespiece despiece, tmateriales materiales
- 					      WHERE d.orden_id='.$orden_id.' and d.propiedad_id=p.prop_id and 
-						  m.estilo_id=e.estilo_id and p.cuero_id=o.cuero_id and 						
-						  p.color_id=c.color_id and p.clip_id=l.clip_id and 
-						  p.sello_id=s.chapa_id and p.etiqueta_id=t.etiqueta_id and 
-						  d.familia_id=m.familia_id and d.estado=1 and 
-						  d.detalle_id=despiece.detalle_id and 						
-						  materiales.material_id=despiece.material_id order by 
-						  Nombre_material,PRODUCTO';
+				$consulta = "SELECT 
+								e.nombre_estilo as ESTILO, 
+								o.descripcion AS CUERO, 
+								c.descripcion AS COLOR, 
+								l.descripcion AS CLIP, 
+								s.descripcion AS SELLO, 
+								t.descripcion AS ETIQUETA, 
+								m.nombre_familia AS PRODUCTO, 
+								d.cantidad AS Cantidad_producto, 
+								d.unidad AS Unidad_producto, 
+								d.detalle_id, 
+								materiales.nombre AS Nombre_material, 
+								materiales.descripcion AS Descripcion_material, 
+								materiales.unidad AS Unidad_material, 
+								despiece.total_piezas_material as TOTAL 
+							FROM 
+								tdetalleordenesproduccion d, 
+								estilo e, 
+								tcueros o, 
+								tcolores c, 
+								tclips l, 
+								tchapas s, 
+								tetiquetas t, 
+								tpropiedades p, 
+								familia m, 
+								tdespiece despiece, 
+								tmateriales materiales 
+							WHERE 
+								d.orden_id = $orden_id 
+								AND d.propiedad_id = p.prop_id 
+								AND m.estilo_id = e.estilo_id 
+								AND p.cuero_id = o.cuero_id 
+								AND p.color_id = c.color_id 
+								AND p.clip_id = l.clip_id 
+								AND p.sello_id = s.chapa_id 
+								AND p.etiqueta_id = t.etiqueta_id 
+								AND d.familia_id = m.familia_id 
+								AND d.estado = 1 
+								AND d.detalle_id = despiece.detalle_id 
+								AND materiales.material_id = despiece.material_id 
+							Order By
+								Nombre_material, 
+								PRODUCTO";
 		 
 			 	$resultado=mysql_query($consulta) or die('La consulta fall&oacute;: ' . mysql_error());
 				$contador=0;

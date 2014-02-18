@@ -14,11 +14,48 @@ $j(document).ready(function() {
 			$j('.closed').prop('checked', true);
 		else
 			$j('.closed').prop('checked', false);
-			
+	});
+	
+	$j('.assigned_kg, .used, .surplus, .remnant, .waste').change(function(){
+		var row = $j(this).attr('row');
+		var assignedKg = Number($j("#assigned_kg_" + row).val());
+		
+		var total = assignedKg - (
+					Number($j('#used_' + row).val()) 
+					+ Number($j('#surplus_' + row).val()) 
+					+ Number($j('#remnant_' + row).val()) 
+					+ Number($j('#waste_' + row).val()));
+		
+		$j('#used_total_' + row).html(total);
+	});
+	
+	$j('.assigned_kg, .returned_kg, .assigned_area').change(function(){
+		var row = $j(this).attr('row');
+		var returned = conversionFactor($j('#returned_kg_' + row).val(), $j('#assigned_kg_' + row).val(), $j('#assigned_area_' + row).val());
+		
+		$j('#returned_area_' + row).val( returned );
+		
+		$j('#used_area_' + row).html(Number($j('#assigned_area_' + row).val()) - returned);
 	});
 	
 	$j.validator.addClassRules({
 		assigned_kg: {
+				number: true,
+				required: true
+			},
+		used: {
+				number: true,
+				required: true
+			},
+		surplus: {
+				number: true,
+				required: true
+			},
+		remnant: {
+				number: true,
+				required: true
+			},
+		waste: {
 				number: true,
 				required: true
 			},
@@ -34,11 +71,19 @@ $j(document).ready(function() {
 			}
 	});
 	
-	var noNumberMessage = '"No es numero entero o decimal"';
-	var requiredMessage = '"Campo vacio"';
+	var noNumberMessage = 'No es numero entero o decimal';
+	var requiredMessage = 'Campo vacio';
 	
 	$j.validator.addMethod("assigned_kg", $j.validator.methods.number, noNumberMessage);
 	$j.validator.addMethod("assigned_kg", $j.validator.methods.required, requiredMessage);
+	$j.validator.addMethod("used", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("used", $j.validator.methods.required, requiredMessage);
+	$j.validator.addMethod("surplus", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("surplus", $j.validator.methods.required, requiredMessage);
+	$j.validator.addMethod("remnant", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("remnant", $j.validator.methods.required, requiredMessage);
+	$j.validator.addMethod("waste", $j.validator.methods.number, noNumberMessage);
+	$j.validator.addMethod("waste", $j.validator.methods.required, requiredMessage);
 	$j.validator.addMethod("returned_kg", $j.validator.methods.number, noNumberMessage);
 	$j.validator.addMethod("assigned_area", $j.validator.methods.number, noNumberMessage);
 	$j.validator.addMethod("assigned_area", $j.validator.methods.required, requiredMessage);
@@ -46,6 +91,21 @@ $j(document).ready(function() {
 	
 	$j("#leather_assign_form").validate();
 });
+
+function conversionFactor(value, kg, area)
+{
+	kg = Number(kg);
+	if(kg == 0)
+		return 0;
+	
+	area = Number(area);
+	if(area == 0)
+		return 0;
+	
+	value = Number(value);
+	
+	return (value * area) / kg;
+}
 </script>
 <style>
 .error{
@@ -97,26 +157,30 @@ $j(document).ready(function() {
 {if $detail != null}
 	<table  width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
 	<tr>
-		<th colspan="11">Detalle de asignaci&oacuten de cuero</th>
+		<th colspan="14">Detalle de asignaci&oacuten de cuero</th>
 	</tr>
 	<tr>
-		<td class="enunciados" style="text-align:center;" rowspan='2'>Cuero</td>
-		<td class="enunciados" style="text-align:center;" rowspan='2'>Color</td>
-  		<td class="enunciados" style="text-align:center;" rowspan='2'>Cant. productos</td>
-  		<td class="enunciados" style="text-align:center;" colspan='3'>[KG.]</td>
-  		<td class="enunciados" style="text-align:center;" colspan='3'>[AREA]</td>
-  		<td class="enunciados" style="text-align:center;" rowspan='2'>Cerrar asig.
+		<th class="enunciados" style="text-align:center;" rowspan='2'>Cuero</th>
+		<th class="enunciados" style="text-align:center;" rowspan='2'>Color</th>
+  		<th class="enunciados" style="text-align:center;" rowspan='2'>Cantidad</th>
+  		<th class="enunciados" style="text-align:center;" colspan='7'>[KG.]</th>
+  		<th class="enunciados" style="text-align:center;" colspan='3'>[AREA]</th>
+  		<th class="enunciados" style="text-align:center;" rowspan='2'>Cerrar asig.
 			<input type='checkbox' id='close_all' />
-		</td>
+		</th>
 	</tr>
 	<tr>
 		
-   		<td class="enunciados" style="text-align:center;">Asignado(*)</td>
+   		<th class="enunciados" style="text-align:center;">Asignado(*)</th>
    		<td class="enunciados" style="text-align:center;">Utilizado</td>
-   		<td class="enunciados" style="text-align:center;">Devuelto</td>
-		<td class="enunciados" style="text-align:center;">Asignado(*)</td>
-		<td class="enunciados" style="text-align:center;">Utilizado</td>
-		<td class="enunciados" style="text-align:center;">Devuelto</td>
+		<td class="enunciados" style="text-align:center;">Retaceria</td>
+		<td class="enunciados" style="text-align:center;">Retazos</td>
+		<td class="enunciados" style="text-align:center;">Desperdicio</td>
+   		<th class="enunciados" style="text-align:center;">A devolver</th>
+   		<th class="enunciados" style="text-align:center;">Devuelto</th>
+		<th class="enunciados" style="text-align:center;">Asignado(*)</th>
+		<th class="enunciados" style="text-align:center;">Utilizado</th>
+		<th class="enunciados" style="text-align:center;">Devuelto</th>
 	</tr>
 	
 	{assign var=counter value=0}
@@ -147,36 +211,59 @@ $j(document).ready(function() {
 		<td style="text-align:center;">{$order.color}
 			<input type="hidden" name="color_id_{$counter}" value="{$order.color_id}" />
 		</td>
-		<td style="text-align:center;">{$order.quantity}
-			<input type="hidden" name="quantity_{$counter}" value="{$order.quantity}" />
+		<td style="text-align:center;">{$order.total}
+			<input type="hidden" name="total_{$counter}" value="{$order.total}" />
 		</td>		
 		<td style="text-align:center;">
 			<span class="left">
 				<input type="hidden" name="assigned_id_{$counter}" value="{$order.id}" />
-				<input type="text" name="assigned_kg_{$counter}" class='assigned_kg' value="{$order.assigned_kg}" size="1" style="border:inherit;">
+				<input type="text" id="assigned_kg_{$counter}" name="assigned_kg_{$counter}" class='assigned_kg' value="{$order.assigned_kg}" row="{$counter}" size="1" style="border:inherit;">
 			</span>
-		</td>
-		<td style="text-align:center;">{$order.total_used_kg}
 		</td>
 		<td style="text-align:center;">
 			<span class="left">
-				<input type="text" name="returned_kg_{$counter}" class='returned_kg' value="{$order.returned_kg}" size="1" style="border:inherit;">
+				<input type="hidden" name="used_id_{$counter}" value="{$order.id}" />
+				<input type="text" id="used_{$counter}" name="used_{$counter}" class='used' value="{$order.used_kg}" row="{$counter}" size="1" style="border:inherit;">
 			</span>
 		</td>
         <td style="text-align:center;">
 			<span align="left">
-				<input type="text" name="assigned_area_{$counter}" class='assigned_area' value="{$order.assigned_area}" size="1" style="border:inherit;">
-				<select name="assigned_unit_{$counter}" >
-					<option value="foot" {if $order.area_unit == 'foot' }selected{/if}>Pies&sup2;</option>
-					<option value="meters" {if $order.area_unit == 'meters' }selected{/if} >Metros&sup2;</option>
-				</select>
+				<!-- Retaceria = Sobras de anteriores ordenes -->
+				<input type="text" id="surplus_{$counter}" name="surplus_{$counter}" class='surplus' value="{$order.surplus_kg}" row="{$counter}" size="1"  style="border:inherit;">
 			</span>
 		</td>
-		<td style="text-align:center;">{$order.total_used_area}
+        <td style="text-align:center;">
+			<span align="left">
+				<!-- Retazos = Sobras de la orden actual -->
+				<input type="text" id="remnant_{$counter}" name="remnant_{$counter}" class='remnant' value="{$order.remnant_kg}" row="{$counter}" size="1" style="border:inherit;">
+			</span>
+		</td>
+        <td style="text-align:center;">
+			<span align="left">
+				<input type="text" id="waste_{$counter}" name="waste_{$counter}" class='waste' value="{$order.waste_kg}" row="{$counter}" size="1" style="border:inherit;">
+			</span>
+		</td>
+		<td style="text-align:center;" id="used_total_{$counter}">
+		</td>
+		<td style="text-align:center;">
+			<span class="left">
+				<input type="text" id="returned_kg_{$counter}" name="returned_kg_{$counter}" class='returned_kg' value="{$order.returned_kg}" row="{$counter}" size="1" style="border:inherit;">
+			</span>
+		</td>
+        <td style="text-align:center;">
+			<span align="left">
+				<input type="text" id="assigned_area_{$counter}" name="assigned_area_{$counter}" class='assigned_area' value="{$order.assigned_area}" row="{$counter}" size="1" style="border:inherit;">
+				
+				{if $order.area_unit == 'Pie2'}Pies&sup2;{/if}
+				{if $order.area_unit == 'Metro'}Metros{/if}
+				
+			</span>
+		</td>
+		<td style="text-align:center;" id="used_area_{$counter}">{$order.total_used_area}
 		</td>
 		<td style="text-align:center;">
 			<span align="left">
-				<input type="text" name="returned_area_{$counter}" class='returned_area' value="{$order.returned_area}" size="1" style="border:inherit;">
+				<input type="text" id="returned_area_{$counter}" name="returned_area_{$counter}" class='returned_area' value="{$order.returned_area}" size="1" style="border:inherit;">
 			</span>
 		</td>
 		<td style="text-align:center;">
@@ -187,7 +274,7 @@ $j(document).ready(function() {
 	{assign var=counter value=$counter+1}
 	{/foreach}
 	<tr>
-		<td colspan="11">
+		<td colspan="14">
 		<hr />
 		</td>
 		<input type='hidden' name='total_data' value='{$counter}' />

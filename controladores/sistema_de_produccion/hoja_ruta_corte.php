@@ -431,14 +431,14 @@ if(!isset($_SESSION['logeo'])){
 				}
 				//fin operaciones de acuerdo al tipo de asignacion
 		
-				//para mostrar el boton imprimir
+				// Para mostrar el boton imprimir
 				$clave = $hoja_ruta_corte->comprobar_detalle_corte($hid, $nombre_tabla);
 				if ($clave){
 					$smarty->assign('clave', $clave);
 				}
-				//fin mostrar el boton
+				// Fin mostrar el boton
 		
-				//verificamos si hoja completo = 1
+				// Verificamos si hoja completo = 1
 				$imprimir = $hoja_ruta_corte->verificar_impresion_hoja($hid, $nombre_tabla);
 				if ($imprimir != null){
 					$smarty->assign('imprimir', 'imprimir');					
@@ -609,7 +609,7 @@ if(!isset($_SESSION['logeo'])){
                 }
                 break;
 			}
-			// Asignacion de cuero por orden
+			// Asignación de cuero por orden
 			case 12:{
 				
 				$messageType = '';
@@ -680,7 +680,14 @@ if(!isset($_SESSION['logeo'])){
 				{
 					// If a row of fields are not empty, the row is going to be saved
 					if(	($_POST['assigned_kg_' . $index]) != '' 
-						&& ($_POST['assigned_area_' . $index]) != '')
+						&& ($_POST['used_' . $index]) != ''
+						&& ($_POST['surplus_' . $index]) != ''
+						&& ($_POST['remnant_' . $index]) != ''
+						&& ($_POST['waste_' . $index]) != ''
+						&& ($_POST['returned_kg_' . $index]) != ''
+						&& ($_POST['assigned_area_' . $index]) != ''
+						&& ($_POST['used_area_' . $index]) != ''
+						&& ($_POST['returned_area_' . $index]) != '')
 					{
 						$returned_kg = $returned_area = 0;
 						

@@ -1786,6 +1786,37 @@ function despiece_completo($hid)
 			return null;
 		
 		$query = "
+				SELECT
+					o.cuero_id AS leather_id, 
+					c.color_id AS color_id, 
+					o.descripcion AS leather, 
+					c.descripcion AS color, 
+					materiales.nombre AS material,
+					materiales.descripcion AS material_descripcion,
+					materiales.unidad AS area_unit,
+					SUM(despiece.total_piezas_material) as total 
+				FROM
+					tdetalleordenesproduccion d, 
+					tcueros o,
+					tcolores c,
+					tpropiedades p,
+					tdespiece despiece,
+					tmateriales materiales 
+				WHERE d.orden_id = $orderId 
+					AND (materiales.tipo_material_id = 4 
+						OR materiales.tipo_material_id = 5)
+					AND d.propiedad_id = p.prop_id
+					AND p.cuero_id = o.cuero_id
+					AND p.color_id = c.color_id
+					AND d.estado = 1
+					AND d.detalle_id = despiece.detalle_id
+					AND materiales.material_id = despiece.material_id 
+				GROUP BY 
+					materiales.material_id 
+				ORDER BY 
+					material";
+		
+		/*$query = "
             SELECT tdop.detalle_id AS detalle_id, 
 				top.orden_id AS order_id, 
 				tcuero.cuero_id AS leather_id, 
@@ -1809,7 +1840,7 @@ function despiece_completo($hid)
 				AND tdop.bloqueado = 0 
 			GROUP BY tcuero.cuero_id,  tco.color_id 
 			ORDER BY tco.descripcion, h.cantidad DESC
-			";
+			";*/
 		
 		$result = mysql_query($query) or die('La consulta -get_order_assigned_leather- first select fall&oacute;: ' . mysql_error());
 		$data = array();
@@ -1818,7 +1849,7 @@ function despiece_completo($hid)
 		{
 			$query = "
 			SELECT * 
-			FROM cuero_asignado_orden 
+			FROM cuero_asignacion_orden 
 			WHERE order_id = $orderId 
 				AND leather_id = ". $row['leather_id'] .
 				" AND color_id = ". $row['color_id'];
@@ -1830,21 +1861,6 @@ function despiece_completo($hid)
 			if(!empty($assignedData))
 				$row = $row + $assignedData;
 			
-			// Getting the used leather if exist
-			$query = "
-			SELECT (ifnull(used_kg, 0) + ifnull(remnant, 0) + ifnull(waste, 0)) AS total_used_kg,
-				ifnull(used_area, 0) AS total_used_area
-			FROM cuero_utilizado_orden 
-			WHERE order_id = $orderId 
-				AND leather_id = ". $row['leather_id'] .
-				" AND color_id = ". $row['color_id'];
-				
-			$savedUsedLeather = mysql_query($query) or die('La consulta -get_order_assigned_leather- second select fall&oacute;: ' . mysql_error());
-			
-			$usedData = mysql_fetch_array($savedUsedLeather);
-			
-			if(!empty($usedData))
-				$row = $row + $usedData;
 			
 			$data[] = $row;
 		}

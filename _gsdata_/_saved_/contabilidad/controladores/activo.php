@@ -1130,14 +1130,14 @@ else {
                         if($ver && $ver!="mayor")//=="existe")
                         {
 							if($ver['id']==1)
-								$smarty->assign('mensaje',"Existen valores registrados para la fecha, DOLAR.");
+								$smarty->assign('mensaje',"Existe valores registrados para la fecha, DOLAR.");
 							else
-								$smarty->assign('mensaje',"Existen valores registrados para la fecha, UFV.");
+								$smarty->assign('mensaje',"Existe valores registrados para la fecha, UFV.");
                         }
                         else//en el caso de q no encontro iguales y cargo el archivo bien pero aun no cambio cuales seran los tipos de dolar y ufv actuales es decir: "0000-00-00"""
                         {
 							if($ver=="mayor")
-								$smarty->assign('mensaje',"Existen fechas mayores a la fecha actual.");
+								$smarty->assign('mensaje',"Existe fechas mayores a la fecha actual.");
                         }
                         $tipos_actuales=$activo->tipoCambioActual();
                         $fecha=date("Y-m-d");

@@ -847,8 +847,7 @@ LIMIT 0 , 30";
 	function busqueda_personal($nombre, $puesto){
 		$con = new DBmanejador;
 		if($con->conectar() == true){
-			
-			/*$consulta = "
+			$consulta = "
 			SELECT		p.personal_id, CONCAT(p.apellidos,' ', p.nombres) AS completo, p.clase
 			FROM 		personal p, personal_puesto_trabajo ppt
 			WHERE			p.personal_id = ppt.personal_id
@@ -857,22 +856,8 @@ LIMIT 0 , 30";
 						AND p.estado != 0
 			ORDER BY	CONCAT(p.apellidos,' ', p.nombres)
 			LIMIT 0,20
-			";*/
-			
-			/*$consulta = "SELECT		p.personal_id, CONCAT(p.apellidos,' ', p.nombres) AS completo, p.clase
-						FROM	personal p 
-						WHERE	p.personal_id = 191";*/
-						
-			$consulta = "
-			SELECT		p.personal_id, CONCAT(p.apellidos,' ', p.nombres) AS completo, p.clase
-			FROM 		personal p 
-			WHERE		p.estado != 0
-						AND CONCAT(p.apellidos,' ', p.nombres) LIKE '".$nombre."%' 						
-			ORDER BY	CONCAT(p.apellidos,' ', p.nombres)
-			LIMIT 0,20
 			";
-			
-			$resultado = mysql_query($consulta) or die ('La consulta busqueda personal fall&oacute;: ' . mysql_error());
+            $resultado = mysql_query($consulta) or die ('La consulta busqueda personal fall&oacute;: ' . mysql_error());
 			
 			if (!$resultado)
 				return false;

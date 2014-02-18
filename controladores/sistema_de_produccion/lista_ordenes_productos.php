@@ -32,24 +32,21 @@ echo "opcion:".$opcion."<br>";
 if(!isset($_SESSION['logeo'])){
 	header("Location: ../index_logeo.php");
 } else {
-	/////////////////////////////////////*/
+	/////////////////////////////////////
 	$validar=new Validador();
 	if(trim($cambio_tab)!="")
 	{
-		 if ($_GET['tabu'])
-		 {
-		   
-			   $_SESSION['tabu'] = $_GET['tabu'];//
-			   $smarty->assign('tabu',$_GET['tabu']);
-			   //$elegido=$_POST['elegido'];
-			   $consulta= $ordenes_producto_nuevo->consulta_lista_ordenes($estado);
-			   $smarty->assign('lista_ordenes_productos',$consulta);
-			   $smarty->assign('opcion',$opcion);
-			   $smarty->assign('estado',$estado);
-			   $smarty->display('sistema_de_produccion/orden_de_producto_nuevo/lista_ordenes_productos.html');
-			}
-	
-	
+		if ($_GET['tabu'])
+		{
+			$_SESSION['tabu'] = $_GET['tabu'];//
+			$smarty->assign('tabu',$_GET['tabu']);
+			//$elegido=$_POST['elegido'];
+			$consulta= $ordenes_producto_nuevo->consulta_lista_ordenes($estado);
+			$smarty->assign('lista_ordenes_productos',$consulta);
+			$smarty->assign('opcion',$opcion);
+			$smarty->assign('estado',$estado);
+			$smarty->display('sistema_de_produccion/orden_de_producto_nuevo/lista_ordenes_productos.html');
+		}
 	}
 	else
 	{

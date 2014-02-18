@@ -7,15 +7,20 @@ class Conexion {
 	var $database="activos";*/
 
 
-   	var $home="localhost";
+   	/*var $home="localhost";
 	var $user="root";
 	var $pass="Da98-AA";
-	var $database="activos";
+	var $database="activos";*/
 	
 /*	var $home="localhost";
 	var $user="sistemas";
 	var $pass="dato0";
 	var $database="activos";*/
+	
+	var $home="localhost";
+	var $user="sistemas";
+	var $pass="dato0";
+	var $database="activos";
 
     function conectar()
     {
